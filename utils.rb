@@ -1,6 +1,6 @@
 #
 #	Install/distribution utility functions
-#	$Id: utils.rb,v 1.1 2003/07/09 14:49:58 deveiant Exp $
+#	$Id: utils.rb,v 1.2 2003/07/09 20:39:25 deveiant Exp $
 #
 #	Copyright (c) 2001-2003, The FaerieMUD Consortium.
 #
@@ -293,22 +293,23 @@ module UtilityFunctions
 			startlist = getVettedManifest()
 		end
 
-		message "Looking for RDoc comments in:\n" if $VERBOSE
-		startlist.select {|fn|
-			message "  #{fn}: " if $VERBOSE
-			found = false
-			File::open( fn, "r" ) {|fh|
-				fh.each {|line|
-					if line =~ /^(\s*#)?\s*=/ || line =~ /:\w+:/ || line =~ %r{/\*}
-						found = true
-						break
-					end
-				}
-			}
-
-			message( (found ? "yes" : "no") + "\n" ) if $VERBOSE
-			found
-		}
+		#message "Looking for RDoc comments in:\n" if $VERBOSE
+		#startlist.select {|fn|
+		#	message "  #{fn}: " if $VERBOSE
+		#	found = false
+		#	File::open( fn, "r" ) {|fh|
+		#		fh.each {|line|
+		#			if line =~ /^(\s*#)?\s*=/ || line =~ /:\w+:/ || line =~ %r{/\*}
+		#				found = true
+		#				break
+		#			end
+		#		}
+		#	}
+		#
+		#	message( (found ? "yes" : "no") + "\n" ) if $VERBOSE
+		#	found
+		#}
+		startlist
 	end
 
 	### Open a file and filter each of its lines through the given block a
