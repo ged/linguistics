@@ -39,11 +39,22 @@
 #
 # == Conjunctions
 #
-# This module also support the creation of English conjunctions from Arrays of
+# This module also supports the creation of English conjunctions from Arrays of
 # Strings or objects which respond to the #to_s message. Eg.,
 #
 #   %w{cow pig chicken cow dog cow duck duck moose}.en.conjunction
 #     ==> "three cows, two ducks, a pig, a chicken, a dog, and a moose"
+#
+# == Infinitives
+#
+# Returns the infinitive form of English verbs:
+#
+#  "dodging".en.infinitive
+#    ==> "dodge"
+#
+# === WordNet Integration
+#
+#   
 #
 # == Authors
 # 
@@ -51,6 +62,13 @@
 # 
 # == Copyright
 #
+# This module is copyright (c) 2003 The FaerieMUD Consortium. All rights
+# reserved.
+# 
+# This module is free software. You may use, modify, and/or redistribute this
+# software under the terms of the Perl Artistic License. (See
+# http://language.perl.com/misc/Artistic.html)
+# 
 # The inflection functions of this module were adapted from Damien Conway's
 # Lingua::EN::Inflect Perl module:
 #
@@ -62,19 +80,13 @@
 # written by Robert Rothenberg and Damian Conway, which has no copyright
 # statement included.
 #
-# This module is copyright (c) 2003 The FaerieMUD Consortium. All rights
-# reserved.
-# 
-# This module is free software. You may use, modify, and/or redistribute this
-# software under the terms of the Perl Artistic License. (See
-# http://language.perl.com/misc/Artistic.html)
-# 
 # == Version
 #
-#  $Id: en.rb,v 1.5 2003/07/11 00:36:40 deveiant Exp $
+#  $Id: en.rb,v 1.6 2003/09/11 04:57:27 deveiant Exp $
 # 
 
 require 'hashslice'
+
 
 module Linguistics
 
@@ -82,14 +94,23 @@ module Linguistics
 ### the Linguistics module, or as a standalone function library.
 module EN
 
-	### Class constants
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.5 $} )[1]
-	Rcsid = %q$Id: en.rb,v 1.5 2003/07/11 00:36:40 deveiant Exp $
+	# Load in the secondary modules and add them to Linguistics::EN.
+	require 'linguistics/en/infinitive'
+	require 'linguistics/en/wordnet'
+	require 'linguistics/en/linkparser'
 
+	# CVS version tag
+	Version = /([\d\.]+)/.match( %q{$Revision: 1.6 $} )[1]
+
+	# CVS revision tag
+	Rcsid = %q$Id: en.rb,v 1.6 2003/09/11 04:57:27 deveiant Exp $
+
+	# Add 'english' to the list of default languages
 	Linguistics::DefaultLanguages.push( :en )
 
+
 	#################################################################
-	###	C O N S T A N T S
+	###	U T I L I T Y   F U N C T I O N S
 	#################################################################
 
 	### Wrap one or more parts in a non-capturing alteration Regexp
@@ -97,6 +118,11 @@ module EN
 		re = parts.flatten.join("|")
 		"(?:#{re})"
 	end
+
+
+	#################################################################
+	###	C O N S T A N T S
+	#################################################################
 
 	#
 	# Plurals
@@ -1007,10 +1033,11 @@ module EN
 
 			# Scan the string, and call the word-chunk function that deals with
 			# chunks of the found number of digits.
-			num.to_s.scan( re ) {|*digits|
+			num.to_s.scan( re ) {|digits|
 				debugMsg "   digits = #{digits.inspect}"
 				fn = NumberToWordsFunctions[ digits.nitems ]
 				numerals = digits.flatten.compact.collect {|i| i.to_i}
+				debugMsg "   numerals = #{numerals.inspect}"
 				chunks.push fn.call( config[:zero], *numerals ).strip
 			}
 		else
@@ -1538,7 +1565,7 @@ module EN
 end # module EN
 end # module Linguistics
 
-### Add the #link and #link! methods to Array.
+### Add the #separate and #separate! methods to Array.
 class Array # :nodoc:
 
 	### Returns a new Array that has had a new member inserted between all of
@@ -1568,15 +1595,3 @@ class Array # :nodoc:
 		
 end
 
-unless Range.instance_methods(true).include? "step"
-	class Range
-		def step( by )
-			x = self.first
-			while x <= self.last
-				yield( x )
-				x += by
-			end
-			self
-		end
-	end
-end
