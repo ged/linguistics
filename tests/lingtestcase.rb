@@ -33,7 +33,7 @@
 # 
 # == Rcsid
 # 
-# $Id: lingtestcase.rb,v 1.1 2003/07/09 14:49:59 deveiant Exp $
+# $Id: lingtestcase.rb,v 1.2 2003/07/10 00:00:00 deveiant Exp $
 # 
 # == Authors
 # 
@@ -54,7 +54,6 @@ begin
 end
 
 require "test/unit"
-require "test/unit/mock"
 
 require "linguistics"
 
