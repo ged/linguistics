@@ -52,9 +52,6 @@
 #  "dodging".en.infinitive
 #    ==> "dodge"
 #
-# === WordNet Integration
-#
-#   
 #
 # == Authors
 # 
@@ -82,7 +79,7 @@
 #
 # == Version
 #
-#  $Id: en.rb,v 1.7 2003/09/14 10:24:58 deveiant Exp $
+#  $Id: en.rb,v 1.8 2003/09/14 10:47:12 deveiant Exp $
 # 
 
 require 'hashslice'
@@ -107,10 +104,10 @@ module EN
 	require 'linguistics/en/linkparser'
 
 	# CVS version tag
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.7 $} )[1]
+	Version = /([\d\.]+)/.match( %q{$Revision: 1.8 $} )[1]
 
 	# CVS revision tag
-	Rcsid = %q$Id: en.rb,v 1.7 2003/09/14 10:24:58 deveiant Exp $
+	Rcsid = %q$Id: en.rb,v 1.8 2003/09/14 10:47:12 deveiant Exp $
 
 	# Add 'english' to the list of default languages
 	Linguistics::DefaultLanguages.push( :en )
