@@ -1,10 +1,6 @@
 
 = Linguistics Module To-Do List
 
-* Strip out the english specifics from the inflector class. Make it do pure
-  delegation somehow
-  * pick argument based on arity?
-
 * Add missing Lingua::EN::Inflect features:
   * Number-insensitive Equality methods, e.g., +PL_eq()+, +PL_N_eq()+, etc.
   * String iterpolation methods? This can already be done via things like +"The
