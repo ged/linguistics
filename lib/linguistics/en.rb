@@ -71,7 +71,7 @@
 # 
 # == Version
 #
-#  $Id: en.rb,v 1.2 2003/07/09 19:16:21 deveiant Exp $
+#  $Id: en.rb,v 1.3 2003/07/10 23:38:24 deveiant Exp $
 # 
 
 require 'hashslice'
@@ -83,8 +83,8 @@ module Linguistics
 module EN
 
 	### Class constants
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.2 $} )[1]
-	Rcsid = %q$Id: en.rb,v 1.2 2003/07/09 19:16:21 deveiant Exp $
+	Version = /([\d\.]+)/.match( %q{$Revision: 1.3 $} )[1]
+	Rcsid = %q$Id: en.rb,v 1.3 2003/07/10 23:38:24 deveiant Exp $
 
 	Linguistics::DefaultLanguages.push( :en )
 
@@ -132,7 +132,7 @@ module EN
 		"ganglion"	=> "ganglions|ganglia",
 		"trilby"	=> "trilbys",
 		"turf"		=> "turfs|turves",
-	}.merge( PL_sb_irregular_s )
+	}.update( PL_sb_irregular_s )
 	PL_sb_irregular = matchgroup PL_sb_irregular_h.keys
 
 
@@ -1188,7 +1188,7 @@ module EN
 	###   word groups instead of a String.
 	def numwords( number, hashargs={} )
 		num = number.to_s
-		config = NumwordDefaults.merge( hashargs )
+		config = NumwordDefaults.dup.update( hashargs )
 		raise "Bad chunking option: #{config[:group]}" unless
 			config[:group].between?( 0, 3 )
 
@@ -1232,7 +1232,7 @@ module EN
 			unless config[:group].zero? && section.nonzero?
 				parts.push number_to_words( chunk, config )
 			else
-				parts.push number_to_words( chunk, config.merge(:group => 1) )
+				parts.push number_to_words( chunk, config.dup.update(:group => 1) )
 			end					
 		}
 
@@ -1320,7 +1320,7 @@ module EN
     ###   '</tt>.
 	def quantify( phrase, number=0, args={} )
 		num = number.to_i
-		config = QuantifyDefaults.merge( args )
+		config = QuantifyDefaults.dup.update( args )
 		
 		case num
 		when 0
@@ -1425,7 +1425,7 @@ module EN
     ###   in the source list).
     ###
 	def conjunction( obj, args={} )
-		config = ConjunctionDefaults.merge( args )
+		config = ConjunctionDefaults.dup.update( args )
 		phrases = []
 
 		# Transform items in the obj to phrases
