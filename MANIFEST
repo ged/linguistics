@@ -4,8 +4,10 @@ install.rb
 lib/linguistics/en.rb
 lib/linguistics/iso639.rb
 lib/linguistics.rb
+lib/linguistics/**/*.rb
 MANIFEST
 README
+README.english
 redist/*.rb
 test.rb
 tests/en/conjunction.tests.rb
