@@ -1,0 +1,45 @@
+
+= Linguistics
+
+== Authors
+
+ Michael Granger <ged@FaerieMUD.org>
+
+
+== General Information
+
+This module is a framework for building linguistic utilities for Ruby objects in
+any language. It includes a generic language-independant front end, a module for
+mapping language codes into language names, and a module which contains various
+English-language utilities.
+
+
+=== Method Interface
+
+The Linguistics module comes with a language-independant mechanism for extending
+core Ruby classes with linguistic methods. 
+
+The 
+
+== Legal
+
+This module is Open Source Software which is Copyright (c) 2003 by The FaerieMUD
+Consortium. All rights reserved.
+
+You may use, modify, and/or redistribute this software under the terms of the
+Perl Artistic License, a copy of which should have been included in this
+distribution (See the file Artistic). If it was not, a copy of it may be
+obtained from http://language.perl.com/misc/Artistic.html or
+http://www.faeriemud.org/artistic.html).
+
+THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND
+FITNESS FOR A PARTICULAR PURPOSE.
+
+
+ $Id: README,v 1.1 2003/07/09 14:49:58 deveiant Exp $
+
+
+
+
+
