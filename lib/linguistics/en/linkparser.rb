@@ -76,7 +76,7 @@ require 'linguistics/en'
 
 module Linguistics::EN
 
-	@hasLinkParser	= true
+	@hasLinkParser	= false
 	@lpParser		= nil
 	@lpError		= nil
 
