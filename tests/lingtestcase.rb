@@ -33,7 +33,7 @@
 # 
 # == Rcsid
 # 
-# $Id: lingtestcase.rb,v 1.2 2003/07/10 00:00:00 deveiant Exp $
+# $Id: lingtestcase.rb,v 1.3 2003/09/11 05:00:56 deveiant Exp $
 # 
 # == Authors
 # 
@@ -63,9 +63,11 @@ module Linguistics
 	### The abstract base class for Linguistics test cases.
 	class TestCase < Test::Unit::TestCase
 
+		@methodCounter = 0
+		@setupBlocks = []
+		@teardownBlocks = []
 		class << self
-			@methodCounter = 0
-			attr_accessor :methodCounter
+			attr_accessor :methodCounter, :setupBlocks, :teardownBlocks
 		end
 
 
@@ -77,8 +79,7 @@ module Linguistics
 				@teardownBlocks = []
 
 				class << self
-					attr_accessor :setupBlocks
-					attr_accessor :teardownBlocks
+					attr_accessor :setupBlocks, :teardownBlocks
 				end
 			}
 			klass.methodCounter = 0
@@ -121,6 +122,12 @@ module Linguistics
 		#############################################################
 		###	I N S T A N C E   M E T H O D S
 		#############################################################
+
+		### A dummy test method to allow this Test::Unit::TestCase to be
+		### subclassed without complaining about the lack of tests.
+		def test_0_dummy
+		end
+
 
 		### Forward-compatibility method for namechange in Test::Unit
 		def setup( *args )
