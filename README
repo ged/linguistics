@@ -11,8 +11,17 @@
 
 * Ruby >= 1.8.0
 
+The following libraries are required, but are included in the redist/
+directory. The installer script should install these for you if you don't
+already have them.
+
+* HashSlice - Adds slicing to the builtin Hash class
+
 
 == Optional
+
+* CrossCase - Provide auto-aliasing of camelCase to under_barred methods and
+  vice-versa. (Included in redist/)
 
 * Ruby-WordNet (>= 0.02) - adds integration for the Ruby binding for the WordNet® lexical
   reference system.
@@ -164,6 +173,6 @@ INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND
 FITNESS FOR A PARTICULAR PURPOSE.
 
 
- $Id: README,v 1.5 2003/09/14 11:14:28 deveiant Exp $
+ $Id: README,v 1.6 2003/10/09 13:21:48 deveiant Exp $
 
 
