@@ -22,7 +22,7 @@
 # 
 # == Version
 #
-#  $Id: linguistics.rb,v 1.1 2003/07/09 14:49:58 deveiant Exp $
+#  $Id: linguistics.rb,v 1.2 2003/07/09 19:30:42 deveiant Exp $
 # 
 
 require 'linguistics/iso639'
@@ -31,8 +31,8 @@ require 'linguistics/iso639'
 module Linguistics 
 
 	### Class constants
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.1 $} )[1]
-	Rcsid = %q$Id: linguistics.rb,v 1.1 2003/07/09 14:49:58 deveiant Exp $
+	Version = /([\d\.]+)/.match( %q{$Revision: 1.2 $} )[1]
+	Rcsid = %q$Id: linguistics.rb,v 1.2 2003/07/09 19:30:42 deveiant Exp $
 
 	# Language module implementors should do something like:
 	#   Linguistics::DefaultLanguages.push( :ja ) # or whatever
@@ -125,6 +125,7 @@ module Linguistics
 		languages.replace( DefaultLanguages ) if languages.empty?
 
 		classes = config.key?( :classes ) ? config[:classes] : DefaultExtClasses
+		classes = [ classes ] unless classes.is_a?( Array )
 
 		# Create an inflector class for each installed language
 		languages.each {|lang|
@@ -152,13 +153,17 @@ module Linguistics
 
 				klass.__inflector_class.merge!( inflector )
 
-				# Set the language-code method for the class
-				klass.module_eval %{
-					def #{ifaceMeth}
-						@__#{ifaceMeth}_inflector ||=
-							self.class.__inflector_class["#{ifaceMeth}"].new( self )
-					end
-				}, __FILE__, __LINE__
+				# Set the language-code method for the class unless it has one
+				# already
+				unless klass.instance_methods(true).include?( ifaceMeth )
+					klass.module_eval %{
+						def #{ifaceMeth}
+							@__#{ifaceMeth}_inflector ||=
+								self.class.__inflector_class["#{ifaceMeth}"].
+								new( self )
+						end
+					}, __FILE__, __LINE__
+				end
 			}
 		}
 	end
