@@ -19,7 +19,57 @@ English-language utilities.
 The Linguistics module comes with a language-independant mechanism for extending
 core Ruby classes with linguistic methods. 
 
-The 
+It consists of three parts: a core linguistics module, which contains the
+class-extension framework for languages, as well as the generic delegator class
+that maps linguistic methods on Ruby objects.
+
+The linguistic functions work by adding a single instance method named after the two-letter language code (or three-letter code, if no two-letter code is defined by ISO639) to various Ruby classes. This allows many language-specific methods to be added to objects without cluttering up the interface or risking collision between them, albeit at the cost of three more characters per method invocation. 
+
+If you don't like extending core Ruby classes, the language modules should also allow you to use them as a function library as well.
+
+For example, the English-language module contains a #plural function which can be accessed via a method on a core class:
+
+  Linguistics::use( :en )
+  "goose".en.plural
+  # => "geese"
+  
+or via the Linguistics::EN::plural function directly:
+
+  include Linguistics::EN
+  plural( "goose" )
+  # => "geese"
+
+The core-class extension actually uses the functional interface behind the scenes.
+
+
+==== Adding Language Modules
+
+To add a new language to the framework, create a file named the same as the ISO639 2- or 3-letter language code for the language you're adding. It must be placed under lib/linguistics/ to be recognized by the linguistics module, but you can also just require it yourself prior to calling Linguistics::use(). This file should define a module under Linguistics that is an all-caps version of the code used in the filename. Any methods you wish to be exposed to users should be declared as module functions (ie., using Module#module_function).
+
+You may also wish to add your module to the list of default languages by adding the appropriate symbol to the Linguistics::DefaultLanguages array.
+
+For example, to create a Portuguese-language module, create a file called 'lib/linguistics/pt.rb' which contains the following:
+
+  module Linguistics
+    module PT
+      Linguistics::DefaultLanguages << :pt
+
+      module_function
+	  <language methods here>
+    end
+  end
+
+See the English language module (lib/linguistics/en.rb) for an example.
+
+
+=== English Language Module
+
+The English-language module currently contains linguistic functions ported from a few excellent Perl modules:
+
+  Lingua::EN::Inflect
+  Lingua::Conjunction
+  
+I am also planning on adding several stemming functions and some others. Suggestions (and patches) are welcomed.
 
 == Legal
 
@@ -37,9 +87,6 @@ INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND
 FITNESS FOR A PARTICULAR PURPOSE.
 
 
- $Id: README,v 1.1 2003/07/09 14:49:58 deveiant Exp $
-
-
-
+ $Id: README,v 1.2 2003/07/09 20:38:14 deveiant Exp $
 
 
