@@ -22,17 +22,18 @@
 # 
 # == Version
 #
-#  $Id: linguistics.rb,v 1.2 2003/07/09 19:30:42 deveiant Exp $
+#  $Id: linguistics.rb,v 1.3 2003/07/09 20:36:27 deveiant Exp $
 # 
 
 require 'linguistics/iso639'
 
-### Linguistics 
+### A language-independent framework for adding linguistics functions to Ruby
+### classes.
 module Linguistics 
 
 	### Class constants
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.2 $} )[1]
-	Rcsid = %q$Id: linguistics.rb,v 1.2 2003/07/09 19:30:42 deveiant Exp $
+	Version = /([\d\.]+)/.match( %q{$Revision: 1.3 $} )[1]
+	Rcsid = %q$Id: linguistics.rb,v 1.3 2003/07/09 20:36:27 deveiant Exp $
 
 	# Language module implementors should do something like:
 	#   Linguistics::DefaultLanguages.push( :ja ) # or whatever
@@ -118,7 +119,13 @@ module Linguistics
 	### Add linguistics functions for the specified languages to Ruby's core
 	### classes. The interface to all linguistic functions for a given language
 	### is through a method which is the same the language's international 2- or
-	### 3-letter code (ISO 639).
+	### 3-letter code (ISO 639). You can also specify a Hash of configuration
+	### options which control which classes are extended:
+	###
+	### [<b>:classes</b>]
+	###   Specify the classes which are to be extended. If this is not specified,
+	###   the Class objects in Linguistics::DefaultExtClasses (an Array) are
+	###   extended.
 	def use( *languages )
 		config = {}
 		config = languages.pop if languages.last.is_a?( Hash )

@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for the 'use' function of the Linguistics module.
-# $Id: use.tests.rb,v 1.1 2003/07/09 14:49:59 deveiant Exp $
+# $Id: use.tests.rb,v 1.2 2003/07/09 20:36:53 deveiant Exp $
 #
 # Copyright (c) 2003 The FaerieMUD Consortium.
 # 
@@ -70,6 +70,27 @@ class Linguistics::UseTestCase < Linguistics::TestCase
 			}
 			assert_kind_of Linguistics::InflectorClass, rval
 		end
+	end
+
+
+	def test_20_SpecifyClasses
+		printTestHeader "Linguistics: Extend specific classes"
+		
+		assert_nothing_raised( "One class, not in an array" ) {
+			Linguistics::use( :en, :classes => Symbol )
+		}
+		assert_respond_to :foo, :en
+
+		assert_nothing_raised( "One class, in an array" ) {
+			Linguistics::use( :en, :classes => [IO] )
+		}
+		assert_respond_to $stderr, :en
+
+		assert_nothing_raised( "Two classes, in an Array" ) {
+			Linguistics::use( :en, :classes => [Class, Range] )
+		}
+		assert_respond_to Array, :en
+		assert_respond_to (1..5), :en
 	end
 
 end
