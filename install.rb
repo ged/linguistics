@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 #
 #	Linguistics Module Install Script
-#	$Id: install.rb,v 1.1 2003/07/09 21:45:36 deveiant Exp $
+#	$Id: install.rb,v 1.2 2003/09/14 10:39:04 deveiant Exp $
 #
 #	Thanks to Masatoshi SEKI for ideas found in his install.rb.
 #
@@ -27,8 +27,8 @@ require 'find'
 require 'ftools'
 
 
-$version	= %q$Revision: 1.1 $
-$rcsId		= %q$Id: install.rb,v 1.1 2003/07/09 21:45:36 deveiant Exp $
+$version	= %q$Revision: 1.2 $
+$rcsId		= %q$Id: install.rb,v 1.2 2003/09/14 10:39:04 deveiant Exp $
 
 # Define required libraries
 RequiredLibraries = [
@@ -36,6 +36,9 @@ RequiredLibraries = [
 	[ 'hashslice', "Ruby-Hashslice", 
 		'http://www.ruby-lang.org/en/raa-list.rhtml?name=Ruby-HashSlice',
 		'http://www.devEiate.org/code/Ruby-HashSlice-1.03.tar.gz' ],
+	[ 'crosscase', "CrossCase", 
+		'http://raa.ruby-lang.org/list.rhtml?name=crosscase',
+		'http://www.devEiate.org/code/CrossCase-0.02.tar.gz' ],
 ]
 
 class Installer
@@ -144,6 +147,7 @@ if $0 == __FILE__
 
 	message "Installing\n"
 	i = Installer.new( viewOnly )
+	i.installFiles( "redist", sitelibdir, 0444, verbose )
 	i.installFiles( "lib", sitelibdir, 0444, verbose )
 end
 	
