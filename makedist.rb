@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 #
 #	Distribution Maker Script
-#	$Id: makedist.rb,v 1.1 2003/07/09 14:49:58 deveiant Exp $
+#	$Id: makedist.rb,v 1.2 2003/07/09 16:15:20 deveiant Exp $
 #
 #	Copyright (c) 2001, 2002, The FaerieMUD Consortium.
 #
@@ -28,8 +28,8 @@ Options = [
 
 
 # Version information
-Version = /([\d\.]+)/.match( %q$Revision: 1.1 $ )[1]
-Rcsid = %q$Id: makedist.rb,v 1.1 2003/07/09 14:49:58 deveiant Exp $
+Version = /([\d\.]+)/.match( %q$Revision: 1.2 $ )[1]
+Rcsid = %q$Id: makedist.rb,v 1.2 2003/07/09 16:15:20 deveiant Exp $
 
 $Programs = {
 	'tar'	=> nil,
@@ -106,7 +106,7 @@ def main
 			
 	end
 
-	project = File.open( "CVS/Repository", "r").readline.chomp
+	project = File::read( "CVS/Repository" ).chomp.sub( %r{.*/}, '' )
 	header "%s Distribution Maker" % project
 
 	message "Finding necessary programs...\n\n"
