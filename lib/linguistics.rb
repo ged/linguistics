@@ -22,7 +22,7 @@
 # 
 # == Version
 #
-#  $Id: linguistics.rb,v 1.3 2003/07/09 20:36:27 deveiant Exp $
+#  $Id: linguistics.rb,v 1.4 2003/07/10 23:45:26 deveiant Exp $
 # 
 
 require 'linguistics/iso639'
@@ -32,8 +32,8 @@ require 'linguistics/iso639'
 module Linguistics 
 
 	### Class constants
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.3 $} )[1]
-	Rcsid = %q$Id: linguistics.rb,v 1.3 2003/07/09 20:36:27 deveiant Exp $
+	Version = /([\d\.]+)/.match( %q{$Revision: 1.4 $} )[1]
+	Rcsid = %q$Id: linguistics.rb,v 1.4 2003/07/10 23:45:26 deveiant Exp $
 
 	# Language module implementors should do something like:
 	#   Linguistics::DefaultLanguages.push( :ja ) # or whatever
@@ -158,7 +158,7 @@ module Linguistics
 					}, __FILE__, __LINE__
 				end
 
-				klass.__inflector_class.merge!( inflector )
+				klass.__inflector_class.update( inflector )
 
 				# Set the language-code method for the class unless it has one
 				# already
