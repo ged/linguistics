@@ -71,7 +71,7 @@
 # 
 # == Version
 #
-#  $Id: en.rb,v 1.3 2003/07/10 23:38:24 deveiant Exp $
+#  $Id: en.rb,v 1.4 2003/07/10 23:52:36 deveiant Exp $
 # 
 
 require 'hashslice'
@@ -83,8 +83,8 @@ module Linguistics
 module EN
 
 	### Class constants
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.3 $} )[1]
-	Rcsid = %q$Id: en.rb,v 1.3 2003/07/10 23:38:24 deveiant Exp $
+	Version = /([\d\.]+)/.match( %q{$Revision: 1.4 $} )[1]
+	Rcsid = %q$Id: en.rb,v 1.4 2003/07/10 23:52:36 deveiant Exp $
 
 	Linguistics::DefaultLanguages.push( :en )
 
@@ -607,14 +607,18 @@ module EN
 	###	" B A C K E N D "   F U N C T I O N S
 	#################################################################
 
+	###############
+	module_function
+	###############
+
 	### Debugging output
-	def self::debugMsg( *msgs ) # :nodoc:
+	def debugMsg( *msgs ) # :nodoc:
 		$stderr.puts msgs.join(" ") if $DEBUG
 	end
 
 
 	### Normalize a count to either 1 or 2 (singular or plural)
-	def self::normalizeCount( count, default=2 )
+	def normalizeCount( count, default=2 )
 		return default if count.nil? # Default to plural
 		if /^(#{PL_count_one})$/i =~ count.to_s ||
 				Linguistics::classical? &&
@@ -628,7 +632,7 @@ module EN
 
 	### Do normal/classical switching and match capitalization in <tt>inflected</tt> by
 	### examining the <tt>original</tt> input.
-	def self::postprocess( original, inflected )
+	def postprocess( original, inflected )
 		inflected.sub!( /([^|]+)\|(.+)/ ) {
 			Linguistics::classical? ? $2 : $1
 		}
@@ -650,7 +654,7 @@ module EN
 
 
 	### Pluralize nouns
-	def self::pluralize_noun( word, count=nil )
+	def pluralize_noun( word, count=nil )
 		value = nil
 		count ||= Linguistics::num
 		count = normalizeCount( count )
@@ -775,12 +779,12 @@ module EN
 		else
 			return "#{word}s"
 		end
-	end # def self::pluralize_noun
+	end # def pluralize_noun
 
 
 
 	### Pluralize special verbs
-	def self::pluralize_special_verb( word, count )
+	def pluralize_special_verb( word, count )
 		count ||= Linguistics::num
 		count = normalizeCount( count )
 		
@@ -823,7 +827,7 @@ module EN
 
 
 	### Pluralize regular verbs
-	def self::pluralize_general_verb( word, count )
+	def pluralize_general_verb( word, count )
 		count ||= Linguistics::num
 		count = normalizeCount( count )
 		
@@ -847,7 +851,7 @@ module EN
 
 
 	### Handle special adjectives
-	def self::pluralize_special_adjective( word, count )
+	def pluralize_special_adjective( word, count )
 		count ||= Linguistics::num
 		count = normalizeCount( count )
 
@@ -885,7 +889,7 @@ module EN
 
 	### Returns the given word with a prepended indefinite article, unless
 	### +count+ is non-nil and not singular.
-	def self::indef_article( word, count )
+	def indef_article( word, count )
 		count ||= Linguistics::num
 		return "#{count} #{word}" if
 			count && /^(#{PL_count_one})$/i !~ count.to_s
@@ -938,14 +942,14 @@ module EN
 
 	### Transform the specified number of units-place numerals into a
 	### word-phrase at the given number of +thousands+ places.
-	def self::to_units( units, thousands=0 )
+	def to_units( units, thousands=0 )
 		return Units[ units ] + to_thousands( thousands )
 	end
 
 
 	### Transform the specified number of tens- and units-place numerals into a
 	### word-phrase at the given number of +thousands+ places.
-	def self::to_tens( tens, units, thousands=0 )
+	def to_tens( tens, units, thousands=0 )
 		unless tens == 1
 			return Tens[ tens ] + ( tens.nonzero? && units.nonzero? ? '-' : '' ) +
 				to_units( units, thousands )
@@ -959,7 +963,7 @@ module EN
 	### numerals into a word phrase. If the number of thousands (+thousands+) is
 	### greater than 0, it will be used to determine where the decimal point is
 	### in relation to the hundreds-place number.
-	def self::to_hundreds( hundreds, tens=0, units=0, thousands=0, joinword=" and " )
+	def to_hundreds( hundreds, tens=0, units=0, thousands=0, joinword=" and " )
 		joinword = ' ' if joinword.empty?
 		if hundreds.nonzero?
 			return to_units( hundreds ) + " hundred" +
@@ -975,7 +979,7 @@ module EN
 
 	### Transform the specified number into one or more words like 'thousand',
 	### 'million', etc. Uses the thousands (American) system.
-	def self::to_thousands( thousands=0 )
+	def to_thousands( thousands=0 )
 		parts = []
 		(0..thousands).step( Thousands.length - 1 ) {|i|
 			if i.zero?
@@ -990,7 +994,7 @@ module EN
 
 
 	### Return the specified number +num+ as an array of number phrases.
-	def self::number_to_words( num, config )
+	def number_to_words( num, config )
 		return [config[:zero]] if num.to_i.zero?
 		chunks = []
 
