@@ -82,7 +82,7 @@
 #
 # == Version
 #
-#  $Id: en.rb,v 1.6 2003/09/11 04:57:27 deveiant Exp $
+#  $Id: en.rb,v 1.7 2003/09/14 10:24:58 deveiant Exp $
 # 
 
 require 'hashslice'
@@ -94,16 +94,23 @@ module Linguistics
 ### the Linguistics module, or as a standalone function library.
 module EN
 
+	begin
+		require 'crosscase'
+	rescue LoadError
+	else
+		include CrossCase
+	end
+
 	# Load in the secondary modules and add them to Linguistics::EN.
 	require 'linguistics/en/infinitive'
 	require 'linguistics/en/wordnet'
 	require 'linguistics/en/linkparser'
 
 	# CVS version tag
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.6 $} )[1]
+	Version = /([\d\.]+)/.match( %q{$Revision: 1.7 $} )[1]
 
 	# CVS revision tag
-	Rcsid = %q$Id: en.rb,v 1.6 2003/09/11 04:57:27 deveiant Exp $
+	Rcsid = %q$Id: en.rb,v 1.7 2003/09/14 10:24:58 deveiant Exp $
 
 	# Add 'english' to the list of default languages
 	Linguistics::DefaultLanguages.push( :en )
