@@ -5,9 +5,12 @@
 #
 
 BEGIN {
-	$:.unshift "lib", "tests", "redist"
+	$basedir = File::dirname( __FILE__ )
+	%w{lib tests redist}.each do |dir|
+		$LOAD_PATH.unshift File::join( $basedir, dir )
+	end
 
-	require './utils'
+	require "#$basedir/utils"
 	include UtilityFunctions
 }
 
@@ -56,7 +59,7 @@ ARGV.each {|pat| patterns << Regexp::new( pat, Regexp::IGNORECASE )}
 $stderr.puts "#{patterns.length} patterns given on the command line"
 
 ### Load all the tests from the tests dir
-Find.find("tests") {|file|
+Find.find( File::join($basedir,"tests") ) {|file|
 	Find.prune if /\/\./ =~ file or /~$/ =~ file
 	Find.prune if /TEMPLATE/ =~ file
 	next if File.stat( file ).directory?
