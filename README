@@ -4,6 +4,7 @@
 == Authors
 
 * Michael Granger <ged@FaerieMUD.org>
+* Martin Chase <stillflame@FaerieMUD.org>
 
 
 == Requirements
@@ -13,8 +14,17 @@
 
 == Optional
 
-* Ruby-WordNet - adds integration for the Ruby binding for the WordNet® lexical
+* Ruby-WordNet (>= 0.02) - adds integration for the Ruby binding for the WordNet® lexical
   reference system.
+
+  URL: http://www.deveiate.org/code/Ruby-WordNet.html
+  Download: http://www.deveiate.org/code/Ruby-WordNet-0.02.tar.gz
+
+* LinkParser (>= 0.0.4) - adds integration for the Ruby Link Grammar Parser by
+  Martin Chase.
+
+  URL: http://dev.faeriemud.org/~stillflame/linkparse.html
+  Download: http://www.faeriemud.org/code/Ruby-LinkParser-0.0.4.tgz
 
 
 == General Information
@@ -116,8 +126,8 @@ a few excellent Perl modules:
 
 See the lib/linguistics/en.rb file for specific attributions.
 
-New with version 0.02: integration with the Ruby binding for WordNet® (which
-must be installed separately).
+New with version 0.02: integration with the Ruby WordNet® and LinkParser modules
+(which must be installed separately).
 
 
 == To Do
@@ -152,6 +162,6 @@ INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND
 FITNESS FOR A PARTICULAR PURPOSE.
 
 
- $Id: README,v 1.3 2003/09/11 04:48:46 deveiant Exp $
+ $Id: README,v 1.4 2003/09/14 10:24:06 deveiant Exp $
 
 
