@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 #
 #	RDoc Documentation Generation Script
-#	$Id: makedocs.rb,v 1.1 2003/07/09 16:13:52 deveiant Exp $
+#	$Id: makedocs.rb,v 1.2 2003/09/11 04:51:26 deveiant Exp $
 #
 #	Copyright (c) 2001-2003 The FaerieMUD Consortium.
 #
@@ -10,17 +10,14 @@
 #	http://language.perl.com/misc/Artistic.html)
 #
 
-# Muck with the load path and the cwd
-unless File.exists?( 'lib/linguistics.rb' )
-	filename = __FILE__
-	basedir = File::expand_path( $0 ).sub( %r{/docs/makedocs.rb}, '' )
-	unless basedir.empty? || Dir.getwd == basedir
-		$stderr.puts "Changing working directory from '#{Dir.getwd}' to '#{basedir}'"
-		Dir.chdir( basedir ) 
+# Make sure we're in the correct directory, and if not, change there.
+BEGIN {
+	basedir = File::dirname(File::dirname( File::expand_path(__FILE__) ))
+	unless Dir::pwd == basedir
+		Dir::chdir( basedir ) 
 	end
-end
-
-$LOAD_PATH.unshift "docs/lib"
+	$LOAD_PATH.unshift basedir
+}
 
 # Load modules
 require 'getoptlong'
@@ -28,9 +25,14 @@ require 'rdoc/rdoc'
 require 'utils'
 include UtilityFunctions
 
-def makeDocs( docsdir, template='css2', upload=nil, diagrams=false, ridocs=false )
+def makeDocs( docsdir, template='css2', diagrams=false, upload=nil, ridocs=false )
+	debugMsg "docsdir = %p, template = %p, diagrams = %p, upload = %p, ridocs = %p" %
+		[docsdir, template, diagrams, upload, ridocs]
 
+	title = findRdocTitle()
 	docs = findRdocableFiles()
+	main = findRdocMain()
+	webcvs = findRdocCvsURL()
 
 	header "Making documentation in #{docsdir}."
 	header "Will upload to '#{upload}'\n" if upload
@@ -39,17 +41,18 @@ def makeDocs( docsdir, template='css2', upload=nil, diagrams=false, ridocs=false
 	flags = [
 		'--all',
 		'--inline-source',
-		'--main', 'README',
 		'--fmt', 'html',
 		'--include', 'docs',
 		'--template', template,
 		'--op', docsdir,
-		'--title', "Linguistics module",
+		'--title', title,
 		'--tab-width', 4,
 	]
 
 	flags += [ '--quiet' ] unless $VERBOSE
 	flags += [ '--diagram' ] if diagrams
+	flags += [ '--main', main ] if main
+	flags += [ '--webcvs', webcvs ] if webcvs
 
 	buildDocs( flags, docs )
 	uploadDocs( upload, docsdir ) if upload
@@ -141,7 +144,7 @@ if $0 == __FILE__
 	opts.set_options(
 		[ '--debug',	'-d',	GetoptLong::NO_ARGUMENT ],
 		[ '--verbose',	'-v',	GetoptLong::NO_ARGUMENT ],
-		[ '--upload',	'-u',	GetoptLong::REQUIRED_ARGUMENT ],
+		[ '--upload',	'-u',	GetoptLong::OPTIONAL_ARGUMENT ],
 		[ '--diagrams', '-D',	GetoptLong::NO_ARGUMENT ],
 		[ '--template',	'-T',	GetoptLong::REQUIRED_ARGUMENT ],
 		[ '--output',	'-o',	GetoptLong::REQUIRED_ARGUMENT ]
@@ -155,7 +158,7 @@ if $0 == __FILE__
 	template = 'css2'
 	docsdir = "docs/html"
 	rimode = false
-
+	
 	opts.each {|opt,val|
 		case opt
 
@@ -167,6 +170,7 @@ if $0 == __FILE__
 
 		when '--upload'
 			upload = val
+			upload = findRdocUpload() if val.nil? || val.empty?
 
 		when '--diagrams'
 			diagrams = true
@@ -183,5 +187,5 @@ if $0 == __FILE__
 	$DEBUG = true if debug
 	$VERBOSE = true if verbose
 
-	makeDocs( docsdir, template, upload, diagrams, rimode )
+	makeDocs( docsdir, template, diagrams, upload, rimode )
 end
