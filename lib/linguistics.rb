@@ -7,7 +7,8 @@
 # 
 #   require 'linguistics'
 #	Linguistics::use( :en )
-# 
+#	MyClass::extend( Linguistics )
+#
 # == Authors
 # 
 # * Michael Granger <ged@FaerieMUD.org>
@@ -22,7 +23,7 @@
 # 
 # == Version
 #
-#  $Id: linguistics.rb,v 1.5 2003/07/11 00:13:54 deveiant Exp $
+#  $Id: linguistics.rb,v 1.6 2003/09/11 04:55:11 deveiant Exp $
 # 
 
 require 'linguistics/iso639'
@@ -32,8 +33,8 @@ require 'linguistics/iso639'
 module Linguistics 
 
 	### Class constants
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.5 $} )[1]
-	Rcsid = %q$Id: linguistics.rb,v 1.5 2003/07/11 00:13:54 deveiant Exp $
+	Version = /([\d\.]+)/.match( %q{$Revision: 1.6 $} )[1]
+	Rcsid = %q$Id: linguistics.rb,v 1.6 2003/09/11 04:55:11 deveiant Exp $
 
 	# Language module implementors should do something like:
 	#   Linguistics::DefaultLanguages.push( :ja ) # or whatever
@@ -49,10 +50,10 @@ module Linguistics
 	#################################################################
 
 	### Template class -- is cloned and 
-	class InflectorClass
+	class LanguageProxyClass
 
 		### Class instance variable + accessor. Contains the module which knows
-		### the specifics of the language the inflector class is providing
+		### the specifics of the language the languageProxy class is providing
 		### methods for.
 		@langmod = nil
 		class << self
@@ -60,7 +61,7 @@ module Linguistics
 		end
 
 
-		### Create a new inflector for the given +receiver+.
+		### Create a new LanguageProxy for the given +receiver+.
 		def initialize( receiver )
 			@receiver = receiver
 		end
@@ -70,10 +71,16 @@ module Linguistics
 		public
 		######
 
+		### Overloaded to take into account the proxy method.
+		def respond_to?( sym )
+			self.class.langmod.respond_to?( sym ) || super
+		end
+
+
 		### Autoload linguistic methods defined in the module this object's
 		### class uses for inflection.
 		def method_missing( sym, *args )
-			super unless self.class.langmod.respond_to?( sym )
+			return super unless self.class.langmod.respond_to?( sym )
 
 			self.class.module_eval %{
 				def #{sym}( *args, &block )
@@ -85,10 +92,10 @@ module Linguistics
 		end
 
 
-		### Returns a human-readable representation of the inflector for
+		### Returns a human-readable representation of the languageProxy for
 		### debugging, logging, etc.
 		def inspect
-			"<%s inflector for %s object %s>" % [
+			"<%s languageProxy for %s object %s>" % [
 				self.class.langmod.language,
 				@receiver.class.name,
 				@receiver.inspect,
@@ -98,12 +105,122 @@ module Linguistics
 	end
 
 
-	### Make an inflector class that encapsulates all of the inflect operations
+	### Extend the specified target object with one or more language proxy
+	### methods, each of which provides access to one or more linguistic methods
+	### for that language.
+	def self::extend_object( obj )
+		case obj
+		when Class
+			# $stderr.puts "Extending %p" % obj if $DEBUG
+			self::installLanguageProxy( obj )
+		else
+			sclass = (class << obj; self; end)
+			# $stderr.puts "Extending a object's metaclass: %p" % obj if $DEBUG
+			self::installLanguageProxy( sclass )
+		end
+
+		super
+	end
+
+
+	### Extend the including class with linguistics proxy methods.
+	def self::included( mod )
+		# $stderr.puts "Including Linguistics in %p" % mod if $DEBUG
+		mod.extend( self ) unless mod == Linguistics
+	end
+
+
+	### Make an languageProxy class that encapsulates all of the inflect operations
 	### using the given language module.
-	def self::makeInflector( mod )
-		cl = Class::new( InflectorClass )
-		cl.langmod = mod
-		return cl
+	def self::makeLanguageProxy( mod )
+		Class::new( LanguageProxyClass ) {
+			@langmod = mod
+		}
+	end
+
+
+	### Install the language proxy
+	def self::installLanguageProxy( klass, languages=DefaultLanguages )
+		languages.replace( DefaultLanguages ) if languages.empty?
+
+		# Create an languageProxy class for each language specified
+		languages.each {|lang|
+			# $stderr.puts "Extending the %p class with %p" %
+			#	[ klass, lang ] if $DEBUG
+
+			# Load the language module (skipping to the next if it's already
+			# loaded), make an languageProxy class that delegates to it, and figure
+			# out what the languageProxy method will be called.
+			mod = loadLanguage( lang.to_s.downcase )
+			ifaceMeth = mod.name.downcase.sub( /.*:/, '' )
+			languageProxyClass = makeLanguageProxy( mod )
+
+			# Install a hash for languageProxy classes and an accessor for the
+			# hash if it's not already present.
+			if !klass.class_variables.include?( "@@__languageProxy_class" )
+				klass.module_eval %{
+					@@__languageProxy_class = {}
+					def self::__languageProxy_class; @@__languageProxy_class; end
+				}, __FILE__, __LINE__
+			end
+
+			# Merge the current languageProxy into the hash
+			klass.__languageProxy_class.merge!( ifaceMeth => languageProxyClass )
+
+			# Set the language-code proxy method for the class unless it has one
+			# already
+			unless klass.instance_methods(true).include?( ifaceMeth )
+				klass.module_eval %{
+					def #{ifaceMeth}
+						@__#{ifaceMeth}_languageProxy ||=
+							self.class.__languageProxy_class["#{ifaceMeth}"].
+							new( self )
+					end
+				}, __FILE__, __LINE__
+			end
+		}
+	end
+
+
+
+	### Install a regular proxy method in the given klass that will delegate
+	### calls to missing method to the languageProxy for the given +language+.
+	def self::installDelegatorProxy( klass, langcode )
+
+		# Alias any currently-extant
+		if klass.instance_methods( false ).include?( "method_missing" )
+			klass.module_eval %{
+				alias_method :__orig_method_missing, :method_missing
+			}
+		end
+
+		# Add the #method_missing method that auto-installs delegator methods
+		# for methods supported by the linguistic proxy objects.
+		klass.module_eval {
+			define_method( :method_missing ) do |sym, *args|
+
+				if self.send( langcode ).respond_to?( sym )
+
+					# $stderr.puts "Installing linguistic delegator method #{sym} " \
+					#	"for the '#{langcode}' proxy"
+					self.class.module_eval %{
+						def #{sym}( *args )
+							self.#{langcode}.#{sym}( *args )
+						end
+					}
+					self.method( sym ).call( *args )
+
+				# Otherwise either call the overridden proxy method if there is
+				# one, or just let our parent deal with it.
+				else
+					if self.respond_to?( :__orig_method_missing )
+						return self.__orig_method_missing( sym, *args )
+					else
+						super( sym, *args )
+					end
+				end
+			end
+		}
 	end
 
 
@@ -126,54 +243,48 @@ module Linguistics
 	###   Specify the classes which are to be extended. If this is not specified,
 	###   the Class objects in Linguistics::DefaultExtClasses (an Array) are
 	###   extended.
+	### [<b>:installProxy</b>]
+	###   Install a proxy method in each of the classes which are to be extended
+	###   which will search for missing methods in the languageProxy for the
+	###   language code specified as the value. This allows linguistics methods
+	###   to be called directly on extended objects directly (e.g.,
+	###   12.en.ordinal becomes 12.ordinal). Obviously, methods which would
+	###   collide with the object's builtin methods will need to be invoked
+	###   through the languageProxy. Any existing proxy methods in the extended
+	###   classes will be preserved.
 	def use( *languages )
 		config = {}
 		config = languages.pop if languages.last.is_a?( Hash )
-		languages.replace( DefaultLanguages ) if languages.empty?
 
 		classes = config.key?( :classes ) ? config[:classes] : DefaultExtClasses
 		classes = [ classes ] unless classes.is_a?( Array )
 
-		# Create an inflector class for each installed language
-		languages.each {|lang|
+		# Install the languageProxy in each class.
+		classes.each {|klass|
 
-			# Load the language module (skipping to the next if it's already
-			# loaded), make an inflector class that delegates to it, and figure
-			# out what the inflector method will be called.
-			mod = loadLanguage( lang.to_s.downcase )
-			ifaceMeth = mod.name.downcase.sub( /.*:/, '' )
-			inflectorClass = makeInflector( mod )
-			inflector = { ifaceMeth => inflectorClass }
+			# Create an languageProxy class for each installed language
+			installLanguageProxy( klass, languages )
 
-			# Install the inflector in each class.
-			classes.each {|klass|
-
-				# Either install a hash for inflector classes and an accessor
-				# for the hash, or merge the current inflector into the hash if
-				# it's not already present.
-				if !klass.class_variables.include?( "@@__inflector_class" )
-					klass.module_eval %{
-						@@__inflector_class = {}
-						def self::__inflector_class; @@__inflector_class; end
-					}, __FILE__, __LINE__
+			# Install the delegator proxy if configured
+			if config[:installProxy]
+				case config[:installProxy]
+				when Symbol
+					langcode = config[:installProxy]
+				when String
+					langcode = config[:installProxy].intern
+				when TrueClass
+					langcode = DefaultLanguages[0]
+				else
+					raise ArgumentError,
+						"Unexpected value %p for :installProxy" %
+						config[:installProxy]
 				end
 
-				klass.__inflector_class.update( inflector )
-
-				# Set the language-code method for the class unless it has one
-				# already
-				unless klass.instance_methods(true).include?( ifaceMeth )
-					klass.module_eval %{
-						def #{ifaceMeth}
-							@__#{ifaceMeth}_inflector ||=
-								self.class.__inflector_class["#{ifaceMeth}"].
-								new( self )
-						end
-					}, __FILE__, __LINE__
-				end
-			}
+				installDelegatorProxy( klass, langcode )
+			end
 		}
 	end
+
 
 
 	### Support Lingua::EN::Inflect-style globals in a threadsafe way by using
@@ -211,7 +322,7 @@ module Linguistics
 	private
 	#######
 
-	### Try to load the modules that implements the given language, returning
+	### Try to load the module that implements the given language, returning
 	### the Module object if successful.
 	def self::loadLanguage( lang )
 		raise "Unknown language code '#{lang}'" unless
@@ -219,22 +330,29 @@ module Linguistics
 
 		# Sort all the codes for the specified language, trying the 2-letter
 		# versions first in alphabetical order, then the 3-letter ones
-		mod = nil
-		LanguageCodes[ lang ][:codes].sort {|a,b|
+		msgs = []
+		mod = LanguageCodes[ lang ][:codes].sort {|a,b|
 			(a.length <=> b.length).nonzero? ||
 			(a <=> b)
 		}.each {|code|
-			begin
-				require "linguistics/#{code}"
-				modname = code.upcase
-				mod = Linguistics::const_get( modname )
-				break
-			rescue LoadError
-				next
+			unless Linguistics::const_defined?( code.upcase )
+				begin
+					require "linguistics/#{code}"
+				rescue LoadError => err
+					msgs << "Tried 'linguistics/#{code}': #{err.message}\n"
+					next
+				end
 			end
+
+			break Linguistics::const_get( code.upcase ) if
+				Linguistics::const_defined?( code.upcase )
 		}
 
-		raise LoadError, "Failed to load language extension #{lang}" if mod.nil?
+		if mod.is_a?( Array )
+			raise LoadError,
+				"Failed to load language extension %s:\n%s" %
+				[ lang, msgs.join ]
+		end
 		return mod
 	end
 
