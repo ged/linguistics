@@ -1,11 +1,13 @@
 #!/usr/bin/ruby
 # 
-# This file contains the Linguistics::EN::LinkParser module which enables
-# grammatic queries of English language sentences.
+# This file contains the Linguistics::EN::LinkParser module which provides
+# integration support for the Ruby LinkParser. LinkParser enables grammatic
+# queries of English language sentences.
 # 
 # == Authors
 # 
 # * Martin Chase <stillflame@FaerieMUD.org>
+# * Michael Granger <ged@FaerieMUD.org>
 # 
 # == Copyright
 #
@@ -17,7 +19,7 @@
 # 
 #  # == Version
 #
-#  $Id: linkparser.rb,v 1.1 2003/09/11 04:25:23 deveiant Exp $
+#  $Id: linkparser.rb,v 1.2 2003/09/14 09:29:15 deveiant Exp $
 # 
 
 require 'linguistics/en'
@@ -26,6 +28,7 @@ module Linguistics::EN
 
 	@hasLinkParser	= true
 	@lpParser		= nil
+	@lpError		= nil
 
 	begin
 		require "linkparser"
@@ -81,13 +84,7 @@ module Linguistics::EN
 
 	### Return a LinkParser::Sentence, with or without a sentence in it.
 	def linkParse( sent )
-		begin
-			lp = Linguistics::EN::linkParser.parse( sent.to_s )
-		rescue LinkParser::ParseError => e
-			lp = LinkParser::Sentence.new
-			lp.names = sent.split
-		end
-		return lp
+		return Linguistics::EN::linkParser.parse( sent.to_s )
 	end
 	alias_method :sentence, :linkParse
 	module_function :sentence
