@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for English inflection 
-# $Id: inflect.tests.rb,v 1.1 2003/07/09 14:49:59 deveiant Exp $
+# $Id: inflect.tests.rb,v 1.2 2003/09/11 05:04:04 deveiant Exp $
 #
 # Copyright (c) 2003 The FaerieMUD Consortium.
 # 
@@ -13,12 +13,11 @@
 #     and/or modified under the same terms as Perl itself.
 #
 
-if !defined?( Linguistics ) || !defined?( Linguistics::TestCase )
-	if File::exists?( "lib/linguistics.rb" )
-		require 'tests/lingtestcase'
-	else
-		require 'lingtestcase'
-	end
+unless defined? Linguistics::TestCase
+	testsdir = File::dirname( File::dirname(File::expand_path( __FILE__ )) )
+	$LOAD_PATH.unshift testsdir unless $LOAD_PATH.include?( testsdir )
+
+	require 'lingtestcase'
 end
 
 
@@ -317,6 +316,8 @@ class EnglishInflectionTestCase < Linguistics::TestCase
         end
         @method_name = test_method_name
         @test_passed = true
+
+		Linguistics::use( :en )
 	end
 
 
@@ -325,17 +326,8 @@ class EnglishInflectionTestCase < Linguistics::TestCase
 	###	T E S T S
 	#################################################################
 
-	def test_0000_inflector
-		printTestHeader "English: Inflector method"
-		rval = nil
-
-		assert_nothing_raised { Linguistics::use(:en) }
-		InflectFromItems.each do |item|
-			assert_nothing_raised( "Inflecting from #{item.inspect}" ) {
-				rval = item.en
-			}
-			assert_kind_of Linguistics::InflectorClass, rval
-		end
+	def test_0000_loaded
+		assert_respond_to Linguistics::EN, :numwords
 	end
 
 
@@ -457,6 +449,7 @@ class EnglishInflectionTestCase < Linguistics::TestCase
 end
 
 
+### Dataset is from Lingua::EN::Inflect's test suite.
 __END__
 
                     a  ->  some                         # INDEFINITE ARTICLE
