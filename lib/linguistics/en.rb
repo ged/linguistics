@@ -71,41 +71,10 @@
 # 
 # == Version
 #
-#  $Id: en.rb,v 1.1 2003/07/09 14:49:58 deveiant Exp $
+#  $Id: en.rb,v 1.2 2003/07/09 19:16:21 deveiant Exp $
 # 
 
 require 'hashslice'
-
-### Add the #link and #link! methods to Array.
-class Array
-
-	### Returns a new Array that has had a new member inserted between all of
-	### the current ones. The value used is the given +value+ argument unless a
-	### block is given, in which case the block is called once for each pair of
-	### the Array, and the return value is used as the separator.
-	def separate( value=:__no_arg__, &block )
-		ary = self.dup
-		ary.separate!( value, &block )
-		return ary
-	end
-
-	### The same as #separate, but modifies the Array in place.
-	def separate!( value=:__no_arg__ )
-		raise ArgumentError, "wrong number of arguments: (0 for 1)" if
-			value == :__no_arg__ && !block_given?
-
-		(1..( (self.length * 2) - 2 )).step(2) do |i|
-			if block_given?
-				self.insert( i, yield(self[i-1,2]) )
-			else
-				self.insert( i, value )
-			end
-		end
-		self
-	end
-		
-end
-
 
 module Linguistics
 
@@ -114,8 +83,8 @@ module Linguistics
 module EN
 
 	### Class constants
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.1 $} )[1]
-	Rcsid = %q$Id: en.rb,v 1.1 2003/07/09 14:49:58 deveiant Exp $
+	Version = /([\d\.]+)/.match( %q{$Revision: 1.2 $} )[1]
+	Rcsid = %q$Id: en.rb,v 1.2 2003/07/09 19:16:21 deveiant Exp $
 
 	Linguistics::DefaultLanguages.push( :en )
 
@@ -638,18 +607,14 @@ module EN
 	###	" B A C K E N D "   F U N C T I O N S
 	#################################################################
 
-	###############
-	module_function
-	###############
-
 	### Debugging output
-	def debugMsg( *msgs ) # :nodoc:
+	def self::debugMsg( *msgs ) # :nodoc:
 		$stderr.puts msgs.join(" ") if $DEBUG
 	end
 
 
 	### Normalize a count to either 1 or 2 (singular or plural)
-	def normalizeCount( count, default=2 ) # :nodoc:
+	def self::normalizeCount( count, default=2 )
 		return default if count.nil? # Default to plural
 		if /^(#{PL_count_one})$/i =~ count.to_s ||
 				Linguistics::classical? &&
@@ -663,7 +628,7 @@ module EN
 
 	### Do normal/classical switching and match capitalization in <tt>inflected</tt> by
 	### examining the <tt>original</tt> input.
-	def postprocess( original, inflected ) # :nodoc:
+	def self::postprocess( original, inflected )
 		inflected.sub!( /([^|]+)\|(.+)/ ) {
 			Linguistics::classical? ? $2 : $1
 		}
@@ -685,7 +650,7 @@ module EN
 
 
 	### Pluralize nouns
-	def pluralize_noun( word, count=nil ) # :nodoc:
+	def self::pluralize_noun( word, count=nil )
 		value = nil
 		count ||= Linguistics::num
 		count = normalizeCount( count )
@@ -810,12 +775,12 @@ module EN
 		else
 			return "#{word}s"
 		end
-	end # def pluralize_noun
+	end # def self::pluralize_noun
 
 
 
 	### Pluralize special verbs
-	def pluralize_special_verb( word, count ) # :nodoc:
+	def self::pluralize_special_verb( word, count )
 		count ||= Linguistics::num
 		count = normalizeCount( count )
 		
@@ -858,7 +823,7 @@ module EN
 
 
 	### Pluralize regular verbs
-	def pluralize_general_verb( word, count ) # :nodoc:
+	def self::pluralize_general_verb( word, count )
 		count ||= Linguistics::num
 		count = normalizeCount( count )
 		
@@ -882,7 +847,7 @@ module EN
 
 
 	### Handle special adjectives
-	def pluralize_special_adjective( word, count ) # :nodoc:
+	def self::pluralize_special_adjective( word, count )
 		count ||= Linguistics::num
 		count = normalizeCount( count )
 
@@ -920,7 +885,7 @@ module EN
 
 	### Returns the given word with a prepended indefinite article, unless
 	### +count+ is non-nil and not singular.
-	def indef_article( word, count ) # :nodoc:
+	def self::indef_article( word, count )
 		count ||= Linguistics::num
 		return "#{count} #{word}" if
 			count && /^(#{PL_count_one})$/i !~ count.to_s
@@ -973,14 +938,14 @@ module EN
 
 	### Transform the specified number of units-place numerals into a
 	### word-phrase at the given number of +thousands+ places.
-	def to_units( units, thousands=0 ) # :nodoc:
+	def self::to_units( units, thousands=0 )
 		return Units[ units ] + to_thousands( thousands )
 	end
 
 
 	### Transform the specified number of tens- and units-place numerals into a
 	### word-phrase at the given number of +thousands+ places.
-	def to_tens( tens, units, thousands=0 ) # :nodoc:
+	def self::to_tens( tens, units, thousands=0 )
 		unless tens == 1
 			return Tens[ tens ] + ( tens.nonzero? && units.nonzero? ? '-' : '' ) +
 				to_units( units, thousands )
@@ -994,7 +959,7 @@ module EN
 	### numerals into a word phrase. If the number of thousands (+thousands+) is
 	### greater than 0, it will be used to determine where the decimal point is
 	### in relation to the hundreds-place number.
-	def to_hundreds( hundreds, tens=0, units=0, thousands=0, joinword=" and " ) # :nodoc:
+	def self::to_hundreds( hundreds, tens=0, units=0, thousands=0, joinword=" and " )
 		joinword = ' ' if joinword.empty?
 		if hundreds.nonzero?
 			return to_units( hundreds ) + " hundred" +
@@ -1010,7 +975,7 @@ module EN
 
 	### Transform the specified number into one or more words like 'thousand',
 	### 'million', etc. Uses the thousands (American) system.
-	def to_thousands( thousands=0 ) # :nodoc:
+	def self::to_thousands( thousands=0 )
 		parts = []
 		(0..thousands).step( Thousands.length - 1 ) {|i|
 			if i.zero?
@@ -1025,7 +990,7 @@ module EN
 
 
 	### Return the specified number +num+ as an array of number phrases.
-	def number_to_words( num, config ) # :nodoc:
+	def self::number_to_words( num, config )
 		return [config[:zero]] if num.to_i.zero?
 		chunks = []
 
@@ -1076,6 +1041,10 @@ module EN
 	#################################################################
 	###	P U B L I C   F U N C T I O N S
 	#################################################################
+
+	###############
+	module_function
+	###############
 
 	### Return the name of the language this module is for.
 	def language
@@ -1342,7 +1311,13 @@ module EN
 
 
 	### Return a phrase describing the specified +number+ of objects in the
-	### given +phrase+.
+	### given +phrase+. The following options can be used to control the makeup
+	### of the returned quantity String:
+	### 
+    ### [<b>:joinword</b>]
+    ###   Sets the word (and any surrounding spaces) used as the word separating the
+    ###   quantity from the noun in the resulting string. Defaults to <tt>' of
+    ###   '</tt>.
 	def quantify( phrase, number=0, args={} )
 		num = number.to_i
 		config = QuantifyDefaults.merge( args )
@@ -1558,3 +1533,34 @@ module EN
 
 end # module EN
 end # module Linguistics
+
+### Add the #link and #link! methods to Array.
+class Array # :nodoc:
+
+	### Returns a new Array that has had a new member inserted between all of
+	### the current ones. The value used is the given +value+ argument unless a
+	### block is given, in which case the block is called once for each pair of
+	### the Array, and the return value is used as the separator.
+	def separate( value=:__no_arg__, &block )
+		ary = self.dup
+		ary.separate!( value, &block )
+		return ary
+	end
+
+	### The same as #separate, but modifies the Array in place.
+	def separate!( value=:__no_arg__ )
+		raise ArgumentError, "wrong number of arguments: (0 for 1)" if
+			value == :__no_arg__ && !block_given?
+
+		(1..( (self.length * 2) - 2 )).step(2) do |i|
+			if block_given?
+				self.insert( i, yield(self[i-1,2]) )
+			else
+				self.insert( i, value )
+			end
+		end
+		self
+	end
+		
+end
+
