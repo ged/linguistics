@@ -28,7 +28,7 @@ begin
 	puts "Requiring 'linguistics' module..."
 	require 'linguistics'
 	puts "Calling Linguistics::use( :en )"
-	Linguistics::use( :en )
+	Linguistics::use( :en, :installProxy => true )
 rescue => e
 	$stderr.puts "Ack! Linguistics module failed to load: #{e.message}\n\t" +
 		e.backtrace.join( "\n\t" )
