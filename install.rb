@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 #
 #	Linguistics Module Install Script
-#	$Id: install.rb,v 1.2 2003/09/14 10:39:04 deveiant Exp $
+#	$Id: install.rb,v 1.3 2003/10/09 13:23:09 deveiant Exp $
 #
 #	Thanks to Masatoshi SEKI for ideas found in his install.rb.
 #
@@ -11,11 +11,6 @@
 #	software under the terms of the Perl Artistic License. (See
 #	http://language.perl.com/misc/Artistic.html)
 #
-
-BEGIN {
-	require 'readline'
-	include Readline
-}
 
 require './utils.rb'
 include UtilityFunctions
@@ -27,18 +22,15 @@ require 'find'
 require 'ftools'
 
 
-$version	= %q$Revision: 1.2 $
-$rcsId		= %q$Id: install.rb,v 1.2 2003/09/14 10:39:04 deveiant Exp $
+$version	= %q$Revision: 1.3 $
+$rcsId		= %q$Id: install.rb,v 1.3 2003/10/09 13:23:09 deveiant Exp $
 
 # Define required libraries
 RequiredLibraries = [
 	# libraryname, nice name, RAA URL, Download URL
-	[ 'hashslice', "Ruby-Hashslice", 
-		'http://www.ruby-lang.org/en/raa-list.rhtml?name=Ruby-HashSlice',
-		'http://www.devEiate.org/code/Ruby-HashSlice-1.03.tar.gz' ],
-	[ 'crosscase', "CrossCase", 
-		'http://raa.ruby-lang.org/list.rhtml?name=crosscase',
-		'http://www.devEiate.org/code/CrossCase-0.02.tar.gz' ],
+# 	[ 'hashslice', "Ruby-Hashslice", 
+# 		'http://www.ruby-lang.org/en/raa-list.rhtml?name=Ruby-HashSlice',
+# 		'http://www.devEiate.org/code/Ruby-HashSlice-1.03.tar.gz' ],
 ]
 
 class Installer
