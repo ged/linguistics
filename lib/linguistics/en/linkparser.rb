@@ -1,8 +1,8 @@
 #!/usr/bin/ruby
 # 
-# This file contains the Linguistics::EN::LinkParser module which provides
-# integration support for the Ruby LinkParser. LinkParser enables grammatic
-# queries of English language sentences.
+# This file contains the extensions to the Linguistics::EN module which provide
+# support for the Ruby LinkParser module. LinkParser enables grammatic queries
+# of English language sentences.
 # 
 # == Authors
 # 
@@ -19,7 +19,7 @@
 # 
 #  # == Version
 #
-#  $Id: linkparser.rb,v 1.2 2003/09/14 09:29:15 deveiant Exp $
+#  $Id: linkparser.rb,v 1.3 2003/09/14 10:45:01 deveiant Exp $
 # 
 
 require 'linguistics/en'
