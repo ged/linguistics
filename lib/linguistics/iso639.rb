@@ -4,7 +4,7 @@
 # ISO639-1 and ISO639-2 language codes. Each entry has two keys:
 #
 # [<tt>:codes</tt>]
-#   All of the codes know for this language
+#   All of the codes known for this language
 # [<tt>:desc</tt>]
 #   The English-language description of the language.
 #
