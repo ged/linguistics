@@ -117,6 +117,8 @@ See the English language module (lib/linguistics/en.rb) for an example.
 
 === English Language Module
 
+See the README.english file for a synopsis.
+
 The English-language module currently contains linguistic functions ported from
 a few excellent Perl modules:
 
@@ -162,6 +164,6 @@ INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND
 FITNESS FOR A PARTICULAR PURPOSE.
 
 
- $Id: README,v 1.4 2003/09/14 10:24:06 deveiant Exp $
+ $Id: README,v 1.5 2003/09/14 11:14:28 deveiant Exp $
 
 
