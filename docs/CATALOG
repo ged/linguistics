@@ -7,5 +7,6 @@
 lib/linguistics.rb
 lib/**/*.rb
 README
+README.english
 TODO
 ChangeLog
