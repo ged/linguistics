@@ -1,14 +1,15 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for English conjunctions 
-# $Id: conjunction.tests.rb,v 1.1 2003/07/09 14:49:58 deveiant Exp $
+# $Id: conjunction.tests.rb,v 1.2 2003/09/11 05:03:12 deveiant Exp $
 #
 # Copyright (c) 2003 The FaerieMUD Consortium.
 # 
 
-if File::exists?( "lib/linguistics.rb" )
-	require 'tests/lingtestcase'
-else
+unless defined? Linguistics::TestCase
+	testsdir = File::dirname( File::dirname(File::expand_path( __FILE__ )) )
+	$LOAD_PATH.unshift testsdir unless $LOAD_PATH.include?( testsdir )
+
 	require 'lingtestcase'
 end
 
@@ -18,6 +19,7 @@ end
 class EnglishConjunctionsTestCase < Linguistics::TestCase
 
 	Linguistics::use( :en )
+	include Linguistics::EN
 	
 	Tests = {
 		# Test name		=> {
@@ -72,8 +74,16 @@ class EnglishConjunctionsTestCase < Linguistics::TestCase
 				tests.each {|opts, output|
 					op = "conjunction of %s with options=%s" %
 						[ target.inspect, opts.inspect ]
+
+					# Method interface
 					assert_nothing_raised( op ) {
 						rval = target.en.conjunction( opts )
+					}
+					assert_equal output, rval, op
+
+					# Function interface
+					assert_nothing_raised( op ) {
+						rval = conjunction( target, opts )
 					}
 					assert_equal output, rval, op
 				}
