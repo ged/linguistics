@@ -71,7 +71,7 @@
 # 
 # == Version
 #
-#  $Id: en.rb,v 1.4 2003/07/10 23:52:36 deveiant Exp $
+#  $Id: en.rb,v 1.5 2003/07/11 00:36:40 deveiant Exp $
 # 
 
 require 'hashslice'
@@ -83,8 +83,8 @@ module Linguistics
 module EN
 
 	### Class constants
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.4 $} )[1]
-	Rcsid = %q$Id: en.rb,v 1.4 2003/07/10 23:52:36 deveiant Exp $
+	Version = /([\d\.]+)/.match( %q{$Revision: 1.5 $} )[1]
+	Rcsid = %q$Id: en.rb,v 1.5 2003/07/11 00:36:40 deveiant Exp $
 
 	Linguistics::DefaultLanguages.push( :en )
 
@@ -1568,3 +1568,15 @@ class Array # :nodoc:
 		
 end
 
+unless Range.instance_methods(true).include? "step"
+	class Range
+		def step( by )
+			x = self.first
+			while x <= self.last
+				yield( x )
+				x += by
+			end
+			self
+		end
+	end
+end
