@@ -22,7 +22,7 @@
 # 
 # == Version
 #
-#  $Id: linguistics.rb,v 1.4 2003/07/10 23:45:26 deveiant Exp $
+#  $Id: linguistics.rb,v 1.5 2003/07/11 00:13:54 deveiant Exp $
 # 
 
 require 'linguistics/iso639'
@@ -32,8 +32,8 @@ require 'linguistics/iso639'
 module Linguistics 
 
 	### Class constants
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.4 $} )[1]
-	Rcsid = %q$Id: linguistics.rb,v 1.4 2003/07/10 23:45:26 deveiant Exp $
+	Version = /([\d\.]+)/.match( %q{$Revision: 1.5 $} )[1]
+	Rcsid = %q$Id: linguistics.rb,v 1.5 2003/07/11 00:13:54 deveiant Exp $
 
 	# Language module implementors should do something like:
 	#   Linguistics::DefaultLanguages.push( :ja ) # or whatever
@@ -101,9 +101,9 @@ module Linguistics
 	### Make an inflector class that encapsulates all of the inflect operations
 	### using the given language module.
 	def self::makeInflector( mod )
-		Class::new( InflectorClass ) {
-			@langmod = mod
-		}
+		cl = Class::new( InflectorClass )
+		cl.langmod = mod
+		return cl
 	end
 
 
