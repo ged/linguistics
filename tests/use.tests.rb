@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for the 'use' function of the Linguistics module.
-# $Id: use.tests.rb,v 1.2 2003/07/09 20:36:53 deveiant Exp $
+# $Id: use.tests.rb,v 1.3 2003/07/11 00:20:10 deveiant Exp $
 #
 # Copyright (c) 2003 The FaerieMUD Consortium.
 # 
@@ -15,7 +15,8 @@ end
 
 ### This test suite tests the language-installation function of the Linguistics
 ### module.
-class Linguistics::UseTestCase < Linguistics::TestCase
+module Linguistics
+class UseTestCase < Linguistics::TestCase
 
 	LanguageCodes = [ :en, :EN, 'en', 'EN', 'En', 'eN' ]
 	BogusLanguageCodes = [ :zz, :ry, :qi ]
@@ -94,4 +95,4 @@ class Linguistics::UseTestCase < Linguistics::TestCase
 	end
 
 end
-
+end
