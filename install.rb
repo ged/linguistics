@@ -5,7 +5,7 @@
 #
 #	Thanks to Masatoshi SEKI for ideas found in his install.rb.
 #
-#	Copyright (c) 2001-2003 The FaerieMUD Consortium.
+#	Copyright (c) 2001-2004 The FaerieMUD Consortium.
 #
 #	This is free software. You may use, modify, and/or redistribute this
 #	software under the terms of the Perl Artistic License. (See
@@ -131,6 +131,12 @@ if $0 == __FILE__
 
 	viewOnly = ARGV.include? '-n'
 	verbose = ARGV.include? '-v'
+
+	# "Compatibility" with Aoki-san's install.rb
+	if ARGV.include?( 'config' ) || ARGV.include?( 'setup' )
+		print "Ok."
+		exit
+	end
 
 	debugMsg "Sitelibdir = '#{CONFIG['sitelibdir']}'"
 	sitelibdir = CONFIG['sitelibdir']
