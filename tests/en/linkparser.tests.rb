@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for English link grammar
-# $Id: linkparser.tests.rb,v 1.1 2003/09/09 19:29:15 stillflame Exp $
+# $Id: linkparser.tests.rb,v 1.2 2003/09/14 10:30:38 deveiant Exp $
 #
 # Copyright (c) 2003 The FaerieMUD Consortium.
 #
@@ -20,6 +20,15 @@ class LinkParserTestCase < Linguistics::TestCase
 
 	Linguistics::use(:en)
 	include Linguistics::EN
+
+	### Overridden to skip tests if WordNet isn't installed.
+	def run( result )
+		return super if Linguistics::EN::hasLinkParser?
+		yield( STARTED, name )
+		result.add_run
+		yield( FINISHED, name )
+	end
+
 
 	def test_010_functions 
 		sent = "he is a dog"
@@ -42,7 +51,8 @@ class LinkParserTestCase < Linguistics::TestCase
 		assert_nothing_raised			{test = sent.en.linkParse.sentence?}
 		assert							! test
 		sent = ""
-		assert_nothing_raised			{test = sent.en.sentence.sentence?}
+		errclass = LinkParser::ParseError
+		assert_raises( errclass)		{test = sent.en.sentence}
 		assert							! test
 	end
 
@@ -56,11 +66,7 @@ class LinkParserTestCase < Linguistics::TestCase
 		assert_nothing_raised			{test = sent.en.linkParse.object}
 		assert_equal					test, "dog"
 		sent = ""
-		assert_nothing_raised			{test = sent.en.linkParse.verb}
-		assert_equal					test, nil
-		assert_nothing_raised			{test = sent.en.linkParse.subject}
-		assert_equal					test, nil
-		assert_nothing_raised			{test = sent.en.linkParse.object}
-		assert_equal					test, nil
+		errclass = LinkParser::ParseError
+		assert_raises( errclass )		{test = sent.en.linkParse}
 	end
 end
