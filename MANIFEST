@@ -6,7 +6,7 @@ lib/linguistics/iso639.rb
 lib/linguistics.rb
 MANIFEST
 README
-redist/hashslice.rb
+redist/*.rb
 test.rb
 tests/en/conjunction.tests.rb
 tests/en/inflect.tests.rb
