@@ -1,14 +1,15 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for the 'use' function of the Linguistics module.
-# $Id: use.tests.rb,v 1.3 2003/07/11 00:20:10 deveiant Exp $
+# $Id: use.tests.rb,v 1.4 2003/09/11 05:02:04 deveiant Exp $
 #
 # Copyright (c) 2003 The FaerieMUD Consortium.
 # 
 
-if File::exists?( "lib/linguistics.rb" )
-	require 'tests/lingtestcase'
-else
+unless defined? Linguistics::TestCase
+	testsdir = File::dirname( File::expand_path( __FILE__ ) )
+	$LOAD_PATH.unshift testsdir unless $LOAD_PATH.include?( testsdir )
+
 	require 'lingtestcase'
 end
 
@@ -69,7 +70,7 @@ class UseTestCase < Linguistics::TestCase
 			assert_nothing_raised {
 				rval = obj.en
 			}
-			assert_kind_of Linguistics::InflectorClass, rval
+			assert_kind_of Linguistics::LanguageProxyClass, rval
 		end
 	end
 
@@ -91,7 +92,7 @@ class UseTestCase < Linguistics::TestCase
 			Linguistics::use( :en, :classes => [Class, Range] )
 		}
 		assert_respond_to Array, :en
-		assert_respond_to (1..5), :en
+		assert_respond_to( (1..5), :en )
 	end
 
 end
