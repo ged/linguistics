@@ -3,6 +3,56 @@
 # This file contains the extensions to the Linguistics::EN module which provide
 # support for the Ruby LinkParser module. LinkParser enables grammatic queries
 # of English language sentences.
+#
+# == Synopsis
+#
+#   # Test to see whether or not the link parser is loaded.
+#   Linguistics::EN.has_link_parser?
+#   # => true
+# 
+#   # Diagram the first linkage for a test sentence
+#   puts "he is a big dog".sentence.linkages.first.to_s
+# 	  +---O*---+ 
+# 	  | +--Ds--+ 
+#    +Ss+ |  +-A-+ 
+#    |  | |  |   | 
+#   he is a big dog
+# 
+#   # Find the verb in the sentence
+#   "he is a big dog".en.sentence.verb.to_s      
+#   # => "is"
+# 
+#   # Combined infinitive + LinkParser: Find the infinitive form of the verb of the
+#   given sentence.
+#   "he is a big dog".en.sentence.verb.infinitive
+#   # => "be"
+# 
+#   # Find the direct object of the sentence
+#   "he is a big dog".en.sentence.object.to_s
+#   # => "dog"
+# 
+#   # Look at the raw LinkParser::Word for the direct object of the sentence.
+#   "he is a big dog".en.sentence.object     
+#   # => #<LinkParser::Word:0x403da0a0 @definition=[[{@A-}, Ds-, {@M+}, J-], [{@A-},
+#   Ds-, {@M+}, Os-], [{@A-}, Ds-, {@M+}, Ss+, {@CO-}, {C-}], [{@A-}, Ds-, {@M+},
+#   Ss+, R-], [{@A-}, Ds-, {@M+}, SIs-], [{@A-}, Ds-, {R+}, {Bs+}, J-], [{@A-}, Ds-,
+#   {R+}, {Bs+}, Os-], [{@A-}, Ds-, {R+}, {Bs+}, Ss+, {@CO-}, {C-}], [{@A-}, Ds-,
+#   {R+}, {Bs+}, Ss+, R-], [{@A-}, Ds-, {R+}, {Bs+}, SIs-]], @right=[], @suffix="",
+#   @left=[#<LinkParser::Connection:0x403da028 @rword=#<LinkParser::Word:0x403da0a0
+#   ...>, @lword=#<LinkParser::Word:0x403da0b4 @definition=[[Ss-, O+, {@MV+}], [Ss-,
+#   B-, {@MV+}], [Ss-, P+], [Ss-, AF-], [RS-, Bs-, O+, {@MV+}], [RS-, Bs-, B-,
+#   {@MV+}], [RS-, Bs-, P+], [RS-, Bs-, AF-], [{Q-}, SIs+, O+, {@MV+}], [{Q-}, SIs+,
+#   B-, {@MV+}], [{Q-}, SIs+, P+], [{Q-}, SIs+, AF-]],
+#   @right=[#<LinkParser::Connection:0x403da028 ...>], @suffix="", @left=[],
+#   @name="is", @position=1>, @subName="*", @name="O", @length=3>], @name="dog",
+#   @position=4>
+# 
+#   # Combine WordNet + LinkParser to find the definition of the direct object of
+#   # the sentence
+#   "he is a big dog".en.sentence.object.gloss
+#   # => "a member of the genus Canis (probably descended from the common wolf) that
+#   has been domesticated by man since prehistoric times; occurs in many breeds;
+#   \"the dog barked all night\""
 # 
 # == Authors
 # 
@@ -19,7 +69,7 @@
 # 
 #  # == Version
 #
-#  $Id: linkparser.rb,v 1.3 2003/09/14 10:45:01 deveiant Exp $
+#  $Id: linkparser.rb,v 1.4 2003/09/14 11:15:33 deveiant Exp $
 # 
 
 require 'linguistics/en'
