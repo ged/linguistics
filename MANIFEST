@@ -1,0 +1,16 @@
+Artistic
+experiments/randobjlist.rb
+install.rb
+lib/linguistics/en.rb
+lib/linguistics/iso639.rb
+lib/linguistics.rb
+MANIFEST
+README
+redist/hashslice.rb
+test.rb
+tests/en/conjunction.tests.rb
+tests/en/inflect.tests.rb
+tests/lingtestcase.rb
+tests/use.tests.rb
+TODO
+utils.rb
