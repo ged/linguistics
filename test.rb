@@ -5,7 +5,7 @@
 #
 
 BEGIN {
-	$:.unshift "lib", "tests"
+	$:.unshift "lib", "tests", "redist"
 
 	require './utils'
 	include UtilityFunctions
