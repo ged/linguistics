@@ -78,7 +78,7 @@
 # 
 # == Version
 #
-#  $Id: wordnet.rb,v 1.2 2003/09/14 11:15:57 deveiant Exp $
+#  $Id: wordnet.rb,v 1.3 2003/09/14 11:28:02 deveiant Exp $
 # 
 
 module Linguistics
@@ -132,12 +132,8 @@ module EN
 						"wrong number of arguments (0 for 1)" unless word
 					sense ||= 1
 
-					begin
-						syn = synset( word.to_s, pos, sense )
-						return syn.nil? ? nil : syn.send( meth )
-					rescue WordNet::LookupError
-						return nil
-					end
+					syn = synset( word.to_s, pos, sense )
+					return syn.nil? ? nil : syn.send( meth )
 				}
 			end
 		end
