@@ -1,0 +1,293 @@
+2003-09-10 23:04  Michael Granger <ged@FaerieMUD.org>
+
+	* tests/en/inflect.tests.rb (1.2):
+
+	- Added test for functional interface to auto-generated code.
+	
+	- Removed tests of the 'use' function into their own test case.
+	
+2003-09-10 23:03  Michael Granger <ged@FaerieMUD.org>
+
+	* tests/en/conjunction.tests.rb (1.2):
+
+	- Added test for functional interface to auto-generated code.
+	
+2003-09-10 23:02  Michael Granger <ged@FaerieMUD.org>
+
+	* tests/en/infinitive.tests.rb (1.1):
+
+	Initial checkin.
+	
+2003-09-10 23:02  Michael Granger <ged@FaerieMUD.org>
+
+	* tests/use.tests.rb (1.4):
+
+	- Fixed require block at the top.
+	
+	- Changed name of intermediate class to reflect change in linguistics.rb.
+	
+	- Fixed 1.8 complaint.
+	
+2003-09-10 23:00  Michael Granger <ged@FaerieMUD.org>
+
+	* tests/lingtestcase.rb (1.3):
+
+	- Added a dummy test so if the tests for optional modules can't be run (because
+	  the modules on which they depend aren't installed), it doesn't count as a
+	  failure because there were no tests.
+	
+2003-09-10 22:59  Michael Granger <ged@FaerieMUD.org>
+
+	* tests/TEMPLATE.rb.tpl (1.2):
+
+	- Fixed leftover comment from copy.
+	
+2003-09-10 22:57  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/linguistics/iso639.rb (1.3):
+
+	- Fixed typo.
+	
+2003-09-10 22:57  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/linguistics/en.rb (1.6):
+
+	- Removed some more code for the aborted attempt to make the module
+	  1.6-compatible.
+	
+	- Added requires for new extensions 'wordnet', 'linkparser', and 'infinitive'.
+	
+	- Updated docs in the header, though they're not yet ready for release.
+	
+2003-09-10 22:55  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/linguistics.rb (1.6):
+
+	- Changed name of "inflector" class to "languageProxy" to better fit what it
+	  does.
+	
+	- Added support for transparent delegator proxy methods.
+	
+	- Added support for MyClass::extend( Linguistics ) and class MyClass; include
+	  Linguistics; end.
+	
+	- Modified code in #loadLanguage to minimize the number of requires.
+	
+2003-09-10 22:52  Michael Granger <ged@FaerieMUD.org>
+
+	* experiments/generalize.rb (1.1), experiments/wn-proglang.rb
+	(1.1), lib/linguistics/en/wordnet.rb (1.1):
+
+	Initial checkin.
+	
+2003-09-10 22:51  Michael Granger <ged@FaerieMUD.org>
+
+	* experiments/allobjlist.rb (1.2):
+
+	- Added example output.
+	
+2003-09-10 22:51  Michael Granger <ged@FaerieMUD.org>
+
+	* docs/makedocs.rb (1.2):
+
+	- Reworked to be more generically useful, and support parsing of options from
+	  CATALOG file.
+	
+2003-09-10 22:50  Michael Granger <ged@FaerieMUD.org>
+
+	* docs/CATALOG (1.3):
+
+	- Added rdoc-option header.
+	
+2003-09-10 22:50  Michael Granger <ged@FaerieMUD.org>
+
+	* utils.rb (1.3):
+
+	- Brought up-to-date with canonical source.
+	
+2003-09-10 22:49  Michael Granger <ged@FaerieMUD.org>
+
+	* TODO (1.2):
+
+	- Removed finished items.
+	
+2003-09-10 22:48  Michael Granger <ged@FaerieMUD.org>
+
+	* README (1.3):
+
+	- Beginnings of update for new release. Still needs more work before release.
+	
+2003-09-10 22:25  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/linguistics/en/: infinitive.rb (1.1), linkparser.rb (1.1):
+
+	Initial checkin.
+	
+2003-09-09 21:48  Michael Granger <ged@FaerieMUD.org>
+
+	* tests/en/wordnet.tests.rb (1.1):
+
+	Initial checkin.
+	
+2003-09-09 13:29  Martin Chase <stillflame@FaerieMUD.org>
+
+	* tests/en/linkparser.tests.rb (1.1):
+
+	initial import
+	
+2003-08-26 04:35  Michael Granger <ged@FaerieMUD.org>
+
+	* docs/.cvsignore (1.1):
+
+	Initial checkin.
+	
+2003-07-10 18:36  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/linguistics/en.rb (1.5):
+
+	- Added a Range#step 1.6 compat function.
+	
+2003-07-10 18:20  Michael Granger <ged@FaerieMUD.org>
+
+	* tests/use.tests.rb (1.3):
+
+	- 1.6 fixes.
+	
+2003-07-10 18:13  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/linguistics.rb (1.5):
+
+	- More 1.6ish fixes.
+	
+2003-07-10 17:52  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/linguistics/en.rb (1.4):
+
+	Made module_methods out of the backend functions to support including linguistic methods again.
+	
+2003-07-10 17:45  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/linguistics.rb (1.4):
+
+	- Fixed use of Hash#merge! (1.8 feature)
+	
+2003-07-10 17:38  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/linguistics/en.rb (1.3):
+
+	- Fixed usage of Hash#merge (a 1.8 feature).
+	
+2003-07-09 18:00  Michael Granger <ged@FaerieMUD.org>
+
+	* tests/lingtestcase.rb (1.2, RELEASE_1_01):
+
+	- Removed unneccessary require of test/unit/mock.
+	
+2003-07-09 15:45  Michael Granger <ged@FaerieMUD.org>
+
+	* install.rb (1.1, RELEASE_1_01):
+
+	Initial checkin.
+	
+2003-07-09 14:39  Michael Granger <ged@FaerieMUD.org>
+
+	* docs/CATALOG (1.2, RELEASE_1_01):
+
+	- Explicitly listed linguistics.rb so it gets documented first.
+	
+2003-07-09 14:39  Michael Granger <ged@FaerieMUD.org>
+
+	* utils.rb (1.2, RELEASE_1_01):
+
+	- Commented out rdoc-selection code, as it doesn't work.
+	
+2003-07-09 14:38  Michael Granger <ged@FaerieMUD.org>
+
+	* README (1.2, RELEASE_1_01):
+
+	- Fleshed out instructions for use and addition.
+	
+2003-07-09 14:36  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/linguistics.rb (1.3), tests/use.tests.rb (1.2), Artistic
+	(1.2) (utags: RELEASE_1_01):
+
+	- RDoc fixes
+	
+2003-07-09 14:35  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/linguistics/iso639.rb (1.2, RELEASE_1_01):
+
+	- Made some RDoc fixes
+	
+2003-07-09 13:30  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/linguistics.rb (1.2):
+
+	- Added array-wrapping to allow single classes in the :classes config argument.
+	
+	- Wrapped the code that adds the inflector method in a test for the method's existance to avoid constantly redefining it for classes which already have it.
+	
+2003-07-09 13:16  Michael Granger <ged@FaerieMUD.org>
+
+	* lib/linguistics/en.rb (1.2, RELEASE_1_01):
+
+	- Moved Array extension to the bottom of the file to avoid confusion, and turned on :nodoc: for it.
+	
+2003-07-09 12:24  Michael Granger <ged@FaerieMUD.org>
+
+	* tests/: conjunction.tests.rb (1.2), en_inflect.tests.rb (1.2):
+
+	- Moved into the en/ directory to separate language-specific tests from general tests.
+	
+2003-07-09 10:15  Michael Granger <ged@FaerieMUD.org>
+
+	* makedist.rb (1.2, RELEASE_1_01):
+
+	Fixed project-grokking expression
+	
+2003-07-09 10:13  Michael Granger <ged@FaerieMUD.org>
+
+	* docs/makedocs.rb (1.1, RELEASE_1_01):
+
+	Initial checkin.
+	
+2003-07-09 09:53  Michael Granger <ged@FaerieMUD.org>
+
+	* experiments/: allobjlist.rb (1.1), farmobjs.rb (1.1) (utags:
+	RELEASE_1_01):
+
+	Initial checkin
+	
+2003-07-09 08:49  Michael Granger <ged@FaerieMUD.org>
+
+	* Artistic (1.1), README (1.1), TODO (1.1), makedist.rb (1.1),
+	test.rb (1.1), utils.rb (1.1), docs/CATALOG (1.1),
+	experiments/api.rb (1.1), experiments/randobjlist.rb (1.1),
+	lib/linguistics.rb (1.1), lib/linguistics/en.rb (1.1),
+	lib/linguistics/iso639.rb (1.1), redist/hashslice.rb (1.1),
+	tests/conjunction.tests.rb (1.1), tests/en/conjunction.tests.rb
+	(1.1), tests/TEMPLATE.rb.tpl (1.1), tests/en_inflect.tests.rb
+	(1.1), tests/lingtestcase.rb (1.1), tests/use.tests.rb (1.1),
+	tests/en/inflect.tests.rb (1.1):
+
+	Initial revision
+	
+2003-07-09 08:49  Michael Granger <ged@FaerieMUD.org>
+
+	* Artistic (1.1.1.1), README (1.1.1.1), TODO (1.1.1.1,
+	RELEASE_1_01), makedist.rb (1.1.1.1), test.rb (1.1.1.1,
+	RELEASE_1_01), utils.rb (1.1.1.1), docs/CATALOG (1.1.1.1),
+	experiments/api.rb (1.1.1.1, RELEASE_1_01),
+	experiments/randobjlist.rb (1.1.1.1, RELEASE_1_01),
+	lib/linguistics.rb (1.1.1.1), lib/linguistics/en.rb (1.1.1.1),
+	lib/linguistics/iso639.rb (1.1.1.1), redist/hashslice.rb (1.1.1.1,
+	RELEASE_1_01), tests/conjunction.tests.rb (1.1.1.1),
+	tests/en/conjunction.tests.rb (1.1.1.1, RELEASE_1_01),
+	tests/TEMPLATE.rb.tpl (1.1.1.1, RELEASE_1_01),
+	tests/en_inflect.tests.rb (1.1.1.1), tests/lingtestcase.rb
+	(1.1.1.1), tests/use.tests.rb (1.1.1.1), tests/en/inflect.tests.rb
+	(1.1.1.1, RELEASE_1_01) (utags: ALPHA):
+
+	Initial checkin
+	
