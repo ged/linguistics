@@ -28,7 +28,7 @@
 #    
 #  # == Version
 #
-#  $Id: infinitive.rb,v 1.1 2003/09/11 04:25:23 deveiant Exp $
+#  $Id: infinitive.rb,v 1.2 2003/09/14 10:35:32 deveiant Exp $
 # 
 
 module Linguistics
@@ -546,7 +546,7 @@ module EN
 	}
 
 	# Mapping of word suffixes to infinitive rules.
-	SuffixRules = {
+	InfSuffixRules = {
 		# '<suffix>' => {
 		#	:order => <sort order>,
 		#	:rule  => <rule number>,
@@ -1011,10 +1011,11 @@ module EN
 			:suffix2	=> '',
 		},
 	}
-	SuffixRuleOrder = SuffixRules.keys.sort_by {|rule| SuffixRules[rule][:order]}
+	InfSuffixRuleOrder = InfSuffixRules.keys.sort_by {|rule| InfSuffixRules[rule][:order]}
 
 
-	### The object class for the result returned from InfinitiveFunctions#stem.
+	### The object class for the result returned from calling
+	### Linguistics::EN::infinitive.
 	class Infinitive < String
 
 		### Create and return a new Infinitive object.
@@ -1073,9 +1074,9 @@ module EN
 
 			# Now check for rules covering the prefixes for this word, picking
 			# the first one if one was found.
-			if (( suffix = ((SuffixRuleOrder & prefixes.keys).first) ))
-				rule = SuffixRules[ suffix ][:rule]
-				shortestPrefix = SuffixRules[ suffix ][:word1]
+			if (( suffix = ((InfSuffixRuleOrder & prefixes.keys).first) ))
+				rule = InfSuffixRules[ suffix ][:rule]
+				shortestPrefix = InfSuffixRules[ suffix ][:word1]
 				$stderr.puts "Using rule %p (%p) for suffix %p" % 
 					[ rule, shortestPrefix, suffix ] if $DEBUG
 
@@ -1088,23 +1089,23 @@ module EN
 
 				when -1
 					word1 = prefixes[ suffix ].last +
-						SuffixRules[ suffix ][:suffix1]
+						InfSuffixRules[ suffix ][:suffix1]
 					word2 = ''
 					$stderr.puts "For sp = -1: word1: %p, word2: %p" %
 						[ word1, word2 ] if $DEBUG
 
 				when -2
 					word1 = prefixes[ suffix ].last +
-						SuffixRules[ suffix ][:suffix1]
+						InfSuffixRules[ suffix ][:suffix1]
 					word2 = prefixes[ suffix ].last
 					$stderr.puts "For sp = -2: word1: %p, word2: %p" %
 						[ word1, word2 ] if $DEBUG
 
 				when -3
 					word1 = prefixes[ suffix ].last +
-						SuffixRules[ suffix ][:suffix1]
+						InfSuffixRules[ suffix ][:suffix1]
 					word2 = prefixes[ suffix ].last +
-						SuffixRules[ suffix ][:suffix2]
+						InfSuffixRules[ suffix ][:suffix2]
 					$stderr.puts "For sp = -3: word1: %p, word2: %p" %
 						[ word1, word2 ] if $DEBUG
 
