@@ -1,9 +1,7 @@
 #!/usr/bin/ruby
 #
-# = Linguistics::LanguageCodes
-#
-# A hash of International 2- and 3-letter ISO639-1 and ISO639-2 language
-# codes. Each entry has two keys:
+# linguistics/iso639.rb - A hash of International 2- and 3-letter 
+# ISO639-1 and ISO639-2 language codes. Each entry has two keys:
 #
 # [<tt>:codes</tt>]
 #   All of the codes know for this language
@@ -11,12 +9,12 @@
 #   The English-language description of the language.
 #
 
+### A language-independent framework for adding linguistics functions to Ruby
+### classes.
 module Linguistics
-
 
 	# Hash of ISO639 2- and 3-letter language codes
 	LanguageCodes = {}
-
 
 	# Read through the source for this file, capturing everything
 	# between __END__ and __END_DATA__ tokens.
