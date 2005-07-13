@@ -1,41 +1,41 @@
 #!/usr/bin/ruby
 #
 #	Distribution Maker Script
-#	$Id: makedist.rb,v 1.2 2003/07/09 16:15:20 deveiant Exp $
+#	$Id: makedist.rb 6 2004-12-02 07:57:32Z ged $
 #
-#	Copyright (c) 2001, 2002, The FaerieMUD Consortium.
+#	Copyright (c) 2001, 2002, 2004, The FaerieMUD Consortium.
 #
 #	This is free software. You may use, modify, and/or redistribute this
 #	software under the terms of the Perl Artistic License. (See
 #	http://language.perl.com/misc/Artistic.html)
 #
 
-require 'getoptlong'
-require 'ftools'
-require "./utils.rb"
+BEGIN {
+	basedir = File::dirname( File::expand_path(__FILE__) )
+	require "#{basedir}/utils.rb"
+}
 
-include UtilityFunctions
+require 'optparse'
+require 'fileutils'
+require 'rbconfig'
 
-
-### Configuration stuff
-
-Options = [
-	[ "--snapshot",	"-s",		GetoptLong::NO_ARGUMENT ],
-	[ "--verbose",  "-v",		GetoptLong::NO_ARGUMENT ],
-]
-
-### End of configuration
+include UtilityFunctions, FileUtils, Config
 
 
-# Version information
-Version = /([\d\.]+)/.match( %q$Revision: 1.2 $ )[1]
-Rcsid = %q$Id: makedist.rb,v 1.2 2003/07/09 16:15:20 deveiant Exp $
+# SVN Revision
+SVNRev = %q$Rev: 6 $
+
+# SVN Id
+SVNId = %q$Id: makedist.rb 6 2004-12-02 07:57:32Z ged $
+
+# SVN URL
+SVNURL = %q$URL: svn+ssh://svn.FaerieMUD.org/usr/local/svn/project-utils/trunk/makedist.rb $
 
 $Programs = {
 	'tar'	=> nil,
-	'rm'	=> nil,
 	'zip'	=> nil,
 	'cvs'	=> nil,
+	'svn'	=> nil,
 }
 
 Distros = [
@@ -43,9 +43,9 @@ Distros = [
 	# Tar+gzipped
 	{
 		'type'		=> 'Tar+Gzipped',
-		'makeProc'	=> Proc.new {|distName|
+		'makeProc'	=> lambda {|distName|
 			gzArchiveName = "%s.tar.gz" % distName
-			if FileTest.exists?( gzArchiveName )
+			if File::exists?( gzArchiveName )
 				message "Removing old archive #{gzArchiveName}..."
 				File.delete( gzArchiveName )
 			end
@@ -56,59 +56,108 @@ Distros = [
 	# Tar+bzipped
 	{
 		'type'		=> 'Tar+Bzipped',
-		'makeProc'	=> Proc.new {|distName|
+		'makeProc'	=> lambda {|distName|
 			bzArchiveName = "%s.tar.bz2" % distName
-			if FileTest.exists?( bzArchiveName )
+			if File::exists?( bzArchiveName )
 				message "Removing old archive #{bzArchiveName}..."
 				File.delete( bzArchiveName )
 			end
-			system( $Programs['tar'], '-cjf', bzArchiveName, distName ) or abort( "tar failed: #{$?}" )
+			system( $Programs['tar'], '-cjf', bzArchiveName, distName ) or
+				abort( "tar failed: #{$?}" )
 		}
 	},
 
+	# Zipped
 	{
 		'type'		=> 'Zipped',
-		'makeProc'	=> Proc.new {|distName|
+		'makeProc'	=> lambda {|distName|
 			zipArchiveName = "%s.zip" % distName
-			if FileTest.exists?( zipArchiveName )
+			if File::exists?( zipArchiveName )
 				message "Removing old archive #{zipArchiveName}..."
 				File.delete( zipArchiveName )
 			end
-			system( $Programs['zip'], '-lrq9', zipArchiveName, distName ) or abort( "zip failed: #{$?}" )
+			system( $Programs['zip'], '-lrq9', zipArchiveName, distName ) or
+				abort( "zip failed: #{$?}" )
 		}
 	},
+
+	# Gem
+	{
+		'type'		=> 'RubyGem',
+		'makeProc'	=> lambda {|distName|
+			gemName = "%s.gem" % distName
+			if File::exists?( ".gemspec" )
+				if File::exists?( gemName )
+					message "Removing old gem #{gemName}..."
+					File::delete( gemName )
+				end
+
+				system( CONFIG['RUBY_INSTALL_NAME'], ".gemspec" ) or
+					abort( "Gem create failed: #{$?}" )
+			else
+				message "Skipping Gem: no .gemspec"
+			end
+		}
+	}
 ]
 
 
 # Set interrupt handler to restore tty before exiting
-stty_save = `stty -g`.chomp
-trap("INT") { system "stty", stty_save; exit }
+#stty_save = `stty -g`.chomp
+#trap("INT") { system "stty", stty_save; exit }
 
 ### Main function
 def main
 	filelist = []
 	snapshot = false
+	wantsTag = true
+	wantsPrompt = true
 
 	# Read command-line options
-	opts = GetoptLong::new( *Options )
-	opts.each do |opt, arg|
-		case opt
+	ARGV.options do |oparser|
+		oparser.banner = "Usage: #$0 [options] [VERSION]\n"
 
-		when '--snapshot'
-			snapshot = true
-
-		when '--verbose'
+		oparser.on( "--verbose", "-v", TrueClass, "Make progress verbose" ) do
 			$VERBOSE = true
-
-		else
-			abort( "No such option '#{opt}'" )
+			debugMsg "Turned verbose on."
 		end
-			
+
+		oparser.on( "--snapshot", "-s", TrueClass,
+			"Make a snapshot distribution instead of a versioned release" ) do
+			snapshot = true
+			debugMsg "Making snapshot instead of release."
+		end
+
+		oparser.on( "--no-tag", "-n", TrueClass, "Don't tag the release." ) do
+			wantsTag = false
+		end
+
+		oparser.on( "--yes", "-y", TrueClass,
+			"Accept all the defaults instead of prompting." ) do
+			wantsPrompt = false
+		end
+
+		# Handle the 'help' option
+		oparser.on( "--help", "-h", "Display this text." ) do
+			$stderr.puts oparser
+			exit!(0)
+		end
+
+		oparser.parse!
 	end
 
-	project = File::read( "CVS/Repository" ).chomp.sub( %r{.*/}, '' )
-	header "%s Distribution Maker" % project
+	userversion = ARGV.shift
 
+	# Find the project name
+	header "Distribution Maker"
+	project = extractProjectName()
+	if wantsPrompt && project.nil?
+		project = prompt( "Project name?" )
+	end
+	abort( "No project name" ) unless project && !project.empty?
+	message( "Making distribution archives for %s\n" % project )
+
+	# Look for programs to use
 	message "Finding necessary programs...\n\n"
 	for prog in $Programs.keys
 		$Programs[ prog ] = findProgram( prog ) or
@@ -117,46 +166,79 @@ def main
 	end
 	message( "All required programs found.\n" )
 
+	# Fetch the MANIFEST
 	filelist = getVettedManifest()
 
+	# Prompt for version/snapshot date
 	version = distName = nil
 	if snapshot
-		version = promptWithDefault( "Snapshot version", Time::now.strftime('%Y%m%d') )
+		verboseMsg( "Making a snapshot distname." )
+
+		if userversion
+			version = userversion
+		else
+			version = Time::now.strftime('%Y%m%d')
+			version = promptWithDefault( "Snapshot version", version ) if wantsPrompt
+		end
+
+		verboseMsg( "Using version %p" % [version] )
 		distName = "%s-%s" % [ project, version ]
+		tag = "SNAPSHOT_%s" % version
 	else
-		releaseVersion = extractNextVersionFromTags( filelist[0] )
-		version = promptWithDefault( "Distribution version", releaseVersion )
+		verboseMsg( "Making a release distname." )
+
+		if userversion
+			version = userversion
+		else
+			version = extractNextVersion().join('.')
+			version = promptWithDefault( "Distribution version", version ) if wantsPrompt
+		end
+
+		verboseMsg( "Using version %p" % [version] )
 		distName = "%s-%s" % [ project, version ]
+		tag = "RELEASE_%s" % version.gsub( /\./, '_' )
+	end
+	verboseMsg( "Distname = %p" % [distName] )
 
-		tag = "RELEASE_%s" % sprintf('%0.2f', version).gsub(/\./, '_') 
+	# Tag if desired
+	if wantsTag
+		verboseMsg( "Tagging." )
+
 		tagFlag = promptWithDefault( "Tag '%s' with %s" % [ project, tag ], 'y' )
-
-		if tagFlag =~ /^y/i
-			$stderr.puts "Running #{$Programs['cvs']} -q tag #{tag}"
-			system $Programs['cvs'], '-q', 'tag', tag
+		if /^y/i.match( tagFlag )
+			if File::directory?( "CVS" )
+				message "Running #{$Programs['cvs']} -q tag #{tag}\n"
+				system $Programs['cvs'], '-q', 'tag', tag
+			elsif File::directory?( ".svn" )
+				uri = getSvnUri()
+				taguri = uri + "tags/#{tag}"
+				message "SVN tag URI: %s\n" % [ taguri ]
+				system( $Programs['svn'], 'cp', uri.to_s, taguri.to_s )
+			else
+				errorMessage "No supported version control system. Skipping tag."
+			end
 		end
 	end
 
-	message "Making distribution directory #{distName}..."
+	# Make the distdir
+	message "Making distribution directory #{distName}...\n"
 	Dir.mkdir( distName ) unless FileTest.directory?( distName )
 	for file in filelist
 		File.makedirs( File.dirname(File.join(distName,file)) )
 		File.link( file, File.join(distName,file) )
 	end
 
+	# Make an archive file for each known kind
 	for distro in Distros
 		message "Making #{distro['type']} distribution..."
 		distro['makeProc'].call( distName )
 		message "done.\n"
 	end
 
-	if $Programs['rm']
-		message "removing dist build directory..."
-		system( $Programs['rm'], '-rf', distName )
-		message "done.\n\n"
-	else
-		message "Cannot clean dist build directory: no 'rm' program was found."
-	end
+	# Remove the distdir
+	message "removing dist build directory..."
+	rm_rf distName, :verbose => $VERBOSE
+	message "done.\n\n"
 end
 
 main	
