@@ -15,7 +15,7 @@
 # 
 # == Copyright
 #
-# Copyright (c) 2003 The FaerieMUD Consortium. All rights reserved.
+# Copyright (c) 2003-2005 The FaerieMUD Consortium. All rights reserved.
 # 
 # This module is free software. You may use, modify, and/or redistribute this
 # software under the terms of the Perl Artistic License. (See
@@ -33,8 +33,12 @@ require 'linguistics/iso639'
 module Linguistics 
 
 	### Class constants
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.6 $} )[1]
-	Rcsid = %q$Id: linguistics.rb,v 1.6 2003/09/11 04:55:11 deveiant Exp $
+
+	# Subversion revision
+	SVNRev = /([\d\.]+)/.match( %q{$Rev: 1.6 $} )[1]
+
+	# Subversion ID
+	SVNid = %q$Id: linguistics.rb,v 1.6 2003/09/11 04:55:11 deveiant Exp $
 
 	# Language module implementors should do something like:
 	#   Linguistics::DefaultLanguages.push( :ja ) # or whatever
@@ -49,7 +53,10 @@ module Linguistics
 	###	I N F L E C T O R   C L A S S   F A C T O R Y
 	#################################################################
 
-	### Template class -- is cloned and 
+	### A class which is inherited from by proxies for classes being extended
+	### with one or more linguistic interfaces. It provides on-the-fly creation
+	### of linguistic methods when the <tt>:installProxy</tt> option is passed
+	### to the call to Linguistics#use.
 	class LanguageProxyClass
 
 		### Class instance variable + accessor. Contains the module which knows
@@ -133,6 +140,7 @@ module Linguistics
 	### Make an languageProxy class that encapsulates all of the inflect operations
 	### using the given language module.
 	def self::makeLanguageProxy( mod )
+		# $stderr.puts "Making language proxy for mod %p" % [mod]
 		Class::new( LanguageProxyClass ) {
 			@langmod = mod
 		}
