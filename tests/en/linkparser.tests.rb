@@ -3,15 +3,14 @@
 # Unit test for English link grammar
 # $Id: linkparser.tests.rb,v 1.2 2003/09/14 10:30:38 deveiant Exp $
 #
-# Copyright (c) 2003 The FaerieMUD Consortium.
+# Copyright (c) 2003-2005 The FaerieMUD Consortium.
 #
 
-if !defined?( Linguistics ) || !defined?( Linguistics::TestCase )
-	if File::exists?( "lib/linguistics.rb" )
-		require 'tests/lingtestcase'
-	else
-		require 'lingtestcase'
-	end
+unless defined? Linguistics::TestCase
+	testsdir = File::dirname( File::dirname(File::expand_path( __FILE__ )) )
+	$LOAD_PATH.unshift testsdir unless $LOAD_PATH.include?( testsdir )
+
+	require 'lingtestcase'
 end
 
 ### This test case tests the English language link grammar extension of

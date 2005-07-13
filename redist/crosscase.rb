@@ -73,7 +73,7 @@
 #
 # == Version
 #
-#  $Id: crosscase.rb,v 1.3 2003/07/31 13:25:42 deveiant Exp $
+#  $Id: crosscase.rb,v a63acb00f644 2005/07/13 19:58:43 ged $
 # 
 
 
@@ -85,8 +85,8 @@
 module CrossCase
 
 	### Versioning constants
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.3 $} )[1]
-	Rcsid = %q$Id: crosscase.rb,v 1.3 2003/07/31 13:25:42 deveiant Exp $
+	Version = /([\d\.]+)/.match( %q{$Revision: a63acb00f644 $} )[1]
+	Rcsid = %q$Id: crosscase.rb,v a63acb00f644 2005/07/13 19:58:43 ged $
 
 	### The inclusion callback -- uses the Ouroboros trick to extend including
 	### classes.

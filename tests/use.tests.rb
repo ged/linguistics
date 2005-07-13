@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for the 'use' function of the Linguistics module.
-# $Id: use.tests.rb,v 1.4 2003/09/11 05:02:04 deveiant Exp $
+# $Id: use.tests.rb,v a63acb00f644 2005/07/13 19:58:43 ged $
 #
 # Copyright (c) 2003 The FaerieMUD Consortium.
 # 

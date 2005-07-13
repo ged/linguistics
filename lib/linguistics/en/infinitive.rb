@@ -10,7 +10,7 @@
 # 
 # == Copyright
 #
-# Copyright (c) 2003 The FaerieMUD Consortium. All rights reserved.
+# Copyright (c) 2003-2005 The FaerieMUD Consortium. All rights reserved.
 # 
 # This module is free software. You may use, modify, and/or redistribute this
 # software under the terms of the Perl Artistic License. (See
@@ -31,8 +31,9 @@
 #  $Id: infinitive.rb,v 1.2 2003/09/14 10:35:32 deveiant Exp $
 # 
 
-module Linguistics
-module EN
+module Linguistics::EN
+
+	# :stopdoc:
 
 	# Irregular words => infinitive forms
 	IrregularInfinitives = {
@@ -1013,6 +1014,7 @@ module EN
 	}
 	InfSuffixRuleOrder = InfSuffixRules.keys.sort_by {|rule| InfSuffixRules[rule][:order]}
 
+	# :startdoc:
 
 	### The object class for the result returned from calling
 	### Linguistics::EN::infinitive.
@@ -1143,6 +1145,5 @@ module EN
 		return Infinitive::new( word1, word2, suffix, rule )
 	end
 
-end # module EN
-end # module Linguistics
+end # module EN::Linguistics
 
