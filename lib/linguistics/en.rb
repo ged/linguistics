@@ -59,7 +59,7 @@
 # 
 # == Copyright
 #
-# This module is copyright (c) 2003 The FaerieMUD Consortium. All rights
+# This module is copyright (c) 2003-2005 The FaerieMUD Consortium. All rights
 # reserved.
 # 
 # This module is free software. You may use, modify, and/or redistribute this
@@ -82,14 +82,10 @@
 #  $Id: en.rb,v 1.8 2003/09/14 10:47:12 deveiant Exp $
 # 
 
-require 'hashslice'
-
-
-module Linguistics
 
 ### This module contains English-language linguistics functions accessible from
 ### the Linguistics module, or as a standalone function library.
-module EN
+module Linguistics::EN
 
 	begin
 		require 'crosscase'
@@ -103,11 +99,11 @@ module EN
 	require 'linguistics/en/wordnet'
 	require 'linguistics/en/linkparser'
 
-	# CVS version tag
-	Version = /([\d\.]+)/.match( %q{$Revision: 1.8 $} )[1]
+	# Subversion revision
+	SVNRev = %q$Rev$
 
-	# CVS revision tag
-	Rcsid = %q$Id: en.rb,v 1.8 2003/09/14 10:47:12 deveiant Exp $
+	# Subversion revision tag
+	SVNId = %q$Id: en.rb,v 1.8 2003/09/14 10:47:12 deveiant Exp $
 
 	# Add 'english' to the list of default languages
 	Linguistics::DefaultLanguages.push( :en )
@@ -127,6 +123,8 @@ module EN
 	#################################################################
 	###	C O N S T A N T S
 	#################################################################
+
+	# :stopdoc:
 
 	#
 	# Plurals
@@ -524,9 +522,16 @@ module EN
 	}
 
 	# Ordinal word parts
-	Ordinals = {}
-	Ordinals[ *(%w(ty    one   two    three five  eight  nine  twelve )) ] =
-		      %w[tieth first second third fifth eighth ninth twelfth]
+	Ordinals = {
+		'ty' => 'tieth',
+		'one' => 'first',
+		'two' => 'second',
+		'three' => 'third',
+		'five' => 'fifth',
+		'eight' => 'eighth',
+		'nine' => 'ninth',
+		'twelve' => 'twelfth',
+	}
 	OrdinalSuffixes = Ordinals.keys.join("|") + "|"
 	Ordinals[""] = 'th'
 
@@ -632,10 +637,31 @@ module EN
 	}
 
 
+	#
+	# Title case
+	#
+
+	# "In titles, capitalize the first word, the last word, and all words in
+	# between except articles (a, an, and the), prepositions under five letters
+	# (in, of, to), and coordinating conjunctions (and, but). These rules apply
+	# to titles of long, short, and partial works as well as your own papers"
+	# (Anson, Schwegler, and Muth. The Longman Writer's Companion 240).
+	
+	# Build the list of exceptions to title-capitalization
+	Articles = %w[a and the]
+	ShortPrepositions = ["amid", "at", "but", "by", "down", "from", "in",
+		"into", "like", "near", "of", "off", "on", "onto", "out", "over",
+		"past", "save", "with", "till", "to", "unto", "up", "upon", "with"]
+	CoordConjunctions = %w[and but as]
+	TitleCaseExceptions = Articles | ShortPrepositions | CoordConjunctions
+
+
+	# :startdoc:
 
 	#################################################################
 	###	" B A C K E N D "   F U N C T I O N S
 	#################################################################
+
 
 	###############
 	module_function
@@ -1077,10 +1103,6 @@ module EN
 	###	P U B L I C   F U N C T I O N S
 	#################################################################
 
-	###############
-	module_function
-	###############
-
 	### Return the name of the language this module is for.
 	def language
 		"English"
@@ -1329,6 +1351,7 @@ module EN
 				strip
 		end
 	end
+	alias_method :NUMWORDS, :numwords
 
 
 	### Transform the given +number+ into an ordinal word. The +number+ object
@@ -1566,8 +1589,78 @@ module EN
 		return phrases.join( sep )
 	end
 
-end # module EN
-end # module Linguistics
+
+	### Turns a camel-case +string+ ("camelCaseToEnglish") to plain English
+	### ("camel case to english"). Each word is decapitalized.
+	def camel_case_to_english( string )
+		string.to_s.gsub( /([a-z])([A-Z])/ ) { "#$1 #$2" }.downcase
+	end
+
+
+	### Turns an English language +string+ into a CamelCase word.
+	def english_to_camel_case( string )
+		string.to_s.gsub( /\s+([a-z])/ ) { $1.upcase }
+	end
+
+
+	### This method doesn't work quite right yet. It does okay for simple cases,
+	### but it misses more complex ones, e.g. 'as' used as a coordinating
+	### conjunction in "A Portrait of the Artist as a Young Man". Perhaps after
+	### there's a working (non-leaking) LinkParser for Ruby, this can be fixed
+	### up. Until then it'll just be undocumented.
+
+	### Returns the given +string+ as a title-cased phrase.
+	def titlecase( string ) # :nodoc:
+
+		# Split on word-boundaries
+		words = string.split( /\b/ )
+ 		
+		# Always capitalize the first and last words
+		words.first.capitalize!
+		words.last.capitalize!
+
+		# Now scan the rest of the tokens, skipping non-words and capitalization
+		# exceptions.
+		words.each_with_index do |word, i|
+
+			# Non-words
+			next unless /^\w+$/.match( word )
+
+			# Skip exception-words
+			next if TitleCaseExceptions.include?( word )
+
+			# Skip second parts of contractions
+			next if words[i - 1] == "'" && /\w/.match( words[i - 2] )
+
+			# Have to do it this way instead of capitalize! because that method
+			# also downcases all other letters.
+			word.gsub!( /^(\w)(.*)/ ) { $1.upcase + $2 }
+		end
+
+		return words.join
+	end
+
+
+	### Returns the proper noun form of a string by capitalizing most of the
+	### words.
+	###
+	### Examples:
+	###   English.proper_noun("bosnia and herzegovina") ->
+	###     "Bosnia and Herzegovina"
+	###   English.proper_noun("macedonia, the former yugoslav republic of") ->
+	###     "Macedonia, the Former Yugoslav Republic of"
+	###   English.proper_noun("virgin islands, u.s.") ->
+	###     "Virgin Islands, U.S."
+	def proper_noun( string )
+		return string.split(/([ .]+)/).collect {|word|
+			next word unless /^[a-z]/.match( word ) &&
+				! (%w{and the of}.include?( word ))
+			word.capitalize
+		}.join
+	end
+
+end # module Linguistics::EN
+
 
 ### Add the #separate and #separate! methods to Array.
 class Array # :nodoc:

@@ -33,7 +33,7 @@
 # 
 # == Rcsid
 # 
-# $Id: lingtestcase.rb,v 1.3 2003/09/11 05:00:56 deveiant Exp $
+# $Id$
 # 
 # == Authors
 # 

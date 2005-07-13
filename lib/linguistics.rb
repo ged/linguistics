@@ -23,7 +23,7 @@
 # 
 # == Version
 #
-#  $Id: linguistics.rb,v 1.6 2003/09/11 04:55:11 deveiant Exp $
+#  $Id$
 # 
 
 require 'linguistics/iso639'
@@ -35,10 +35,10 @@ module Linguistics
 	### Class constants
 
 	# Subversion revision
-	SVNRev = /([\d\.]+)/.match( %q{$Rev: 1.6 $} )[1]
+	SVNRev = %q$Rev$
 
 	# Subversion ID
-	SVNid = %q$Id: linguistics.rb,v 1.6 2003/09/11 04:55:11 deveiant Exp $
+	SVNid = %q$Id$
 
 	# Language module implementors should do something like:
 	#   Linguistics::DefaultLanguages.push( :ja ) # or whatever
