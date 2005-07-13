@@ -1,9 +1,9 @@
 #!/usr/bin/ruby
 #
 #	RDoc Documentation Generation Script
-#	$Id: makedocs.rb,v 1.2 2003/09/11 04:51:26 deveiant Exp $
+#	$Id$
 #
-#	Copyright (c) 2001-2003 The FaerieMUD Consortium.
+#	Copyright (c) 2001-2005 The FaerieMUD Consortium.
 #
 #	This is free software. You may use, modify, and/or redistribute this
 #	software under the terms of the Perl Artistic License. (See
@@ -20,12 +20,12 @@ BEGIN {
 }
 
 # Load modules
-require 'getoptlong'
+require 'optparse'
 require 'rdoc/rdoc'
 require 'utils'
 include UtilityFunctions
 
-def makeDocs( docsdir, template='css2', diagrams=false, upload=nil, ridocs=false )
+def makeDocs( docsdir, template='html', diagrams=false, upload=nil, ridocs=false )
 	debugMsg "docsdir = %p, template = %p, diagrams = %p, upload = %p, ridocs = %p" %
 		[docsdir, template, diagrams, upload, ridocs]
 
@@ -34,9 +34,6 @@ def makeDocs( docsdir, template='css2', diagrams=false, upload=nil, ridocs=false
 	main = findRdocMain()
 	webcvs = findRdocCvsURL()
 
-	header "Making documentation in #{docsdir}."
-	header "Will upload to '#{upload}'\n" if upload
-	header "Will also create/install 'ri' source" if ridocs
 
 	flags = [
 		'--all',
@@ -54,9 +51,15 @@ def makeDocs( docsdir, template='css2', diagrams=false, upload=nil, ridocs=false
 	flags += [ '--main', main ] if main
 	flags += [ '--webcvs', webcvs ] if webcvs
 
-	buildDocs( flags, docs )
-	uploadDocs( upload, docsdir ) if upload
-	buildRi( docs ) if ridocs
+	if ridocs
+		header "Will create/install 'ri' source" if ridocs
+		buildRi( docs )
+	else
+		header "Making documentation in #{docsdir}."
+		header "Will upload to '#{upload}'\n" if upload
+		buildDocs( flags, docs )
+		uploadDocs( upload, docsdir ) if upload
+	end
 end
 
 
@@ -125,11 +128,11 @@ def uploadDocs( url, docsdir )
 end
 
 def buildRi( docs )
-	message "Running 'rdoc #{flags.join(' ')} #{docs.join(' ')}'\n" if $VERBOSE
+	message "Running 'rdoc -R #{docs.join(' ')}'\n" if $VERBOSE
 	unless $DEBUG
 		begin
 			r = RDoc::RDoc.new
-			r.document([ '-i', 'docs', '-f', 'xml', 'lib', 'ext' ])
+			r.document( ['-R'] + docs )
 		rescue RDoc::RDocError => e
 			$stderr.puts e.message
 			exit(1)
@@ -140,52 +143,59 @@ end
 
 
 if $0 == __FILE__
-	opts = GetoptLong.new
-	opts.set_options(
-		[ '--debug',	'-d',	GetoptLong::NO_ARGUMENT ],
-		[ '--verbose',	'-v',	GetoptLong::NO_ARGUMENT ],
-		[ '--upload',	'-u',	GetoptLong::OPTIONAL_ARGUMENT ],
-		[ '--diagrams', '-D',	GetoptLong::NO_ARGUMENT ],
-		[ '--template',	'-T',	GetoptLong::REQUIRED_ARGUMENT ],
-		[ '--output',	'-o',	GetoptLong::REQUIRED_ARGUMENT ]
-		#[ '--ri',		'-r',	GetoptLong::NO_ARGUMENT ],
-	)
-
-	debug = false
-	verbose = false
 	upload = nil
 	diagrams = false
-	template = 'css2'
+	template = 'html'
 	docsdir = "docs/html"
 	rimode = false
 	
-	opts.each {|opt,val|
-		case opt
 
-		when '--debug'
-			debug = true
+	# Read command-line options
+	ARGV.options do |oparser|
+		oparser.banner = "Usage: #$0 [options]\n"
 
-		when '--verbose'
-			verbose = true
+		oparser.separator "RDoc options:"
+		oparser.on( "--diagrams", "-d", TrueClass, "Generate diagrams" ) do
+			diagrams = true
+		end
 
-		when '--upload'
+		oparser.on( "--output=DIR", "-o=DIR", String, "Set the output directory" ) do
+			docsdir = val
+		end
+
+ 		oparser.on( "--ri", "-R", TrueClass, "Generate content for 'ri' instead of HTML" ) do
+ 			rimode = true
+		end
+
+		oparser.separator ""
+		oparser.separator "Post-generation options:"
+
+		oparser.on( "--upload=[URI]", "-u=[URI]", String, "Upload to the given URI" ) do |val|
 			upload = val
 			upload = findRdocUpload() if val.nil? || val.empty?
-
-		when '--diagrams'
-			diagrams = true
-
-		when '--output'
-			docsdir = val
-
- 		when '--ri'
- 			rimode = true
-
 		end
-	}
 
-	$DEBUG = true if debug
-	$VERBOSE = true if verbose
+		oparser.separator ""
+		oparser.separator "Output options:"
+
+		oparser.on( "--debug", "-d", TrueClass, "Output debugging information" ) do
+			$VERBOSE = true
+			debugMsg "Turned debugging on."
+		end
+
+		oparser.on( "--verbose", "-v", TrueClass, "Make progress verbose" ) do
+			$VERBOSE = true
+			debugMsg "Turned verbose on."
+		end
+
+		# Handle the 'help' option
+		oparser.on( "--help", "-h", "Display this text." ) do
+			$stderr.puts oparser
+			exit!(0)
+		end
+
+		oparser.parse!
+	end
 
 	makeDocs( docsdir, template, diagrams, upload, rimode )
 end
