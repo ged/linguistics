@@ -16,7 +16,7 @@
 # 
 # == Version
 #
-#  $Id: api.rb,v 1.1 2003/07/09 14:49:58 deveiant Exp $
+#  $Id$
 # 
 
 require 'linguistics'
