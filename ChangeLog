@@ -1,293 +1,444 @@
-2003-09-10 23:04  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r82 | ged | 2005-07-13 19:09:21 -0400 (Wed, 13 Jul 2005) | 2 lines
 
-	* tests/en/inflect.tests.rb (1.2):
+- Ignored html directory.
 
-	- Added test for functional interface to auto-generated code.
-	
-	- Removed tests of the 'use' function into their own test case.
-	
-2003-09-10 23:03  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r81 | ged | 2005-07-13 18:35:45 -0400 (Wed, 13 Jul 2005) | 2 lines
 
-	* tests/en/conjunction.tests.rb (1.2):
+- Merged changes from project-utils.
 
-	- Added test for functional interface to auto-generated code.
-	
-2003-09-10 23:02  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r80 | ged | 2005-07-13 17:04:50 -0400 (Wed, 13 Jul 2005) | 2 lines
 
-	* tests/en/infinitive.tests.rb (1.1):
+Initial checkin. Fixes #3.
 
-	Initial checkin.
-	
-2003-09-10 23:02  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r79 | ged | 2005-07-13 16:18:54 -0400 (Wed, 13 Jul 2005) | 2 lines
 
-	* tests/use.tests.rb (1.4):
+- Set svn:keyword
 
-	- Fixed require block at the top.
-	
-	- Changed name of intermediate class to reflect change in linguistics.rb.
-	
-	- Fixed 1.8 complaint.
-	
-2003-09-10 23:00  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r78 | ged | 2005-07-13 15:58:43 -0400 (Wed, 13 Jul 2005) | 5 lines
 
-	* tests/lingtestcase.rb (1.3):
+- Fixed up subversion constants
+- Merged contributions from Francis Hwang <sera@fhwang.net>
+  (#camel_case_to_english, #english_to_camel_case, #proper_noun). Closes #2
+- Set svn:keyword
 
-	- Added a dummy test so if the tests for optional modules can't be run (because
-	  the modules on which they depend aren't installed), it doesn't count as a
-	  failure because there were no tests.
-	
-2003-09-10 22:59  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r77 | ged | 2005-07-13 08:46:29 -0400 (Wed, 13 Jul 2005) | 3 lines
 
-	* tests/TEMPLATE.rb.tpl (1.2):
+- Added Subversion constants
+- Cleaned up comments for language proxy class.
 
-	- Fixed leftover comment from copy.
-	
-2003-09-10 22:57  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r76 | ged | 2005-07-13 08:43:53 -0400 (Wed, 13 Jul 2005) | 2 lines
 
-	* lib/linguistics/iso639.rb (1.3):
+Initial checkin.
 
-	- Fixed typo.
-	
-2003-09-10 22:57  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r75 | ged | 2005-07-13 08:42:30 -0400 (Wed, 13 Jul 2005) | 2 lines
 
-	* lib/linguistics/en.rb (1.6):
+Initial checkin.
 
-	- Removed some more code for the aborted attempt to make the module
-	  1.6-compatible.
-	
-	- Added requires for new extensions 'wordnet', 'linkparser', and 'infinitive'.
-	
-	- Updated docs in the header, though they're not yet ready for release.
-	
-2003-09-10 22:55  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r74 | deveiant | 2004-05-08 15:15:04 -0400 (Sat, 08 May 2004) | 2 lines
 
-	* lib/linguistics.rb (1.6):
+- Added compatibility with Aoki-san's install.rb. Kind of.
 
-	- Changed name of "inflector" class to "languageProxy" to better fit what it
-	  does.
-	
-	- Added support for transparent delegator proxy methods.
-	
-	- Added support for MyClass::extend( Linguistics ) and class MyClass; include
-	  Linguistics; end.
-	
-	- Modified code in #loadLanguage to minimize the number of requires.
-	
-2003-09-10 22:52  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r73 | deveiant | 2004-05-08 15:07:51 -0400 (Sat, 08 May 2004) | 2 lines
 
-	* experiments/generalize.rb (1.1), experiments/wn-proglang.rb
-	(1.1), lib/linguistics/en/wordnet.rb (1.1):
+- Bugfix: Linkparser should start out missing by default.
 
-	Initial checkin.
-	
-2003-09-10 22:51  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r72 | deveiant | 2004-05-08 15:07:09 -0400 (Sat, 08 May 2004) | 3 lines
 
-	* experiments/allobjlist.rb (1.2):
+- Fixed to work even if it's not in the cwd. Thanks to batsman on
+  irc://irc.freenode.net/#ruby-lang for reporting this.
 
-	- Added example output.
-	
-2003-09-10 22:51  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r68 | deveiant | 2003-10-09 09:24:25 -0400 (Thu, 09 Oct 2003) | 2 lines
 
-	* docs/makedocs.rb (1.2):
+Initial checkin.
 
-	- Reworked to be more generically useful, and support parsing of options from
-	  CATALOG file.
-	
-2003-09-10 22:50  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r67 | deveiant | 2003-10-09 09:23:09 -0400 (Thu, 09 Oct 2003) | 4 lines
 
-	* docs/CATALOG (1.3):
+- Updated requirements list
 
-	- Added rdoc-option header.
-	
-2003-09-10 22:50  Michael Granger <ged@FaerieMUD.org>
+- Removed unnecessary readline require
 
-	* utils.rb (1.3):
+------------------------------------------------------------------------
+r66 | deveiant | 2003-10-09 09:21:48 -0400 (Thu, 09 Oct 2003) | 3 lines
 
-	- Brought up-to-date with canonical source.
-	
-2003-09-10 22:49  Michael Granger <ged@FaerieMUD.org>
+- Fixed requirements/optional libraries (Thanks to Yuri Leikind
+  <y.leikind@sam-solutions.net> for bringing this to my attention).
 
-	* TODO (1.2):
+------------------------------------------------------------------------
+r65 | deveiant | 2003-10-09 09:20:50 -0400 (Thu, 09 Oct 2003) | 6 lines
 
-	- Removed finished items.
-	
-2003-09-10 22:48  Michael Granger <ged@FaerieMUD.org>
+- Wildcarded everything under lib/ so new additions don't have to be explicitly
+  listed.
 
-	* README (1.3):
+- Added README.english (Thanks to Yuri Leikind <y.leikind@sam-solutions.net> for
+  bringing this to my attention).
 
-	- Beginnings of update for new release. Still needs more work before release.
-	
-2003-09-10 22:25  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r64 | deveiant | 2003-09-14 07:28:02 -0400 (Sun, 14 Sep 2003) | 7 lines
 
-	* lib/linguistics/en/: infinitive.rb (1.1), linkparser.rb (1.1):
+- Calls to #synset no longer trap parse errors. This was done for two reasons:
 
-	Initial checkin.
-	
-2003-09-09 21:48  Michael Granger <ged@FaerieMUD.org>
+  1. If the WordNet doesn't load, WordNet::ParseError is an undefined constant,
+     so the function fails with a semi-ambiguous error message.
 
-	* tests/en/wordnet.tests.rb (1.1):
+  2. The user of the library might wish to handle the parse failure herself.
 
-	Initial checkin.
-	
-2003-09-09 13:29  Martin Chase <stillflame@FaerieMUD.org>
+------------------------------------------------------------------------
+r63 | deveiant | 2003-09-14 07:20:51 -0400 (Sun, 14 Sep 2003) | 2 lines
 
-	* tests/en/linkparser.tests.rb (1.1):
+- Added redist/ to $LOAD_PATH.
 
-	initial import
-	
-2003-08-26 04:35  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r62 | deveiant | 2003-09-14 07:15:57 -0400 (Sun, 14 Sep 2003) | 4 lines
 
-	* docs/.cvsignore (1.1):
+- Added synopsis of use to the comment header.
 
-	Initial checkin.
-	
-2003-07-10 18:36  Michael Granger <ged@FaerieMUD.org>
+- Added reminder to finish documenting the auto-generated code.
 
-	* lib/linguistics/en.rb (1.5):
+------------------------------------------------------------------------
+r61 | deveiant | 2003-09-14 07:15:33 -0400 (Sun, 14 Sep 2003) | 2 lines
 
-	- Added a Range#step 1.6 compat function.
-	
-2003-07-10 18:20  Michael Granger <ged@FaerieMUD.org>
+- Added synopsis of use to the comment header.
 
-	* tests/use.tests.rb (1.3):
+------------------------------------------------------------------------
+r60 | deveiant | 2003-09-14 07:15:18 -0400 (Sun, 14 Sep 2003) | 2 lines
 
-	- 1.6 fixes.
-	
-2003-07-10 18:13  Michael Granger <ged@FaerieMUD.org>
+- Added README.english
 
-	* lib/linguistics.rb (1.5):
+------------------------------------------------------------------------
+r59 | deveiant | 2003-09-14 07:15:05 -0400 (Sun, 14 Sep 2003) | 2 lines
 
-	- More 1.6ish fixes.
-	
-2003-07-10 17:52  Michael Granger <ged@FaerieMUD.org>
+- Fixed screwed-up code resulting from broken paste.
 
-	* lib/linguistics/en.rb (1.4):
+------------------------------------------------------------------------
+r58 | deveiant | 2003-09-14 07:14:28 -0400 (Sun, 14 Sep 2003) | 2 lines
 
-	Made module_methods out of the backend functions to support including linguistic methods again.
-	
-2003-07-10 17:45  Michael Granger <ged@FaerieMUD.org>
+- Added mention of README.english.
 
-	* lib/linguistics.rb (1.4):
+------------------------------------------------------------------------
+r57 | deveiant | 2003-09-14 06:47:12 -0400 (Sun, 14 Sep 2003) | 2 lines
 
-	- Fixed use of Hash#merge! (1.8 feature)
-	
-2003-07-10 17:38  Michael Granger <ged@FaerieMUD.org>
+- Removed redundant mention of the WordNet module from the comment header.
 
-	* lib/linguistics/en.rb (1.3):
+------------------------------------------------------------------------
+r56 | deveiant | 2003-09-14 06:45:01 -0400 (Sun, 14 Sep 2003) | 2 lines
 
-	- Fixed usage of Hash#merge (a 1.8 feature).
-	
-2003-07-09 18:00  Michael Granger <ged@FaerieMUD.org>
+- Fixed the comment header some more.
 
-	* tests/lingtestcase.rb (1.2, RELEASE_1_01):
+------------------------------------------------------------------------
+r55 | deveiant | 2003-09-14 06:39:04 -0400 (Sun, 14 Sep 2003) | 2 lines
 
-	- Removed unneccessary require of test/unit/mock.
-	
-2003-07-09 15:45  Michael Granger <ged@FaerieMUD.org>
+- Now installs the stuff in redist/ too.
 
-	* install.rb (1.1, RELEASE_1_01):
+------------------------------------------------------------------------
+r54 | deveiant | 2003-09-14 06:36:00 -0400 (Sun, 14 Sep 2003) | 2 lines
 
-	Initial checkin.
-	
-2003-07-09 14:39  Michael Granger <ged@FaerieMUD.org>
+- Changed pattern for the redist directory to catch any .rb files.
 
-	* docs/CATALOG (1.2, RELEASE_1_01):
+------------------------------------------------------------------------
+r53 | deveiant | 2003-09-14 06:35:32 -0400 (Sun, 14 Sep 2003) | 2 lines
 
-	- Explicitly listed linguistics.rb so it gets documented first.
-	
-2003-07-09 14:39  Michael Granger <ged@FaerieMUD.org>
+- Fixed names of constants to reduce the chances of collision.
 
-	* utils.rb (1.2, RELEASE_1_01):
+------------------------------------------------------------------------
+r52 | deveiant | 2003-09-14 06:33:01 -0400 (Sun, 14 Sep 2003) | 2 lines
 
-	- Commented out rdoc-selection code, as it doesn't work.
-	
-2003-07-09 14:38  Michael Granger <ged@FaerieMUD.org>
+Initial checkin from version 0.01 of CrossCase.
 
-	* README (1.2, RELEASE_1_01):
+------------------------------------------------------------------------
+r51 | deveiant | 2003-09-14 06:30:38 -0400 (Sun, 14 Sep 2003) | 3 lines
 
-	- Fleshed out instructions for use and addition.
-	
-2003-07-09 14:36  Michael Granger <ged@FaerieMUD.org>
+- Changed parsing of non-sentences to expect errors in accordance with changes
+  to the API of the LinkParser integration.
 
-	* lib/linguistics.rb (1.3), tests/use.tests.rb (1.2), Artistic
-	(1.2) (utags: RELEASE_1_01):
+------------------------------------------------------------------------
+r50 | deveiant | 2003-09-14 06:24:58 -0400 (Sun, 14 Sep 2003) | 3 lines
 
-	- RDoc fixes
-	
-2003-07-09 14:35  Michael Granger <ged@FaerieMUD.org>
+- Added CrossCase require/include to provide under_barred aliasing for camelCase
+  functions.
 
-	* lib/linguistics/iso639.rb (1.2, RELEASE_1_01):
+------------------------------------------------------------------------
+r49 | deveiant | 2003-09-14 06:24:06 -0400 (Sun, 14 Sep 2003) | 4 lines
 
-	- Made some RDoc fixes
-	
-2003-07-09 13:30  Michael Granger <ged@FaerieMUD.org>
+- Added Martin to the Authors list.
 
-	* lib/linguistics.rb (1.2):
+- Updated optional list.
 
-	- Added array-wrapping to allow single classes in the :classes config argument.
-	
-	- Wrapped the code that adds the inflector method in a test for the method's existance to avoid constantly redefining it for classes which already have it.
-	
-2003-07-09 13:16  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r48 | deveiant | 2003-09-14 06:23:19 -0400 (Sun, 14 Sep 2003) | 2 lines
 
-	* lib/linguistics/en.rb (1.2, RELEASE_1_01):
+Initial checkin.
 
-	- Moved Array extension to the bottom of the file to avoid confusion, and turned on :nodoc: for it.
-	
-2003-07-09 12:24  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r47 | deveiant | 2003-09-14 05:29:15 -0400 (Sun, 14 Sep 2003) | 13 lines
 
-	* tests/: conjunction.tests.rb (1.2), en_inflect.tests.rb (1.2):
+- Touched up the file description a bit.
 
-	- Moved into the en/ directory to separate language-specific tests from general tests.
-	
-2003-07-09 10:15  Michael Granger <ged@FaerieMUD.org>
+- @lpError now intitialized: bug spotted by Martin Chase.
 
-	* makedist.rb (1.2, RELEASE_1_01):
+- Calls to #linkParse no longer trap parse errors. This was done for two
+  reasons:
 
-	Fixed project-grokking expression
-	
-2003-07-09 10:13  Michael Granger <ged@FaerieMUD.org>
+  1. If the LinkParser module doesn't load, LinkParser::ParseError is an
+     undefined constant, so the function fails with a semi-ambiguous error
+     message.
 
-	* docs/makedocs.rb (1.1, RELEASE_1_01):
+  2. The user of the library might wish to handle the parse failure herself.
 
-	Initial checkin.
-	
-2003-07-09 09:53  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r46 | deveiant | 2003-09-11 01:04:55 -0400 (Thu, 11 Sep 2003) | 2 lines
 
-	* experiments/: allobjlist.rb (1.1), farmobjs.rb (1.1) (utags:
-	RELEASE_1_01):
+Checkpoint commit
 
-	Initial checkin
-	
-2003-07-09 08:49  Michael Granger <ged@FaerieMUD.org>
+------------------------------------------------------------------------
+r45 | deveiant | 2003-09-11 01:04:04 -0400 (Thu, 11 Sep 2003) | 4 lines
 
-	* Artistic (1.1), README (1.1), TODO (1.1), makedist.rb (1.1),
-	test.rb (1.1), utils.rb (1.1), docs/CATALOG (1.1),
-	experiments/api.rb (1.1), experiments/randobjlist.rb (1.1),
-	lib/linguistics.rb (1.1), lib/linguistics/en.rb (1.1),
-	lib/linguistics/iso639.rb (1.1), redist/hashslice.rb (1.1),
-	tests/conjunction.tests.rb (1.1), tests/en/conjunction.tests.rb
-	(1.1), tests/TEMPLATE.rb.tpl (1.1), tests/en_inflect.tests.rb
-	(1.1), tests/lingtestcase.rb (1.1), tests/use.tests.rb (1.1),
-	tests/en/inflect.tests.rb (1.1):
+- Added test for functional interface to auto-generated code.
 
-	Initial revision
-	
-2003-07-09 08:49  Michael Granger <ged@FaerieMUD.org>
+- Removed tests of the 'use' function into their own test case.
 
-	* Artistic (1.1.1.1), README (1.1.1.1), TODO (1.1.1.1,
-	RELEASE_1_01), makedist.rb (1.1.1.1), test.rb (1.1.1.1,
-	RELEASE_1_01), utils.rb (1.1.1.1), docs/CATALOG (1.1.1.1),
-	experiments/api.rb (1.1.1.1, RELEASE_1_01),
-	experiments/randobjlist.rb (1.1.1.1, RELEASE_1_01),
-	lib/linguistics.rb (1.1.1.1), lib/linguistics/en.rb (1.1.1.1),
-	lib/linguistics/iso639.rb (1.1.1.1), redist/hashslice.rb (1.1.1.1,
-	RELEASE_1_01), tests/conjunction.tests.rb (1.1.1.1),
-	tests/en/conjunction.tests.rb (1.1.1.1, RELEASE_1_01),
-	tests/TEMPLATE.rb.tpl (1.1.1.1, RELEASE_1_01),
-	tests/en_inflect.tests.rb (1.1.1.1), tests/lingtestcase.rb
-	(1.1.1.1), tests/use.tests.rb (1.1.1.1), tests/en/inflect.tests.rb
-	(1.1.1.1, RELEASE_1_01) (utags: ALPHA):
+------------------------------------------------------------------------
+r44 | deveiant | 2003-09-11 01:03:12 -0400 (Thu, 11 Sep 2003) | 2 lines
 
-	Initial checkin
-	
+- Added test for functional interface to auto-generated code.
+
+------------------------------------------------------------------------
+r43 | deveiant | 2003-09-11 01:02:32 -0400 (Thu, 11 Sep 2003) | 2 lines
+
+Initial checkin.
+
+------------------------------------------------------------------------
+r42 | deveiant | 2003-09-11 01:02:04 -0400 (Thu, 11 Sep 2003) | 6 lines
+
+- Fixed require block at the top.
+
+- Changed name of intermediate class to reflect change in linguistics.rb.
+
+- Fixed 1.8 complaint.
+
+------------------------------------------------------------------------
+r41 | deveiant | 2003-09-11 01:00:56 -0400 (Thu, 11 Sep 2003) | 4 lines
+
+- Added a dummy test so if the tests for optional modules can't be run (because
+  the modules on which they depend aren't installed), it doesn't count as a
+  failure because there were no tests.
+
+------------------------------------------------------------------------
+r40 | deveiant | 2003-09-11 00:59:51 -0400 (Thu, 11 Sep 2003) | 2 lines
+
+- Fixed leftover comment from copy.
+
+------------------------------------------------------------------------
+r39 | deveiant | 2003-09-11 00:57:46 -0400 (Thu, 11 Sep 2003) | 2 lines
+
+- Fixed typo.
+
+------------------------------------------------------------------------
+r38 | deveiant | 2003-09-11 00:57:27 -0400 (Thu, 11 Sep 2003) | 7 lines
+
+- Removed some more code for the aborted attempt to make the module
+  1.6-compatible.
+
+- Added requires for new extensions 'wordnet', 'linkparser', and 'infinitive'.
+
+- Updated docs in the header, though they're not yet ready for release.
+
+------------------------------------------------------------------------
+r37 | deveiant | 2003-09-11 00:55:11 -0400 (Thu, 11 Sep 2003) | 10 lines
+
+- Changed name of "inflector" class to "languageProxy" to better fit what it
+  does.
+
+- Added support for transparent delegator proxy methods.
+
+- Added support for MyClass::extend( Linguistics ) and class MyClass; include
+  Linguistics; end.
+
+- Modified code in #loadLanguage to minimize the number of requires.
+
+------------------------------------------------------------------------
+r36 | deveiant | 2003-09-11 00:52:32 -0400 (Thu, 11 Sep 2003) | 2 lines
+
+- Added :installProxy config to the #use call.
+
+------------------------------------------------------------------------
+r35 | deveiant | 2003-09-11 00:52:03 -0400 (Thu, 11 Sep 2003) | 2 lines
+
+Initial checkin.
+
+------------------------------------------------------------------------
+r34 | deveiant | 2003-09-11 00:51:41 -0400 (Thu, 11 Sep 2003) | 2 lines
+
+- Added example output.
+
+------------------------------------------------------------------------
+r33 | deveiant | 2003-09-11 00:51:26 -0400 (Thu, 11 Sep 2003) | 3 lines
+
+- Reworked to be more generically useful, and support parsing of options from
+  CATALOG file.
+
+------------------------------------------------------------------------
+r32 | deveiant | 2003-09-11 00:50:49 -0400 (Thu, 11 Sep 2003) | 2 lines
+
+- Added rdoc-option header.
+
+------------------------------------------------------------------------
+r31 | deveiant | 2003-09-11 00:50:13 -0400 (Thu, 11 Sep 2003) | 2 lines
+
+- Brought up-to-date with canonical source.
+
+------------------------------------------------------------------------
+r30 | deveiant | 2003-09-11 00:49:45 -0400 (Thu, 11 Sep 2003) | 2 lines
+
+- Removed finished items.
+
+------------------------------------------------------------------------
+r29 | deveiant | 2003-09-11 00:48:46 -0400 (Thu, 11 Sep 2003) | 2 lines
+
+- Beginnings of update for new release. Still needs more work before release.
+
+------------------------------------------------------------------------
+r28 | deveiant | 2003-09-11 00:48:06 -0400 (Thu, 11 Sep 2003) | 2 lines
+
+- Added ChangeLog.
+
+------------------------------------------------------------------------
+r27 | deveiant | 2003-09-11 00:25:23 -0400 (Thu, 11 Sep 2003) | 2 lines
+
+Initial checkin.
+
+------------------------------------------------------------------------
+r26 | deveiant | 2003-09-09 23:48:46 -0400 (Tue, 09 Sep 2003) | 2 lines
+
+Initial checkin.
+
+------------------------------------------------------------------------
+r25 | stillflame | 2003-09-09 15:29:15 -0400 (Tue, 09 Sep 2003) | 2 lines
+
+initial import
+
+------------------------------------------------------------------------
+r24 | deveiant | 2003-08-26 06:35:16 -0400 (Tue, 26 Aug 2003) | 2 lines
+
+Initial checkin.
+
+------------------------------------------------------------------------
+r23 | deveiant | 2003-07-10 20:36:40 -0400 (Thu, 10 Jul 2003) | 2 lines
+
+- Added a Range#step 1.6 compat function.
+
+------------------------------------------------------------------------
+r22 | deveiant | 2003-07-10 20:20:10 -0400 (Thu, 10 Jul 2003) | 2 lines
+
+- 1.6 fixes.
+
+------------------------------------------------------------------------
+r21 | deveiant | 2003-07-10 20:13:54 -0400 (Thu, 10 Jul 2003) | 2 lines
+
+- More 1.6ish fixes.
+
+------------------------------------------------------------------------
+r20 | deveiant | 2003-07-10 19:52:36 -0400 (Thu, 10 Jul 2003) | 2 lines
+
+Made module_methods out of the backend functions to support including linguistic methods again.
+
+------------------------------------------------------------------------
+r19 | deveiant | 2003-07-10 19:45:26 -0400 (Thu, 10 Jul 2003) | 2 lines
+
+- Fixed use of Hash#merge! (1.8 feature)
+
+------------------------------------------------------------------------
+r18 | deveiant | 2003-07-10 19:38:24 -0400 (Thu, 10 Jul 2003) | 2 lines
+
+- Fixed usage of Hash#merge (a 1.8 feature).
+
+------------------------------------------------------------------------
+r17 | deveiant | 2003-07-09 20:00:00 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+- Removed unneccessary require of test/unit/mock.
+
+------------------------------------------------------------------------
+r16 | deveiant | 2003-07-09 19:24:42 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+Initial checkin.
+
+------------------------------------------------------------------------
+r15 | deveiant | 2003-07-09 17:45:36 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+Initial checkin.
+
+------------------------------------------------------------------------
+r14 | deveiant | 2003-07-09 16:39:59 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+- Explicitly listed linguistics.rb so it gets documented first.
+
+------------------------------------------------------------------------
+r13 | deveiant | 2003-07-09 16:39:25 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+- Commented out rdoc-selection code, as it doesn't work.
+
+------------------------------------------------------------------------
+r12 | deveiant | 2003-07-09 16:38:14 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+- Fleshed out instructions for use and addition.
+
+------------------------------------------------------------------------
+r11 | deveiant | 2003-07-09 16:37:06 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+- RDoc fixes
+
+------------------------------------------------------------------------
+r10 | deveiant | 2003-07-09 16:35:29 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+- Made some RDoc fixes
+
+------------------------------------------------------------------------
+r9 | deveiant | 2003-07-09 15:30:42 -0400 (Wed, 09 Jul 2003) | 4 lines
+
+- Added array-wrapping to allow single classes in the :classes config argument.
+
+- Wrapped the code that adds the inflector method in a test for the method's existance to avoid constantly redefining it for classes which already have it.
+
+------------------------------------------------------------------------
+r8 | deveiant | 2003-07-09 15:16:21 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+- Moved Array extension to the bottom of the file to avoid confusion, and turned on :nodoc: for it.
+
+------------------------------------------------------------------------
+r7 | deveiant | 2003-07-09 14:24:13 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+- Moved into the en/ directory to separate language-specific tests from general tests.
+
+------------------------------------------------------------------------
+r6 | deveiant | 2003-07-09 12:15:20 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+Fixed project-grokking expression
+
+------------------------------------------------------------------------
+r5 | deveiant | 2003-07-09 12:13:52 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+Initial checkin.
+
+------------------------------------------------------------------------
+r4 | deveiant | 2003-07-09 11:54:43 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+Initial checkin
+
+------------------------------------------------------------------------
+r1 | deveiant | 2003-07-09 10:49:57 -0400 (Wed, 09 Jul 2003) | 2 lines
+
+Initial revision
+
+------------------------------------------------------------------------
