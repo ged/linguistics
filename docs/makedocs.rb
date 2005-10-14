@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 #
 #	RDoc Documentation Generation Script
-#	$Id: makedocs.rb,v b5d49e0c35ca 2005/07/13 22:35:45 ged $
+#	$Id: makedocs.rb,v 2d110ae82da4 2005/10/14 20:39:57 ged $
 #
 #	Copyright (c) 2001-2005 The FaerieMUD Consortium.
 #
@@ -159,7 +159,7 @@ if $0 == __FILE__
 			diagrams = true
 		end
 
-		oparser.on( "--output=DIR", "-o=DIR", String, "Set the output directory" ) do
+		oparser.on( "--output=DIR", "-o=DIR", String, "Set the output directory" ) do |val|
 			docsdir = val
 		end
 

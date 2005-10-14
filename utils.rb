@@ -1,6 +1,6 @@
 #
 #	Install/distribution utility functions
-#	$Id: utils.rb 8 2005-07-13 12:35:15Z ged $
+#	$Id: utils.rb 10 2005-08-07 03:28:54Z ged $
 #
 #	Copyright (c) 2001-2005, The FaerieMUD Consortium.
 #
@@ -626,9 +626,9 @@ module UtilityFunctions
 	def try( msg, bind=nil )
 		result = ''
 		if msg =~ /^to\s/
-			message = "Trying #{msg}..."
+			message "Trying #{msg}...\n"
 		else
-			message = msg
+			message msg + "\n"
 		end
 			
 		begin

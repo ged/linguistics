@@ -1,11 +1,11 @@
 #!/usr/bin/ruby
 #
-#	Linguistics Module Install Script
-#	$Id: install.rb,v 1.3 2003/10/09 13:23:09 deveiant Exp $
+#	Module Install Script
+#	$Id: install.rb 11 2005-08-07 03:30:22Z ged $
 #
 #	Thanks to Masatoshi SEKI for ideas found in his install.rb.
 #
-#	Copyright (c) 2001-2004 The FaerieMUD Consortium.
+#	Copyright (c) 2001-2005 The FaerieMUD Consortium.
 #
 #	This is free software. You may use, modify, and/or redistribute this
 #	software under the terms of the Perl Artistic License. (See
@@ -20,17 +20,18 @@ include Config
 
 require 'find'
 require 'ftools'
+require 'optparse'
 
-
-$version	= %q$Revision: 1.3 $
-$rcsId		= %q$Id: install.rb,v 1.3 2003/10/09 13:23:09 deveiant Exp $
+$version	= %q$Revision: 11 $
+$rcsId		= %q$Id: install.rb 11 2005-08-07 03:30:22Z ged $
 
 # Define required libraries
 RequiredLibraries = [
-	# libraryname, nice name, RAA URL, Download URL
-# 	[ 'hashslice', "Ruby-Hashslice", 
-# 		'http://www.ruby-lang.org/en/raa-list.rhtml?name=Ruby-HashSlice',
-# 		'http://www.devEiate.org/code/Ruby-HashSlice-1.03.tar.gz' ],
+	# libraryname, nice name, RAA URL, Download URL, e.g.,
+	#[ 'strscan', "Strscan", 
+	#	'http://www.ruby-lang.org/en/raa-list.rhtml?name=strscan',
+	#	'http://i.loveruby.net/archive/strscan/strscan-0.6.7.tar.gz',
+	#],
 ]
 
 class Installer
@@ -122,31 +123,61 @@ class Installer
 
 end
 
+
 if $0 == __FILE__
-	header "Linguistics Installer #$version"
+	dryrun = false
 
-	for lib in RequiredLibraries
-		testForRequiredLibrary( *lib )
+	# Parse command-line switches
+	ARGV.options {|oparser|
+		oparser.banner = "Usage: #$0 [options]\n"
+
+		oparser.on( "--verbose", "-v", TrueClass, "Make progress verbose" ) {
+			$VERBOSE = true
+			debugMsg "Turned verbose on."
+		}
+
+		oparser.on( "--dry-run", "-n", TrueClass, "Don't really install anything" ) {
+			debugMsg "Turned dry-run on."
+			dryrun = true
+		}
+
+		# Handle the 'help' option
+		oparser.on( "--help", "-h", "Display this text." ) {
+			$stderr.puts oparser
+			exit!(0)
+		}
+
+		oparser.parse!
+	}
+
+	# Don't do anything if they expect this to be the three-step install script
+	# and they aren't doing the 'install' step.
+	if ARGV.include?( "config" )
+		for lib in RequiredLibraries
+			testForRequiredLibrary( *lib )
+		end
+		puts "Done."
+	elsif ARGV.include?( "setup" )
+		puts "Done."
+	elsif ARGV.empty?
+		for lib in RequiredLibraries
+			testForRequiredLibrary( *lib )
+		end
 	end
 
-	viewOnly = ARGV.include? '-n'
-	verbose = ARGV.include? '-v'
+	if ARGV.empty? || ARGV.include?( "install" )
+		debugMsg "Sitelibdir = '#{CONFIG['sitelibdir']}'"
+		sitelibdir = CONFIG['sitelibdir']
+		debugMsg "Sitearchdir = '#{CONFIG['sitearchdir']}'"
+		sitearchdir = CONFIG['sitearchdir']
 
-	# "Compatibility" with Aoki-san's install.rb
-	if ARGV.include?( 'config' ) || ARGV.include?( 'setup' )
-		print "Ok."
-		exit
+		message "Installing..."
+		i = Installer.new( dryrun )
+		#i.installFiles( "redist", sitelibdir, 0444, verbose )
+		i.installFiles( "lib", sitelibdir, 0444, $VERBOSE )
+
+		message "done.\n"
 	end
-
-	debugMsg "Sitelibdir = '#{CONFIG['sitelibdir']}'"
-	sitelibdir = CONFIG['sitelibdir']
-	debugMsg "Sitearchdir = '#{CONFIG['sitearchdir']}'"
-	sitearchdir = CONFIG['sitearchdir']
-
-	message "Installing\n"
-	i = Installer.new( viewOnly )
-	i.installFiles( "redist", sitelibdir, 0444, verbose )
-	i.installFiles( "lib", sitelibdir, 0444, verbose )
 end
 	
 
