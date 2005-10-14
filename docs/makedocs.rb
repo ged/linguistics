@@ -159,7 +159,7 @@ if $0 == __FILE__
 			diagrams = true
 		end
 
-		oparser.on( "--output=DIR", "-o=DIR", String, "Set the output directory" ) do
+		oparser.on( "--output=DIR", "-o=DIR", String, "Set the output directory" ) do |val|
 			docsdir = val
 		end
 

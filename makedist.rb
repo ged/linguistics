@@ -1,9 +1,9 @@
 #!/usr/bin/ruby
 #
 #	Distribution Maker Script
-#	$Id: makedist.rb 6 2004-12-02 07:57:32Z ged $
+#	$Id: makedist.rb 13 2005-10-14 06:44:00Z ged $
 #
-#	Copyright (c) 2001, 2002, 2004, The FaerieMUD Consortium.
+#	Copyright (c) 2001-2005, The FaerieMUD Consortium.
 #
 #	This is free software. You may use, modify, and/or redistribute this
 #	software under the terms of the Perl Artistic License. (See
@@ -23,10 +23,10 @@ include UtilityFunctions, FileUtils, Config
 
 
 # SVN Revision
-SVNRev = %q$Rev: 6 $
+SVNRev = %q$Rev: 13 $
 
 # SVN Id
-SVNId = %q$Id: makedist.rb 6 2004-12-02 07:57:32Z ged $
+SVNId = %q$Id: makedist.rb 13 2005-10-14 06:44:00Z ged $
 
 # SVN URL
 SVNURL = %q$URL: svn+ssh://svn.FaerieMUD.org/usr/local/svn/project-utils/trunk/makedist.rb $
@@ -213,7 +213,8 @@ def main
 				uri = getSvnUri()
 				taguri = uri + "tags/#{tag}"
 				message "SVN tag URI: %s\n" % [ taguri ]
-				system( $Programs['svn'], 'cp', uri.to_s, taguri.to_s )
+				system( $Programs['svn'], 'cp', uri.to_s, taguri.to_s,
+					'-m', "Tagging for version %s" % [version] )
 			else
 				errorMessage "No supported version control system. Skipping tag."
 			end
@@ -224,8 +225,8 @@ def main
 	message "Making distribution directory #{distName}...\n"
 	Dir.mkdir( distName ) unless FileTest.directory?( distName )
 	for file in filelist
-		File.makedirs( File.dirname(File.join(distName,file)) )
-		File.link( file, File.join(distName,file) )
+		FileUtils.mkdir_p( File.dirname(File.join(distName,file)), :verbose => true )
+		FileUtils.ln( file, File.join(distName,file), :verbose => true )
 	end
 
 	# Make an archive file for each known kind
