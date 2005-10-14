@@ -1245,7 +1245,7 @@ module Linguistics::EN
 	###   word groups instead of a String.
 	def numwords( number, hashargs={} )
 		num = number.to_s
-		config = NumwordDefaults.dup.update( hashargs )
+		config = NumwordDefaults.merge( hashargs )
 		raise "Bad chunking option: #{config[:group]}" unless
 			config[:group].between?( 0, 3 )
 
@@ -1289,7 +1289,7 @@ module Linguistics::EN
 			unless config[:group].zero? && section.nonzero?
 				parts.push number_to_words( chunk, config )
 			else
-				parts.push number_to_words( chunk, config.dup.update(:group => 1) )
+				parts.push number_to_words( chunk, config.merge(:group => 1) )
 			end					
 		}
 
@@ -1378,7 +1378,7 @@ module Linguistics::EN
     ###   '</tt>.
 	def quantify( phrase, number=0, args={} )
 		num = number.to_i
-		config = QuantifyDefaults.dup.update( args )
+		config = QuantifyDefaults.merge( args )
 		
 		case num
 		when 0
@@ -1483,7 +1483,7 @@ module Linguistics::EN
     ###   in the source list).
     ###
 	def conjunction( obj, args={} )
-		config = ConjunctionDefaults.dup.update( args )
+		config = ConjunctionDefaults.merge( args )
 		phrases = []
 
 		# Transform items in the obj to phrases
