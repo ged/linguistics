@@ -23,7 +23,7 @@
 # 
 # == Version
 #
-#  $Id: linguistics.rb,v a63acb00f644 2005/07/13 19:58:43 ged $
+#  $Id: linguistics.rb,v 733a1fe188d9 2005/10/30 23:59:33 ged $
 # 
 
 require 'linguistics/iso639'
@@ -38,7 +38,7 @@ module Linguistics
 	SVNRev = %q$Rev$
 
 	# Subversion ID
-	SVNid = %q$Id: linguistics.rb,v a63acb00f644 2005/07/13 19:58:43 ged $
+	SVNid = %q$Id: linguistics.rb,v 733a1fe188d9 2005/10/30 23:59:33 ged $
 
 	# Language module implementors should do something like:
 	#   Linguistics::DefaultLanguages.push( :ja ) # or whatever
@@ -157,8 +157,8 @@ module Linguistics
 			#	[ klass, lang ] if $DEBUG
 
 			# Load the language module (skipping to the next if it's already
-			# loaded), make an languageProxy class that delegates to it, and figure
-			# out what the languageProxy method will be called.
+			# loaded), make a languageProxy class that delegates to it, and
+			# figure out what the languageProxy method will be called.
 			mod = loadLanguage( lang.to_s.downcase )
 			ifaceMeth = mod.name.downcase.sub( /.*:/, '' )
 			languageProxyClass = makeLanguageProxy( mod )
@@ -236,6 +236,13 @@ module Linguistics
 	#################################################################
 	###	L A N G U A G E - I N D E P E N D E N T   F U N C T I O N S
 	#################################################################
+
+
+	### Handle auto-magic usage
+	def self::const_missing( sym )
+		loadLanguage( sym.to_s.downcase )
+	end
+
 
 	###############
 	module_function
