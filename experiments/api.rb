@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 # 
-# This is a little pseudo-program to work out how to best generalize the interface to the grammar tools.
+# This is a little pseudo-program to work out how to best generalize the
+# interface to the grammar tools.
 # 
 # == Authors
 # 
@@ -8,7 +9,7 @@
 # 
 # == Copyright
 #
-# Copyright (c) 2003 The FaerieMUD Consortium. All rights reserved.
+# Copyright (c) 2003, 2005 The FaerieMUD Consortium. All rights reserved.
 # 
 # This module is free software. You may use, modify, and/or redistribute this
 # software under the terms of the Perl Artistic License. (See
@@ -16,7 +17,7 @@
 # 
 # == Version
 #
-#  $Id: api.rb,v 37d8a6c881ee 2005/07/13 20:18:54 ged $
+#  $Id: api.rb,v 4e3d732b608d 2005/11/04 12:17:24 ged $
 # 
 
 require 'linguistics'
@@ -168,27 +169,27 @@ Linguistics::use( :en, :classical => true )
 "The plural of #{word} is PL(word)\n".inflect
 
 
-print inflect("The plural of $word is PL($word)\n");
-print inflect("I saw $cat_count PL("cat",$cat_count)\n");
-print inflect("PL(I,$N1) PL_V(saw,$N1) PL(a,$N2) PL_N(saw,$N2)");
-print inflect("NUM($N1,)PL(I) PL_V(saw) NUM($N2,)PL(a) PL_N(saw)");
-print inflect("I saw NUM($cat_count) PL("cat")\nNUM()");
-print inflect("There PL_V(was,$errors) NO(error,$errors)\n");
-print inflect("There NUM($errors,) PL_V(was) NO(error)\n";
-print inflect("Did you want A($thing) or AN($idea)\n");
-print inflect("It was ORD($position) from the left\n");
+# print inflect("The plural of $word is PL($word)\n")
+# print inflect("I saw $cat_count PL("cat",$cat_count)\n")
+# print inflect("PL(I,$N1) PL_V(saw,$N1) PL(a,$N2) PL_N(saw,$N2)")
+# print inflect("NUM($N1,)PL(I) PL_V(saw) NUM($N2,)PL(a) PL_N(saw)")
+# print inflect("I saw NUM($cat_count) PL("cat")\nNUM()")
+# print inflect("There PL_V(was,$errors) NO(error,$errors)\n")
+# print inflect("There NUM($errors,) PL_V(was) NO(error)\n"
+# print inflect("Did you want A($thing) or AN($idea)\n")
+# print inflect("It was ORD($position) from the left\n")
 
-# ADD USER-DEFINED INFLECTIONS (OVERRIDING INBUILT RULES):
+# # ADD USER-DEFINED INFLECTIONS (OVERRIDING INBUILT RULES):
 
-def_noun  "VAX"  => "VAXen";	# SINGULAR => PLURAL
+# def_noun  "VAX"  => "VAXen";	# SINGULAR => PLURAL
 
-def_verb  "will" => "shall",	# 1ST PERSON SINGULAR => PLURAL
-"will" => "will",	# 2ND PERSON SINGULAR => PLURAL
-"will" => "will",	# 3RD PERSON SINGULAR => PLURAL
+# def_verb  "will" => "shall",	# 1ST PERSON SINGULAR => PLURAL
+# "will" => "will",	# 2ND PERSON SINGULAR => PLURAL
+# "will" => "will",	# 3RD PERSON SINGULAR => PLURAL
 
-def_adj   "hir"  => "their",	# SINGULAR => PLURAL
+# def_adj   "hir"  => "their",	# SINGULAR => PLURAL
 
-def_a	"h"			# "AY HALWAYS SEZ 'HAITCH'!"
+# def_a	"h"			# "AY HALWAYS SEZ 'HAITCH'!"
 
-def_an	"horrendous.*"		# "AN HORRENDOUS AFFECTATION"
+# def_an	"horrendous.*"		# "AN HORRENDOUS AFFECTATION"
 
