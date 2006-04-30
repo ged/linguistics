@@ -23,7 +23,7 @@
 # 
 # == Version
 #
-#  $Id: linguistics.rb,v 733a1fe188d9 2005/10/30 23:59:33 ged $
+#  $Id: linguistics.rb,v baf5b4b35b56 2006/04/30 00:53:56 ged $
 # 
 
 require 'linguistics/iso639'
@@ -38,7 +38,7 @@ module Linguistics
 	SVNRev = %q$Rev$
 
 	# Subversion ID
-	SVNid = %q$Id: linguistics.rb,v 733a1fe188d9 2005/10/30 23:59:33 ged $
+	SVNid = %q$Id: linguistics.rb,v baf5b4b35b56 2006/04/30 00:53:56 ged $
 
 	# Language module implementors should do something like:
 	#   Linguistics::DefaultLanguages.push( :ja ) # or whatever
@@ -86,7 +86,7 @@ module Linguistics
 
 		### Autoload linguistic methods defined in the module this object's
 		### class uses for inflection.
-		def method_missing( sym, *args )
+		def method_missing( sym, *args, &block )
 			return super unless self.class.langmod.respond_to?( sym )
 
 			self.class.module_eval %{
@@ -95,7 +95,7 @@ module Linguistics
 				end
 			}, "{Autoloaded: " + __FILE__ + "}", __LINE__
 
-			self.method( sym ).call( *args )
+			self.method( sym ).call( *args, &block )
 		end
 
 
@@ -194,6 +194,7 @@ module Linguistics
 	### Install a regular proxy method in the given klass that will delegate
 	### calls to missing method to the languageProxy for the given +language+.
 	def self::installDelegatorProxy( klass, langcode )
+		raise ArgumentError, "Missing langcode" if langcode.nil?
 
 		# Alias any currently-extant
 		if klass.instance_methods( false ).include?( "method_missing" )
@@ -204,27 +205,29 @@ module Linguistics
 
 		# Add the #method_missing method that auto-installs delegator methods
 		# for methods supported by the linguistic proxy objects.
-		klass.module_eval {
-			define_method( :method_missing ) do |sym, *args|
+		klass.module_eval %{
+			def method_missing( sym, *args, &block )
 
-				if self.send( langcode ).respond_to?( sym )
+				# If the linguistic delegator answers the message, install a
+				# delegator method and call it.
+				if self.send( :#{langcode} ).respond_to?( sym )
 
-					# $stderr.puts "Installing linguistic delegator method #{sym} " \
+					# $stderr.puts "Installing linguistic delegator method \#{sym} " \
 					#	"for the '#{langcode}' proxy"
 					self.class.module_eval %{
-						def #{sym}( *args )
-							self.#{langcode}.#{sym}( *args )
+						def \#{sym}( *args, &block )
+							self.#{langcode}.\#{sym}( *args, &block )
 						end
 					}
-					self.method( sym ).call( *args )
+					self.method( sym ).call( *args, &block )
 
 				# Otherwise either call the overridden proxy method if there is
 				# one, or just let our parent deal with it.
 				else
 					if self.respond_to?( :__orig_method_missing )
-						return self.__orig_method_missing( sym, *args )
+						return self.__orig_method_missing( sym, *args, &block )
 					else
-						super( sym, *args )
+						super( sym, *args, &block )
 					end
 				end
 			end
@@ -288,7 +291,7 @@ module Linguistics
 				when String
 					langcode = config[:installProxy].intern
 				when TrueClass
-					langcode = DefaultLanguages[0]
+					langcode = languages[0] || DefaultLanguages[0] || :en
 				else
 					raise ArgumentError,
 						"Unexpected value %p for :installProxy" %

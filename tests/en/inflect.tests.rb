@@ -3,7 +3,7 @@
 # Unit test for English inflection 
 # $Id: inflect.tests.rb,v 1.2 2003/09/11 05:04:04 deveiant Exp $
 #
-# Copyright (c) 2003 The FaerieMUD Consortium.
+# Copyright (c) 2003, 2005 The FaerieMUD Consortium.
 # 
 # Much of this test was adapted from the test script for Lingua::EN::Inflect by
 # Damien Conway:

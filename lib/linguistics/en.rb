@@ -1104,7 +1104,7 @@ module Linguistics::EN
 	#################################################################
 
 	### Return the name of the language this module is for.
-	def language
+	def language( unused=nil )
 		"English"
 	end
 
@@ -1112,6 +1112,8 @@ module Linguistics::EN
 	### Return the plural of the given +phrase+ if +count+ indicates it should
 	### be plural.
 	def plural( phrase, count=nil )
+		phrase = numwords( phrase ) if phrase.is_a?( Numeric )
+
 		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
 		pre, word, post = md.to_a[1,3]
 		return phrase if word.nil? or word.empty?
@@ -1422,6 +1424,7 @@ module Linguistics::EN
 			].compact.join( config[:joinword] )
 		end
 	end
+	alias_method :QUANT, :quantify
 
 
     ### Return the specified +obj+ (which must support the <tt>#collect</tt>
@@ -1588,6 +1591,7 @@ module Linguistics::EN
 
 		return phrases.join( sep )
 	end
+	alias_method :CONJUNCT, :conjunction
 
 
 	### Turns a camel-case +string+ ("camelCaseToEnglish") to plain English
@@ -1659,11 +1663,43 @@ module Linguistics::EN
 		}.join
 	end
 
+
+	### Format the given +fmt+ string by replacing %-escaped sequences with the
+	### result of performing a specified operation on the corresponding
+	### argument, ala Kernel.sprintf.
+	### %PL::
+	###   Plural.
+	### %A, %AN::
+	###   Prepend indefinite article.
+	### %NO::
+	###   Zero-quantified phrase.
+	### %CONJUNCT::
+	###   Conjunction.
+	def lprintf( fmt, *args )
+		$deferr.puts "Args = %p" % [args]
+
+		fmt.to_s.gsub( /%([A-Z_]+)/ ) do |match|
+			op = $1
+			case op
+			when 'PL'
+				args.shift.plural
+			when 'A', 'AN'
+				args.shift.a
+			when 'NO'
+				args.shift.no
+			when 'CONJUNCT'
+				args.shift.conjunction
+			else
+				raise "no such formatter %p" % op
+			end
+		end
+	end
+
 end # module Linguistics::EN
 
 
 ### Add the #separate and #separate! methods to Array.
-class Array # :nodoc:
+class Array
 
 	### Returns a new Array that has had a new member inserted between all of
 	### the current ones. The value used is the given +value+ argument unless a
