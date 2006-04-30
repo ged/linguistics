@@ -3,7 +3,7 @@
 # Unit test for English conjunctions 
 # $Id: conjunction.tests.rb,v 1.2 2003/09/11 05:03:12 deveiant Exp $
 #
-# Copyright (c) 2003 The FaerieMUD Consortium.
+# Copyright (c) 2003, 2005 The FaerieMUD Consortium.
 # 
 
 unless defined? Linguistics::TestCase
@@ -18,7 +18,7 @@ end
 ### parses in which the actual parser-generator's behaviour is defined.
 class EnglishConjunctionsTestCase < Linguistics::TestCase
 
-	Linguistics::use( :en )
+	Linguistics::use( :en, :installProxy => true )
 	include Linguistics::EN
 	
 	Tests = {
@@ -108,7 +108,54 @@ class EnglishConjunctionsTestCase < Linguistics::TestCase
 	###	T E S T S
 	#################################################################
 
+	Items = %w{cow chicken blancmange cyclist}
 
+	# Test for defect #6
+	def test_conjunction_should_use_supplied_block_for_object_transform_on_first_invocation
+		rval = nil
+
+		# Create a new class, as we need to guarantee that this will be the
+		# first #conjunction call to it.
+		collection = Class::new {
+			include Enumerable, Linguistics
+			def initialize( *ary )
+				@ary = ary.flatten
+			end
+
+			# Delegate #each to the contained Array
+			def each( &block )
+				@ary.each( &block )
+			end
+		}
+
+		obj = collection.new( 'foo', 'bar', 'baz' )
+
+		assert_nothing_raised do
+			rval = obj.en.conjunction {|word| "%d-letter word" % word.length }
+		end
+	end
+
+
+	def test_conjunction_should_use_supplied_block_for_object_transform
+		rval = nil
+
+		assert_nothing_raised do
+			rval = Items.en.conjunction {|word| "%s-word" % word[0,1]}
+		end
+
+		assert_equal "three c-words and a b-word", rval
+	end
+
+
+	def test_conjunction_should_use_supplied_block_for_object_transform_through_autoproxy
+		rval = nil
+
+		assert_nothing_raised do
+			rval = Items.conjunction {|word| "%s-word" % word[0,1]}
+		end
+
+		assert_equal "three c-words and a b-word", rval
+	end
 
 end
 

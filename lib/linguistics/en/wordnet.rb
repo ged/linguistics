@@ -81,8 +81,7 @@
 #  $Id: wordnet.rb,v 1.3 2003/09/14 11:28:02 deveiant Exp $
 # 
 
-module Linguistics
-module EN
+module Linguistics::EN
 
 	@hasWordnet		= false
 	@wnError		= nil
@@ -153,7 +152,7 @@ module EN
 	### WordNet lexicon and return a WordNet::Synset object.
 	def synset( word, pos=nil, sense=1 )
 		lex = Linguistics::EN::wnLexicon
-		if pos.is_a?( Fixnum)
+		if pos.is_a?( Fixnum )
 			sense = pos
 			pos = nil
 		end
@@ -205,10 +204,21 @@ module EN
 	# methods to show up in RDoc.
 	def_synset_function :frames
 
+
+	# Returns the synsets for the receiver's antonyms, if any. Ex:
+	# 'opaque'.en.synset.antonyms
+	#   ==> [#<WordNet::Synset:0x010ca614/454927 clear (adjective): "free
+	#        from cloudiness; allowing light to pass through; "clear water";
+	#        "clear plastic bags"; "clear glass"; "the air is clear and clean""
+	#        (similarTos: 6, attributes: 1, derivations: 2, antonyms: 1,
+	#        seeAlsos: 1)>]
 	def_synset_function :antonyms
+
 	def_synset_function :hypernyms
+    def_synset_function :instanceHypernyms
 	def_synset_function :entailment
 	def_synset_function :hyponyms
+    def_synset_function :instanceHyponyms
 	def_synset_function :causes
 	def_synset_function :verbgroups
 	def_synset_function :similarTo
@@ -248,6 +258,5 @@ module EN
 	def_synset_function :usageMembers
 
 
-end # module EN
-end # module Linguistics
+end # module Linguistics::EN
 

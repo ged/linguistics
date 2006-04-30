@@ -623,7 +623,7 @@ module UtilityFunctions
 
 
 	### Try the specified code block, printing the given 
-	def try( msg, bind=nil )
+	def try( msg, bind=TOPLEVEL_BINDING )
 		result = ''
 		if msg =~ /^to\s/
 			message "Trying #{msg}...\n"
