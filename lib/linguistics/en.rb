@@ -1225,23 +1225,25 @@ module Linguistics::EN
 	### 
 	### [<b>:group</b>]
 	###   Controls how many numbers at a time are grouped together. Valid values
-	###   are +0+ (normal grouping), +1+ (single-digit grouping, e.g., "one,
-	###   two, three, four"), +2+ (double-digit grouping, e.g., "twelve,
-	###   thirty-four", or +3+ (triple-digit grouping, e.g., "one twenty-three,
-	###   four").
+	###   are <code>0</code> (normal grouping), <code>1</code> (single-digit 
+	###   grouping, e.g., "one, two, three, four"), <code>2</code> 
+	###   (double-digit grouping, e.g., "twelve, thirty-four", or <code>3</code>
+	###   (triple-digit grouping, e.g., "one twenty-three, four").
 	### [<b>:comma</b>]
-	###   Set the character/s used to separate word groups. Defaults to +", "+.
+	###   Set the character/s used to separate word groups. Defaults to 
+	###   <code>", "</code>.
 	### [<b>:and</b>]
-	###   Set the word and/or characters used where ' and ' (the default) is
-	###   normally used. Setting <tt>:and</tt> to +' '+, for example, will cause
-	###   +2556+ to be returned as "two-thousand, five hundred fifty-six"
-	###   instead of ""two-thousand, five hundred and fifty-six".
+	###   Set the word and/or characters used where <code>' and ' </code>(the 
+	###   default) is normally used. Setting <code>:and</code> to 
+	###   <code>' '</code>, for example, will cause <code>2556</code> to be 
+	###   returned as "two-thousand, five hundred fifty-six" instead of 
+	###   "two-thousand, five hundred and fifty-six".
 	### [<b>:zero</b>]
-	###   Set the word used to represent the numeral +0+ in the result. +'zero'+
-	###   is the default.
+	###   Set the word used to represent the numeral <code>0</code> in the 
+	###   result. <code>'zero'</code> is the default.
 	### [<b>:decimal</b>]
 	###   Set the translation of any decimal points in the number; the default
-	###   is +'point'+.
+	###   is <code>'point'</code>.
 	### [<b>:asArray</b>]
 	###   If set to a true value, the number will be returned as an array of
 	###   word groups instead of a String.
@@ -1325,7 +1327,7 @@ module Linguistics::EN
 				# wholenum part with an 'and'. This is to get things like 'three
 				# thousand and three' instead of 'three thousand, three'.
 				if /^\s*(\S+)\s*$/ =~ parts[0].last
-					wholenum += " and #{parts[0].last}"
+					wholenum += config[:and] + parts[0].last
 				else
 					wholenum += config[:comma] + parts[0].last
 				end
