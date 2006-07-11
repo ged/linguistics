@@ -1,8 +1,8 @@
 #
 # Title:  Ruby Linguistics Module
 # Main:   README
-# Upload: ssh://oberon/www/devEiate.org/public/code/Linguistics/
-# Webcvs: http://cvs.FaerieMUD.org/cgi/viewcvs.cgi/Linguistics/
+# Upload: ssh://yhaliwell/usr/local/www/devEiate.org/public/code/Linguistics/
+# Webcvs: http://deveiate.org/projects/Linguistics/browser/trunk
 #
 lib/linguistics.rb
 lib/**/*.rb
