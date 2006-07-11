@@ -265,7 +265,7 @@ class EnglishInflectionTestCase < Linguistics::TestCase
 	begin
 		inDataSection = false
 		methodCounter = 100
-		File::readlines( __FILE__ ).find_all {|line|
+		File::readlines( __FILE__ ).find_all do |line|
 			case line
 			when /^__END_DATA__$/
 				inDataSection = false
@@ -278,7 +278,7 @@ class EnglishInflectionTestCase < Linguistics::TestCase
 			else
 				inDataSection
 			end
-		}.each {|line|
+		end.each do |line|
 			case line
 			when PluralDataLine
 				singular, plural, altplural, comment = $~.to_a[1,4]
@@ -303,7 +303,7 @@ class EnglishInflectionTestCase < Linguistics::TestCase
 			else
 				debugMsg "Skipped test data line '#{line.chomp}'"
 			end
-		}
+		end
 	end
 
 	### Overridden initializer: auto-generated test methods have an arity of 1
@@ -360,6 +360,17 @@ class EnglishInflectionTestCase < Linguistics::TestCase
 				assert_equal numord, rval, op
 			end
 		end
+	end
+
+
+	def test_numwords_with_an_symboland_should_use_it_to_join_words
+		rval = nil
+		
+		assert_nothing_raised do
+			rval = 2006.en.numwords( :and => ' ' )
+		end
+		
+		assert_equal "two thousand six", rval
 	end
 
 
