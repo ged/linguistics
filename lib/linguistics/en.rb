@@ -1579,17 +1579,17 @@ module Linguistics::EN
 			config[:conjunctive].strip.empty? or
 			phrases.length < 2
 
-		# Catenate the last two elements if there's no penultimate separator,
+		# Concatenate the last two elements if there's no penultimate separator,
 		# and pick a separator based on how many phrases there are and whether
 		# or not there's already an instance of it in the phrases.
+		phrase_count = phrases.length
 		phrases[-2] << " " << phrases.pop unless config[:penultimate]
-		sep = if phrases.length <= 2
-				  ' '
-			  elsif phrases.grep( /#{config[:separator]}/ ).empty?
-				  config[:separator]
-			  else
-				  config[:altsep]
-			  end
+		sep = config[:separator]
+		if phrase_count <= 2
+			sep = ' '
+		elsif phrases.find {|str| str.include?(config[:separator]) }
+			sep = config[:altsep]
+		end
 
 		return phrases.join( sep )
 	end
@@ -1678,8 +1678,6 @@ module Linguistics::EN
 	### %CONJUNCT::
 	###   Conjunction.
 	def lprintf( fmt, *args )
-		$deferr.puts "Args = %p" % [args]
-
 		fmt.to_s.gsub( /%([A-Z_]+)/ ) do |match|
 			op = $1
 			case op

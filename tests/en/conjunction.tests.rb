@@ -157,5 +157,55 @@ class EnglishConjunctionsTestCase < Linguistics::TestCase
 		assert_equal "three c-words and a b-word", rval
 	end
 
+	def test_conjunction_with_penultimate_separator_turned_off_should_not_use_one
+		rval = nil
+		
+		assert_nothing_raised do
+			rval = Items.en.conjunction( :penultimate => false )
+		end
+		
+		assert_equal "a cow, a chicken, a blancmange and a cyclist", rval
+	end
+
+	def test_three_item_conjunction_should_honor_penultimate_setting
+		rval = nil
+		
+		assert_nothing_raised do
+			rval = %w{duck cow dog}.en.conjunction( :penultimate => false )
+		end
+		
+		assert_equal "a duck, a cow and a dog", rval
+	end
+
+	def test_conjunction_uses_alt_separator_if_phrases_include_the_primary_one
+		rval = nil
+		scene_items = [
+			"desk with stamps, paper, and envelopes on it",
+			"basket containing milk, eggs, and broccoli",
+			"chair",
+			"wooden chest",
+			"hat rack",
+		]
+		
+		assert_nothing_raised do
+			rval = scene_items.conjunction
+		end
+		
+		assert_equal "a desk with stamps, paper, and envelopes on it; " +
+			"a basket containing milk, eggs, and broccoli; " +
+			"a chair; a wooden chest; and a hat rack", rval
+	end
+
+	def test_lprintf_with_conjunct_tag_should_conjunctionize_the_corresponding_argument
+		rval = nil
+		
+		assert_nothing_raised do
+			rval = "I have %CONJUNCT in my pocket".lprintf( Items )
+		end
+		
+		assert_equal "I have a cow, a chicken, a blancmange, and a cyclist in my pocket",
+			rval
+	end
+
 end
 
