@@ -22,14 +22,14 @@ class TitleCaseTestCase < Linguistics::TestCase
 	Titles = File::open(__FILE__).read.split("__END__").last.split("\n")
 
 	def test_nothing
-		debugMsg "Not tested, as the functionality it tests hasn't been released yet."
+		debug_msg "Not tested, as the functionality it tests hasn't been released yet."
 	end
 
 	def dont_test_titles
 		printTestHeader "TitleCase: Titles"
 		rval = nil
 
-		debugMsg "Titles = %p" % [Titles]
+		debug_msg "Titles = %p" % [Titles]
 
 		Titles.each do |title|
 			next if !/\w/.match( title )

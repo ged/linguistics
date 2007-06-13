@@ -196,16 +196,5 @@ class EnglishConjunctionsTestCase < Linguistics::TestCase
 			"a chair; a wooden chest; and a hat rack", rval
 	end
 
-	def test_lprintf_with_conjunct_tag_should_conjunctionize_the_corresponding_argument
-		rval = nil
-		
-		assert_nothing_raised do
-			rval = "I have %CONJUNCT in my pocket".lprintf( Items )
-		end
-		
-		assert_equal "I have a cow, a chicken, a blancmange, and a cyclist in my pocket",
-			rval
-	end
-
 end
 

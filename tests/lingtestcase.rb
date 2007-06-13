@@ -89,7 +89,7 @@ module Linguistics
 
 		### Output the specified <tt>msgs</tt> joined together to
 		### <tt>STDERR</tt> if <tt>$DEBUG</tt> is set.
-		def self::debugMsg( *msgs )
+		def self::debug_msg( *msgs )
 			return unless $DEBUG
 			self.message "DEBUG>>> %s" % msgs.join('')
 		end
@@ -132,7 +132,7 @@ module Linguistics
 		### Forward-compatibility method for namechange in Test::Unit
 		def setup( *args )
 			self.class.setupBlocks.each {|sblock|
-				debugMsg "Calling setup block method #{sblock}"
+				debug_msg "Calling setup block method #{sblock}"
 				self.send( sblock )
 			}
 			super( *args )
@@ -144,7 +144,7 @@ module Linguistics
 		def teardown( *args )
 			super( *args )
 			self.class.teardownBlocks.each {|tblock|
-				debugMsg "Calling teardown block method #{tblock}"
+				debug_msg "Calling teardown block method #{tblock}"
 				self.send( tblock )
 			}
 		end
@@ -158,8 +158,8 @@ module Linguistics
 
 
 		### Instance alias for the like-named class method
-		def debugMsg( *msgs )
-			self.class.debugMsg( *msgs )
+		def debug_msg( *msgs )
+			self.class.debug_msg( *msgs )
 		end
 
 

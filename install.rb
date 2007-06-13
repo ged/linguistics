@@ -133,11 +133,11 @@ if $0 == __FILE__
 
 		oparser.on( "--verbose", "-v", TrueClass, "Make progress verbose" ) {
 			$VERBOSE = true
-			debugMsg "Turned verbose on."
+			debug_msg "Turned verbose on."
 		}
 
 		oparser.on( "--dry-run", "-n", TrueClass, "Don't really install anything" ) {
-			debugMsg "Turned dry-run on."
+			debug_msg "Turned dry-run on."
 			dryrun = true
 		}
 
@@ -166,9 +166,9 @@ if $0 == __FILE__
 	end
 
 	if ARGV.empty? || ARGV.include?( "install" )
-		debugMsg "Sitelibdir = '#{CONFIG['sitelibdir']}'"
+		debug_msg "Sitelibdir = '#{CONFIG['sitelibdir']}'"
 		sitelibdir = CONFIG['sitelibdir']
-		debugMsg "Sitearchdir = '#{CONFIG['sitearchdir']}'"
+		debug_msg "Sitearchdir = '#{CONFIG['sitearchdir']}'"
 		sitearchdir = CONFIG['sitearchdir']
 
 		message "Installing..."

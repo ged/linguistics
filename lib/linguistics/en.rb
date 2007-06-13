@@ -118,6 +118,20 @@ module Linguistics::EN
 		re = parts.flatten.join("|")
 		"(?:#{re})"
 	end
+	
+	
+	@lprintf_formatters = {}
+	class << self
+		attr_accessor :lprintf_formatters
+	end
+	
+	### Add the specified method (which can be either a Method object or a
+	### Symbol for looking up a method)
+	def self::def_lprintf_formatter( name, meth )
+		meth = self.method( meth ) unless meth.is_a?( Method )
+		self.lprintf_formatters[ name ] = meth
+	end
+	
 
 
 	#################################################################
@@ -668,13 +682,13 @@ module Linguistics::EN
 	###############
 
 	### Debugging output
-	def debugMsg( *msgs ) # :nodoc:
+	def debug_msg( *msgs ) # :nodoc:
 		$stderr.puts msgs.join(" ") if $DEBUG
 	end
 
 
 	### Normalize a count to either 1 or 2 (singular or plural)
-	def normalizeCount( count, default=2 )
+	def normalize_count( count, default=2 )
 		return default if count.nil? # Default to plural
 		if /^(#{PL_count_one})$/i =~ count.to_s ||
 				Linguistics::classical? &&
@@ -713,7 +727,7 @@ module Linguistics::EN
 	def pluralize_noun( word, count=nil )
 		value = nil
 		count ||= Linguistics::num
-		count = normalizeCount( count )
+		count = normalize_count( count )
 
 		return word if count == 1
 
@@ -842,7 +856,7 @@ module Linguistics::EN
 	### Pluralize special verbs
 	def pluralize_special_verb( word, count )
 		count ||= Linguistics::num
-		count = normalizeCount( count )
+		count = normalize_count( count )
 		
 		return nil if /^(#{PL_count_one})$/i =~ count.to_s
 
@@ -885,7 +899,7 @@ module Linguistics::EN
 	### Pluralize regular verbs
 	def pluralize_general_verb( word, count )
 		count ||= Linguistics::num
-		count = normalizeCount( count )
+		count = normalize_count( count )
 		
 		return word if /^(#{PL_count_one})$/i =~ count.to_s
 
@@ -909,7 +923,7 @@ module Linguistics::EN
 	### Handle special adjectives
 	def pluralize_special_adjective( word, count )
 		count ||= Linguistics::num
-		count = normalizeCount( count )
+		count = normalize_count( count )
 
 		return word if /^(#{PL_count_one})$/i =~ count.to_s
 
@@ -1064,10 +1078,10 @@ module Linguistics::EN
 			# Scan the string, and call the word-chunk function that deals with
 			# chunks of the found number of digits.
 			num.to_s.scan( re ) {|digits|
-				debugMsg "   digits = #{digits.inspect}"
+				debug_msg "   digits = #{digits.inspect}"
 				fn = NumberToWordsFunctions[ digits.nitems ]
 				numerals = digits.flatten.compact.collect {|i| i.to_i}
-				debugMsg "   numerals = #{numerals.inspect}"
+				debug_msg "   numerals = #{numerals.inspect}"
 				chunks.push fn.call( config[:zero], *numerals ).strip
 			}
 		else
@@ -1125,7 +1139,7 @@ module Linguistics::EN
 
 		return pre + plural + post
 	end
-	alias_method :PL, :plural
+	def_lprintf_formatter :PL, :plural
 
 
 	### Return the plural of the given noun +phrase+ if +count+ indicates it
@@ -1138,7 +1152,7 @@ module Linguistics::EN
 		plural = postprocess( word, pluralize_noun(word, count) )
 		return pre + plural + post
 	end
-	alias_method :PL_N, :plural_noun
+	def_lprintf_formatter :PL_N, :plural_noun
 
 
 	### Return the plural of the given verb +phrase+ if +count+ indicates it
@@ -1153,7 +1167,7 @@ module Linguistics::EN
 			pluralize_general_verb(word, count) )
 		return pre + plural + post
 	end
-	alias_method :PL_V, :plural_verb
+	def_lprintf_formatter :PL_V, :plural_verb
 
 
 	### Return the plural of the given adjectival +phrase+ if +count+ indicates
@@ -1168,7 +1182,7 @@ module Linguistics::EN
 		return pre + plural + post
 	end
 	alias_method :plural_adj, :plural_adjective
-	alias_method :PL_ADJ, :plural_adjective
+	def_lprintf_formatter :PL_ADJ, :plural_adjective
 
 
 	### Return the given phrase with the appropriate indefinite article ("a" or
@@ -1182,8 +1196,8 @@ module Linguistics::EN
 		return pre + result + post
 	end
 	alias_method :an, :a
-	alias_method :A, :a
-	alias_method :AN, :a
+	def_lprintf_formatter :A, :a
+	def_lprintf_formatter :AN, :a
 
 
 	### Translate zero-quantified +phrase+ to "no +phrase.plural+"
@@ -1198,7 +1212,7 @@ module Linguistics::EN
 			return "#{pre}no " + plural( word, 0 ) + post
 		end
 	end
-	alias_method :NO, :no
+	def_lprintf_formatter :NO, :no
 
 
 	### Participles
@@ -1216,7 +1230,7 @@ module Linguistics::EN
         return "#{plural}ing"
 	end
 	alias_method :part_pres, :present_participle
-	alias_method :PART_PRES, :present_participle
+	def_lprintf_formatter :PART_PRES, :present_participle
 
 
 
@@ -1297,7 +1311,7 @@ module Linguistics::EN
 			end					
 		}
 
-		debugMsg "Parts => #{parts.inspect}"
+		debug_msg "Parts => #{parts.inspect}"
 		
 		# Turn the last word of the whole-number part back into an ordinal if
 		# the original number came in that way.
@@ -1336,7 +1350,7 @@ module Linguistics::EN
 			end
 			decimals = parts[1..-1].collect {|part| part.join(" ")}
 
-			debugMsg "Wholenum: #{wholenum.inspect}; decimals: #{decimals.inspect}"
+			debug_msg "Wholenum: #{wholenum.inspect}; decimals: #{decimals.inspect}"
 
 			# Join with the configured decimal; if it's empty, just join with
 			# spaces.
@@ -1355,7 +1369,7 @@ module Linguistics::EN
 				strip
 		end
 	end
-	alias_method :NUMWORDS, :numwords
+	def_lprintf_formatter :NUMWORDS, :numwords
 
 
 	### Transform the given +number+ into an ordinal word. The +number+ object
@@ -1369,12 +1383,18 @@ module Linguistics::EN
 			return number.to_s.sub( /(#{OrdinalSuffixes})\Z/ ) { Ordinals[$1] }
 		end
 	end
-	alias_method :ORD, :ordinal
+	def_lprintf_formatter :ORD, :ordinal
 
+
+	### Transform the given +number+ into an ordinate word.
+	def ordinate( number )
+		numwords( number ).ordinal
+	end
+	
 
 	### Return a phrase describing the specified +number+ of objects in the
-	### given +phrase+. The following options can be used to control the makeup
-	### of the returned quantity String:
+	### given +phrase+ in general terms. The following options can be used to 
+	### control the makeup of the returned quantity String:
 	### 
     ### [<b>:joinword</b>]
     ###   Sets the word (and any surrounding spaces) used as the word separating the
@@ -1426,8 +1446,10 @@ module Linguistics::EN
 			].compact.join( config[:joinword] )
 		end
 	end
-	alias_method :QUANT, :quantify
+	def_lprintf_formatter :QUANT, :quantify
 
+
+	# :TODO: Needs refactoring
 
     ### Return the specified +obj+ (which must support the <tt>#collect</tt>
     ### method) as a conjunction. Each item is converted to a String if it is
@@ -1593,13 +1615,15 @@ module Linguistics::EN
 
 		return phrases.join( sep )
 	end
-	alias_method :CONJUNCT, :conjunction
+	def_lprintf_formatter :CONJUNCT, :conjunction
 
 
 	### Turns a camel-case +string+ ("camelCaseToEnglish") to plain English
 	### ("camel case to english"). Each word is decapitalized.
 	def camel_case_to_english( string )
-		string.to_s.gsub( /([a-z])([A-Z])/ ) { "#$1 #$2" }.downcase
+		string.to_s.
+			gsub( /([A-Z])([A-Z])/ ) { "#$1 #$2" }.
+			gsub( /([a-z])([A-Z])/ ) { "#$1 #$2" }.downcase
 	end
 
 
@@ -1675,20 +1699,16 @@ module Linguistics::EN
 	###   Prepend indefinite article.
 	### %NO::
 	###   Zero-quantified phrase.
+	### %NUMWORDS::
+	###   Convert a number into the corresponding words.
 	### %CONJUNCT::
 	###   Conjunction.
 	def lprintf( fmt, *args )
 		fmt.to_s.gsub( /%([A-Z_]+)/ ) do |match|
-			op = $1
-			case op
-			when 'PL'
-				args.shift.plural
-			when 'A', 'AN'
-				args.shift.a
-			when 'NO'
-				args.shift.no
-			when 'CONJUNCT'
-				args.shift.conjunction
+			op = $1.to_s.upcase.to_sym
+			if self.lprintf_formatters.key?( op )
+				arg = args.shift
+				self.lprintf_formatters[ op ].call( arg )
 			else
 				raise "no such formatter %p" % op
 			end

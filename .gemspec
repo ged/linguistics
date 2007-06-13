@@ -10,7 +10,7 @@ include UtilityFunctions
 
 spec = Gem::Specification.new do |s|
 	s.name = 'Linguistics'
-	s.version = "1.0.3"
+	s.version = "1.1.0"
 	s.platform = Gem::Platform::RUBY
 	s.summary = "A generic, language-neutral framework for extending Ruby " +
 		"objects with linguistic methods."

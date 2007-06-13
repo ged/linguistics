@@ -23,7 +23,7 @@ class EnglishWordnetTestCase < Linguistics::TestCase
 
 	### Overridden to skip tests if WordNet isn't installed.
 	def run( result )
-		return super if Linguistics::EN::hasWordnet?
+		return super if Linguistics::EN::has_wordnet?
 		yield( STARTED, name )
 		result.add_run
 		yield( FINISHED, name )
@@ -34,13 +34,13 @@ class EnglishWordnetTestCase < Linguistics::TestCase
 	###	T E S T S
 	#################################################################
 
-	### Test the wnLexicon method of the EN module
+	### Test the wn_lexicon method of the EN module
 	def test_00_Lexicon
 		printTestHeader "English: WordNet: Lexicon"
 
-		assert_respond_to Linguistics::EN, :wnLexicon
+		assert_respond_to Linguistics::EN, :wn_lexicon
 		assert_nothing_raised {
-			lex = Linguistics::EN::wnLexicon
+			lex = Linguistics::EN::wn_lexicon
 			assert_instance_of WordNet::Lexicon, lex
 		}
 	end

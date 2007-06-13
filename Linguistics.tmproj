@@ -3,107 +3,99 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>lib/linguistics/en/linkparser.rb</string>
+	<string>lib/linguistics.rb</string>
 	<key>documents</key>
 	<array>
-		<dict>
-			<key>filename</key>
-			<string>Artistic</string>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>ChangeLog</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>docs</string>
-			<key>regexFileFilter</key>
-			<string>!(/\.(?!htaccess)[^/]*|\.(tmproj|o|pyc)|/Icon\r)$</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|\{arch\}|build|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>docs</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>experiments</string>
-			<key>regexFileFilter</key>
-			<string>!(/\.(?!htaccess)[^/]*|\.(tmproj|o|pyc)|/Icon\r)$</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|\{arch\}|build|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>experiments</string>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>install.rb</string>
-		</dict>
 		<dict>
 			<key>expanded</key>
 			<true/>
 			<key>name</key>
-			<string>lib</string>
-			<key>regexFileFilter</key>
-			<string>!(/\.(?!htaccess)[^/]*|\.(tmproj|o|pyc)|/Icon\r)$</string>
+			<string>Linguistics</string>
 			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|\{arch\}|build|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
 			<key>sourceDirectory</key>
-			<string>lib</string>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>makedist.rb</string>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>MANIFEST</string>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>README</string>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>README.english</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>redist</string>
-			<key>regexFileFilter</key>
-			<string>!(/\.(?!htaccess)[^/]*|\.(tmproj|o|pyc)|/Icon\r)$</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|\{arch\}|build|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>redist</string>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>test.rb</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>tests</string>
-			<key>regexFileFilter</key>
-			<string>!(/\.(?!htaccess)[^/]*|\.(tmproj|o|pyc)|/Icon\r)$</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|\{arch\}|build|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>tests</string>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>TODO</string>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>utils.rb</string>
+			<string></string>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>200</integer>
+	<integer>317</integer>
 	<key>metaData</key>
 	<dict>
-		<key>lib/linguistics.rb</key>
+		<key>.irbrc</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>24</integer>
+				<key>line</key>
+				<integer>30</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>45</integer>
+				<key>line</key>
+				<integer>30</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>24</integer>
+				<key>line</key>
+				<integer>30</integer>
+			</dict>
+		</dict>
+		<key>README</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>44</integer>
+				<key>line</key>
+				<integer>34</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>23</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>17</integer>
+				<key>line</key>
+				<integer>32</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>44</integer>
+				<key>line</key>
+				<integer>34</integer>
+			</dict>
+		</dict>
+		<key>examples/generalize_sentence.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>9</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>experiments/farmobjs.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
@@ -116,6 +108,20 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+		</dict>
+		<key>lib/linguistics.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>272</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>246</integer>
 		</dict>
 		<key>lib/linguistics/en.rb</key>
 		<dict>
@@ -129,21 +135,7 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>lib/linguistics/en/infinitive.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>0</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>23</integer>
 		</dict>
 		<key>lib/linguistics/en/linkparser.rb</key>
 		<dict>
@@ -152,39 +144,57 @@
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>84</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>71</integer>
+			<integer>0</integer>
 		</dict>
-		<key>lib/linguistics/en/wordnet.rb</key>
+		<key>tests/en/linkparser.tests.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>30</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>231</integer>
+				<integer>30</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>200</integer>
+			<integer>0</integer>
+		</dict>
+		<key>tests/en/lprintf.tests.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>44</integer>
+				<key>line</key>
+				<integer>73</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>19</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
+		<string>tests/en/lprintf.tests.rb</string>
 		<string>lib/linguistics/en.rb</string>
-		<string>lib/linguistics/en/infinitive.rb</string>
-		<string>lib/linguistics/en/linkparser.rb</string>
-		<string>lib/linguistics/en/wordnet.rb</string>
+		<string>README</string>
+		<string>experiments/farmobjs.rb</string>
+		<string>.irbrc</string>
+		<string>tests/en/linkparser.tests.rb</string>
+		<string>examples/generalize_sentence.rb</string>
 		<string>lib/linguistics.rb</string>
+		<string>lib/linguistics/en/linkparser.rb</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{234, 8}, {993, 1020}}</string>
+	<string>{{302, 28}, {837, 1000}}</string>
 </dict>
 </plist>

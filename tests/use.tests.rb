@@ -63,7 +63,7 @@ class UseTestCase < Linguistics::TestCase
 		Linguistics::use( :en )
 
 		[ TestArray, TestString, TestNumber ].each do |obj|
-			debugMsg "obj.class.instance_variables = %s" %
+			debug_msg "obj.class.instance_variables = %s" %
 				obj.class.instance_variables.inspect
 
 			assert_respond_to obj, :en

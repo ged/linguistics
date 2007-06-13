@@ -22,50 +22,21 @@ class LinkParserTestCase < Linguistics::TestCase
 
 	### Overridden to skip tests if WordNet isn't installed.
 	def run( result )
-		return super if Linguistics::EN::hasLinkParser?
+		return super if Linguistics::EN::has_link_parser?
 		yield( STARTED, name )
 		result.add_run
 		yield( FINISHED, name )
 	end
 
 
-	def test_010_functions 
-		sent = "he is a dog"
-		test = test2 = nil
-		assert_nothing_raised			{test = sent.en.linkParse}
-		assert_equal					sent, test.to_str
-		assert_kind_of					LinkParser::Sentence, test
-		assert_nothing_raised			{test2 = sent.en.sentence}
-		assert_equal					sent, test2.to_str
-		assert_kind_of					LinkParser::Sentence, test2
-		assert_equal					test, test2
+	def test_sentence_should_return_a_parsed_linkparser_sentence
+		rval = nil
+
+		assert_nothing_raised do
+			rval = "He is a dog.".en.sentence
+		end
+		
+		assert_instance_of LinkParser::Sentence, rval
 	end
 
-	def test_030_grammatically_correct 
-		test = nil
-		sent = "he is a dog"
-		assert_nothing_raised			{test = sent.en.sentence.sentence?}
-		assert							test
-		sent = "dog a he is"
-		assert_nothing_raised			{test = sent.en.linkParse.sentence?}
-		assert							! test
-		sent = ""
-		errclass = LinkParser::ParseError
-		assert_raises( errclass)		{test = sent.en.sentence}
-		assert							! test
-	end
-
-	def test_050_parts_of_speech 
-		test = nil
-		sent = "he is a dog"
-		assert_nothing_raised			{test = sent.en.linkParse.verb}
-		assert_equal					test, "is"
-		assert_nothing_raised			{test = sent.en.linkParse.subject}
-		assert_equal					test, "he"
-		assert_nothing_raised			{test = sent.en.linkParse.object}
-		assert_equal					test, "dog"
-		sent = ""
-		errclass = LinkParser::ParseError
-		assert_raises( errclass )		{test = sent.en.linkParse}
-	end
 end
