@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for the 'use' function of the Linguistics module.
-# $Id: use.tests.rb,v a63acb00f644 2005/07/13 19:58:43 ged $
+# $Id: use.tests.rb,v 221d313ccdd5 2007/06/13 05:25:38 ged $
 #
 # Copyright (c) 2003 The FaerieMUD Consortium.
 # 
@@ -63,7 +63,7 @@ class UseTestCase < Linguistics::TestCase
 		Linguistics::use( :en )
 
 		[ TestArray, TestString, TestNumber ].each do |obj|
-			debugMsg "obj.class.instance_variables = %s" %
+			debug_msg "obj.class.instance_variables = %s" %
 				obj.class.instance_variables.inspect
 
 			assert_respond_to obj, :en

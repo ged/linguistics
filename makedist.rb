@@ -119,13 +119,13 @@ def main
 
 		oparser.on( "--verbose", "-v", TrueClass, "Make progress verbose" ) do
 			$VERBOSE = true
-			debugMsg "Turned verbose on."
+			debug_msg "Turned verbose on."
 		end
 
 		oparser.on( "--snapshot", "-s", TrueClass,
 			"Make a snapshot distribution instead of a versioned release" ) do
 			snapshot = true
-			debugMsg "Making snapshot instead of release."
+			debug_msg "Making snapshot instead of release."
 		end
 
 		oparser.on( "--no-tag", "-n", TrueClass, "Don't tag the release." ) do

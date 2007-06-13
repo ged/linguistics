@@ -83,17 +83,17 @@
 
 module Linguistics::EN
 
-	@hasWordnet		= false
-	@wnError		= nil
-	@wnLexicon		= nil
+	@has_wordnet		= false
+	@wn_error		= nil
+	@wn_lexicon		= nil
 
 	# Load WordNet and open the lexicon if possible, saving the error that
 	# occurs if anything goes wrong.
 	begin
 		require 'wordnet'
-		@hasWordnet = true
+		@has_wordnet = true
 	rescue LoadError => err
-		@wnError = err
+		@wn_error = err
 	end
 
 
@@ -103,22 +103,22 @@ module Linguistics::EN
 	class << self
 
 		### Returns +true+ if WordNet was loaded okay
-		def hasWordnet? ; @hasWordnet; end
+		def has_wordnet? ; @has_wordnet; end
 
 		### If #haveWordnet? returns +false+, this can be called to fetch the
 		### exception which was raised when WordNet was loaded.
-		def wnError ; @wnError; end
+		def wn_error ; @wn_error; end
 
 		### The instance of the WordNet::Lexicon used for all Linguistics WordNet
 		### functions.
-		def wnLexicon
-			if @wnError
+		def wn_lexicon
+			if @wn_error
 				raise NotImplementedError,
 					"WordNet functions are not loaded: %s" %
-					@wnError.message
+					@wn_error.message
 			end
 
-			@wnLexicon ||= WordNet::Lexicon::new
+			@wn_lexicon ||= WordNet::Lexicon::new
 		end
 
 		### Make a function that calls the method +meth+ on the synset of an input
@@ -151,7 +151,7 @@ module Linguistics::EN
 	### Look up the synset associated with the given word or collocation in the
 	### WordNet lexicon and return a WordNet::Synset object.
 	def synset( word, pos=nil, sense=1 )
-		lex = Linguistics::EN::wnLexicon
+		lex = Linguistics::EN::wn_lexicon
 		if pos.is_a?( Fixnum )
 			sense = pos
 			pos = nil
@@ -159,9 +159,9 @@ module Linguistics::EN
 		postries = pos ? [pos] : [:noun, :verb, :adjective, :adverb, :other]
 		syn = nil
 
-		postries.each {|pos|
+		postries.each do |pos|
 			break if syn = lex.lookupSynsets( word.to_s, pos, sense )
-		}
+		end
 
 		return syn
 	end
@@ -171,7 +171,7 @@ module Linguistics::EN
 	### the WordNet lexicon and return an Array of WordNet::Synset objects. If
 	### +pos+ is +nil+, return synsets for all parts of speech.
 	def synsets( word, pos=nil )
-		lex = Linguistics::EN::wnLexicon
+		lex = Linguistics::EN::wn_lexicon
 		postries = pos ? [pos] : [:noun, :verb, :adjective, :adverb, :other]
 		syns = []
 
@@ -198,7 +198,7 @@ module Linguistics::EN
 
 	# Returns the name of the lexicographer file that contains the raw data for
 	# the receiver.
-	def_synset_function :lexInfo
+	def_synset_function :lex_info
 
 	# :TODO: Finish these comments, and figure out how the hell to get the
 	# methods to show up in RDoc.

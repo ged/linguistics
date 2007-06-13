@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for English language module's title case method 
-# $Id: titlecase.tests.rb,v a63acb00f644 2005/07/13 19:58:43 ged $
+# $Id: titlecase.tests.rb,v 221d313ccdd5 2007/06/13 05:25:38 ged $
 #
 # Copyright (c) 2005 The FaerieMUD Consortium.
 # 
@@ -22,14 +22,14 @@ class TitleCaseTestCase < Linguistics::TestCase
 	Titles = File::open(__FILE__).read.split("__END__").last.split("\n")
 
 	def test_nothing
-		debugMsg "Not tested, as the functionality it tests hasn't been released yet."
+		debug_msg "Not tested, as the functionality it tests hasn't been released yet."
 	end
 
 	def dont_test_titles
 		printTestHeader "TitleCase: Titles"
 		rval = nil
 
-		debugMsg "Titles = %p" % [Titles]
+		debug_msg "Titles = %p" % [Titles]
 
 		Titles.each do |title|
 			next if !/\w/.match( title )

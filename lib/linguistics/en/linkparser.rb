@@ -31,22 +31,6 @@
 #   "he is a big dog".en.sentence.object.to_s
 #   # => "dog"
 # 
-#   # Look at the raw LinkParser::Word for the direct object of the sentence.
-#   "he is a big dog".en.sentence.object     
-#   # => #<LinkParser::Word:0x403da0a0 @definition=[[{@A-}, Ds-, {@M+}, J-], [{@A-},
-#   Ds-, {@M+}, Os-], [{@A-}, Ds-, {@M+}, Ss+, {@CO-}, {C-}], [{@A-}, Ds-, {@M+},
-#   Ss+, R-], [{@A-}, Ds-, {@M+}, SIs-], [{@A-}, Ds-, {R+}, {Bs+}, J-], [{@A-}, Ds-,
-#   {R+}, {Bs+}, Os-], [{@A-}, Ds-, {R+}, {Bs+}, Ss+, {@CO-}, {C-}], [{@A-}, Ds-,
-#   {R+}, {Bs+}, Ss+, R-], [{@A-}, Ds-, {R+}, {Bs+}, SIs-]], @right=[], @suffix="",
-#   @left=[#<LinkParser::Connection:0x403da028 @rword=#<LinkParser::Word:0x403da0a0
-#   ...>, @lword=#<LinkParser::Word:0x403da0b4 @definition=[[Ss-, O+, {@MV+}], [Ss-,
-#   B-, {@MV+}], [Ss-, P+], [Ss-, AF-], [RS-, Bs-, O+, {@MV+}], [RS-, Bs-, B-,
-#   {@MV+}], [RS-, Bs-, P+], [RS-, Bs-, AF-], [{Q-}, SIs+, O+, {@MV+}], [{Q-}, SIs+,
-#   B-, {@MV+}], [{Q-}, SIs+, P+], [{Q-}, SIs+, AF-]],
-#   @right=[#<LinkParser::Connection:0x403da028 ...>], @suffix="", @left=[],
-#   @name="is", @position=1>, @subName="*", @name="O", @length=3>], @name="dog",
-#   @position=4>
-# 
 #   # Combine WordNet + LinkParser to find the definition of the direct object of
 #   # the sentence
 #   "he is a big dog".en.sentence.object.gloss
@@ -76,15 +60,15 @@ require 'linguistics/en'
 
 module Linguistics::EN
 
-	@hasLinkParser	= false
-	@lpParser		= nil
-	@lpError		= nil
+	@has_link_parser	= false
+	@lp_dict			= nil
+	@lp_error			= nil
 
 	begin
 		require "linkparser"
-		@hasLinkParser = true
+		@has_link_parser = true
 	rescue LoadError => err
-		@lpError = err
+		@lp_error = err
 	end
 
 
@@ -94,32 +78,22 @@ module Linguistics::EN
 	class << self
 
 		### Returns +true+ if LinkParser was loaded okay
-		def hasLinkParser? ; @hasLinkParser ; end
+		def has_link_parser? ; @has_link_parser ; end
 
-		### If #hasLinkParser? returns +false+, this can be called to fetch the
+		### If #has_link_parser? returns +false+, this can be called to fetch the
 		### exception which was raised when trying to load LinkParser.
-		def lpError ; @lpError ; end
+		def lp_error ; @lp_error ; end
 
 		### The instance of LinkParser used for all Linguistics LinkParser
 		### functions.
-		def linkParser
-			if @lpError
+		def lp_dict
+			if @lp_error
 				raise NotImplementedError, 
 					"LinkParser functions are not loaded: %s" %
-					@lpError.message
+					@lp_error.message
 			end
 
-			return @lpParser if ! @lpParser.nil?
-
-			LinkParser::Word::extend( Linguistics )
-			Linguistics::installDelegatorProxy( LinkParser::Word, :en )
-
-			dictOpts = Hash.new('')
-			dictOpts['datadir'] = '/usr/lib/ruby/site_ruby/1.8/linkparser/data'
-			dictOpts['dict'] = 'tiny.dict'
-			parseOpts = Hash.new
-
-			@lpParser = LinkParser.new( dictOpts, parseOpts )
+			return @lp_dict ||= LinkParser::Dictionary.new( :verbosity => 0 )
 		end
 	end
 
@@ -132,11 +106,10 @@ module Linguistics::EN
 	module_function
 	###############
 
-	### Return a LinkParser::Sentence, with or without a sentence in it.
-	def linkParse( sent )
-		return Linguistics::EN::linkParser.parse( sent.to_s )
+	### Return a LinkParser::Sentence for the stringified +obj+.
+	def sentence( obj )
+		return Linguistics::EN::lp_dict.parse( obj.to_s )
 	end
-	alias_method :sentence, :linkParse
 	module_function :sentence
 
 end

@@ -186,7 +186,7 @@ r47 | deveiant | 2003-09-14 05:29:15 -0400 (Sun, 14 Sep 2003) | 13 lines
 
 - Touched up the file description a bit.
 
-- @lpError now intitialized: bug spotted by Martin Chase.
+- @lp_error now intitialized: bug spotted by Martin Chase.
 
 - Calls to #linkParse no longer trap parse errors. This was done for two
   reasons:
@@ -266,7 +266,7 @@ r37 | deveiant | 2003-09-11 00:55:11 -0400 (Thu, 11 Sep 2003) | 10 lines
 - Added support for MyClass::extend( Linguistics ) and class MyClass; include
   Linguistics; end.
 
-- Modified code in #loadLanguage to minimize the number of requires.
+- Modified code in #load_language to minimize the number of requires.
 
 ------------------------------------------------------------------------
 r36 | deveiant | 2003-09-11 00:52:32 -0400 (Thu, 11 Sep 2003) | 2 lines

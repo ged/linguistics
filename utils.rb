@@ -168,7 +168,7 @@ module UtilityFunctions
 
 	### Output the specified <tt>msg</tt> as an ANSI-colored debugging message
 	### (yellow on blue).
-	def debugMsg( msg )
+	def debug_msg( msg )
 		return unless $DEBUG
 		msg.chomp!
 		$stderr.puts ansiCode( 'bold', 'yellow', 'on_blue' ) + ">>> #{msg}" + ansiCode( 'reset' )
@@ -372,7 +372,7 @@ module UtilityFunctions
 
 		Dir::chdir( directory ) do
 			output = %x{svn info}
-			debugMsg( "Using info: %p" % output )
+			debug_msg( "Using info: %p" % output )
 
 			if /^URL: \s* ( .* )/xi.match( output )
 				uri = URI::parse( $1 )
@@ -527,7 +527,7 @@ module UtilityFunctions
 		if File::exists? catalogFile
 			verboseMsg "Extracting '#{keyword}' from CATALOG file (%s).\n" % catalogFile
 			File::foreach( catalogFile ) {|line|
-				debugMsg( "Examining line #{line.inspect}..." )
+				debug_msg( "Examining line #{line.inspect}..." )
 				val = $1.strip and break if /^#\s*#{keyword}:\s*(.*)$/i =~ line
 			}
 		end

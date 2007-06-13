@@ -21,7 +21,7 @@ IRB.conf[:PROMPT][:MUES] = { # name of prompt mode
  	:PROMPT_C => colored( "%N(%m):%03n:%i*", %w{white on_blue} ) + " ",
     :RETURN => "    ==> %s\n\n"      # format to return value
 }
-IRB.conf[:PROMPT_MODE] = :MUES
+#IRB.conf[:PROMPT_MODE] = :MUES
 
 # Try to require the 'mues' library
 begin

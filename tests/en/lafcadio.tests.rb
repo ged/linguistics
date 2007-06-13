@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for additions donated by Francis Hwang, author of Lafcadio
-# $Id: lafcadio.tests.rb,v a63acb00f644 2005/07/13 19:58:43 ged $
+# $Id: lafcadio.tests.rb,v 221d313ccdd5 2007/06/13 05:25:38 ged $
 #
 # Converted from ts_english.rb.
 # 
@@ -24,6 +24,7 @@ class LafcadioAdditionsTestCase < Linguistics::TestCase
 		["ProductCategory", 	"product category"],
 		["catalogOrder",		"catalog order"],
 		["product",				"product"],
+		["theNameOfAMethod",	"the name of a method"],
 	]
 
 	ProperNouns = {
@@ -41,7 +42,7 @@ class LafcadioAdditionsTestCase < Linguistics::TestCase
 	###	T E S T S
 	#################################################################
 
-	def test_camelCaseToEnglish
+	def test_camel_case_to_english_should_transform_to_english
 		printTestHeader "Lafcadio Additions: CamelCase to English"
 		res = nil
 
@@ -62,12 +63,12 @@ class LafcadioAdditionsTestCase < Linguistics::TestCase
 
 
 	### String#proper_noun
-	def test_properNoun
+	def test_proper_noun_should_return_caseified_string
 		printTestHeader "Lafcadio Additions: Proper Nouns"
 
 		ProperNouns.each do |key,expected|
 			input = key.dup # Get around hash keys being frozen
-			debugMsg "Trying %p, expect: %p" % [input, expected]
+			debug_msg "Trying %p, expect: %p" % [input, expected]
 			assert_equal expected, input.en.proper_noun
 		end
 	end

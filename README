@@ -9,25 +9,16 @@
 
 == Requirements
 
-* Ruby >= 1.8.0
-
-The following libraries are required, but are included in the redist/
-directory. The installer script should install these for you if you don't
-already have them.
-
-* HashSlice - Adds slicing to the builtin Hash class
+* Ruby >= 1.8.4
 
 
 == Optional
 
-* CrossCase - Provide auto-aliasing of camelCase to under_barred methods and
-  vice-versa. (Included in redist/)
-
 * Ruby-WordNet (>= 0.02) - adds integration for the Ruby binding for the WordNet® lexical
   reference system.
 
-  URL: http://www.deveiate.org/code/Ruby-WordNet.html
-  Download: http://www.deveiate.org/code/Ruby-WordNet-0.02.tar.gz
+  URL: http://deveiate.org/projects/Ruby-WordNet
+  Download: http://deveiate.org/code/Ruby-WordNet-0.02.tar.gz
 
 * LinkParser (>= 0.0.4) - adds integration for the Ruby Link Grammar Parser by
   Martin Chase.
@@ -38,16 +29,16 @@ already have them.
 
 == General Information
 
-This module is a framework for building linguistic utilities for Ruby objects in
-any language. It includes a generic language-independant front end, a module for
-mapping language codes into language names, and a module which contains various
-English-language utilities.
+This module is a framework for building linguistic utilities for Ruby objects
+in any language. It includes a generic language-independant front end, a
+module for mapping language codes into language names, and a module which
+contains various English-language utilities.
 
 
 === Method Interface
 
-The Linguistics module comes with a language-independant mechanism for extending
-core Ruby classes with linguistic methods. 
+The Linguistics module comes with a language-independant mechanism for
+extending core Ruby classes with linguistic methods.
 
 It consists of three parts: a core linguistics module which contains the
 class-extension framework for languages, a generic inflector class that serves
@@ -61,8 +52,8 @@ language-specific methods to be added to objects without cluttering up the
 interface or risking collision between them, albeit at the cost of three or four
 more characters per method invocation.
 
-If you don't like extending core Ruby classes, the language modules should also
-allow you to use them as a function library as well.
+If you don't like extending core Ruby classes, the language modules should
+also allow you to use them as a function library as well.
 
 For example, the English-language module contains a #plural function which can
 be accessed via a method on a core class:
@@ -77,8 +68,8 @@ or via the Linguistics::EN::plural function directly:
   plural( "goose" )
   # => "geese"
 
-The class-extension mechanism actually uses the functional interface behind the
-scenes.
+The class-extension mechanism actually uses the functional interface behind
+the scenes.
 
 A new feature with the 0.02 release: You can now omit the language-code method
 for unambiguous methods by calling Linguistics::use with the +:installProxy+
@@ -101,13 +92,13 @@ More about how this works in the documentation for Linguistics::use.
 To add a new language to the framework, create a file named the same as the
 ISO639 2- or 3-letter language code for the language you're adding. It must be
 placed under lib/linguistics/ to be recognized by the linguistics module, but
-you can also just require it yourself prior to calling Linguistics::use(). This
-file should define a module under Linguistics that is an all-caps version of the
-code used in the filename. Any methods you wish to be exposed to users should be
-declared as module functions (ie., using Module#module_function).
+you can also just require it yourself prior to calling Linguistics::use().
+This file should define a module under Linguistics that is an all-caps version
+of the code used in the filename. Any methods you wish to be exposed to users
+should be declared as module functions (ie., using Module#module_function).
 
-You may also wish to add your module to the list of default languages by adding
-the appropriate symbol to the Linguistics::DefaultLanguages array.
+You may also wish to add your module to the list of default languages by
+adding the appropriate symbol to the Linguistics::DefaultLanguages array.
 
 For example, to create a Portuguese-language module, create a file called
 'lib/linguistics/pt.rb' which contains the following:
@@ -128,8 +119,8 @@ See the English language module (lib/linguistics/en.rb) for an example.
 
 See the README.english file for a synopsis.
 
-The English-language module currently contains linguistic functions ported from
-a few excellent Perl modules:
+The English-language module currently contains linguistic functions ported
+from a few excellent Perl modules:
 
   Lingua::EN::Inflect
   Lingua::Conjunction
@@ -137,8 +128,8 @@ a few excellent Perl modules:
 
 See the lib/linguistics/en.rb file for specific attributions.
 
-New with version 0.02: integration with the Ruby WordNet® and LinkParser modules
-(which must be installed separately).
+New with version 0.02: integration with the Ruby WordNet® and LinkParser
+modules (which must be installed separately).
 
 
 == To Do
@@ -148,8 +139,8 @@ New with version 0.02: integration with the Ruby WordNet® and LinkParser modules
   additional stemming functions and some other strategies are ongoing.
 
 * Martin Chase <stillflame at FaerieMUD dot org> is working on an integration
-  module for his excellent work on a Ruby interface to the CMU Link Grammar (an
-  english-sentence parser). This will make writing fairly accurate natural
+  module for his excellent work on a Ruby interface to the CMU Link Grammar
+  (an english-sentence parser). This will make writing fairly accurate natural
   language parsers in Ruby much easier.
 
 * Suggestions (and patches) for any of these items or additional features are
@@ -159,8 +150,8 @@ New with version 0.02: integration with the Ruby WordNet® and LinkParser modules
 
 == Legal
 
-This module is Open Source Software which is Copyright (c) 2003 by The FaerieMUD
-Consortium. All rights reserved.
+This module is Open Source Software which is Copyright (c) 2003 by The
+FaerieMUD Consortium. All rights reserved.
 
 You may use, modify, and/or redistribute this software under the terms of the
 Perl Artistic License, a copy of which should have been included in this
@@ -168,9 +159,9 @@ distribution (See the file Artistic). If it was not, a copy of it may be
 obtained from http://language.perl.com/misc/Artistic.html or
 http://www.faeriemud.org/artistic.html).
 
-THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES,
-INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND
-FITNESS FOR A PARTICULAR PURPOSE.
+THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
+MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 
  $Id: README,v 1.6 2003/10/09 13:21:48 deveiant Exp $

@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 #
 #	RDoc Documentation Generation Script
-#	$Id: makedocs.rb,v 2d110ae82da4 2005/10/14 20:39:57 ged $
+#	$Id: makedocs.rb,v 221d313ccdd5 2007/06/13 05:25:38 ged $
 #
 #	Copyright (c) 2001-2005 The FaerieMUD Consortium.
 #
@@ -26,7 +26,7 @@ require 'utils'
 include UtilityFunctions
 
 def makeDocs( docsdir, template='html', diagrams=false, upload=nil, ridocs=false )
-	debugMsg "docsdir = %p, template = %p, diagrams = %p, upload = %p, ridocs = %p" %
+	debug_msg "docsdir = %p, template = %p, diagrams = %p, upload = %p, ridocs = %p" %
 		[docsdir, template, diagrams, upload, ridocs]
 
 	title = findRdocTitle()
@@ -180,12 +180,12 @@ if $0 == __FILE__
 
 		oparser.on( "--debug", "-d", TrueClass, "Output debugging information" ) do
 			$VERBOSE = true
-			debugMsg "Turned debugging on."
+			debug_msg "Turned debugging on."
 		end
 
 		oparser.on( "--verbose", "-v", TrueClass, "Make progress verbose" ) do
 			$VERBOSE = true
-			debugMsg "Turned verbose on."
+			debug_msg "Turned verbose on."
 		end
 
 		# Handle the 'help' option

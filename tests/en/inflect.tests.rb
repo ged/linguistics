@@ -301,7 +301,7 @@ class EnglishInflectionTestCase < Linguistics::TestCase
 
 				methodCounter += 1
 			else
-				debugMsg "Skipped test data line '#{line.chomp}'"
+				debug_msg "Skipped test data line '#{line.chomp}'"
 			end
 		end
 	end
