@@ -40,6 +40,9 @@ module Linguistics
 	# Subversion ID
 	SVNid = %q$Id$
 
+	# Release version
+	VERSION = '1.0.6'
+
 	# Language module implementors should do something like:
 	#   Linguistics::DefaultLanguages.push( :ja ) # or whatever
 	# so that direct requiring of a language module sets the default.

@@ -18,19 +18,19 @@ module Linguistics
 
 	# Read through the source for this file, capturing everything
 	# between __END__ and __END_DATA__ tokens.
-	inDataSection = false
+	in_data_section = false
 	File::readlines( __FILE__ ).each {|line|
 		case line
 		when /^__END_DATA__$/
-			inDataSection = false
+			in_data_section = false
 			false
 			
 		when /^__END__$/
-			inDataSection = true
+			in_data_section = true
 			false
 			
 		else
-			if inDataSection
+			if in_data_section
 				codes, desc = line[0,15].split(%r{/|\s+}), line[15...-1]
 				codes.delete_if {|code| code.empty?}
 				entry = {
