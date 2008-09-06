@@ -79,7 +79,7 @@
 #
 # == Version
 #
-#  $Id: en.rb,v 1.8 2003/09/14 10:47:12 deveiant Exp $
+#  $Id$
 # 
 
 
@@ -103,7 +103,7 @@ module Linguistics::EN
 	SVNRev = %q$Rev$
 
 	# Subversion revision tag
-	SVNId = %q$Id: en.rb,v 1.8 2003/09/14 10:47:12 deveiant Exp $
+	SVNId = %q$Id$
 
 	# Add 'english' to the list of default languages
 	Linguistics::DefaultLanguages.push( :en )

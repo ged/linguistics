@@ -28,7 +28,7 @@
 #    
 #  # == Version
 #
-#  $Id: infinitive.rb,v 1.2 2003/09/14 10:35:32 deveiant Exp $
+#  $Id$
 # 
 
 module Linguistics::EN

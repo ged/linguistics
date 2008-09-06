@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for English inflection 
-# $Id: inflect.tests.rb,v 1.2 2003/09/11 05:04:04 deveiant Exp $
+# $Id$
 #
 # Copyright (c) 2003, 2005 The FaerieMUD Consortium.
 # 

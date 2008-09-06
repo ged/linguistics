@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for Linguistics::EN WordNet functions 
-# $Id: wordnet.tests.rb,v 1.1 2003/09/10 03:48:46 deveiant Exp $
+# $Id$
 #
 # Copyright (c) 2003 The FaerieMUD Consortium.
 # 

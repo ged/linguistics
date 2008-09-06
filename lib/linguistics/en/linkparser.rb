@@ -53,7 +53,7 @@
 # 
 #  # == Version
 #
-#  $Id: linkparser.rb,v 1.4 2003/09/14 11:15:33 deveiant Exp $
+#  $Id$
 # 
 
 require 'linguistics/en'
