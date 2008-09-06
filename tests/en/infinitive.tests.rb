@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for English infinitive (stem) forms. 
-# $Id: infinitive.tests.rb,v 1.1 2003/09/11 05:02:32 deveiant Exp $
+# $Id: infinitive.tests.rb,v 21e0fa69b1a3 2008/09/06 05:20:07 ged $
 #
 # Copyright (c) 2003 The FaerieMUD Consortium.
 # 

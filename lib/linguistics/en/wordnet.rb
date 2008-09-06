@@ -78,7 +78,7 @@
 # 
 # == Version
 #
-#  $Id: wordnet.rb,v 1.3 2003/09/14 11:28:02 deveiant Exp $
+#  $Id: wordnet.rb,v 21e0fa69b1a3 2008/09/06 05:20:07 ged $
 # 
 
 module Linguistics::EN
@@ -160,7 +160,7 @@ module Linguistics::EN
 		syn = nil
 
 		postries.each do |pos|
-			break if syn = lex.lookupSynsets( word.to_s, pos, sense )
+			break if syn = lex.lookup_synsets( word.to_s, pos, sense )
 		end
 
 		return syn
@@ -176,7 +176,7 @@ module Linguistics::EN
 		syns = []
 
 		postries.each {|pos|
-			syns << lex.lookupSynsets( word.to_s, pos )
+			syns << lex.lookup_synsets( word.to_s, pos )
 		}
 
 		return syns.flatten.compact
@@ -215,47 +215,47 @@ module Linguistics::EN
 	def_synset_function :antonyms
 
 	def_synset_function :hypernyms
-    def_synset_function :instanceHypernyms
+    def_synset_function :instance_hypernyms
 	def_synset_function :entailment
 	def_synset_function :hyponyms
-    def_synset_function :instanceHyponyms
+    def_synset_function :instance_hyponyms
 	def_synset_function :causes
 	def_synset_function :verbgroups
-	def_synset_function :similarTo
+	def_synset_function :similar_to
 	def_synset_function :participles
 	def_synset_function :pertainyms
 	def_synset_function :attributes
-	def_synset_function :derivedFrom
-	def_synset_function :seeAlso
+	def_synset_function :derived_from
+	def_synset_function :see_also
 	def_synset_function :functions
 
 	def_synset_function :meronyms
-	def_synset_function :memberMeronyms
-	def_synset_function :stuffMeronyms
-	def_synset_function :portionMeronyms
-	def_synset_function :componentMeronyms
-	def_synset_function :featureMeronyms
-	def_synset_function :phaseMeronyms
-	def_synset_function :placeMeronyms
+	def_synset_function :member_meronyms
+	def_synset_function :stuff_meronyms
+	def_synset_function :portion_meronyms
+	def_synset_function :component_meronyms
+	def_synset_function :feature_meronyms
+	def_synset_function :phase_meronyms
+	def_synset_function :place_meronyms
 
 	def_synset_function :holonyms
-	def_synset_function :memberHolonyms
-	def_synset_function :stuffHolonyms
-	def_synset_function :portionHolonyms
-	def_synset_function :componentHolonyms
-	def_synset_function :featureHolonyms
-	def_synset_function :phaseHolonyms
-	def_synset_function :placeHolonyms
+	def_synset_function :member_holonyms
+	def_synset_function :stuff_holonyms
+	def_synset_function :portion_holonyms
+	def_synset_function :component_holonyms
+	def_synset_function :feature_holonyms
+	def_synset_function :phase_holonyms
+	def_synset_function :place_holonyms
 
 	def_synset_function :domains
-	def_synset_function :categoryDomains
-	def_synset_function :regionDomains
-	def_synset_function :usageDomains
+	def_synset_function :category_domains
+	def_synset_function :region_domains
+	def_synset_function :usage_domains
 
 	def_synset_function :members
-	def_synset_function :categoryMembers
-	def_synset_function :regionMembers
-	def_synset_function :usageMembers
+	def_synset_function :category_members
+	def_synset_function :region_members
+	def_synset_function :usage_members
 
 
 end # module Linguistics::EN

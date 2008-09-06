@@ -9,18 +9,17 @@
 
 == Requirements
 
-* Ruby >= 1.8.4
+* Ruby >= 1.8.6
 
 
 == Optional
 
-* Ruby-WordNet (>= 0.02) - adds integration for the Ruby binding for the WordNet® lexical
-  reference system.
+* Ruby-WordNet (>= 0.0.5) - adds integration for the Ruby binding for the
+  WordNet® lexical refrence system.
 
   URL: http://deveiate.org/projects/Ruby-WordNet
-  Download: http://deveiate.org/code/Ruby-WordNet-0.02.tar.gz
 
-* LinkParser (>= 0.0.4) - adds integration for the Ruby Link Grammar Parser by
+* LinkParser (>= 1.0.2) - adds integration for the Ruby Link Grammar Parser by
   Martin Chase.
 
   URL: http://dev.faeriemud.org/~stillflame/linkparse.html
@@ -29,7 +28,7 @@
 
 == General Information
 
-This module is a framework for building linguistic utilities for Ruby objects
+Linguistics is a framework for building linguistic utilities for Ruby objects
 in any language. It includes a generic language-independant front end, a
 module for mapping language codes into language names, and a module which
 contains various English-language utilities.
@@ -164,6 +163,6 @@ WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
 MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 
- $Id: README,v 1.6 2003/10/09 13:21:48 deveiant Exp $
+ $Id$
 
 
