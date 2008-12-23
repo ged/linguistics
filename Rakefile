@@ -21,9 +21,10 @@ BEGIN {
 	$LOAD_PATH.unshift( extdir.to_s ) unless $LOAD_PATH.include?( extdir.to_s )
 }
 
+require 'rubygems'
+gem 'rake', '>= 0.8.3'
 
 require 'rbconfig'
-require 'rubygems'
 require 'rake'
 require 'rake/rdoctask'
 require 'rake/testtask'
@@ -39,14 +40,25 @@ LIBDIR        = BASEDIR + 'lib'
 EXTDIR        = BASEDIR + 'ext'
 DOCSDIR       = BASEDIR + 'docs'
 PKGDIR        = BASEDIR + 'pkg'
+DATADIR       = BASEDIR + 'data'
 
 PROJECT_NAME  = 'Linguistics'
 PKG_NAME      = PROJECT_NAME.downcase
 PKG_SUMMARY   = 'a framework for building linguistic utilities for Ruby objects'
+
 VERSION_FILE  = LIBDIR + 'linguistics.rb'
-PKG_VERSION   = VERSION_FILE.read[ /VERSION = '(\d+\.\d+\.\d+)'/, 1 ]
+if VERSION_FILE.exist? && buildrev = ENV['CC_BUILD_LABEL']
+	PKG_VERSION = VERSION_FILE.read[ /VERSION\s*=\s*['"](\d+\.\d+\.\d+)['"]/, 1 ] + '.' + buildrev
+elsif VERSION_FILE.exist?
+	PKG_VERSION = VERSION_FILE.read[ /VERSION\s*=\s*['"](\d+\.\d+\.\d+)['"]/, 1 ]
+else
+	PKG_VERSION = '0.0.0'
+end
+
 PKG_FILE_NAME = "#{PKG_NAME.downcase}-#{PKG_VERSION}"
 GEM_FILE_NAME = "#{PKG_FILE_NAME}.gem"
+
+EXTCONF       = EXTDIR + 'extconf.rb'
 
 ARTIFACTS_DIR = Pathname.new( ENV['CC_BUILD_ARTIFACTS'] || 'artifacts' )
 
@@ -54,6 +66,7 @@ TEXT_FILES    = %w( Rakefile ChangeLog README LICENSE ).collect {|filename| BASE
 BIN_FILES     = Pathname.glob( BINDIR + '*' ).delete_if {|item| item =~ /\.svn/ }
 LIB_FILES     = Pathname.glob( LIBDIR + '**/*.rb' ).delete_if {|item| item =~ /\.svn/ }
 EXT_FILES     = Pathname.glob( EXTDIR + '**/*.{c,h,rb}' ).delete_if {|item| item =~ /\.svn/ }
+DATA_FILES    = Pathname.glob( DATADIR + '**/*' ).delete_if {|item| item =~ /\.svn/ }
 
 SPECDIR       = BASEDIR + 'spec'
 SPECLIBDIR    = SPECDIR + 'lib'
@@ -78,6 +91,7 @@ RELEASE_FILES = TEXT_FILES +
 	BIN_FILES +
 	LIB_FILES + 
 	EXT_FILES + 
+	DATA_FILES + 
 	RAKE_TASKLIBS +
 	EXTRA_PKGFILES
 
@@ -121,7 +135,8 @@ RDOC_OPTIONS = [
 	'-SHN',
 	'-i', '.',
 	'-m', 'README',
-	'-W', 'http://deveiate.org/projects/Linguistics//browser/trunk/'
+	'-t', PKG_NAME,
+	'-W', 'http://deveiate.org/projects/Linguistics/browser/trunk/'
   ]
 
 # Release constants
@@ -129,8 +144,8 @@ SMTP_HOST = 'mail.faeriemud.org'
 SMTP_PORT = 465 # SMTP + SSL
 
 # Project constants
-PROJECT_HOST = 'deveiate.org'
-PROJECT_PUBDIR = "/usr/local/www/public/code"
+PROJECT_HOST = 'deveiate'
+PROJECT_PUBDIR = '/usr/local/www/public/code'
 PROJECT_DOCDIR = "#{PROJECT_PUBDIR}/#{PKG_NAME}"
 PROJECT_SCPPUBURL = "#{PROJECT_HOST}:#{PROJECT_PUBDIR}"
 PROJECT_SCPDOCURL = "#{PROJECT_HOST}:#{PROJECT_DOCDIR}"
@@ -157,8 +172,8 @@ DEVELOPMENT_DEPENDENCIES = {
 	'tmail'       => '>= 1.2.3.1',
 	'ultraviolet' => '>= 0.10.2',
 	'libxml-ruby' => '>= 0.8.3',
-	'wordnet' => '>=1.0.5',
-	'linkparser' => '>=1.0.2',
+	'wordnet' => '>=0.0.5',
+	'linkparser' => '>=1.0.3',
 }
 
 # Non-gem requirements: packagename => version
@@ -171,11 +186,11 @@ GEMSPEC   = Gem::Specification.new do |gem|
 	gem.version           = PKG_VERSION
 
 	gem.summary           = PKG_SUMMARY
-	gem.description       = <<-EOD
-	in any language. It includes a generic language-independant front end, a
-	module for mapping language codes into language names, and a module which
-	contains various English-language utilities.
-	EOD
+	gem.description       = [
+		"in any language. It includes a generic language-independant front end, a",
+		"module for mapping language codes into language names, and a module which",
+		"contains various English-language utilities.",
+  	  ].join( "\n" )
 
 	gem.authors           = 'Michael Granger'
 	gem.email             = 'ged@FaerieMUD.org'
@@ -184,9 +199,15 @@ GEMSPEC   = Gem::Specification.new do |gem|
 
 	gem.has_rdoc          = true
 	gem.rdoc_options      = RDOC_OPTIONS
+	gem.extra_rdoc_files  = %w[ChangeLog README LICENSE]
 
 	gem.bindir            = BINDIR.relative_path_from(BASEDIR).to_s
-	
+	gem.executables       = BIN_FILES.select {|pn| pn.executable? }.
+		collect {|pn| pn.relative_path_from(BINDIR).to_s }
+
+	if EXTCONF.exist?
+		gem.extensions << EXTCONF.relative_path_from( BASEDIR ).to_s
+	end
 
 	gem.files             = RELEASE_FILES.
 		collect {|f| f.relative_path_from(BASEDIR).to_s }
@@ -198,9 +219,12 @@ GEMSPEC   = Gem::Specification.new do |gem|
 		gem.add_runtime_dependency( name, version )
 	end
 	
-	DEVELOPMENT_DEPENDENCIES.each do |name, version|
-		version = '>= 0' if version.length.zero?
-		gem.add_development_dependency( name, version )
+	# Developmental dependencies don't work as of RubyGems 1.2.0
+	unless Gem::Version.new( Gem::RubyGemsVersion ) <= Gem::Version.new( "1.2.0" )
+		DEVELOPMENT_DEPENDENCIES.each do |name, version|
+			version = '>= 0' if version.length.zero?
+			gem.add_development_dependency( name, version )
+		end
 	end
 	
 	REQUIREMENTS.each do |name, version|
@@ -266,9 +290,9 @@ end
 
 ### Task: cruise (Cruisecontrol task)
 desc "Cruisecontrol build"
-task :cruise => [:clean, :spec, :package] do |task|
+task :cruise => [:clean, 'spec:quiet', :package] do |task|
 	raise "Artifacts dir not set." if ARTIFACTS_DIR.to_s.empty?
-	artifact_dir = ARTIFACTS_DIR.cleanpath
+	artifact_dir = ARTIFACTS_DIR.cleanpath + ENV['CC_BUILD_LABEL']
 	artifact_dir.mkpath
 	
 	coverage = BASEDIR + 'coverage'
