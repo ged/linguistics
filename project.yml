@@ -1,23 +1,26 @@
 --- 
-rubyforge_project: linguistics
+project_pubdir: /usr/local/www/public/code
+project_pubhost: deveiate
+project_homepage: http://deveiate.org/projects/Linguistics/
+rubyforge_group: deveiate
 project_requirements: {}
 
+author_name: Michael Granger
 project_description: |-
   in any language. It includes a generic language-independant front end, a
   module for mapping language codes into language names, and a module which
   contains various English-language utilities.
-rubyforge_group: deveiate
-author_name: Michael Granger
-project_homepage: http://deveiate.org/projects/Linguistics/
 project_dependencies: {}
 
 project_summary: a framework for building linguistic utilities for Ruby objects
-project_name: Linguistics
 version_file: linguistics.rb
 additional_pkgfiles: 
 - examples/*.rb
 - README.english
 dev_dependencies: 
-  wordnet: ">=1.0.5"
-  linkparser: ">=1.0.2"
+  wordnet: ">=0.0.5"
+  linkparser: ">=1.0.3"
 author_email: ged@FaerieMUD.org
+post_install_message: ""
+project_name: Linguistics
+rubyforge_project: linguistics

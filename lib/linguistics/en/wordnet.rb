@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
-# 
+
+require 'linguistics/en'
+
 # This file contains functions for finding relations for English words. It
 # requires the Ruby-WordNet module to be installed; if it is not installed,
 # calling the functions defined by this file will raise NotImplemented
@@ -69,21 +71,16 @@
 # * Michael Granger <ged@FaerieMUD.org>
 # 
 # == Copyright
-#
-# Copyright (c) 2003 The FaerieMUD Consortium. All rights reserved.
 # 
-# This module is free software. You may use, modify, and/or redistribute this
-# software under the terms of the Perl Artistic License. (See
-# http://language.perl.com/misc/Artistic.html)
+# :include: LICENSE
 # 
 # == Version
 #
 #  $Id$
 # 
-
 module Linguistics::EN
 
-	@has_wordnet		= false
+	@has_wordnet	= false
 	@wn_error		= nil
 	@wn_lexicon		= nil
 
