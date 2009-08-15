@@ -19,11 +19,9 @@
 
   URL: http://deveiate.org/projects/Ruby-WordNet
 
-* LinkParser (>= 1.0.2) - adds integration for the Ruby Link Grammar Parser by
-  Martin Chase.
+* LinkParser (>= 1.0.5)
 
-  URL: http://dev.faeriemud.org/~stillflame/linkparse.html
-  Download: http://www.faeriemud.org/code/Ruby-LinkParser-0.0.4.tgz
+  URL: http://deveiate.org/projects/Ruby-LinkParser
 
 
 == General Information
