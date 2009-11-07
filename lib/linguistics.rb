@@ -41,7 +41,7 @@ module Linguistics
 	SVNid = %q$Id$
 
 	# Release version
-	VERSION = '1.0.6'
+	VERSION = '1.0.7'
 
 	# Language module implementors should do something like:
 	#   Linguistics::DefaultLanguages.push( :ja ) # or whatever
