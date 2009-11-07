@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for additions donated by Francis Hwang, author of Lafcadio
-# $Id: lafcadio.tests.rb,v 221d313ccdd5 2007/06/13 05:25:38 ged $
+# $Id: lafcadio.tests.rb 99 2008-09-06 05:20:07Z deveiant $
 #
 # Converted from ts_english.rb.
 # 

@@ -1,34 +1,54 @@
 #!/usr/bin/ruby
-#
-# linguistics/iso639.rb - A hash of International 2- and 3-letter 
-# ISO639-1 and ISO639-2 language codes. Each entry has two keys:
+# coding: utf-8
+
+
+# A hash of International 2- and 3-letter ISO639-1 and ISO639-2 language 
+# codes. Each entry has two keys:
 #
 # [<tt>:codes</tt>]
 #   All of the codes known for this language
 # [<tt>:desc</tt>]
 #   The English-language description of the language.
 #
-
-### A language-independent framework for adding linguistics functions to Ruby
-### classes.
+# == Version
+#
+#  $Id: en.rb 99 2008-09-06 05:20:07Z deveiant $
+# 
+# == Authors
+# 
+# * Michael Granger <ged@FaerieMUD.org>
+# 
+# :include: LICENSE
+#
+#--
+#
+# Please see the file LICENSE in the base directory for licensing details.
+#
 module Linguistics
 
 	# Hash of ISO639 2- and 3-letter language codes
-	LanguageCodes = {}
+	LANGUAGE_CODES = {}
 
 	# Read through the source for this file, capturing everything
 	# between __END__ and __END_DATA__ tokens.
 	in_data_section = false
-	File::readlines( __FILE__ ).each {|line|
+	linereader = if defined? Encoding
+		IO.foreach( __FILE__, :encoding => 'utf-8' )
+	else
+		IO.foreach( __FILE__ )
+	end
+
+	linereader.each do |line|
+		next if line.nil?
 		case line
 		when /^__END_DATA__$/
 			in_data_section = false
 			false
-			
+
 		when /^__END__$/
 			in_data_section = true
 			false
-			
+
 		else
 			if in_data_section
 				codes, desc = line[0,15].split(%r{/|\s+}), line[15...-1]
@@ -39,13 +59,13 @@ module Linguistics
 				}
 				codes.each {|code|
 					raise "Duplicate language code #{code}:"\
-						"(#{LanguageCodes[code][:desc]}})}" \
-						if LanguageCodes.key?( code )
-					LanguageCodes[ code.strip ] = entry
+						"(#{LANGUAGE_CODES[code][:desc]}})}" \
+						if LANGUAGE_CODES.key?( code )
+					LANGUAGE_CODES[ code.strip ] = entry
 				}
 			end
 		end
-	}
+	end
 end
 
 __END__
@@ -434,7 +454,7 @@ uzb      uz    Uzbek
 vai            Vai
 ven            Venda
 vie      vi    Vietnamese
-vol      vo    Volapük
+vol      vo    Volapï¿½k
 vot            Votic
 wak            Wakashan languages
 wal            Walamo

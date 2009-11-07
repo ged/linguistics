@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for Linguistics::EN#lprintf
-# $Id: lprintf.tests.rb,v 221d313ccdd5 2007/06/13 05:25:38 ged $
+# $Id: lprintf.tests.rb 99 2008-09-06 05:20:07Z deveiant $
 #
 # Copyright (c) 2006 The FaerieMUD Consortium.
 # 

@@ -1,55 +1,42 @@
 #!/usr/bin/ruby
+
 # 
-# linguistics.rb -- provides an interface for extending core Ruby classes with
-# linguistic methods.
+# An interface for extending core Ruby classes with linguistic methods.
 # 
 # == Synopsis
 # 
 #   require 'linguistics'
-#	Linguistics::use( :en )
-#	MyClass::extend( Linguistics )
+#	Linguistics.use( :en )
+#	MyClass.extend( Linguistics )
 #
+# == Version
+#
+#  $Id: linguistics.rb 99 2008-09-06 05:20:07Z deveiant $
+# 
 # == Authors
 # 
 # * Michael Granger <ged@FaerieMUD.org>
 # 
-# == Copyright
+# :include: LICENSE
 #
-# Copyright (c) 2003-2005 The FaerieMUD Consortium. All rights reserved.
-# 
-# This module is free software. You may use, modify, and/or redistribute this
-# software under the terms of the Perl Artistic License. (See
-# http://language.perl.com/misc/Artistic.html)
-# 
-# == Version
+#--
 #
-#  $Id: linguistics.rb,v 31309a47cd51 2008/01/30 07:01:39 ged $
-# 
+# Please see the file LICENSE in the base directory for licensing details.
+#
+module Linguistics
 
-require 'linguistics/iso639'
-
-### A language-independent framework for adding linguistics functions to Ruby
-### classes.
-module Linguistics 
-
-	### Class constants
-
-	# Subversion revision
-	SVNRev = %q$Rev$
-
-	# Subversion ID
-	SVNid = %q$Id: linguistics.rb,v 31309a47cd51 2008/01/30 07:01:39 ged $
+	require 'linguistics/iso639'
 
 	# Release version
-	VERSION = '1.0.6'
+	VERSION = '1.9.0'
 
 	# Language module implementors should do something like:
-	#   Linguistics::DefaultLanguages.push( :ja ) # or whatever
+	#   Linguistics::DEFAULT_LANGUAGES.push( :ja ) # or whatever
 	# so that direct requiring of a language module sets the default.
-	DefaultLanguages = []
+	DEFAULT_LANGUAGES = []
 
 	# The list of Classes to add linguistic behaviours to.
-	DefaultExtClasses = [String, Numeric, Array]
+	DEFAULT_EXT_CLASSES = [ String, Numeric, Array ]
 
 
 	#################################################################
@@ -58,7 +45,7 @@ module Linguistics
 
 	### A class which is inherited from by proxies for classes being extended
 	### with one or more linguistic interfaces. It provides on-the-fly creation
-	### of linguistic methods when the <tt>:installProxy</tt> option is passed
+	### of linguistic methods when the <tt>:proxy</tt> option is passed
 	### to the call to Linguistics#use.
 	class LanguageProxyClass
 
@@ -115,6 +102,41 @@ module Linguistics
 	end
 
 
+	### Try to load the module that implements the given language, returning
+	### the Module object if successful.
+	def self::load_language( lang )
+		raise "Unknown language code '#{lang}'" unless
+			LANGUAGE_CODES.key?( lang )
+
+		# Sort all the codes for the specified language, trying the 2-letter
+		# versions first in alphabetical order, then the 3-letter ones
+		msgs = []
+		mod = LANGUAGE_CODES[ lang ][:codes].sort {|a,b|
+			(a.length <=> b.length).nonzero? ||
+			(a <=> b)
+		}.each do |code|
+			unless Linguistics::const_defined?( code.upcase )
+				begin
+					require "linguistics/#{code}"
+				rescue LoadError => err
+					msgs << "Tried 'linguistics/#{code}': #{err.message}\n"
+					next
+				end
+			end
+
+			break Linguistics::const_get( code.upcase ) if
+				Linguistics::const_defined?( code.upcase )
+		end
+
+		if mod.is_a?( Array )
+			raise LoadError,
+				"Failed to load language extension %s:\n%s" %
+				[ lang, msgs.join ]
+		end
+		return mod
+	end
+
+
 	### Extend the specified target object with one or more language proxy
 	### methods, each of which provides access to one or more linguistic methods
 	### for that language.
@@ -144,15 +166,15 @@ module Linguistics
 	### using the given language module.
 	def self::make_language_proxy( mod )
 		# $stderr.puts "Making language proxy for mod %p" % [mod]
-		Class::new( LanguageProxyClass ) {
+		Class.new( LanguageProxyClass ) {
 			@langmod = mod
 		}
 	end
 
 
 	### Install the language proxy
-	def self::install_language_proxy( klass, languages=DefaultLanguages )
-		languages.replace( DefaultLanguages ) if languages.empty?
+	def self::install_language_proxy( klass, languages=DEFAULT_LANGUAGES )
+		languages.replace( DEFAULT_LANGUAGES ) if languages.empty?
 
 		# Create an languageProxy class for each language specified
 		languages.each do |lang|
@@ -262,48 +284,48 @@ module Linguistics
 	###
 	### [<b>:classes</b>]
 	###   Specify the classes which are to be extended. If this is not specified,
-	###   the Class objects in Linguistics::DefaultExtClasses (an Array) are
+	###   the Class objects in Linguistics::DEFAULT_EXT_CLASSES (an Array) are
 	###   extended.
-	### [<b>:installProxy</b>]
+	### [<b>:proxy</b>]
 	###   Install a proxy method in each of the classes which are to be extended
 	###   which will search for missing methods in the languageProxy for the
 	###   language code specified as the value. This allows linguistics methods
 	###   to be called directly on extended objects directly (e.g.,
 	###   12.en.ordinal becomes 12.ordinal). Obviously, methods which would
 	###   collide with the object's builtin methods will need to be invoked
-	###   through the languageProxy. Any existing proxy methods in the extended
+	###   through the language proxy. Any existing proxy methods in the extended
 	###   classes will be preserved.
 	def use( *languages )
 		config = {}
 		config = languages.pop if languages.last.is_a?( Hash )
 
-		classes = config.key?( :classes ) ? config[:classes] : DefaultExtClasses
+		classes = config.key?( :classes ) ? config[:classes] : DEFAULT_EXT_CLASSES
 		classes = [ classes ] unless classes.is_a?( Array )
 
 		# Install the languageProxy in each class.
-		classes.each {|klass|
+		classes.each do |klass|
 
 			# Create an languageProxy class for each installed language
 			install_language_proxy( klass, languages )
 
 			# Install the delegator proxy if configured
-			if config[:installProxy]
-				case config[:installProxy]
+			config[:proxy] ||= config[:installProxy]
+			if config[:proxy]
+				case config[:proxy]
 				when Symbol
-					langcode = config[:installProxy]
+					langcode = config[:proxy]
 				when String
-					langcode = config[:installProxy].intern
+					langcode = config[:proxy].intern
 				when TrueClass
-					langcode = languages[0] || DefaultLanguages[0] || :en
+					langcode = languages[0] || DEFAULT_LANGUAGES[0] || :en
 				else
-					raise ArgumentError,
-						"Unexpected value %p for :installProxy" %
-						config[:installProxy]
+					raise ArgumentError, "Unexpected value %p for :proxy" %
+						config[:proxy]
 				end
 
 				install_delegator_proxy( klass, langcode )
 			end
-		}
+		end
 	end
 
 
@@ -325,7 +347,7 @@ module Linguistics
 	end
 	alias_method :NUM, :num
 
-	
+
 	### Set the 'classical pluralizations' flag to +val+. Setting is local to
 	### calling thread.
 	def classical=( val )
@@ -338,44 +360,15 @@ module Linguistics
 		Thread.current[:classical_plurals] ? true : false
 	end
 
-
-	#######
-	private
-	#######
-
-	### Try to load the module that implements the given language, returning
-	### the Module object if successful.
-	def self::load_language( lang )
-		raise "Unknown language code '#{lang}'" unless
-			LanguageCodes.key?( lang )
-
-		# Sort all the codes for the specified language, trying the 2-letter
-		# versions first in alphabetical order, then the 3-letter ones
-		msgs = []
-		mod = LanguageCodes[ lang ][:codes].sort {|a,b|
-			(a.length <=> b.length).nonzero? ||
-			(a <=> b)
-		}.each do |code|
-			unless Linguistics::const_defined?( code.upcase )
-				begin
-					require "linguistics/#{code}"
-				rescue LoadError => err
-					msgs << "Tried 'linguistics/#{code}': #{err.message}\n"
-					next
-				end
-			end
-
-			break Linguistics::const_get( code.upcase ) if
-				Linguistics::const_defined?( code.upcase )
-		end
-
-		if mod.is_a?( Array )
-			raise LoadError,
-				"Failed to load language extension %s:\n%s" %
-				[ lang, msgs.join ]
-		end
-		return mod
+	### Execute the given block in 'classical' mode (i.e., use classical inflections), restoring
+	### the current thread to its previous setting when the block exits.
+	def in_classical_mode
+		previous_mode = Linguistics.classical?
+		Linguistics.classical = true
+		yield
+	ensure
+		Linguistics.classical = previous_mode
 	end
 
-end # class linguistics
+end # class Linguistics
 

@@ -76,7 +76,7 @@ require 'linguistics/en'
 # 
 # == Version
 #
-#  $Id: wordnet.rb,v 10f0010d38f7 2008/12/23 15:39:59 ged $
+#  $Id: wordnet.rb 100 2008-12-23 15:39:59Z deveiant $
 # 
 module Linguistics::EN
 

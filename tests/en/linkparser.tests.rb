@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for English link grammar
-# $Id: linkparser.tests.rb,v 21e0fa69b1a3 2008/09/06 05:20:07 ged $
+# $Id: linkparser.tests.rb 99 2008-09-06 05:20:07Z deveiant $
 #
 # Copyright (c) 2003-2005 The FaerieMUD Consortium.
 #

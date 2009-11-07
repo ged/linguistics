@@ -1,42 +1,37 @@
 #!/usr/bin/ruby
+
+require 'linguistics'
+require 'linguistics/en'
+
 # 
 # This file contains functions for deriving the infinitive forms of conjugated
 # English words. Requiring this file adds functions and constants to the
 # Linguistics::EN module.
 # 
+# == Version
+#
+#  $Id: infinitive.rb 99 2008-09-06 05:20:07Z deveiant $
+# 
 # == Authors
 # 
 # * Michael Granger <ged@FaerieMUD.org>
-# 
-# == Copyright
-#
-# Copyright (c) 2003-2005 The FaerieMUD Consortium. All rights reserved.
-# 
-# This module is free software. You may use, modify, and/or redistribute this
-# software under the terms of the Perl Artistic License. (See
-# http://language.perl.com/misc/Artistic.html)
-# 
-# This code was ported from the excellent 'Lingua::EN::Infinitive' Perl module
-# by Ron Savage, which is distributed under the following license:
-#
-#    Australian copyright (c) 1999-2002 Ron Savage.
 #    
-#    	All Programs of mine are 'OSI Certified Open Source Software';
-#    	you can redistribute them and/or modify them under the terms of
-#    	The Artistic License, a copy of which is available at:
-#    	http://www.opensource.org/licenses/index.html
-#    
-#  # == Version
-#
-#  $Id: infinitive.rb,v 21e0fa69b1a3 2008/09/06 05:20:07 ged $
+# :include: LICENSE
 # 
+#---
+#
+# Please see the file LICENSE in the base directory for licensing details for the 
+# Ruby port.
+#
+module Linguistics::EN::Infinitives
 
-module Linguistics::EN
+	# Register this module to the list of modules to include
+	Linguistics::EN.register_extension( self )
 
 	# :stopdoc:
 
 	# Irregular words => infinitive forms
-	IrregularInfinitives = {
+	IRREGULAR_INFINITIVES = {
 		'abided'			=> 'abide',
 		'abode'				=> 'abide',
 		'am'				=> 'be',
@@ -547,7 +542,7 @@ module Linguistics::EN
 	}
 
 	# Mapping of word suffixes to infinitive rules.
-	InfSuffixRules = {
+	INF_SUFFIX_RULES = {
 		# '<suffix>' => {
 		#	:order => <sort order>,
 		#	:rule  => <rule number>,
@@ -1012,7 +1007,7 @@ module Linguistics::EN
 			:suffix2	=> '',
 		},
 	}
-	InfSuffixRuleOrder = InfSuffixRules.keys.sort_by {|rule| InfSuffixRules[rule][:order]}
+	INF_SUFFIX_RULE_ORDER = INF_SUFFIX_RULES.keys.sort_by {|rule| INF_SUFFIX_RULES[rule][:order]}
 
 	# :startdoc:
 
@@ -1041,6 +1036,12 @@ module Linguistics::EN
 
 		# The rule used
 		attr_reader :rule
+
+		### Equality operator: returns +true+ if +other+ is == to either of the receiver's words.
+		def ==( other )
+			return super(other) || @word2 == other
+		end
+
 	end
 
 
@@ -1053,8 +1054,8 @@ module Linguistics::EN
 		word = word.to_s
 		word1 = word2 = suffix = rule = newword = ''
 
-		if IrregularInfinitives.key?( word )
-			word1	= IrregularInfinitives[ word ]
+		if IRREGULAR_INFINITIVES.key?( word )
+			word1	= IRREGULAR_INFINITIVES[ word ]
 			rule	= 'irregular'
 		else
 			# Build up $prefix{$suffix} as an array of prefixes, from longest to shortest.
@@ -1076,9 +1077,9 @@ module Linguistics::EN
 
 			# Now check for rules covering the prefixes for this word, picking
 			# the first one if one was found.
-			if (( suffix = ((InfSuffixRuleOrder & prefixes.keys).first) ))
-				rule = InfSuffixRules[ suffix ][:rule]
-				shortestPrefix = InfSuffixRules[ suffix ][:word1]
+			if (( suffix = ((INF_SUFFIX_RULE_ORDER & prefixes.keys).first) ))
+				rule = INF_SUFFIX_RULES[ suffix ][:rule]
+				shortestPrefix = INF_SUFFIX_RULES[ suffix ][:word1]
 				$stderr.puts "Using rule %p (%p) for suffix %p" % 
 					[ rule, shortestPrefix, suffix ] if $DEBUG
 
@@ -1091,23 +1092,23 @@ module Linguistics::EN
 
 				when -1
 					word1 = prefixes[ suffix ].last +
-						InfSuffixRules[ suffix ][:suffix1]
+						INF_SUFFIX_RULES[ suffix ][:suffix1]
 					word2 = ''
 					$stderr.puts "For sp = -1: word1: %p, word2: %p" %
 						[ word1, word2 ] if $DEBUG
 
 				when -2
 					word1 = prefixes[ suffix ].last +
-						InfSuffixRules[ suffix ][:suffix1]
+						INF_SUFFIX_RULES[ suffix ][:suffix1]
 					word2 = prefixes[ suffix ].last
 					$stderr.puts "For sp = -2: word1: %p, word2: %p" %
 						[ word1, word2 ] if $DEBUG
 
 				when -3
 					word1 = prefixes[ suffix ].last +
-						InfSuffixRules[ suffix ][:suffix1]
+						INF_SUFFIX_RULES[ suffix ][:suffix1]
 					word2 = prefixes[ suffix ].last +
-						InfSuffixRules[ suffix ][:suffix2]
+						INF_SUFFIX_RULES[ suffix ][:suffix2]
 					$stderr.puts "For sp = -3: word1: %p, word2: %p" %
 						[ word1, word2 ] if $DEBUG
 
@@ -1132,7 +1133,7 @@ module Linguistics::EN
 					# Eg: tipped => tipp?
 					# Then return tip and tipp.
 					# Eg: swimming => swimm?
-					# Then return tipswim and swimm.
+					# Then return swim and swimm.
 
 					if /^([^aeiou]*[aeiou]+)([^wx])\2$/ =~ word2
 						word1 = $1 + $2
@@ -1142,7 +1143,7 @@ module Linguistics::EN
 			end
 		end
 
-		return Infinitive::new( word1, word2, suffix, rule )
+		return Infinitive.new( word1, word2, suffix, rule )
 	end
 
 end # module EN::Linguistics

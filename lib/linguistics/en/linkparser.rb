@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
-# 
+
+require 'linguistics/en'
+
 # This file contains the extensions to the Linguistics::EN module which provide
 # support for the Ruby LinkParser module. LinkParser enables grammatic queries
 # of English language sentences.
@@ -38,26 +40,21 @@
 #   has been domesticated by man since prehistoric times; occurs in many breeds;
 #   \"the dog barked all night\""
 # 
+# == Version
+#
+#  $Id: linkparser.rb 99 2008-09-06 05:20:07Z deveiant $
+# 
 # == Authors
 # 
 # * Martin Chase <stillflame@FaerieMUD.org>
 # * Michael Granger <ged@FaerieMUD.org>
 # 
-# == Copyright
+# :include: LICENSE
 #
-# Copyright (c) 2003 The FaerieMUD Consortium. All rights reserved.
-# 
-# This module is free software. You may use, modify, and/or redistribute this
-# software under the terms of the Perl Artistic License. (See
-# http://language.perl.com/misc/Artistic.html)
-# 
-#  # == Version
+#--
 #
-#  $Id: linkparser.rb,v 21e0fa69b1a3 2008/09/06 05:20:07 ged $
-# 
-
-require 'linguistics/en'
-
+# Please see the file LICENSE in the base directory for licensing details.
+#
 module Linguistics::EN
 
 	@has_link_parser	= false
