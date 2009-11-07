@@ -1,22 +1,13 @@
 #!/usr/bin/ruby
+
+require 'pathname'
+require 'linguistics'
+
+# This module is a container for various English-language linguistic
+# functions for the Linguistics library. It can be either loaded
+# directly, or by passing some variant of 'en' or 'eng' to the
+# Linguistics.use method.
 # 
-# = Linguistics::EN
-#
-# This module contains English-language linguistic functions for the Linguistics
-# module. It can be either loaded directly, or by passing some variant of 'en'
-# or 'eng' to the Linguistics::use method.
-#
-# The functions contained by the module provide:
-#
-# == Plural Inflections
-# 
-# Plural forms of all nouns, most verbs, and some adjectives are provided. Where
-# appropriate, "classical" variants (for example: "brother" -> "brethren",
-# "dogma" -> "dogmata", etc.) are also provided.
-#
-# These can be accessed via the #plural, #plural_noun, #plural_verb, and
-# #plural_adjective methods.
-#
 # == Indefinite Articles
 #
 # Pronunciation-based "a"/"an" selection is provided for all English words, and
@@ -52,86 +43,78 @@
 #  "dodging".en.infinitive
 #    ==> "dodge"
 #
+# == Version
 #
+#  $Id: en.rb 99 2008-09-06 05:20:07Z deveiant $
+# 
 # == Authors
 # 
 # * Michael Granger <ged@FaerieMUD.org>
 # 
-# == Copyright
+# :include: LICENSE
 #
-# This module is copyright (c) 2003-2005 The FaerieMUD Consortium. All rights
-# reserved.
-# 
-# This module is free software. You may use, modify, and/or redistribute this
-# software under the terms of the Perl Artistic License. (See
-# http://language.perl.com/misc/Artistic.html)
-# 
-# The inflection functions of this module were adapted from Damien Conway's
-# Lingua::EN::Inflect Perl module:
+#--
 #
-#   Copyright (c) 1997-2000, Damian Conway. All Rights Reserved.
-#   This module is free software. It may be used, redistributed
-#     and/or modified under the same terms as Perl itself.
+# Please see the file LICENSE in the base directory for licensing details.
 #
-# The conjunctions code was adapted from the Lingua::Conjunction Perl module
-# written by Robert Rothenberg and Damian Conway, which has no copyright
-# statement included.
-#
-# == Version
-#
-#  $Id$
-# 
-
-
-### This module contains English-language linguistics functions accessible from
-### the Linguistics module, or as a standalone function library.
 module Linguistics::EN
 
-	begin
-		require 'crosscase'
-	rescue LoadError
-	else
-		include CrossCase
-	end
-
-	# Load in the secondary modules and add them to Linguistics::EN.
-	require 'linguistics/en/infinitive'
-	require 'linguistics/en/wordnet'
-	require 'linguistics/en/linkparser'
-
 	# Subversion revision
-	SVNRev = %q$Rev$
+	SVNRev = %q$Rev: 99 $
 
 	# Subversion revision tag
-	SVNId = %q$Id$
+	SVNId = %q$Id: en.rb 99 2008-09-06 05:20:07Z deveiant $
 
 	# Add 'english' to the list of default languages
-	Linguistics::DefaultLanguages.push( :en )
+	Linguistics::DEFAULT_LANGUAGES.push( :en )
+
+	# The list of loaded modules
+	MODULES = []
+
+	# A Hash of 'lprintf' formatters keyed by name
+	LPRINTF_FORMATTERS = {}
 
 
 	#################################################################
 	###	U T I L I T Y   F U N C T I O N S
 	#################################################################
 
-	### Wrap one or more parts in a non-capturing alteration Regexp
-	def self::matchgroup( *parts )
-		re = parts.flatten.join("|")
-		"(?:#{re})"
+	### Register an English-language extension.
+	def self::register_extension( mod )
+		MODULES.push( mod )
 	end
-	
-	
-	@lprintf_formatters = {}
-	class << self
-		attr_accessor :lprintf_formatters
+
+
+	### Debugging output
+	def self::debug_msg( *msgs ) # :nodoc:
+		$stderr.puts msgs.join(" ") if $DEBUG
 	end
-	
+
+
 	### Add the specified method (which can be either a Method object or a
 	### Symbol for looking up a method)
-	def self::def_lprintf_formatter( name, meth )
-		meth = self.method( meth ) unless meth.is_a?( Method )
-		self.lprintf_formatters[ name ] = meth
+	def self::register_lprintf_formatter( name, meth )
+		LPRINTF_FORMATTERS[ name ] = meth
 	end
-	
+
+
+	# Load in the secondary modules and add them to Linguistics::EN.
+	$LOAD_PATH.each do |prefix|
+		pat = Pathname( prefix ) + 'linguistics/en/**/*.rb'
+		Dir.glob( pat.to_s ).each do |extension|
+			debug_msg "  trying to load English extension %p" % [ extension ]
+			begin
+				require extension
+			rescue LoadError => err
+				debug_msg "    failed (%s): %s %s" %
+					[ err.class.name, err.message, err.backtrace.first ]
+			else
+				debug_msg "    success."
+			end
+		end
+	end
+
+	include( *MODULES )
 
 
 	#################################################################
@@ -139,379 +122,6 @@ module Linguistics::EN
 	#################################################################
 
 	# :stopdoc:
-
-	#
-	# Plurals
-	#
-
-	PL_sb_irregular_s = {
-		"ephemeris"	=> "ephemerides",
-		"iris"		=> "irises|irides",
-		"clitoris"	=> "clitorises|clitorides",
-		"corpus"	=> "corpuses|corpora",
-		"opus"		=> "opuses|opera",
-		"genus"		=> "genera",
-		"mythos"	=> "mythoi",
-		"penis"		=> "penises|penes",
-		"testis"	=> "testes",
-	}
-
-	PL_sb_irregular_h = {
-		"child"		=> "children",
-		"brother"	=> "brothers|brethren",
-		"loaf"		=> "loaves",
-		"hoof"		=> "hoofs|hooves",
-		"beef"		=> "beefs|beeves",
-		"money"		=> "monies",
-		"mongoose"	=> "mongooses",
-		"ox"		=> "oxen",
-		"cow"		=> "cows|kine",
-		"soliloquy"	=> "soliloquies",
-		"graffito"	=> "graffiti",
-		"prima donna"	=> "prima donnas|prime donne",
-		"octopus"	=> "octopuses|octopodes",
-		"genie"		=> "genies|genii",
-		"ganglion"	=> "ganglions|ganglia",
-		"trilby"	=> "trilbys",
-		"turf"		=> "turfs|turves",
-	}.update( PL_sb_irregular_s )
-	PL_sb_irregular = matchgroup PL_sb_irregular_h.keys
-
-
-	# Classical "..a" -> "..ata"
-	PL_sb_C_a_ata = matchgroup %w[
-		anathema bema carcinoma charisma diploma
-		dogma drama edema enema enigma lemma
-		lymphoma magma melisma miasma oedema
-		sarcoma schema soma stigma stoma trauma
-		gumma pragma
-	].collect {|word| word[0...-1]}
-
-	# Unconditional "..a" -> "..ae"
-	PL_sb_U_a_ae = matchgroup %w[
-		alumna alga vertebra persona
-	]
-
-	# Classical "..a" -> "..ae"
-	PL_sb_C_a_ae = matchgroup %w[
-		amoeba antenna formula hyperbola
-		medusa nebula parabola abscissa
-		hydra nova lacuna aurora .*umbra
-		flora fauna
-	]
-
-	# Classical "..en" -> "..ina"
-	PL_sb_C_en_ina = matchgroup %w[
-		stamen	foramen	lumen
-	].collect {|word| word[0...-2] }
-
-	# Unconditional "..um" -> "..a"
-	PL_sb_U_um_a = matchgroup %w[
-		bacterium	agendum	desideratum	erratum
-		stratum	datum	ovum		extremum
-		candelabrum
-	].collect {|word| word[0...-2] }
-
-	# Classical "..um" -> "..a"
-	PL_sb_C_um_a = matchgroup %w[
-		maximum	minimum	momentum	optimum
-		quantum	cranium	curriculum	dictum
-		phylum	aquarium	compendium	emporium
-		enconium	gymnasium	honorarium	interregnum
-		lustrum 	memorandum	millenium 	rostrum 
-		spectrum	speculum	stadium	trapezium
-		ultimatum	medium	vacuum	velum 
-		consortium
-	].collect {|word| word[0...-2]}
-
-	# Unconditional "..us" -> "i"
-	PL_sb_U_us_i = matchgroup %w[
-		alumnus	alveolus	bacillus	bronchus
-		locus	nucleus	stimulus	meniscus
-	].collect {|word| word[0...-2]}
-
-	# Classical "..us" -> "..i"
-	PL_sb_C_us_i = matchgroup %w[
-		focus	radius	genius
-		incubus	succubus	nimbus
-		fungus	nucleolus	stylus
-		torus	umbilicus	uterus
-		hippopotamus
-	].collect {|word| word[0...-2]}
-
-	# Classical "..us" -> "..us"  (assimilated 4th declension latin nouns)
-	PL_sb_C_us_us = matchgroup %w[
-		status apparatus prospectus sinus
-		hiatus impetus plexus
-	]
-
-	# Unconditional "..on" -> "a"
-	PL_sb_U_on_a = matchgroup %w[
-		criterion	perihelion	aphelion
-		phenomenon	prolegomenon	noumenon
-		organon	asyndeton	hyperbaton
-	].collect {|word| word[0...-2]}
-
-	# Classical "..on" -> "..a"
-	PL_sb_C_on_a = matchgroup %w[
-		oxymoron
-	].collect {|word| word[0...-2]}
-
-	# Classical "..o" -> "..i"  (but normally -> "..os")
-	PL_sb_C_o_i_a = %w[
-		solo		soprano	basso	alto
-		contralto	tempo	piano
-	]
-	PL_sb_C_o_i = matchgroup PL_sb_C_o_i_a.collect{|word| word[0...-1]}
-
-	# Always "..o" -> "..os"
-	PL_sb_U_o_os = matchgroup( %w[
-		albino	archipelago	armadillo
-		commando	crescendo	fiasco
-		ditto	dynamo	embryo
-		ghetto	guano	inferno
-		jumbo	lumbago	magneto
-		manifesto	medico	octavo
-		photo	pro		quarto	
-		canto	lingo	generalissimo
-		stylo	rhino
-	] | PL_sb_C_o_i_a )
-
-
-	# Unconditional "..[ei]x" -> "..ices"
-	PL_sb_U_ex_ices = matchgroup %w[
-		codex	murex	silex
-	].collect {|word| word[0...-2]}
-	PL_sb_U_ix_ices = matchgroup %w[
-		radix	helix
-	].collect {|word| word[0...-2]}
-
-	# Classical "..[ei]x" -> "..ices"
-	PL_sb_C_ex_ices = matchgroup %w[
-		vortex	vertex	cortex	latex
-		pontifex	apex		index	simplex
-	].collect {|word| word[0...-2]}
-	PL_sb_C_ix_ices = matchgroup %w[
-		appendix
-	].collect {|word| word[0...-2]}
-
-
-	# Arabic: ".." -> "..i"
-	PL_sb_C_i = matchgroup %w[
-		afrit	afreet	efreet
-	]
-
-
-	# Hebrew: ".." -> "..im"
-	PL_sb_C_im = matchgroup %w[
-		goy		seraph	cherub
-	]
-
-	# Unconditional "..man" -> "..mans"
-	PL_sb_U_man_mans = matchgroup %w[
-		human
-		Alabaman Bahaman Burman German
-		Hiroshiman Liman Nakayaman Oklahoman
-		Panaman Selman Sonaman Tacoman Yakiman
-		Yokohaman Yuman
-	]
-
-
-	PL_sb_uninflected_s = [
-		# Pairs or groups subsumed to a singular...
-		"breeches", "britches", "clippers", "gallows", "hijinks",
-		"headquarters", "pliers", "scissors", "testes", "herpes",
-		"pincers", "shears", "proceedings", "trousers",
-
-		# Unassimilated Latin 4th declension
-		"cantus", "coitus", "nexus",
-
-		# Recent imports...
-		"contretemps", "corps", "debris",
-		".*ois",
-
-		# Diseases
-		".*measles", "mumps",
-
-		# Miscellaneous others...
-		"diabetes", "jackanapes", "series", "species", "rabies",
-		"chassis", "innings", "news", "mews",
-	]
-
-
-	# Don't inflect in classical mode, otherwise normal inflection
-	PL_sb_uninflected_herd = matchgroup %w[
-		wildebeest swine eland bison buffalo
-		elk moose rhinoceros
-	]
-
-	PL_sb_uninflected = matchgroup [
-
-		# Some fish and herd animals
-		".*fish", "tuna", "salmon", "mackerel", "trout",
-		"bream", "sea[- ]bass", "carp", "cod", "flounder", "whiting", 
-
-		".*deer", ".*sheep", 
-
-		# All nationals ending in -ese
-		"Portuguese", "Amoyese", "Borghese", "Congoese", "Faroese",
-		"Foochowese", "Genevese", "Genoese", "Gilbertese", "Hottentotese",
-		"Kiplingese", "Kongoese", "Lucchese", "Maltese", "Nankingese",
-		"Niasese", "Pekingese", "Piedmontese", "Pistoiese", "Sarawakese",
-		"Shavese", "Vermontese", "Wenchowese", "Yengeese",
-		".*[nrlm]ese",
-
-		# Some words ending in ...s (often pairs taken as a whole)
-		PL_sb_uninflected_s,
-
-		# Diseases
-		".*pox",
-
-		# Other oddities
-		"graffiti", "djinn"
-	]
-
-
-	# Singular words ending in ...s (all inflect with ...es)
-	PL_sb_singular_s = matchgroup %w[
-		.*ss
-		acropolis aegis alias arthritis asbestos atlas
-		bathos bias bronchitis bursitis caddis cannabis
-		canvas chaos cosmos dais digitalis encephalitis
-		epidermis ethos eyas gas glottis hepatitis
-		hubris ibis lens mantis marquis metropolis
-		neuritis pathos pelvis polis rhinoceros
-		sassafras tonsillitis trellis .*us
-	]
-
-	PL_v_special_s = matchgroup [
-		PL_sb_singular_s,
-		PL_sb_uninflected_s,
-		PL_sb_irregular_s.keys,
-		'(.*[csx])is',
-		'(.*)ceps',
-		'[A-Z].*s',
-	]
-
-	PL_sb_postfix_adj = '(' + {
-
-		'general' => ['(?!major|lieutenant|brigadier|adjutant)\S+'],
-		'martial' => ["court"],
-
-	}.collect {|key,val|
-		matchgroup( matchgroup(val) + "(?=(?:-|\\s+)#{key})" )
-	}.join("|") + ")(.*)"
-
-
-	PL_sb_military = %r'major|lieutenant|brigadier|adjutant|quartermaster'
-	PL_sb_general = %r'((?!#{PL_sb_military.source}).*?)((-|\s+)general)'
-
-	PL_prep = matchgroup %w[
-		about above across after among around at athwart before behind
-		below beneath beside besides between betwixt beyond but by
-		during except for from in into near of off on onto out over
-		since till to under until unto upon with
-	]
-
-	PL_sb_prep_dual_compound = %r'(.*?)((?:-|\s+)(?:#{PL_prep}|d[eu])(?:-|\s+))a(?:-|\s+)(.*)'
-	PL_sb_prep_compound = %r'(.*?)((-|\s+)(#{PL_prep}|d[eu])((-|\s+)(.*))?)'
-
-
-	PL_pron_nom_h = {
-		#	Nominative		Reflexive
-		"i"		=> "we",	"myself"   =>	"ourselves",
-		"you"	=> "you",	"yourself" =>	"yourselves",
-		"she"	=> "they",	"herself"  =>	"themselves",
-		"he"	=> "they",	"himself"  =>	"themselves",
-		"it"	=> "they",	"itself"   =>	"themselves",
-		"they"	=> "they",	"themself" =>	"themselves",
-
-		#	Possessive
-		"mine"	 => "ours",
-		"yours"	 => "yours",
-		"hers"	 => "theirs",
-		"his"	 => "theirs",
-		"its"	 => "theirs",
-		"theirs" => "theirs",
-	}
-	PL_pron_nom = matchgroup PL_pron_nom_h.keys
-
-	PL_pron_acc_h = {
-		#	Accusative		Reflexive
-		"me"	=> "us",	"myself"   =>	"ourselves",
-		"you"	=> "you",	"yourself" =>	"yourselves",
-		"her"	=> "them",	"herself"  =>	"themselves",
-		"him"	=> "them",	"himself"  =>	"themselves",
-		"it"	=> "them",	"itself"   =>	"themselves",
-		"them"	=> "them",	"themself" =>	"themselves",
-	}
-	PL_pron_acc = matchgroup PL_pron_acc_h.keys
-
-	PL_v_irregular_pres_h = {
-		#	1St pers. sing.		2nd pers. sing.		3rd pers. singular
-		#				3rd pers. (indet.)	
-		"am"	=> "are",	"are"	=> "are",	"is"	 => "are",
-		"was"	=> "were",	"were"	=> "were",	"was"	 => "were",
-		"have"  => "have",	"have"  => "have",	"has"	 => "have",
-	}
-	PL_v_irregular_pres = matchgroup PL_v_irregular_pres_h.keys
-
-	PL_v_ambiguous_pres_h = {
-		#	1st pers. sing.		2nd pers. sing.		3rd pers. singular
-		#				3rd pers. (indet.)	
-		"act"	=> "act",	"act"	=> "act",	"acts"	  => "act",
-		"blame"	=> "blame",	"blame"	=> "blame",	"blames"  => "blame",
-		"can"	=> "can",	"can"	=> "can",	"can"	  => "can",
-		"must"	=> "must",	"must"	=> "must",	"must"	  => "must",
-		"fly"	=> "fly",	"fly"	=> "fly",	"flies"	  => "fly",
-		"copy"	=> "copy",	"copy"	=> "copy",	"copies"  => "copy",
-		"drink"	=> "drink",	"drink"	=> "drink",	"drinks"  => "drink",
-		"fight"	=> "fight",	"fight"	=> "fight",	"fights"  => "fight",
-		"fire"	=> "fire",	"fire"	=> "fire",	"fires"   => "fire",
-		"like"	=> "like",	"like"	=> "like",	"likes"   => "like",
-		"look"	=> "look",	"look"	=> "look",	"looks"   => "look",
-		"make"	=> "make",	"make"	=> "make",	"makes"   => "make",
-		"reach"	=> "reach",	"reach"	=> "reach",	"reaches" => "reach",
-		"run"	=> "run",	"run"	=> "run",	"runs"    => "run",
-		"sink"	=> "sink",	"sink"	=> "sink",	"sinks"   => "sink",
-		"sleep"	=> "sleep",	"sleep"	=> "sleep",	"sleeps"  => "sleep",
-		"view"	=> "view",	"view"	=> "view",	"views"   => "view",
-	}
-	PL_v_ambiguous_pres = matchgroup PL_v_ambiguous_pres_h.keys
-
-	PL_v_irregular_non_pres = matchgroup %w[
-		did had ate made put 
-		spent fought sank gave sought
-		shall could ought should
-	]
-
-	PL_v_ambiguous_non_pres = matchgroup %w[
-		thought saw bent will might cut
-	]
-
-	PL_count_zero = matchgroup %w[
-		0 no zero nil
-	]
-
-	PL_count_one = matchgroup %w[
-		1 a an one each every this that
-	]
-
-	PL_adj_special_h = {
-		"a"    => "some",	"an"   =>  "some",
-		"this" => "these",	"that" => "those",
-	}
-	PL_adj_special = matchgroup PL_adj_special_h.keys
-
-	PL_adj_poss_h = {
-		"my"    => "our",
-		"your"	=> "your",
-		"its"	=> "their",
-		"her"	=> "their",
-		"his"	=> "their",
-		"their"	=> "their",
-	}
-	PL_adj_poss = matchgroup PL_adj_poss_h.keys
 
 
 	#
@@ -609,7 +219,7 @@ module Linguistics::EN
 	A_y_cons = 'y(b[lor]|cl[ea]|fere|gg|p[ios]|rou|tt)'
 
 	# Exceptions to exceptions
-	A_explicit_an = matchgroup(	"euler", "hour(?!i)", "heir", "honest", "hono" )
+	A_explicit_an = Regexp.union( "euler", "hour(?!i)", "heir", "honest", "hono" )
 
 
 	#
@@ -660,7 +270,7 @@ module Linguistics::EN
 	# (in, of, to), and coordinating conjunctions (and, but). These rules apply
 	# to titles of long, short, and partial works as well as your own papers"
 	# (Anson, Schwegler, and Muth. The Longman Writer's Companion 240).
-	
+
 	# Build the list of exceptions to title-capitalization
 	Articles = %w[a and the]
 	ShortPrepositions = ["amid", "at", "but", "by", "down", "from", "in",
@@ -680,282 +290,6 @@ module Linguistics::EN
 	###############
 	module_function
 	###############
-
-	### Debugging output
-	def debug_msg( *msgs ) # :nodoc:
-		$stderr.puts msgs.join(" ") if $DEBUG
-	end
-
-
-	### Normalize a count to either 1 or 2 (singular or plural)
-	def normalize_count( count, default=2 )
-		return default if count.nil? # Default to plural
-		if /^(#{PL_count_one})$/i =~ count.to_s ||
-				Linguistics::classical? &&
-				/^(#{PL_count_zero})$/ =~ count.to_s
-			return 1
-		else
-			return default
-		end
-	end
-
-
-	### Do normal/classical switching and match capitalization in <tt>inflected</tt> by
-	### examining the <tt>original</tt> input.
-	def postprocess( original, inflected )
-		inflected.sub!( /([^|]+)\|(.+)/ ) {
-			Linguistics::classical? ? $2 : $1
-		}
-
-		case original
-		when "I"
-			return inflected
-		when /^[A-Z]+$/
-			return inflected.upcase
-		when /^[A-Z]/
-			# Can't use #capitalize, as it will downcase the rest of the string,
-			# too.
-			inflected[0,1] = inflected[0,1].upcase
-			return inflected
-		else
-			return inflected
-		end
-	end
-
-
-	### Pluralize nouns
-	def pluralize_noun( word, count=nil )
-		value = nil
-		count ||= Linguistics::num
-		count = normalize_count( count )
-
-		return word if count == 1
-
-		# Handle user-defined nouns
-		#if value = ud_match( word, PL_sb_user_defined )
-		#	return value
-		#end
-
-		# Handle empty word, singular count and uninflected plurals
-		case word
-		when ''
-			return word
-		when /^(#{PL_sb_uninflected})$/i
-			return word
-		else
-			if Linguistics::classical? &&
-			   /^(#{PL_sb_uninflected_herd})$/i =~ word
-				return word
-			end
-		end
-
-		# Handle compounds ("Governor General", "mother-in-law", "aide-de-camp", etc.)
-		case word
-		when /^(?:#{PL_sb_postfix_adj})$/i
-			value = $2
-			return pluralize_noun( $1, 2 ) + value
-
-		when /^(?:#{PL_sb_prep_dual_compound})$/i
-			value = [ $2, $3 ] 
-			return pluralize_noun( $1, 2 ) + value[0] + pluralize_noun( value[1] )
-
-		when /^(?:#{PL_sb_prep_compound})$/i
-			value = $2 
-			return pluralize_noun( $1, 2 ) + value
-
-		# Handle pronouns
-		when /^((?:#{PL_prep})\s+)(#{PL_pron_acc})$/i
-			return $1 + PL_pron_acc_h[ $2.downcase ]
-
-		when /^(#{PL_pron_nom})$/i
-			return PL_pron_nom_h[ word.downcase ]
-
-		when /^(#{PL_pron_acc})$/i
-			return PL_pron_acc_h[ $1.downcase ]
-
-		# Handle isolated irregular plurals 
-		when /(.*)\b(#{PL_sb_irregular})$/i
-			return $1 + PL_sb_irregular_h[ $2.downcase ]
-
-		when /(#{PL_sb_U_man_mans})$/i
-			return "#{$1}s"
-
-		# Handle families of irregular plurals
-		when /(.*)man$/i ;					return "#{$1}men"
-		when /(.*[ml])ouse$/i ;				return "#{$1}ice"
-		when /(.*)goose$/i ;				return "#{$1}geese"
-		when /(.*)tooth$/i ;				return "#{$1}teeth"
-		when /(.*)foot$/i ;					return "#{$1}feet"
-
-		# Handle unassimilated imports
-		when /(.*)ceps$/i ;					return word
-		when /(.*)zoon$/i ;					return "#{$1}zoa"
-		when /(.*[csx])is$/i ;				return "#{$1}es"
-		when /(#{PL_sb_U_ex_ices})ex$/i;	return "#{$1}ices"
-		when /(#{PL_sb_U_ix_ices})ix$/i;	return "#{$1}ices"
-		when /(#{PL_sb_U_um_a})um$/i ;		return "#{$1}a"
-		when /(#{PL_sb_U_us_i})us$/i ;		return "#{$1}i"
-		when /(#{PL_sb_U_on_a})on$/i ;		return "#{$1}a"
-		when /(#{PL_sb_U_a_ae})$/i ;		return "#{$1}e"
-		end
-
-		# Handle incompletely assimilated imports
-		if Linguistics::classical?
-			case word
-			when /(.*)trix$/i ;				return "#{$1}trices"
-			when /(.*)eau$/i ;				return "#{$1}eaux"
-			when /(.*)ieu$/i ;				return "#{$1}ieux"
-			when /(.{2,}[yia])nx$/i ;		return "#{$1}nges"
-			when /(#{PL_sb_C_en_ina})en$/i; return "#{$1}ina"
-			when /(#{PL_sb_C_ex_ices})ex$/i;	return "#{$1}ices"
-			when /(#{PL_sb_C_ix_ices})ix$/i;	return "#{$1}ices"
-			when /(#{PL_sb_C_um_a})um$/i ;	return "#{$1}a"
-			when /(#{PL_sb_C_us_i})us$/i ;	return "#{$1}i"
-			when /(#{PL_sb_C_us_us})$/i ;	return "#{$1}"
-			when /(#{PL_sb_C_a_ae})$/i ;	return "#{$1}e"
-			when /(#{PL_sb_C_a_ata})a$/i ;	return "#{$1}ata"
-			when /(#{PL_sb_C_o_i})o$/i ;	return "#{$1}i"
-			when /(#{PL_sb_C_on_a})on$/i ;	return "#{$1}a"
-			when /#{PL_sb_C_im}$/i ;		return "#{word}im"
-			when /#{PL_sb_C_i}$/i ;			return "#{word}i"
-			end
-		end
-
-
-		# Handle singular nouns ending in ...s or other silibants
-		case word
-		when /^(#{PL_sb_singular_s})$/i;	return "#{$1}es"
-		when /^([A-Z].*s)$/;				return "#{$1}es"
-		when /(.*)([cs]h|[zx])$/i ;			return "#{$1}#{$2}es"
-		# when /(.*)(us)$/i ;				return "#{$1}#{$2}es"
-
-		# Handle ...f -> ...ves
-		when /(.*[eao])lf$/i ;				return "#{$1}lves"; 
-		when /(.*[^d])eaf$/i ;				return "#{$1}eaves"
-		when /(.*[nlw])ife$/i ;				return "#{$1}ives"
-		when /(.*)arf$/i ;					return "#{$1}arves"
-
-		# Handle ...y
-		when /(.*[aeiou])y$/i ;				return "#{$1}ys"
-		when /([A-Z].*y)$/ ;				return "#{$1}s"
-		when /(.*)y$/i ;					return "#{$1}ies"
-
-		# Handle ...o
-		when /#{PL_sb_U_o_os}$/i ;			return "#{word}s"
-		when /[aeiou]o$/i ;					return "#{word}s"
-		when /o$/i ;						return "#{word}es"
-
-		# Otherwise just add ...s
-		else
-			return "#{word}s"
-		end
-	end # def pluralize_noun
-
-
-
-	### Pluralize special verbs
-	def pluralize_special_verb( word, count )
-		count ||= Linguistics::num
-		count = normalize_count( count )
-		
-		return nil if /^(#{PL_count_one})$/i =~ count.to_s
-
-		# Handle user-defined verbs
-		#if value = ud_match( word, PL_v_user_defined )
-		#	return value
-		#end
-
-		case word
-
-		# Handle irregular present tense (simple and compound)
-		when /^(#{PL_v_irregular_pres})((\s.*)?)$/i
-			return PL_v_irregular_pres_h[ $1.downcase ] + $2
-
-		# Handle irregular future, preterite and perfect tenses 
-		when /^(#{PL_v_irregular_non_pres})((\s.*)?)$/i
-			return word
-
-		# Handle special cases
-		when /^(#{PL_v_special_s})$/, /\s/
-			return nil
-
-		# Handle standard 3rd person (chop the ...(e)s off single words)
-		when /^(.*)([cs]h|[x]|zz|ss)es$/i
-			return $1 + $2
-		when /^(..+)ies$/i
-			return "#{$1}y"
-		when /^(.+)oes$/i
-			return "#{$1}o"
-		when /^(.*[^s])s$/i
-			return $1
-
-		# Otherwise, a regular verb (handle elsewhere)
-		else
-			return nil
-		end
-	end
-
-
-	### Pluralize regular verbs
-	def pluralize_general_verb( word, count )
-		count ||= Linguistics::num
-		count = normalize_count( count )
-		
-		return word if /^(#{PL_count_one})$/i =~ count.to_s
-
-		case word
-
-		# Handle ambiguous present tenses  (simple and compound)
-		when /^(#{PL_v_ambiguous_pres})((\s.*)?)$/i
-			return PL_v_ambiguous_pres_h[ $1.downcase ] + $2
-
-		# Handle ambiguous preterite and perfect tenses
-		when /^(#{PL_v_ambiguous_non_pres})((\s.*)?)$/i
-			return word
-
-		# Otherwise, 1st or 2nd person is uninflected
-		else
-			return word
-		end
-	end
-
-
-	### Handle special adjectives
-	def pluralize_special_adjective( word, count )
-		count ||= Linguistics::num
-		count = normalize_count( count )
-
-		return word if /^(#{PL_count_one})$/i =~ count.to_s
-
-		# Handle user-defined verbs
-		#if value = ud_match( word, PL_adj_user_defined )
-		#	return value
-		#end
-
-		case word
-
-		# Handle known cases
-		when /^(#{PL_adj_special})$/i
-			return PL_adj_special_h[ $1.downcase ]
-
-		# Handle possessives
-		when /^(#{PL_adj_poss})$/i
-			return PL_adj_poss_h[ $1.downcase ]
-
-		when /^(.*)'s?$/
-			pl = plural_noun( $1 )
-			if /s$/ =~ pl
-				return "#{pl}'"
-			else
-				return "#{pl}'s"
-			end
-
-		# Otherwise, no idea
-		else
-			return nil
-		end
-	end
-
 
 	### Returns the given word with a prepended indefinite article, unless
 	### +count+ is non-nil and not singular.
@@ -1123,68 +457,6 @@ module Linguistics::EN
 	end
 
 
-	### Return the plural of the given +phrase+ if +count+ indicates it should
-	### be plural.
-	def plural( phrase, count=nil )
-		phrase = numwords( phrase ) if phrase.is_a?( Numeric )
-
-		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
-		pre, word, post = md.to_a[1,3]
-		return phrase if word.nil? or word.empty?
-
-		plural = postprocess( word,
-			pluralize_special_adjective(word, count) ||
-			pluralize_special_verb(word, count) ||
-			pluralize_noun(word, count) )
-
-		return pre + plural + post
-	end
-	def_lprintf_formatter :PL, :plural
-
-
-	### Return the plural of the given noun +phrase+ if +count+ indicates it
-	### should be plural.
-	def plural_noun( phrase, count=nil )
-		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
-		pre, word, post = md.to_a[1,3]
-		return phrase if word.nil? or word.empty?
-
-		plural = postprocess( word, pluralize_noun(word, count) )
-		return pre + plural + post
-	end
-	def_lprintf_formatter :PL_N, :plural_noun
-
-
-	### Return the plural of the given verb +phrase+ if +count+ indicates it
-	### should be plural.
-	def plural_verb( phrase, count=nil )
-		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
-		pre, word, post = md.to_a[1,3]
-		return phrase if word.nil? or word.empty?
-
-		plural = postprocess( word,
-			pluralize_special_verb(word, count) ||
-			pluralize_general_verb(word, count) )
-		return pre + plural + post
-	end
-	def_lprintf_formatter :PL_V, :plural_verb
-
-
-	### Return the plural of the given adjectival +phrase+ if +count+ indicates
-	### it should be plural.
-	def plural_adjective( phrase, count=nil )
-		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
-		pre, word, post = md.to_a[1,3]
-		return phrase if word.nil? or word.empty?
-
-		plural = postprocess( word,
-			pluralize_special_adjective(word, count) || word )
-		return pre + plural + post
-	end
-	alias_method :plural_adj, :plural_adjective
-	def_lprintf_formatter :PL_ADJ, :plural_adjective
-
-
 	### Return the given phrase with the appropriate indefinite article ("a" or
 	### "an") prepended. 
 	def a( phrase, count=nil )
@@ -1196,8 +468,8 @@ module Linguistics::EN
 		return pre + result + post
 	end
 	alias_method :an, :a
-	def_lprintf_formatter :A, :a
-	def_lprintf_formatter :AN, :a
+	register_lprintf_formatter :A, self.method( :a )
+	register_lprintf_formatter :AN, self.method( :a )
 
 
 	### Translate zero-quantified +phrase+ to "no +phrase.plural+"
@@ -1212,13 +484,13 @@ module Linguistics::EN
 			return "#{pre}no " + plural( word, 0 ) + post
 		end
 	end
-	def_lprintf_formatter :NO, :no
+	register_lprintf_formatter :NO, :no
 
 
 	### Participles
 	def present_participle( word )
         plural = plural_verb( word.to_s, 2 )
-		
+
 		plural.sub!( /ie$/, 'y' ) or
 			plural.sub!( /ue$/, 'u' ) or
 			plural.sub!( /([auy])e$/, '$1' ) or
@@ -1230,7 +502,7 @@ module Linguistics::EN
         return "#{plural}ing"
 	end
 	alias_method :part_pres, :present_participle
-	def_lprintf_formatter :PART_PRES, :present_participle
+	register_lprintf_formatter :PART_PRES, :present_participle
 
 
 
@@ -1312,7 +584,7 @@ module Linguistics::EN
 		}
 
 		debug_msg "Parts => #{parts.inspect}"
-		
+
 		# Turn the last word of the whole-number part back into an ordinal if
 		# the original number came in that way.
 		if ord && !parts[0].empty?
@@ -1332,7 +604,7 @@ module Linguistics::EN
 		# post-decimal parts. If grouping is turned on, all sub-parts get joined
 		# with commas, otherwise just the whole-number part is.
 		if config[:group].zero?
-			if parts[0].nitems > 1
+			if parts[0].length > 1
 
 				# Join all but the last part together with commas
 				wholenum = parts[0][0...-1].join( config[:comma] )
@@ -1369,7 +641,7 @@ module Linguistics::EN
 				strip
 		end
 	end
-	def_lprintf_formatter :NUMWORDS, :numwords
+	register_lprintf_formatter :NUMWORDS, :numwords
 
 
 	### Transform the given +number+ into an ordinal word. The +number+ object
@@ -1383,14 +655,14 @@ module Linguistics::EN
 			return number.to_s.sub( /(#{OrdinalSuffixes})\Z/ ) { Ordinals[$1] }
 		end
 	end
-	def_lprintf_formatter :ORD, :ordinal
+	register_lprintf_formatter :ORD, :ordinal
 
 
 	### Transform the given +number+ into an ordinate word.
 	def ordinate( number )
 		numwords( number ).ordinal
 	end
-	
+
 
 	### Return a phrase describing the specified +number+ of objects in the
 	### given +phrase+ in general terms. The following options can be used to 
@@ -1403,7 +675,7 @@ module Linguistics::EN
 	def quantify( phrase, number=0, args={} )
 		num = number.to_i
 		config = QuantifyDefaults.merge( args )
-		
+
 		case num
 		when 0
 			no( phrase )
@@ -1446,177 +718,10 @@ module Linguistics::EN
 			].compact.join( config[:joinword] )
 		end
 	end
-	def_lprintf_formatter :QUANT, :quantify
+	register_lprintf_formatter :QUANT, :quantify
 
 
-	# :TODO: Needs refactoring
-
-    ### Return the specified +obj+ (which must support the <tt>#collect</tt>
-    ### method) as a conjunction. Each item is converted to a String if it is
-    ### not already (using #to_s) unless a block is given, in which case it is
-    ### called once for each object in the array, and the stringified return
-    ### value from the block is used instead. Returning +nil+ causes that
-    ### particular element to be omitted from the resulting conjunction. The
-    ### following options can be used to control the makeup of the returned
-    ### conjunction String:
-    ### 
-    ### [<b>:separator</b>]
-    ###   Specify one or more characters to separate items in the resulting
-    ###   list. Defaults to <tt>', '</tt>.
-    ### [<b>:altsep</b>]
-    ###   An alternate separator to use if any of the resulting conjunction's
-    ###   clauses contain the <tt>:separator</tt> character/s. Defaults to <tt>'; '</tt>.
-    ### [<b>:penultimate</b>]
-    ###   Flag that indicates whether or not to join the last clause onto the
-    ###   rest of the conjunction using a penultimate <tt>:separator</tt>. E.g.,
-    ###     %w{duck, cow, dog}.en.conjunction
-    ###     # => "a duck, a cow, and a dog"
-    ###     %w{duck cow dog}.en.conjunction( :penultimate => false )
-    ###     "a duck, a cow and a dog"
-    ###   Default to <tt>true</tt>.
-    ### [<b>:conjunctive</b>]
-    ###   Sets the word used as the conjunctive (separating word) of the
-    ###   resulting string. Default to <tt>'and'</tt>.
-    ### [<b>:combine</b>]
-    ###   If set to <tt>true</tt> (the default), items which are indentical (after
-    ###   surrounding spaces are stripped) will be combined in the resulting
-    ###   conjunction. E.g.,
-    ###     %w{goose cow goose dog}.en.conjunction
-    ###     # => "two geese, a cow, and a dog"
-    ###     %w{goose cow goose dog}.en.conjunction( :combine => false )
-    ###     # => "a goose, a cow, a goose, and a dog"
-    ### [<b>:casefold</b>]
-    ###   If set to <tt>true</tt> (the default), then items are compared
-    ###   case-insensitively when combining them. This has no effect if
-    ###   <tt>:combine</tt> is <tt>false</tt>.
-    ### [<b>:generalize</b>]
-    ###   If set to <tt>true</tt>, then quantities of combined items are turned into
-    ###   general descriptions instead of exact amounts.
-    ###     ary = %w{goose pig dog horse goose reindeer goose dog horse}
-    ###     ary.en.conjunction
-    ###     # => "three geese, two dogs, two horses, a pig, and a reindeer"
-    ###     ary.en.conjunction( :generalize => true )
-    ###     # => "several geese, several dogs, several horses, a pig, and a reindeer"
-    ###   See the #quantify method for specifics on how quantities are
-    ###   generalized. Generalization defaults to <tt>false</tt>, and has no effect if
-    ###   :combine is <tt>false</tt>.
-    ### [<b>:quantsort</b>]
-    ###   If set to <tt>true</tt> (the default), items which are combined in the
-    ###   resulting conjunction will be listed in order of amount, with greater
-    ###   quantities sorted first. If <tt>:quantsort</tt> is <tt>false</tt>, combined items
-    ###   will appear where the first instance of them occurred in the
-    ###   list. This sort is also the fallback for indentical quantities (ie.,
-    ###   items of the same quantity will be listed in the order they appeared
-    ###   in the source list).
-    ###
-	def conjunction( obj, args={} )
-		config = ConjunctionDefaults.merge( args )
-		phrases = []
-
-		# Transform items in the obj to phrases
-		if block_given?
-			phrases = obj.collect {|item| yield(item) }.compact
-		else
-			phrases = obj.collect {|item| item.to_s }
-		end
-
-		# No need for a conjunction if there's only one thing
-		return a(phrases[0]) if phrases.length < 2
-
-		# Set up a Proc to derive a collector key from a phrase depending on the
-		# configuration
-		keyfunc =
-			if config[:casefold]
-				proc {|key| key.downcase.strip}
-			else
-				proc {|key| key.strip}
-			end
-		
-		# Count and delete phrases that hash the same when the keyfunc munges
-		# them into the same thing if we're combining (:combine => true).
-		collector = {}
-		if config[:combine]
-		
-			phrases.each_index do |i|
-				# Stop when reaching the end of a truncated list
-				break if phrases[i].nil?
-
-				# Make the key using the configured key function
-				phrase = keyfunc[ phrases[i] ]
-
-				# If the collector already has this key, increment its count,
-				# eliminate the duplicate from the phrase list, and redo the loop.
-				if collector.key?( phrase )
-					collector[ phrase ] += 1
-					phrases.delete_at( i )
-					redo
-				end
-
-				collector[ phrase ] = 1
-			end
-		else
-			# If we're not combining, just make everything have a count of 1.
-			phrases.uniq.each {|key| collector[ keyfunc[key] ] = 1}
-		end
-
-		# If sort-by-quantity is turned on, sort the phrases first by how many
-		# there are (most-first), and then by the order they were specified in.
-		if config[:quantsort] && config[:combine]
-			origorder = {}
-			phrases.each_with_index {|phrase,i| origorder[ keyfunc[phrase] ] ||= i }
-			phrases.sort! {|a,b|
-				(collector[ keyfunc[b] ] <=> collector[ keyfunc[a] ]).nonzero? ||
-				(origorder[ keyfunc[a] ] <=> origorder[ keyfunc[b] ])
-			}
-		end
-
-		# Set up a filtering function that adds either an indefinite article, an
-		# indefinite quantifier, or a definite quantifier to each phrase
-		# depending on the configuration and the count of phrases in the
-		# collector.
-		filter =
-			if config[:generalize]
-				proc {|phrase, count| quantify(phrase, count) }
-			else
-				proc {|phrase, count|
-				if count > 1
-					"%s %s" % [
-						# :TODO: Make this threshold settable
-						count < 10 ? count.en.numwords : count.to_s,
-						plural(phrase, count)
-					]
-				else
-					a( phrase )
-				end
-			}
-			end
-
-		# Now use the configured filter to turn each phrase into its final
-		# form. Hmmm... square-bracket Lisp?
-		phrases.collect! {|phrase| filter[phrase, collector[ keyfunc[phrase] ]] }
-
-		# Prepend the conjunctive to the last element unless it's empty or
-		# there's only one element
-		phrases[-1].insert( 0, config[:conjunctive] + " " ) unless
-			config[:conjunctive].strip.empty? or
-			phrases.length < 2
-
-		# Concatenate the last two elements if there's no penultimate separator,
-		# and pick a separator based on how many phrases there are and whether
-		# or not there's already an instance of it in the phrases.
-		phrase_count = phrases.length
-		phrases[-2] << " " << phrases.pop unless config[:penultimate]
-		sep = config[:separator]
-		if phrase_count <= 2
-			sep = ' '
-		elsif phrases.find {|str| str.include?(config[:separator]) }
-			sep = config[:altsep]
-		end
-
-		return phrases.join( sep )
-	end
-	def_lprintf_formatter :CONJUNCT, :conjunction
-
+### Split out stuff below here
 
 	### Turns a camel-case +string+ ("camelCaseToEnglish") to plain English
 	### ("camel case to english"). Each word is decapitalized.
@@ -1644,7 +749,7 @@ module Linguistics::EN
 
 		# Split on word-boundaries
 		words = string.split( /\b/ )
- 		
+
 		# Always capitalize the first and last words
 		words.first.capitalize!
 		words.last.capitalize!
@@ -1745,6 +850,6 @@ class Array
 		end
 		self
 	end
-		
+
 end
 

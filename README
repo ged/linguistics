@@ -9,7 +9,7 @@
 
 == Requirements
 
-* Ruby >= 1.8.6
+* Ruby >= 1.8.7
 
 
 == Optional
@@ -95,14 +95,14 @@ of the code used in the filename. Any methods you wish to be exposed to users
 should be declared as module functions (ie., using Module#module_function).
 
 You may also wish to add your module to the list of default languages by
-adding the appropriate symbol to the Linguistics::DefaultLanguages array.
+adding the appropriate symbol to the Linguistics::DEFAULT_LANGUAGES array.
 
 For example, to create a Portuguese-language module, create a file called
 'lib/linguistics/pt.rb' which contains the following:
 
   module Linguistics
     module PT
-      Linguistics::DefaultLanguages << :pt
+      Linguistics::DEFAULT_LANGUAGES << :pt
 
       module_function
 	  <language methods here>
@@ -142,25 +142,4 @@ modules (which must be installed separately).
 
 * Suggestions (and patches) for any of these items or additional features are
   welcomed.
-
-
-
-== Legal
-
-This module is Open Source Software which is Copyright (c) 2003 by The
-FaerieMUD Consortium. All rights reserved.
-
-You may use, modify, and/or redistribute this software under the terms of the
-Perl Artistic License, a copy of which should have been included in this
-distribution (See the file Artistic). If it was not, a copy of it may be
-obtained from http://language.perl.com/misc/Artistic.html or
-http://www.faeriemud.org/artistic.html).
-
-THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED
-WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
-MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-
-
- $Id$
-
 

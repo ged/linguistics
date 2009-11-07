@@ -33,7 +33,7 @@
 # 
 # == Rcsid
 # 
-# $Id$
+# $Id: lingtestcase.rb 99 2008-09-06 05:20:07Z deveiant $
 # 
 # == Authors
 # 

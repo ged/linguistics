@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for English language module's title case method 
-# $Id$
+# $Id: titlecase.tests.rb 99 2008-09-06 05:20:07Z deveiant $
 #
 # Copyright (c) 2005 The FaerieMUD Consortium.
 # 
