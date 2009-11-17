@@ -70,8 +70,6 @@ require 'linguistics/en'
 # 
 # * Michael Granger <ged@FaerieMUD.org>
 # 
-# == Copyright
-# 
 # :include: LICENSE
 # 
 # == Version

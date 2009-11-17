@@ -1,4 +1,6 @@
 #!/usr/bin/ruby
+#coding: utf-8
+
 #
 # linguistics/iso639.rb - A hash of International 2- and 3-letter 
 # ISO639-1 and ISO639-2 language codes. Each entry has two keys:
@@ -8,9 +10,12 @@
 # [<tt>:desc</tt>]
 #   The English-language description of the language.
 #
-
-### A language-independent framework for adding linguistics functions to Ruby
-### classes.
+# :include: LICENSE
+#
+#--
+#
+# Please see the file LICENSE in the base directory for licensing details.
+#
 module Linguistics
 
 	# Hash of ISO639 2- and 3-letter language codes
@@ -24,11 +29,11 @@ module Linguistics
 		when /^__END_DATA__$/
 			in_data_section = false
 			false
-			
+
 		when /^__END__$/
 			in_data_section = true
 			false
-			
+
 		else
 			if in_data_section
 				codes, desc = line[0,15].split(%r{/|\s+}), line[15...-1]
@@ -434,7 +439,7 @@ uzb      uz    Uzbek
 vai            Vai
 ven            Venda
 vie      vi    Vietnamese
-vol      vo    Volapük
+vol      vo    Volapï¿½k
 vot            Votic
 wak            Wakashan languages
 wal            Walamo
