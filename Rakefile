@@ -206,6 +206,7 @@ DEVELOPMENT_DEPENDENCIES = {
 	'termios'     => '>= 0',
 	'text-format' => '>= 1.0.0',
 	'tmail'       => '>= 1.2.3.1',
+	'diff-lcs'    => '>= 1.1.2',
 	'wordnet' => '>=0.0.5',
 	'linkparser' => '>=1.0.3',
 }
@@ -229,7 +230,9 @@ GEMSPEC   = Gem::Specification.new do |gem|
 	gem.authors           = "Michael Granger"
 	gem.email             = ["ged@FaerieMUD.org"]
 	gem.homepage          = 'http://deveiate.org/projects/Linguistics/'
-	gem.rubyforge_project = RUBYFORGE_PROJECT
+
+	# Apparently this isn't actually the 'project'?
+	gem.rubyforge_project = RUBYFORGE_GROUP
 
 	gem.has_rdoc          = true
 	gem.rdoc_options      = RDOC_OPTIONS
