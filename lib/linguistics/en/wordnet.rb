@@ -70,13 +70,11 @@ require 'linguistics/en'
 # 
 # * Michael Granger <ged@FaerieMUD.org>
 # 
-# == Copyright
-# 
 # :include: LICENSE
 # 
 # == Version
 #
-#  $Id: wordnet.rb,v 10f0010d38f7 2008/12/23 15:39:59 ged $
+#  $Id: wordnet.rb,v 2640c845eb5c 2009/11/17 16:59:25 ged $
 # 
 module Linguistics::EN
 

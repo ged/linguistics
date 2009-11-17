@@ -57,15 +57,8 @@
 # 
 # * Michael Granger <ged@FaerieMUD.org>
 # 
-# == Copyright
+# == Acknowledgements
 #
-# This module is copyright (c) 2003-2005 The FaerieMUD Consortium. All rights
-# reserved.
-# 
-# This module is free software. You may use, modify, and/or redistribute this
-# software under the terms of the Perl Artistic License. (See
-# http://language.perl.com/misc/Artistic.html)
-# 
 # The inflection functions of this module were adapted from Damien Conway's
 # Lingua::EN::Inflect Perl module:
 #
@@ -77,33 +70,18 @@
 # written by Robert Rothenberg and Damian Conway, which has no copyright
 # statement included.
 #
-# == Version
+# :include: LICENSE
 #
-#  $Id: en.rb,v 21e0fa69b1a3 2008/09/06 05:20:07 ged $
-# 
-
-
-### This module contains English-language linguistics functions accessible from
-### the Linguistics module, or as a standalone function library.
+#--
+#
+# Please see the file LICENSE in the base directory for licensing details.
+#
 module Linguistics::EN
-
-	begin
-		require 'crosscase'
-	rescue LoadError
-	else
-		include CrossCase
-	end
 
 	# Load in the secondary modules and add them to Linguistics::EN.
 	require 'linguistics/en/infinitive'
 	require 'linguistics/en/wordnet'
 	require 'linguistics/en/linkparser'
-
-	# Subversion revision
-	SVNRev = %q$Rev$
-
-	# Subversion revision tag
-	SVNId = %q$Id: en.rb,v 21e0fa69b1a3 2008/09/06 05:20:07 ged $
 
 	# Add 'english' to the list of default languages
 	Linguistics::DefaultLanguages.push( :en )
@@ -118,20 +96,20 @@ module Linguistics::EN
 		re = parts.flatten.join("|")
 		"(?:#{re})"
 	end
-	
-	
+
+
 	@lprintf_formatters = {}
 	class << self
 		attr_accessor :lprintf_formatters
 	end
-	
+
 	### Add the specified method (which can be either a Method object or a
 	### Symbol for looking up a method)
 	def self::def_lprintf_formatter( name, meth )
 		meth = self.method( meth ) unless meth.is_a?( Method )
 		self.lprintf_formatters[ name ] = meth
 	end
-	
+
 
 
 	#################################################################
@@ -660,7 +638,7 @@ module Linguistics::EN
 	# (in, of, to), and coordinating conjunctions (and, but). These rules apply
 	# to titles of long, short, and partial works as well as your own papers"
 	# (Anson, Schwegler, and Muth. The Longman Writer's Companion 240).
-	
+
 	# Build the list of exceptions to title-capitalization
 	Articles = %w[a and the]
 	ShortPrepositions = ["amid", "at", "but", "by", "down", "from", "in",
@@ -857,7 +835,7 @@ module Linguistics::EN
 	def pluralize_special_verb( word, count )
 		count ||= Linguistics::num
 		count = normalize_count( count )
-		
+
 		return nil if /^(#{PL_count_one})$/i =~ count.to_s
 
 		# Handle user-defined verbs
@@ -900,7 +878,7 @@ module Linguistics::EN
 	def pluralize_general_verb( word, count )
 		count ||= Linguistics::num
 		count = normalize_count( count )
-		
+
 		return word if /^(#{PL_count_one})$/i =~ count.to_s
 
 		case word
@@ -978,7 +956,7 @@ module Linguistics::EN
 			return "an #{word}"
 		when /^[aefhilmnorsx][.-]/i
 			return "an #{word}"
-		when /^[a-z][.-]/i	
+		when /^[a-z][.-]/i
 			return "a #{word}"
 
 		# Handle consonants
@@ -986,9 +964,9 @@ module Linguistics::EN
 			return "a #{word}"
 
 		# Handle special vowel-forms
-		when /^e[uw]/i	
+		when /^e[uw]/i
 			return "a #{word}"
-		when /^onc?e\b/i	
+		when /^onc?e\b/i
 			return "a #{word}"
 		when /^uni([^nmd]|mo)/i
 			return "a #{word}"
@@ -1097,7 +1075,7 @@ module Linguistics::EN
 										 config[:and] )
 					chunks.unshift words.strip.squeeze(' ') unless words.nil?
 					''
-				}				
+				}
 
 			phrase.sub!( /(\d)(\d)(?=\D*\Z)/ ) {
 				chunks.unshift to_tens( $1.to_i, $2.to_i, mill ).strip.squeeze(' ')
@@ -1218,7 +1196,7 @@ module Linguistics::EN
 	### Participles
 	def present_participle( word )
         plural = plural_verb( word.to_s, 2 )
-		
+
 		plural.sub!( /ie$/, 'y' ) or
 			plural.sub!( /ue$/, 'u' ) or
 			plural.sub!( /([auy])e$/, '$1' ) or
@@ -1312,7 +1290,7 @@ module Linguistics::EN
 		}
 
 		debug_msg "Parts => #{parts.inspect}"
-		
+
 		# Turn the last word of the whole-number part back into an ordinal if
 		# the original number came in that way.
 		if ord && !parts[0].empty?
@@ -1332,7 +1310,7 @@ module Linguistics::EN
 		# post-decimal parts. If grouping is turned on, all sub-parts get joined
 		# with commas, otherwise just the whole-number part is.
 		if config[:group].zero?
-			if parts[0].nitems > 1
+			if parts[0].length > 1
 
 				# Join all but the last part together with commas
 				wholenum = parts[0][0...-1].join( config[:comma] )
@@ -1390,7 +1368,7 @@ module Linguistics::EN
 	def ordinate( number )
 		numwords( number ).ordinal
 	end
-	
+
 
 	### Return a phrase describing the specified +number+ of objects in the
 	### given +phrase+ in general terms. The following options can be used to 
@@ -1403,7 +1381,7 @@ module Linguistics::EN
 	def quantify( phrase, number=0, args={} )
 		num = number.to_i
 		config = QuantifyDefaults.merge( args )
-		
+
 		case num
 		when 0
 			no( phrase )
@@ -1531,12 +1509,12 @@ module Linguistics::EN
 			else
 				proc {|key| key.strip}
 			end
-		
+
 		# Count and delete phrases that hash the same when the keyfunc munges
 		# them into the same thing if we're combining (:combine => true).
 		collector = {}
 		if config[:combine]
-		
+
 			phrases.each_index do |i|
 				# Stop when reaching the end of a truncated list
 				break if phrases[i].nil?
@@ -1644,7 +1622,7 @@ module Linguistics::EN
 
 		# Split on word-boundaries
 		words = string.split( /\b/ )
- 		
+
 		# Always capitalize the first and last words
 		words.first.capitalize!
 		words.last.capitalize!
@@ -1745,6 +1723,6 @@ class Array
 		end
 		self
 	end
-		
+
 end
 
