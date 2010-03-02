@@ -10,15 +10,24 @@ BEGIN {
 }
 
 require 'spec'
+require 'spec/lib/helpers'
+
 require 'linguistics'
 require 'linguistics/en/conjunctions'
 
 
 describe Linguistics::EN::Conjunctions do
+	include Linguistics::SpecHelpers
+
+	before( :all ) do
+		setup_logging( :debug )
+	end
+
 
 	TEST_ITEMS = %w[cow chicken dog goat dog dog duck duck goose goose goose dog goat]
 
 	it "don't use a penultimate separator if it's turned off" do
+		Linguistics.use( :en )
 		TEST_ITEMS.en.conjunction( :penultimate => false ).should ==
 			"four dogs, three geese, two goats, two ducks, a cow and a chicken"
 	end

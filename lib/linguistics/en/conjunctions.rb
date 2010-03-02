@@ -9,7 +9,7 @@ require 'linguistics/en'
 # 
 # == Version
 #
-#  $Id: conjunctions.rb,v 95790e776f43 2009/11/07 05:11:11 ged $
+#  $Id: conjunctions.rb,v 485369a7d3ac 2010/03/02 06:33:58 ged $
 # 
 # == Authors
 # 
@@ -195,8 +195,8 @@ module Linguistics::EN::Conjunctions
 
 		return phrases.join( sep )
 	end
-	register_lprintf_formatter :CONJUNCT, :conjunction
+	Linguistics::EN.register_lprintf_formatter :CONJUNCT, :conjunction
 
 
-end # Linguistics::EN::Conjunctions
+end # module Linguistics::EN::Conjunctions
 
