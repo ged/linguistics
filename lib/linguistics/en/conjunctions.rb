@@ -195,8 +195,8 @@ module Linguistics::EN::Conjunctions
 
 		return phrases.join( sep )
 	end
-	register_lprintf_formatter :CONJUNCT, :conjunction
+	Linguistics::EN.register_lprintf_formatter :CONJUNCT, :conjunction
 
 
-end # Linguistics::EN::Conjunctions
+end # module Linguistics::EN::Conjunctions
 

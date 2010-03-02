@@ -420,8 +420,12 @@ module Linguistics::EN::Pluralization
 
 	### Return the plural of the given +phrase+ if +count+ indicates it should
 	### be plural.
-	def plural( phrase, count=nil )
-		phrase = numwords( phrase ) if phrase.is_a?( Numeric )
+	def plural( count=nil )
+		phrase = if self.is_a?( Numeric )
+			numwords( self )
+		else
+			self.to_s
+		end
 
 		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
 		pre, word, post = md.to_a[1,3]
@@ -624,18 +628,18 @@ module Linguistics::EN::Pluralization
 		when /^([A-Z].*s)$/ then                return "#{$1}es"
 		when /(.*)([cs]h|[zx])$/i then          return "#{$1}#{$2}es"
 		# when /(.*)(us)$/i then                return "#{$1}#{$2}es"
-              
+
 		# Handle ...f -> ...ves
 		when /(.*[eao])lf$/i then              return "#{$1}lves"; 
 		when /(.*[^d])eaf$/i then              return "#{$1}eaves"
 		when /(.*[nlw])ife$/i then             return "#{$1}ives"
 		when /(.*)arf$/i then                  return "#{$1}arves"
-              
+
 		# Handle ...y
 		when /(.*[aeiou])y$/i then             return "#{$1}ys"
 		when /([A-Z].*y)$/ then                return "#{$1}s"
 		when /(.*)y$/i then                    return "#{$1}ies"
-              
+
 		# Handle ...o
 		when /#{PL_sb_U_o_os}$/i then          return "#{word}s"
 		when /[aeiou]o$/i then                 return "#{word}s"
@@ -653,7 +657,7 @@ module Linguistics::EN::Pluralization
 	def pluralize_special_verb( word, count )
 		count ||= Linguistics.num
 		count = normalize_count( count )
-		
+
 		return nil if /^(#{PL_count_one})$/i =~ count.to_s
 
 		# Handle user-defined verbs
@@ -696,7 +700,7 @@ module Linguistics::EN::Pluralization
 	def pluralize_general_verb( word, count )
 		count ||= Linguistics.num
 		count = normalize_count( count )
-		
+
 		return word if /^(#{PL_count_one})$/i =~ count.to_s
 
 		case word
@@ -718,7 +722,7 @@ module Linguistics::EN::Pluralization
 
 	### Handle special adjectives
 	def pluralize_special_adjective( word, count )
-		count ||= Linguistics.num
+		count ||= 1
 		count = normalize_count( count )
 
 		return word if /^(#{PL_count_one})$/i =~ count.to_s

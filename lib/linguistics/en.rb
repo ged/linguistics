@@ -59,25 +59,26 @@ require 'linguistics'
 #
 module Linguistics::EN
 
-	# Subversion revision
-	SVNRev = %q$Rev: 99 $
-
-	# Subversion revision tag
-	SVNId = %q$Id: en.rb 99 2008-09-06 05:20:07Z deveiant $
-
 	# Add 'english' to the list of default languages
-	Linguistics::DEFAULT_LANGUAGES.push( :en )
+	Linguistics::register_language( :en, self )
 
 	# The list of loaded modules
 	MODULES = []
 
+
 	# A Hash of 'lprintf' formatters keyed by name
-	LPRINTF_FORMATTERS = {}
+	@@lprintf_formatters = {}
 
 
 	#################################################################
 	###	U T I L I T Y   F U N C T I O N S
 	#################################################################
+
+	### A Hash of formatters for the lprintf function.
+	def self::lprintf_formatters
+		return @@lprintf_formatters
+	end
+
 
 	### Register an English-language extension.
 	def self::register_extension( mod )
@@ -94,7 +95,7 @@ module Linguistics::EN
 	### Add the specified method (which can be either a Method object or a
 	### Symbol for looking up a method)
 	def self::register_lprintf_formatter( name, meth )
-		LPRINTF_FORMATTERS[ name ] = meth
+		@@lprintf_formatters[ name ] = meth
 	end
 
 
@@ -102,14 +103,14 @@ module Linguistics::EN
 	$LOAD_PATH.each do |prefix|
 		pat = Pathname( prefix ) + 'linguistics/en/**/*.rb'
 		Dir.glob( pat.to_s ).each do |extension|
-			debug_msg "  trying to load English extension %p" % [ extension ]
+			Linguistics.log.debug "  trying to load English extension %p" % [ extension ]
 			begin
 				require extension
 			rescue LoadError => err
-				debug_msg "    failed (%s): %s %s" %
+				Linguistics.log.debug "    failed (%s): %s %s" %
 					[ err.class.name, err.message, err.backtrace.first ]
 			else
-				debug_msg "    success."
+				Linguistics.log.debug "    success."
 			end
 		end
 	end
@@ -312,7 +313,7 @@ module Linguistics::EN
 			return "an #{word}"
 		when /^[aefhilmnorsx][.-]/i
 			return "an #{word}"
-		when /^[a-z][.-]/i	
+		when /^[a-z][.-]/i
 			return "a #{word}"
 
 		# Handle consonants
@@ -320,9 +321,9 @@ module Linguistics::EN
 			return "a #{word}"
 
 		# Handle special vowel-forms
-		when /^e[uw]/i	
+		when /^e[uw]/i
 			return "a #{word}"
-		when /^onc?e\b/i	
+		when /^onc?e\b/i
 			return "a #{word}"
 		when /^uni([^nmd]|mo)/i
 			return "a #{word}"
@@ -412,10 +413,10 @@ module Linguistics::EN
 			# Scan the string, and call the word-chunk function that deals with
 			# chunks of the found number of digits.
 			num.to_s.scan( re ) {|digits|
-				debug_msg "   digits = #{digits.inspect}"
+				Linguistics.log.debug "   digits = #{digits.inspect}"
 				fn = NumberToWordsFunctions[ digits.nitems ]
 				numerals = digits.flatten.compact.collect {|i| i.to_i}
-				debug_msg "   numerals = #{numerals.inspect}"
+				Linguistics.log.debug "   numerals = #{numerals.inspect}"
 				chunks.push fn.call( config[:zero], *numerals ).strip
 			}
 		else
@@ -431,7 +432,7 @@ module Linguistics::EN
 										 config[:and] )
 					chunks.unshift words.strip.squeeze(' ') unless words.nil?
 					''
-				}				
+				}
 
 			phrase.sub!( /(\d)(\d)(?=\D*\Z)/ ) {
 				chunks.unshift to_tens( $1.to_i, $2.to_i, mill ).strip.squeeze(' ')
@@ -468,8 +469,8 @@ module Linguistics::EN
 		return pre + result + post
 	end
 	alias_method :an, :a
-	register_lprintf_formatter :A, self.method( :a )
-	register_lprintf_formatter :AN, self.method( :a )
+	Linguistics::EN.register_lprintf_formatter :A, self.method( :a )
+	Linguistics::EN.register_lprintf_formatter :AN, self.method( :a )
 
 
 	### Translate zero-quantified +phrase+ to "no +phrase.plural+"
@@ -484,7 +485,7 @@ module Linguistics::EN
 			return "#{pre}no " + plural( word, 0 ) + post
 		end
 	end
-	register_lprintf_formatter :NO, :no
+	Linguistics::EN.register_lprintf_formatter :NO, :no
 
 
 	### Participles
@@ -502,7 +503,7 @@ module Linguistics::EN
         return "#{plural}ing"
 	end
 	alias_method :part_pres, :present_participle
-	register_lprintf_formatter :PART_PRES, :present_participle
+	Linguistics::EN.register_lprintf_formatter :PART_PRES, :present_participle
 
 
 
@@ -570,7 +571,7 @@ module Linguistics::EN
 			if chunk.empty?
 				if section.zero?
 					parts.push []
-					next 
+					next
 				end
 			end
 
@@ -580,10 +581,10 @@ module Linguistics::EN
 				parts.push number_to_words( chunk, config )
 			else
 				parts.push number_to_words( chunk, config.merge(:group => 1) )
-			end					
+			end
 		}
 
-		debug_msg "Parts => #{parts.inspect}"
+		Linguistics.log.debug "Parts => #{parts.inspect}"
 
 		# Turn the last word of the whole-number part back into an ordinal if
 		# the original number came in that way.
@@ -622,7 +623,7 @@ module Linguistics::EN
 			end
 			decimals = parts[1..-1].collect {|part| part.join(" ")}
 
-			debug_msg "Wholenum: #{wholenum.inspect}; decimals: #{decimals.inspect}"
+			Linguistics.log.debug "Wholenum: #{wholenum.inspect}; decimals: #{decimals.inspect}"
 
 			# Join with the configured decimal; if it's empty, just join with
 			# spaces.
@@ -641,7 +642,7 @@ module Linguistics::EN
 				strip
 		end
 	end
-	register_lprintf_formatter :NUMWORDS, :numwords
+	Linguistics::EN.register_lprintf_formatter :NUMWORDS, :numwords
 
 
 	### Transform the given +number+ into an ordinal word. The +number+ object
@@ -655,7 +656,7 @@ module Linguistics::EN
 			return number.to_s.sub( /(#{OrdinalSuffixes})\Z/ ) { Ordinals[$1] }
 		end
 	end
-	register_lprintf_formatter :ORD, :ordinal
+	Linguistics::EN.register_lprintf_formatter :ORD, :ordinal
 
 
 	### Transform the given +number+ into an ordinate word.
@@ -718,7 +719,7 @@ module Linguistics::EN
 			].compact.join( config[:joinword] )
 		end
 	end
-	register_lprintf_formatter :QUANT, :quantify
+	Linguistics::EN.register_lprintf_formatter :QUANT, :quantify
 
 
 ### Split out stuff below here
@@ -821,35 +822,4 @@ module Linguistics::EN
 	end
 
 end # module Linguistics::EN
-
-
-### Add the #separate and #separate! methods to Array.
-class Array
-
-	### Returns a new Array that has had a new member inserted between all of
-	### the current ones. The value used is the given +value+ argument unless a
-	### block is given, in which case the block is called once for each pair of
-	### the Array, and the return value is used as the separator.
-	def separate( value=:__no_arg__, &block )
-		ary = self.dup
-		ary.separate!( value, &block )
-		return ary
-	end
-
-	### The same as #separate, but modifies the Array in place.
-	def separate!( value=:__no_arg__ )
-		raise ArgumentError, "wrong number of arguments: (0 for 1)" if
-			value == :__no_arg__ && !block_given?
-
-		(1..( (self.length * 2) - 2 )).step(2) do |i|
-			if block_given?
-				self.insert( i, yield(self[i-1,2]) )
-			else
-				self.insert( i, value )
-			end
-		end
-		self
-	end
-
-end
 
