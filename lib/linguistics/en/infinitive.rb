@@ -8,14 +8,8 @@
 # 
 # * Michael Granger <ged@FaerieMUD.org>
 # 
-# == Copyright
+# == Acknowledgments
 #
-# Copyright (c) 2003-2005 The FaerieMUD Consortium. All rights reserved.
-# 
-# This module is free software. You may use, modify, and/or redistribute this
-# software under the terms of the Perl Artistic License. (See
-# http://language.perl.com/misc/Artistic.html)
-# 
 # This code was ported from the excellent 'Lingua::EN::Infinitive' Perl module
 # by Ron Savage, which is distributed under the following license:
 #
@@ -26,11 +20,13 @@
 #    	The Artistic License, a copy of which is available at:
 #    	http://www.opensource.org/licenses/index.html
 #    
-#  # == Version
 #
-#  $Id: infinitive.rb,v 21e0fa69b1a3 2008/09/06 05:20:07 ged $
-# 
-
+# :include: LICENSE
+#
+#--
+#
+# Please see the file LICENSE in the base directory for licensing details.
+#
 module Linguistics::EN
 
 	# :stopdoc:
