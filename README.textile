@@ -9,15 +9,15 @@ h2. Authors
 
 h2. Requirements
 
-* Ruby >= 1.8.7
+* Ruby >= 1.9.2
 
 
 h2. Optional
 
 * "Ruby-WordNet":http://deveiate.org/projects/Ruby-WordNet (>= 0.0.5) - adds integration for the
-  Ruby binding for the WordNet� lexical refrence system.
+  Ruby binding for the WordNet® lexical refrence system.
 
-* "LinkParser":http://deveiate.org/projects/Ruby-LinkParser (>= 1.0.5)
+* "LinkParser":http://deveiate.org/projects/Ruby-LinkParser (>= 1.0.7)
   Ruby high-level interface to the CMU Link Grammar library
 
 
@@ -44,69 +44,16 @@ after the language's two-letter code (or three-letter code, if no two-letter
 code is defined by ISO639) to various Ruby classes. This allows many
 language-specific methods to be added to objects without cluttering up the
 interface or risking collision between them, albeit at the cost of three or four
-more characters per method invocation.
-
-If you don't like extending core Ruby classes, the language modules should
-also allow you to use them as a function library as well.
-
-For example, the English-language module contains a #plural function which can
-be accessed via a method on a core class:
+more characters per method invocation. For example:
 
 	Linguistics::use( :en )
 	"goose".en.plural
 	# => "geese"
   
-or via the Linguistics::EN::plural function directly:
-
-	include Linguistics::EN
-	plural( "goose" )
-	# => "geese"
-
-The class-extension mechanism actually uses the functional interface behind
-the scenes.
-
-A new feature with the 0.02 release: You can now omit the language-code method
-for unambiguous methods by calling Linguistics::use with the +:installProxy+
-configuration key, with the language code of the language module whose methods
-you wish to be available. For example, instead of having to call:
-
-	"goose".en.plural
-
-from the example above, you can now do this:
-
-	Lingusitics::use( :en, :installProxy => :en )
-	"goose".plural
-	# => "geese"
-
-More about how this works in the documentation for Linguistics::use.
-
 
 h4. Adding Language Modules
 
-To add a new language to the framework, create a file named the same as the
-ISO639 2- or 3-letter language code for the language you're adding. It must be
-placed under lib/linguistics/ to be recognized by the linguistics module, but
-you can also just require it yourself prior to calling Linguistics::use().
-This file should define a module under Linguistics that is an all-caps version
-of the code used in the filename. Any methods you wish to be exposed to users
-should be declared as module functions (ie., using Module#module_function).
-
-You may also wish to add your module to the list of default languages by
-adding the appropriate symbol to the Linguistics::DEFAULT_LANGUAGES array.
-
-For example, to create a Portuguese-language module, create a file called
-'lib/linguistics/pt.rb' which contains the following:
-
-	module Linguistics
-	  module PT
-	    Linguistics::DEFAULT_LANGUAGES << :pt
-	
-	    module_function
-	    <language methods here>
-	  end
-	end
-
-See the English language module (lib/linguistics/en.rb) for an example.
+To add a new language to the framework, [...rewrite after 2.0 is more stable...]
 
 
 h3. English Language Module
