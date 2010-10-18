@@ -1,4 +1,7 @@
 #!/usr/bin/ruby
+
+require 'linguistics/en'
+
 # 
 # This file contains the extensions to the Linguistics::EN module which provide
 # support for the Ruby LinkParser module. LinkParser enables grammatic queries
@@ -43,21 +46,12 @@
 # * Martin Chase <stillflame@FaerieMUD.org>
 # * Michael Granger <ged@FaerieMUD.org>
 # 
-# == Copyright
+# :include: LICENSE
 #
-# Copyright (c) 2003 The FaerieMUD Consortium. All rights reserved.
-# 
-# This module is free software. You may use, modify, and/or redistribute this
-# software under the terms of the Perl Artistic License. (See
-# http://language.perl.com/misc/Artistic.html)
-# 
-#  # == Version
+#--
 #
-#  $Id$
-# 
-
-require 'linguistics/en'
-
+# Please see the file LICENSE in the base directory for licensing details.
+#
 module Linguistics::EN
 
 	@has_link_parser	= false

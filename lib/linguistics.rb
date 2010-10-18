@@ -1,7 +1,9 @@
 #!/usr/bin/ruby
-# 
-# linguistics.rb -- provides an interface for extending core Ruby classes with
-# linguistic methods.
+
+require 'linguistics/iso639'
+
+# A language-independent framework for adding linguistics functions to Ruby
+# classes.
 # 
 # == Synopsis
 # 
@@ -13,32 +15,18 @@
 # 
 # * Michael Granger <ged@FaerieMUD.org>
 # 
-# == Copyright
+# :include: LICENSE
 #
-# Copyright (c) 2003-2005 The FaerieMUD Consortium. All rights reserved.
-# 
-# This module is free software. You may use, modify, and/or redistribute this
-# software under the terms of the Perl Artistic License. (See
-# http://language.perl.com/misc/Artistic.html)
-# 
-# == Version
+#--
 #
-#  $Id$
-# 
-
-require 'linguistics/iso639'
-
-### A language-independent framework for adding linguistics functions to Ruby
-### classes.
-module Linguistics 
+# Please see the file LICENSE in the base directory for licensing details.
+#
+module Linguistics
 
 	### Class constants
 
-	# Subversion revision
-	SVNRev = %q$Rev$
-
-	# Subversion ID
-	SVNid = %q$Id$
+	# Release version
+	VERSION = '1.0.8'
 
 	# Release version
 	VERSION = '1.0.6'
