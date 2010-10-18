@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'linguistics'
-require 'linguistics/en'
+require 'linguistics/en' unless defined?( Linguistics )
 
 # This module contains plural inflections for the English-language
 # module of the Linguistics library.
@@ -16,7 +15,7 @@ require 'linguistics/en'
 # 
 # == Version
 #
-#  $Id: linkparser.rb 99 2008-09-06 05:20:07Z deveiant $
+#  $Id$
 # 
 # == Authors
 # 
@@ -93,10 +92,10 @@ module Linguistics::EN::Pluralization
 	]
 
 	# Classical "..a" -> "..ae"
-	PL_sb_C_a_ae = matchgroup %w[
+	PL_sb_C_a_ae = matchgroup [/.*umbra/ ] + %w[
 		amoeba antenna formula hyperbola
 		medusa nebula parabola abscissa
-		hydra nova lacuna aurora .*umbra
+		hydra nova lacuna aurora
 		flora fauna
 	]
 
@@ -107,9 +106,8 @@ module Linguistics::EN::Pluralization
 
 	# Unconditional "..um" -> "..a"
 	PL_sb_U_um_a = matchgroup %w[
-		bacterium	agendum	desideratum	erratum
-		stratum	datum	ovum		extremum
-		candelabrum
+		bacterium agendum desideratum erratum
+		stratum datum ovum extremum candelabrum
 	].collect {|word| word[0...-2] }
 
 	# Classical "..um" -> "..a"
@@ -228,10 +226,10 @@ module Linguistics::EN::Pluralization
 
 		# Recent imports...
 		"contretemps", "corps", "debris",
-		".*ois",
+		/.*ois/,
 
 		# Diseases
-		".*measles", "mumps",
+		/.*measles/, "mumps",
 
 		# Miscellaneous others...
 		"diabetes", "jackanapes", "series", "species", "rabies",
@@ -245,13 +243,13 @@ module Linguistics::EN::Pluralization
 		elk moose rhinoceros
 	]
 
-	PL_sb_uninflected = matchgroup [
+	PL_sb_uninflected = matchgroup(
 
 		# Some fish and herd animals
-		".*fish", "tuna", "salmon", "mackerel", "trout",
-		"bream", "sea[- ]bass", "carp", "cod", "flounder", "whiting", 
+		/.*fish/, "tuna", "salmon", "mackerel", "trout",
+		"bream", /sea[- ]bass/, "carp", "cod", "flounder", "whiting",
 
-		".*deer", ".*sheep", 
+		/.*deer/, /.*sheep/,
 
 		# All nationals ending in -ese
 		"Portuguese", "Amoyese", "Borghese", "Congoese", "Faroese",
@@ -259,38 +257,38 @@ module Linguistics::EN::Pluralization
 		"Kiplingese", "Kongoese", "Lucchese", "Maltese", "Nankingese",
 		"Niasese", "Pekingese", "Piedmontese", "Pistoiese", "Sarawakese",
 		"Shavese", "Vermontese", "Wenchowese", "Yengeese",
-		".*[nrlm]ese",
+		/.*[nrlm]ese/,
 
 		# Some words ending in ...s (often pairs taken as a whole)
 		PL_sb_uninflected_s,
 
 		# Diseases
-		".*pox",
+		/.*pox/,
 
 		# Other oddities
 		"graffiti", "djinn"
-	]
+	)
 
 
 	# Singular words ending in ...s (all inflect with ...es)
-	PL_sb_singular_s = matchgroup %w[
-		.*ss
-		acropolis aegis alias arthritis asbestos atlas
-		bathos bias bronchitis bursitis caddis cannabis
-		canvas chaos cosmos dais digitalis encephalitis
-		epidermis ethos eyas gas glottis hepatitis
-		hubris ibis lens mantis marquis metropolis
-		neuritis pathos pelvis polis rhinoceros
-		sassafras tonsillitis trellis .*us
-	]
+	PL_sb_singular_s = matchgroup [ /.*ss/, /.*us/ ] +
+		%w[
+			acropolis aegis alias arthritis asbestos atlas
+			bathos bias bronchitis bursitis caddis cannabis
+			canvas chaos cosmos dais digitalis encephalitis
+			epidermis ethos eyas gas glottis hepatitis
+			hubris ibis lens mantis marquis metropolis
+			neuritis pathos pelvis polis rhinoceros
+			sassafras tonsillitis trellis 
+		]
 
 	PL_v_special_s = matchgroup [
 		PL_sb_singular_s,
 		PL_sb_uninflected_s,
 		PL_sb_irregular_s.keys,
-		'(.*[csx])is',
-		'(.*)ceps',
-		'[A-Z].*s',
+		/(.*[csx])is/,
+		/(.*)ceps/,
+		/[A-Z].*s/,
 	]
 
 	PL_sb_postfix_adj = '(' + {
@@ -334,7 +332,7 @@ module Linguistics::EN::Pluralization
 		"its"	 => "theirs",
 		"theirs" => "theirs",
 	}
-	PL_pron_nom = matchgroup PL_pron_nom_h.keys
+	PL_pron_nom = Regexp.new( PL_pron_nom_h.keys.join('|'), Regexp::IGNORECASE )
 
 	PL_pron_acc_h = {
 		#	Accusative		Reflexive
@@ -420,21 +418,27 @@ module Linguistics::EN::Pluralization
 
 	### Return the plural of the given +phrase+ if +count+ indicates it should
 	### be plural.
-	def plural( count=nil )
-		phrase = if self.is_a?( Numeric )
-			numwords( self )
-		else
-			self.to_s
-		end
+	def plural( count=2 )
+		phrase = if self.obj.is_a?( Numeric )
+				self.log.debug "Converting %p to number words." % [ self.obj ]
+				self.numwords
+			else
+				self.obj.to_s
+			end
 
+		self.log.debug "Pluralizing %p" % [ phrase ]
+
+		# If the string has whitespace, only pluralize the middle bit, but
+		# preserve the whitespace to add back to the result.
 		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
-		pre, word, post = md.to_a[1,3]
-		return phrase if word.nil? or word.empty?
+		pre, text, post = md.captures
 
-		plural = postprocess( word,
-			pluralize_special_adjective(word, count) ||
-			pluralize_special_verb(word, count) ||
-			pluralize_noun(word, count) )
+		return phrase if text.nil? or text.empty?
+
+		plural = postprocess( text,
+			pluralize_special_adjective(text, count) ||
+			pluralize_special_verb(text, count) ||
+			pluralize_noun(text, count) )
 
 		return pre + plural + post
 	end
@@ -442,39 +446,47 @@ module Linguistics::EN::Pluralization
 
 	### Return the plural of the given noun +phrase+ if +count+ indicates it
 	### should be plural.
-	def plural_noun( phrase, count=nil )
+	def plural_noun( count=2 )
+		phrase = self.obj
 		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
-		pre, word, post = md.to_a[1,3]
+		pre, word, post = md.captures
+
 		return phrase if word.nil? or word.empty?
 
 		plural = postprocess( word, pluralize_noun(word, count) )
+
 		return pre + plural + post
 	end
 
 
 	### Return the plural of the given verb +phrase+ if +count+ indicates it
 	### should be plural.
-	def plural_verb( phrase, count=nil )
+	def plural_verb( count=2 )
+		phrase = self.obj
 		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
-		pre, word, post = md.to_a[1,3]
+		pre, word, post = md.captures
+
 		return phrase if word.nil? or word.empty?
 
 		plural = postprocess( word,
 			pluralize_special_verb(word, count) ||
 			pluralize_general_verb(word, count) )
+
 		return pre + plural + post
 	end
 
 
 	### Return the plural of the given adjectival +phrase+ if +count+ indicates
 	### it should be plural.
-	def plural_adjective( phrase, count=nil )
+	def plural_adjective( count=2 )
+		phrase = self.obj
 		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
-		pre, word, post = md.to_a[1,3]
+		pre, word, post = md.captures
+
 		return phrase if word.nil? or word.empty?
 
-		plural = postprocess( word,
-			pluralize_special_adjective(word, count) || word )
+		plural = postprocess( word, pluralize_special_adjective(word, count) || word )
+
 		return pre + plural + post
 	end
 	alias_method :plural_adj, :plural_adjective
@@ -488,13 +500,17 @@ module Linguistics::EN::Pluralization
 	private
 	#######
 
-	### Do normal/classical switching and match capitalization in <tt>inflected</tt> by
-	### examining the <tt>original</tt> input.
+	### Do normal/classical switching and match capitalization in +inflected+ by
+	### examining the +original+ input.
 	def postprocess( original, inflected )
+
+		# If there's a classical variant, use it instead of the modern one if 
+		# classical mode is on.
 		inflected.sub!( /([^|]+)\|(.+)/ ) do
-			Linguistics.classical? ? $2 : $1
+			Linguistics::EN.classical? ? $2 : $1
 		end
 
+		# Try to duplicate the case of the original string
 		case original
 		when "I"
 			return inflected
@@ -515,7 +531,7 @@ module Linguistics::EN::Pluralization
 	def normalize_count( count, default=2 )
 		return default if count.nil? # Default to plural
 		if /^(#{PL_count_one})$/i =~ count.to_s ||
-		   ( Linguistics.classical? && /^(#{PL_count_zero})$/ =~ count.to_s )
+		   ( Linguistics::EN.classical? && /^(#{PL_count_zero})$/ =~ count.to_s )
 			return 1
 		else
 			return default
@@ -524,9 +540,10 @@ module Linguistics::EN::Pluralization
 
 
 	### Pluralize nouns
-	def pluralize_noun( word, count=nil )
+	def pluralize_noun( word, count=2 )
+		self.log.debug "Trying to pluralize %p as a noun" % [ word ]
+
 		value = nil
-		count ||= Linguistics.num
 		count = normalize_count( count )
 
 		return word if count == 1
@@ -539,12 +556,14 @@ module Linguistics::EN::Pluralization
 		# Handle empty word, singular count and uninflected plurals
 		case word
 		when ''
+			self.log.debug "  empty string"
 			return word
 		when /^(#{PL_sb_uninflected})$/i
+			self.log.debug "  uninflected plural"
 			return word
 		else
-			if Linguistics.classical? &&
-			   /^(#{PL_sb_uninflected_herd})$/i =~ word
+			if Linguistics::EN.classical? && /^(#{PL_sb_uninflected_herd})$/i =~ word
+				self.log.debug "  uninflected classical herd word"
 				return word
 			end
 		end
@@ -553,32 +572,50 @@ module Linguistics::EN::Pluralization
 		case word
 		when /^(?:#{PL_sb_postfix_adj})$/i
 			value = $2
-			return pluralize_noun( $1, 2 ) + value
+			noun = $1
+			self.log.debug "  postfixed adjectival compound noun phrase (#{value} -> #{noun})"
+			return pluralize_noun( noun, 2 ) + value
 
 		when /^(?:#{PL_sb_prep_dual_compound})$/i
-			value = [ $2, $3 ] 
-			return pluralize_noun( $1, 2 ) + value[0] + pluralize_noun( value[1] )
+			noun = $1
+			value = [ $2, $3 ]
+			self.log.debug "  prepositional dual compound noun phrase (%s -> %s %s)" %
+				[ noun, *value ]
+			return pluralize_noun( noun, 2 ) + value[0] + pluralize_noun( value[1] )
 
 		when /^(?:#{PL_sb_prep_compound})$/i
-			value = $2 
-			return pluralize_noun( $1, 2 ) + value
+			noun = $1
+			value = $2
+			self.log.debug "  prepositional singular compound noun phrase (%s -> %s)" %
+				[ noun, value ]
+			return pluralize_noun( noun, 2 ) + value
 
 		# Handle pronouns
 		when /^((?:#{PL_prep})\s+)(#{PL_pron_acc})$/i
-			return $1 + PL_pron_acc_h[ $2.downcase ]
+			prep, pron = $1, $2
+			self.log.debug "  prepositional pronoun phrase (%p + %p)" % [ prep, pron ]
+			return prep + PL_pron_acc_h[ pron.downcase ]
 
 		when /^(#{PL_pron_nom})$/i
+			pron = $1
+			self.log.debug "  nominative pronoun; using PL_pron_nom table"
 			return PL_pron_nom_h[ word.downcase ]
 
 		when /^(#{PL_pron_acc})$/i
-			return PL_pron_acc_h[ $1.downcase ]
+			self.log.debug "  accusative pronoun; using PL_pron_acc table"
+			return PL_pron_acc_h[ word.downcase ]
 
 		# Handle isolated irregular plurals 
 		when /(.*)\b(#{PL_sb_irregular})$/i
-			return $1 + PL_sb_irregular_h[ $2.downcase ]
+			prefix, word = $1, $2
+			self.log.debug "  isolated irregular; using PL_sb_irregular_h table"
+			return prefix + PL_sb_irregular_h[ word.downcase ]
 
+		# Unconditional ...man -> ...mans
 		when /(#{PL_sb_U_man_mans})$/i
-			return "#{$1}s"
+			word = $1
+			self.log.debug "  unconditional man -> mans (%p)" % [ word ]
+			return "#{word}s"
 
 		# Handle families of irregular plurals
 		when /(.*)man$/i then                  return "#{$1}men"
@@ -599,8 +636,10 @@ module Linguistics::EN::Pluralization
 		when /(#{PL_sb_U_a_ae})$/i then        return "#{$1}e"
 		end
 
-		# Handle incompletely assimilated imports
-		if Linguistics.classical?
+
+		# Handle incompletely assimilated imports in classical mode
+		if Linguistics::EN.classical?
+			self.log.debug "  checking for classical incompletely assimilated imports"
 			case word
 			when /(.*)trix$/i then               return "#{$1}trices"
 			when /(.*)eau$/i then                return "#{$1}eaux"
@@ -630,7 +669,7 @@ module Linguistics::EN::Pluralization
 		# when /(.*)(us)$/i then                return "#{$1}#{$2}es"
 
 		# Handle ...f -> ...ves
-		when /(.*[eao])lf$/i then              return "#{$1}lves"; 
+		when /(.*[eao])lf$/i then              return "#{$1}lves"
 		when /(.*[^d])eaf$/i then              return "#{$1}eaves"
 		when /(.*[nlw])ife$/i then             return "#{$1}ives"
 		when /(.*)arf$/i then                  return "#{$1}arves"
@@ -647,6 +686,7 @@ module Linguistics::EN::Pluralization
 
 		# Otherwise just add ...s
 		else
+			self.log.debug "  appears to be regular; adding +s"
 			return "#{word}s"
 		end
 	end # def pluralize_noun
@@ -655,10 +695,15 @@ module Linguistics::EN::Pluralization
 
 	### Pluralize special verbs
 	def pluralize_special_verb( word, count )
-		count ||= Linguistics.num
+		self.log.debug "Trying to pluralize %p as a special verb..." % [ word ]
+		count ||= 1
 		count = normalize_count( count )
 
-		return nil if /^(#{PL_count_one})$/i =~ count.to_s
+		if /^(#{PL_count_one})$/i =~ count.to_s
+			self.log.debug "  it's a single-count word, returning it unchanged."
+			return word # :FIXME: should this return nil instead?
+			# return nil
+		end
 
 		# Handle user-defined verbs
 		#if value = ud_match( word, PL_v_user_defined )
@@ -669,28 +714,41 @@ module Linguistics::EN::Pluralization
 
 		# Handle irregular present tense (simple and compound)
 		when /^(#{PL_v_irregular_pres})((\s.*)?)$/i
+			key = $1.downcase
+			self.log.debug "  yep, it's an irregular present tense verb (%p)" % [ key ]
 			return PL_v_irregular_pres_h[ $1.downcase ] + $2
 
 		# Handle irregular future, preterite and perfect tenses 
 		when /^(#{PL_v_irregular_non_pres})((\s.*)?)$/i
+			self.log.debug "  yep, it's an irregular non-present tense verb (%p)" % [ key ]
 			return word
 
 		# Handle special cases
-		when /^(#{PL_v_special_s})$/, /\s/
+		when /^(#{PL_v_special_s})$/
+			self.log.debug "  it's a not special-case verb; aborting."
 			return nil
 
 		# Handle standard 3rd person (chop the ...(e)s off single words)
 		when /^(.*)([cs]h|[x]|zz|ss)es$/i
-			return $1 + $2
+			base, suffix = $1, $2
+			self.log.debug "  it's a standard third-person verb (%p + %p)" % [ base, suffix ]
+			return base + suffix
 		when /^(..+)ies$/i
-			return "#{$1}y"
+			verb = $1
+			self.log.debug "  it's a standard third-person verb (%p + ies -> +y)" % [ verb ]
+			return "#{verb}y"
 		when /^(.+)oes$/i
-			return "#{$1}o"
+			verb = $1
+			self.log.debug "  it's a standard third-person verb (%p + oes -> +o)" % [ verb ]
+			return "#{verb}o"
 		when /^(.*[^s])s$/i
-			return $1
+			verb = $1
+			self.log.debug "  it's a standard third-person verb (%p + (^s)s -> -s)" % [ verb ]
+			return verb
 
 		# Otherwise, a regular verb (handle elsewhere)
 		else
+			self.log.debug "  nope. Either a regular verb or not a verb."
 			return nil
 		end
 	end
@@ -698,7 +756,6 @@ module Linguistics::EN::Pluralization
 
 	### Pluralize regular verbs
 	def pluralize_general_verb( word, count )
-		count ||= Linguistics.num
 		count = normalize_count( count )
 
 		return word if /^(#{PL_count_one})$/i =~ count.to_s
@@ -722,10 +779,14 @@ module Linguistics::EN::Pluralization
 
 	### Handle special adjectives
 	def pluralize_special_adjective( word, count )
+		self.log.debug "Trying to pluralize %p as a special adjective..." % [ word ]
 		count ||= 1
 		count = normalize_count( count )
 
-		return word if /^(#{PL_count_one})$/i =~ count.to_s
+		if /^(#{PL_count_one})$/i =~ count.to_s
+			self.log.debug "  it's a single-count word; aborting"
+			return nil
+		end
 
 		# Handle user-defined verbs
 		#if value = ud_match( word, PL_adj_user_defined )
@@ -736,14 +797,19 @@ module Linguistics::EN::Pluralization
 
 		# Handle known cases
 		when /^(#{PL_adj_special})$/i
-			return PL_adj_special_h[ $1.downcase ]
+			key = $1.downcase
+			self.log.debug "  yep, it's a special plural adjective (%p)" % [ key ]
+			return PL_adj_special_h[ key ]
 
 		# Handle possessives
 		when /^(#{PL_adj_poss})$/i
+			key = $1.downcase
+			self.log.debug "  it's a special possessive adjective (%p)" % [ key ]
 			return PL_adj_poss_h[ $1.downcase ]
 
 		when /^(.*)'s?$/
-			pl = plural_noun( $1 )
+			pl = $1.en.plural_noun( count )
+			self.log.debug "  it has an apostrophe (%p); using generic possessive rules" % [ pl ]
 			if /s$/ =~ pl
 				return "#{pl}'"
 			else
@@ -752,6 +818,7 @@ module Linguistics::EN::Pluralization
 
 		# Otherwise, no idea
 		else
+			self.log.debug "  nope."
 			return nil
 		end
 	end

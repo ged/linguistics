@@ -6,32 +6,42 @@ BEGIN {
 
 	libdir = basedir + "lib"
 
-	$LOAD_PATH.unshift( libdir ) unless $LOAD_PATH.include?( libdir )
+	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
+	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
 }
 
-require 'spec'
+require 'rspec'
+require 'spec/lib/helpers'
+
 require 'linguistics'
-require 'linguistics/en/infinitive'
+require 'linguistics/en/infinitives'
 
 
-describe Linguistics::EN::Infinitives::Infinitive do
-	it "compares as equal if its primary word is equal" do
-		Linguistics::EN::Infinitives::Infinitive.new( 'basse', 'bass', 's', '2' ).should ==
-			'basse'
-	end
-
-	it "compares as equal if its secondary word is equal" do
-		Linguistics::EN::Infinitives::Infinitive.new( 'basse', 'bass', 's', '2' ).should ==
-			'bass'
-	end
-
-end
-
-describe Linguistics::EN, "infinitive calculation" do
+describe Linguistics::EN::Infinitives do
+	include Linguistics::SpecHelpers
 
 	before( :all ) do
+		setup_logging( :fatal )
 		Linguistics.use( :en, :proxy => true )
 		include Linguistics::EN
+	end
+
+	after( :all ) do
+		reset_logging()
+	end
+
+
+	describe "Infinitive object class" do
+		it "compares as equal if its primary word is equal" do
+			Linguistics::EN::Infinitives::Infinitive.new( 'basse', 'bass', 's', '2' ).should ==
+				'basse'
+		end
+
+		it "compares as equal if its secondary word is equal" do
+			Linguistics::EN::Infinitives::Infinitive.new( 'basse', 'bass', 's', '2' ).should ==
+				'bass'
+		end
+
 	end
 
 

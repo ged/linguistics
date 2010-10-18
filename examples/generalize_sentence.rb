@@ -5,7 +5,8 @@ BEGIN {
 	
 	basedir = Pathname.new( __FILE__ ).dirname.parent.expand_path
 	libdir = basedir + "lib"
-	$LOAD_PATH.unshift( libdir ) unless $LOAD_PATH.include?( libdir )
+	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
+	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
 }
 
 require 'linguistics'

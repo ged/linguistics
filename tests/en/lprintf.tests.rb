@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 #
 # Unit test for Linguistics::EN#lprintf
-# $Id: lprintf.tests.rb 99 2008-09-06 05:20:07Z deveiant $
+# $Id$
 #
 # Copyright (c) 2006 The FaerieMUD Consortium.
 # 
@@ -12,7 +12,8 @@ unless defined?( Linguistics::TestCase )
 	
 	libdir = basedir + "lib"
 	testsdir = basedir + "tests"
-	$LOAD_PATH.unshift( libdir ) unless $LOAD_PATH.include?( libdir )
+	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
+	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
 	$LOAD_PATH.unshift( testsdir ) unless $LOAD_PATH.include?( testsdir )
 	
 	require 'lingtestcase'

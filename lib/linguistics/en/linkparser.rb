@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-require 'linguistics/en'
+require 'linguistics/en' unless defined?( Linguistics::EN )
 
 # This file contains the extensions to the Linguistics::EN module which provide
 # support for the Ruby LinkParser module. LinkParser enables grammatic queries
@@ -42,7 +42,7 @@ require 'linguistics/en'
 # 
 # == Version
 #
-#  $Id: linkparser.rb 99 2008-09-06 05:20:07Z deveiant $
+#  $Id$
 # 
 # == Authors
 # 

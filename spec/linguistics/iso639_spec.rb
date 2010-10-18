@@ -1,4 +1,5 @@
 #!/usr/bin/env spec -cfs
+#encoding: utf-8
 
 BEGIN {
 	require 'pathname'
@@ -6,58 +7,61 @@ BEGIN {
 
 	libdir = basedir + "lib"
 
-	$LOAD_PATH.unshift( libdir ) unless $LOAD_PATH.include?( libdir )
+	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
+	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
 }
 
-require 'spec'
+require 'rspec'
+require 'spec/lib/helpers'
+
+require 'linguistics'
 require 'linguistics/iso639'
 
 
 describe Linguistics, " language codes" do
 
+	# eng||en|English|anglais
 	it "loads simple language codes from its __DATA__ section" do
-		Linguistics::LANGUAGE_CODES.should have_key( "en" )
-		Linguistics::LANGUAGE_CODES[ "en" ].should have(2).members
+		Linguistics::LANGUAGE_CODES.should have_key( :en )
+		Linguistics::LANGUAGE_CODES[ :en ].should have(3).members
 
-		Linguistics::LANGUAGE_CODES[ "en" ].should have_key( :codes )
-		Linguistics::LANGUAGE_CODES[ "en" ][:codes].should have(2).members
-		Linguistics::LANGUAGE_CODES[ "en" ][:codes].should include("en")
-		Linguistics::LANGUAGE_CODES[ "en" ][:codes].should include("eng")
+		Linguistics::LANGUAGE_CODES[ :en ].should have_key( :codes )
+		Linguistics::LANGUAGE_CODES[ :en ][:codes].should have(2).members
+		Linguistics::LANGUAGE_CODES[ :en ][:codes].should include("en", "eng")
 
-		Linguistics::LANGUAGE_CODES[ "en" ].should have_key( :desc )
-		Linguistics::LANGUAGE_CODES[ "en" ][:desc].should == 'English'
+		Linguistics::LANGUAGE_CODES[ :en ].should have_key( :eng_name )
+		Linguistics::LANGUAGE_CODES[ :en ][:eng_name].should == 'English'
+		Linguistics::LANGUAGE_CODES[ :en ].should have_key( :fre_name )
+		Linguistics::LANGUAGE_CODES[ :en ][:fre_name].should == 'anglais'
 	end
 
 	it "loads language codes with variants from its __DATA__ section" do
 
-		# ces/cze  cs    Czech
-		Linguistics::LANGUAGE_CODES.should have_key( "cs" )
-		Linguistics::LANGUAGE_CODES[ "cs" ].should have(2).members
+		# cze|ces|cs|Czech|tchèque
+		Linguistics::LANGUAGE_CODES.should have_key( :cs )
+		Linguistics::LANGUAGE_CODES[ :cs ].should have(3).members
 
-		Linguistics::LANGUAGE_CODES[ "cs" ].should have_key( :codes )
-		Linguistics::LANGUAGE_CODES[ "cs" ][:codes].should have(3).members
-		Linguistics::LANGUAGE_CODES[ "cs" ][:codes].should include("cs")
-		Linguistics::LANGUAGE_CODES[ "cs" ][:codes].should include("ces")
-		Linguistics::LANGUAGE_CODES[ "cs" ][:codes].should include("cze")
+		Linguistics::LANGUAGE_CODES[ :cs ].should have_key( :codes )
+		Linguistics::LANGUAGE_CODES[ :cs ][:codes].should have(3).members
+		Linguistics::LANGUAGE_CODES[ :cs ][:codes].should include("cs", "ces", "cze")
 
-		Linguistics::LANGUAGE_CODES[ "cs" ].should have_key( :desc )
-		Linguistics::LANGUAGE_CODES[ "cs" ][:desc].should == 'Czech'
+		Linguistics::LANGUAGE_CODES[ :cs ].should have_key( :eng_name )
+		Linguistics::LANGUAGE_CODES[ :cs ][:eng_name].should == 'Czech'
+		Linguistics::LANGUAGE_CODES[ :cs ].should have_key( :fre_name )
+		Linguistics::LANGUAGE_CODES[ :cs ][:fre_name].should == 'tchèque'
 
-		# jav/jaw  jv/jw Javanese
-		Linguistics::LANGUAGE_CODES.should have_key( "jv" )
-		Linguistics::LANGUAGE_CODES.should have_key( "jw" )
-		Linguistics::LANGUAGE_CODES[ "jv" ].should == Linguistics::LANGUAGE_CODES[ "jw" ]
-		Linguistics::LANGUAGE_CODES[ "jv" ].should have(2).members
+		# mac|mkd|mk|Macedonian|macédonien
+		Linguistics::LANGUAGE_CODES.should have_key( :mk )
+		Linguistics::LANGUAGE_CODES[ :mk ].should have( 3 ).members
 
-		Linguistics::LANGUAGE_CODES[ "jv" ].should have_key( :codes )
-		Linguistics::LANGUAGE_CODES[ "jv" ][:codes].should have(4).members
-		Linguistics::LANGUAGE_CODES[ "jv" ][:codes].should include("jv")
-		Linguistics::LANGUAGE_CODES[ "jv" ][:codes].should include("jw")
-		Linguistics::LANGUAGE_CODES[ "jv" ][:codes].should include("jav")
-		Linguistics::LANGUAGE_CODES[ "jv" ][:codes].should include("jaw")
+		Linguistics::LANGUAGE_CODES[ :mk ].should have_key( :codes )
+		Linguistics::LANGUAGE_CODES[ :mk ][:codes].should have(3).members
+		Linguistics::LANGUAGE_CODES[ :mk ][:codes].should include("mk", "mac", "mkd")
 
-		Linguistics::LANGUAGE_CODES[ "jv" ].should have_key( :desc )
-		Linguistics::LANGUAGE_CODES[ "jv" ][:desc].should == 'Javanese'
+		Linguistics::LANGUAGE_CODES[ :mk ].should have_key( :eng_name )
+		Linguistics::LANGUAGE_CODES[ :mk ][:eng_name].should == 'Macedonian'
+		Linguistics::LANGUAGE_CODES[ :mk ].should have_key( :fre_name )
+		Linguistics::LANGUAGE_CODES[ :mk ][:fre_name].should == 'macédonien'
 
 	end
 

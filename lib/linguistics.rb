@@ -1,29 +1,13 @@
 #!/usr/bin/ruby
 # coding: utf-8
 
-# 
 # An interface for extending core Ruby classes with linguistic methods.
 # 
-# == Synopsis
+# @version 2.0.0
+#
 # 
-#   require 'linguistics'
-#	Linguistics.use( :en )
-#	MyClass.extend( Linguistics )
-#
-# == Version
-#
-#  $Id: linguistics.rb 99 2008-09-06 05:20:07Z deveiant $
+# @author Michael Granger <ged@FaerieMUD.org>
 # 
-# == Authors
-# 
-# * Michael Granger <ged@FaerieMUD.org>
-# 
-# :include: LICENSE
-#
-#--
-#
-# Please see the file LICENSE in the base directory for licensing details.
-#
 module Linguistics
 
 	# Release version
@@ -36,9 +20,9 @@ module Linguistics
 	DEFAULT_EXT_CLASSES = [ String, Numeric, Array ]
 
 
-	vvec = ->( version ) { version.split('.').collect {|v| v.to_i }.pack('N*') }
-	warn "This version of Linguistics requires Ruby 1.9.1 or greater." unless
-		vvec[RUBY_VERSION] >= vvec['1.9.1']
+	vvec = lambda {|version| version.split('.').collect {|v| v.to_i }.pack('N*') }
+	abort "This version of Linguistics requires Ruby 1.9.2 or greater." unless
+		vvec[RUBY_VERSION] >= vvec['1.9.2']
 
 
 	require 'linguistics/utils'
@@ -205,15 +189,17 @@ module Linguistics
 		unless mixin = self.inflector_mixins[ mod ]
 			Linguistics.log.debug "Making an inflector mixin for %p" % [ mod ]
 
-			bibcode, termcode, alpha2code = *language[:codes]
+			alpha2code, bibcode, termcode = *language[:codes]
 			inflector = Class.new( Linguistics::Inflector ) { include(mod) }
+			Linguistics.log.debug "  created inflector class %p for [%p, %p, %p]" %
+				[ inflector, bibcode, termcode, alpha2code ]
 
 			mixin = Module.new do
 				define_method( bibcode ) do
 					@__inflector ||= inflector.new( self )
 				end
-				alias_method termcode, bibcode unless termcode == ''
-				alias_method alpha2code, bibcode unless alpha2code == ''
+				alias_method termcode, bibcode unless termcode.nil? || termcode.empty?
+				alias_method alpha2code, bibcode unless alpha2code.nil? || alpha2code.empty?
 			end
 			self.inflector_mixins[ mod ] = mixin
 		end
@@ -235,41 +221,42 @@ module Linguistics
 	end
 
 
-	# ### A collection of extensions that get added to Array.
-	# module ArrayExtensions
-	# 
-	# 	### Returns a new Array that has had a new member inserted between all of
-	# 	### the current ones. The value used is the given +value+ argument unless a
-	# 	### block is given, in which case the block is called once for each pair of
-	# 	### the Array, and the return value is used as the separator.
-	# 	def separate( value=:__no_arg__, &block )
-	# 		ary = self.dup
-	# 		ary.separate!( value, &block )
-	# 		return ary
-	# 	end
-	# 
-	# 	### The same as #separate, but modifies the Array in place.
-	# 	def separate!( value=:__no_arg__ )
-	# 		raise ArgumentError, "wrong number of arguments: (0 for 1)" if
-	# 			value == :__no_arg__ && !block_given?
-	# 
-	# 		(1..( (self.length * 2) - 2 )).step(2) do |i|
-	# 			if block_given?
-	# 				self.insert( i, yield(self[i-1,2]) )
-	# 			else
-	# 				self.insert( i, value )
-	# 			end
-	# 		end
-	# 		self
-	# 	end
-	# 
-	# end # module ArrayExtensions
+	### A collection of extensions that get added to Array.
+	module ArrayExtensions
+
+		### Returns a new Array that has had a new member inserted between all of
+		### the current ones. The value used is the given +value+ argument unless a
+		### block is given, in which case the block is called once for each pair of
+		### the Array, and the return value is used as the separator.
+		def separate( *args, &block )
+			ary = self.dup
+			ary.separate!( *args, &block )
+			return ary
+		end
+
+		### The same as #separate, but modifies the Array in place.
+		def separate!( *args )
+			raise LocalJumpError, "no block given for no-arg #separate!" if
+				args.empty? && !block_given?
+			value = args.first
+
+			(1..( (self.length * 2) - 2 )).step(2) do |i|
+				if block_given?
+					self.insert( i, yield(self[i-1,2]) )
+				else
+					self.insert( i, value )
+				end
+			end
+			self
+		end
+
+	end # module ArrayExtensions
 
 end # class Linguistics
 
 
-# ### Add our extensions to Array
-# class Array # :nodoc:
-# 	include Linguistics::ArrayExtensions
-# end
-# 
+### Extend Array
+class Array
+	include Linguistics::ArrayExtensions
+end
+

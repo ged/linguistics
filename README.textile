@@ -1,30 +1,27 @@
 
-= Linguistics
+h1. Linguistics
 
-== Authors
+h2. Authors
 
 * Michael Granger <ged@FaerieMUD.org>
 * Martin Chase <stillflame@FaerieMUD.org>
 
 
-== Requirements
+h2. Requirements
 
 * Ruby >= 1.8.7
 
 
-== Optional
+h2. Optional
 
-* Ruby-WordNet (>= 0.0.5) - adds integration for the Ruby binding for the
-  WordNet® lexical refrence system.
+* "Ruby-WordNet":http://deveiate.org/projects/Ruby-WordNet (>= 0.0.5) - adds integration for the
+  Ruby binding for the WordNetï¿½ lexical refrence system.
 
-  URL: http://deveiate.org/projects/Ruby-WordNet
-
-* LinkParser (>= 1.0.5)
-
-  URL: http://deveiate.org/projects/Ruby-LinkParser
+* "LinkParser":http://deveiate.org/projects/Ruby-LinkParser (>= 1.0.5)
+  Ruby high-level interface to the CMU Link Grammar library
 
 
-== General Information
+h2. General Information
 
 Linguistics is a framework for building linguistic utilities for Ruby objects
 in any language. It includes a generic language-independant front end, a
@@ -32,7 +29,7 @@ module for mapping language codes into language names, and a module which
 contains various English-language utilities.
 
 
-=== Method Interface
+h3. Method Interface
 
 The Linguistics module comes with a language-independant mechanism for
 extending core Ruby classes with linguistic methods.
@@ -55,15 +52,15 @@ also allow you to use them as a function library as well.
 For example, the English-language module contains a #plural function which can
 be accessed via a method on a core class:
 
-  Linguistics::use( :en )
-  "goose".en.plural
-  # => "geese"
+	Linguistics::use( :en )
+	"goose".en.plural
+	# => "geese"
   
 or via the Linguistics::EN::plural function directly:
 
-  include Linguistics::EN
-  plural( "goose" )
-  # => "geese"
+	include Linguistics::EN
+	plural( "goose" )
+	# => "geese"
 
 The class-extension mechanism actually uses the functional interface behind
 the scenes.
@@ -73,18 +70,18 @@ for unambiguous methods by calling Linguistics::use with the +:installProxy+
 configuration key, with the language code of the language module whose methods
 you wish to be available. For example, instead of having to call:
 
-  "goose".en.plural
+	"goose".en.plural
 
 from the example above, you can now do this:
 
-  Lingusitics::use( :en, :installProxy => :en )
-  "goose".plural
-  # => "geese"
+	Lingusitics::use( :en, :installProxy => :en )
+	"goose".plural
+	# => "geese"
 
 More about how this works in the documentation for Linguistics::use.
 
 
-==== Adding Language Modules
+h4. Adding Language Modules
 
 To add a new language to the framework, create a file named the same as the
 ISO639 2- or 3-letter language code for the language you're adding. It must be
@@ -100,46 +97,27 @@ adding the appropriate symbol to the Linguistics::DEFAULT_LANGUAGES array.
 For example, to create a Portuguese-language module, create a file called
 'lib/linguistics/pt.rb' which contains the following:
 
-  module Linguistics
-    module PT
-      Linguistics::DEFAULT_LANGUAGES << :pt
-
-      module_function
-	  <language methods here>
-    end
-  end
+	module Linguistics
+	  module PT
+	    Linguistics::DEFAULT_LANGUAGES << :pt
+	
+	    module_function
+	    <language methods here>
+	  end
+	end
 
 See the English language module (lib/linguistics/en.rb) for an example.
 
 
-=== English Language Module
+h3. English Language Module
 
 See the README.english file for a synopsis.
 
 The English-language module currently contains linguistic functions ported
 from a few excellent Perl modules:
 
-  Lingua::EN::Inflect
-  Lingua::Conjunction
-  Lingua::EN::Infinitive
+	Lingua::EN::Inflect
+	Lingua::Conjunction
+	Lingua::EN::Infinitive
 
 See the lib/linguistics/en.rb file for specific attributions.
-
-New with version 0.02: integration with the Ruby WordNet® and LinkParser
-modules (which must be installed separately).
-
-
-== To Do
-  
-* I am planning on improving the results from the infinitive functions, which
-  currently return useful results only part of the time. Investigations into
-  additional stemming functions and some other strategies are ongoing.
-
-* Martin Chase <stillflame at FaerieMUD dot org> is working on an integration
-  module for his excellent work on a Ruby interface to the CMU Link Grammar
-  (an english-sentence parser). This will make writing fairly accurate natural
-  language parsers in Ruby much easier.
-
-* Suggestions (and patches) for any of these items or additional features are
-  welcomed.
-

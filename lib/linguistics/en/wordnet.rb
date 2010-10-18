@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-require 'linguistics/en'
+require 'linguistics/en' unless defined?( Linguistics )
 
 # This file contains functions for finding relations for English words. It
 # requires the Ruby-WordNet module to be installed; if it is not installed,
@@ -76,7 +76,7 @@ require 'linguistics/en'
 # 
 # == Version
 #
-#  $Id: wordnet.rb 100 2008-12-23 15:39:59Z deveiant $
+#  $Id$
 # 
 module Linguistics::EN
 

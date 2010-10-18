@@ -6,7 +6,7 @@ require 'erb'
 require 'bigdecimal'
 require 'date'
 
-require 'linguistics'
+require 'linguistics' unless defined?( Linguistics )
 
 
 module Linguistics # :nodoc:

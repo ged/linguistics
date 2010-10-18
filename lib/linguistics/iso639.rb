@@ -1,30 +1,28 @@
 #!/usr/bin/ruby
 # coding: utf-8
 
-require 'linguistics'
+require 'linguistics' unless defined?( Linguistics )
 
-# A hash of International 2- and 3-letter ISO639-1 and ISO639-2 language 
-# codes. Each entry has two keys:
+# A hash of International 2- and 3-letter ISO639-1 and ISO639-2
+# language codes information. Each entry is keyed by all of its
+# language codes as Symbols, and the entry itself has three keys:
 #
 # [<tt>:codes</tt>]
-#   All of the codes known for this language
-# [<tt>:desc</tt>]
-#   The English-language description of the language.
+#   All of the codes known for this language as Strings
+# [<tt>:eng_name</tt>]
+#   The English-language name of the language.
+# [<tt>:fre_name</tt>]
+#   The French-language name of the language.
 #
-# == Version
+# @example Entries for 'ja' and 'en'
 #
-#  $Id: en.rb 99 2008-09-06 05:20:07Z deveiant $
-# 
-# == Authors
-# 
-# * Michael Granger <ged@FaerieMUD.org>
-# 
-# :include: LICENSE
-#
-#--
-#
-# Please see the file LICENSE in the base directory for licensing details.
-#
+# irb > Linguistics::ISO639::LANGUAGE_CODES[:en]
+#  => {:eng_name=>"English", :fre_name=>"anglais", :codes=>["en", "eng"]} 
+# irb > Linguistics::ISO639::LANGUAGE_CODES[:eng]
+#  => {:eng_name=>"English", :fre_name=>"anglais", :codes=>["en", "eng"]} 
+# irb > Linguistics::ISO639::LANGUAGE_CODES[:ja]
+#  => {:eng_name=>"Japanese", :fre_name=>"japonais", :codes=>["ja", "jpn"]} 
+
 module Linguistics::ISO639
 
 	# Hash of ISO639 2- and 3-letter language codes
@@ -44,12 +42,15 @@ module Linguistics::ISO639
 	# bib_alpha3|term_alpha3|alpha2|eng_name|fre_name
 	# E.g., "eng||en|English|anglais"
 	data.lines do |line|
-		bib_alpha3, term_alpha3, alpha2, eng_name, fre_name = line[0,15].split( '|', 5 )
+		next unless line =~ /\|/ # Skip non-language lines
+		bib_alpha3, term_alpha3, alpha2, eng_name, fre_name = line.chomp.split( '|', 5 )
 		entry      = {
 			:eng_name => eng_name,
 			:fre_name => fre_name,
-			:codes    => [ alpha2, bib_alpha3, term_alpha3 ].compact
+			:codes    => [ alpha2, bib_alpha3, term_alpha3 ].reject {|item| item.empty? }
 		}
+		$stderr.puts "  adding language code entry %p from line: %p" %
+			[ entry, line ] if $DEBUG
 
 		LANGUAGE_CODES[ bib_alpha3.to_sym ] = entry
 		LANGUAGE_CODES[ alpha2.to_sym ] = entry if alpha2

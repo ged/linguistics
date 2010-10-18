@@ -1,7 +1,6 @@
 #!/usr/bin/ruby
 
-require 'linguistics'
-require 'linguistics/en'
+require 'linguistics/en' unless defined?( Linguistics::EN )
 
 # This file contains functions for constructing conjunctions out of Enumerable 
 # objects. Requiring this file adds functions and constants to the Linguistics::EN 
@@ -28,6 +27,20 @@ module Linguistics::EN::Conjunctions
 	Linguistics::EN.register_extension( self )
 
 	# :stopdoc:
+
+	# Default configuration arguments for the #conjunction (junction, what's
+	# your) function.
+	CONJUNCTION_DEFAULTS = {
+		:separator		=> ', ',
+		:altsep			=> '; ',
+		:penultimate	=> true,
+		:conjunctive	=> 'and',
+		:combine		=> true,
+		:casefold		=> true,
+		:generalize		=> false,
+		:quantsort		=> true,
+	}
+
 
 	# :TODO: Needs refactoring
 
@@ -89,15 +102,15 @@ module Linguistics::EN::Conjunctions
 	###   items of the same quantity will be listed in the order they appeared
 	###   in the source list).
 	###
-	def conjunction( obj, args={} )
-		config = ConjunctionDefaults.merge( args )
+	def conjunction( args={} )
+		config = CONJUNCTION_DEFAULTS.merge( args )
 		phrases = []
 
 		# Transform items in the obj to phrases
 		if block_given?
-			phrases = obj.collect {|item| yield(item) }.compact
+			phrases = self.obj.collect {|item| yield(item) }.compact
 		else
-			phrases = obj.collect {|item| item.to_s }
+			phrases = self.obj.collect {|item| item.to_s }
 		end
 
 		# No need for a conjunction if there's only one thing
@@ -163,7 +176,7 @@ module Linguistics::EN::Conjunctions
 					"%s %s" % [
 						# :TODO: Make this threshold settable
 						count < 10 ? count.en.numwords : count.to_s,
-						plural(phrase, count)
+						phrase.en.plural(count)
 					]
 				else
 					a( phrase )
