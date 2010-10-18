@@ -1,4 +1,4 @@
-#!/usr/bin/env spec -cfs
+#!/usr/bin/env rspec -cfd
 
 BEGIN {
 	require 'pathname'
@@ -6,19 +6,27 @@ BEGIN {
 
 	libdir = basedir + "lib"
 
-	$LOAD_PATH.unshift( libdir ) unless $LOAD_PATH.include?( libdir )
+	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
+	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
 }
 
-require 'spec'
+require 'rspec'
+require 'spec/lib/helpers'
+
 require 'linguistics'
-require 'linguistics/en/pluralization'
+require 'linguistics/en'
 
 
 describe Linguistics::EN::Pluralization do
+	include Linguistics::SpecHelpers
 
 	before( :all ) do
-		Linguistics.use( :en, :proxy => true )
-		include Linguistics::EN
+		setup_logging( :fatal )
+		Linguistics.use( :en )
+	end
+
+	after( :all ) do
+		reset_logging()
 	end
 
 
@@ -40,7 +48,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'abscissa' as 'abscissae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'abscissa'.en.plural.should == 'abscissae'
 		end
 	end
@@ -58,7 +66,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'adieu' as 'adieux' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'adieu'.en.plural.should == 'adieux'
 		end
 	end
@@ -80,7 +88,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'afreet' as 'afreeti' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'afreet'.en.plural.should == 'afreeti'
 		end
 	end
@@ -90,7 +98,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'afrit' as 'afriti' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'afrit'.en.plural.should == 'afriti'
 		end
 	end
@@ -132,7 +140,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'alto' as 'alti' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'alto'.en.plural.should == 'alti'
 		end
 	end
@@ -174,7 +182,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'amoeba' as 'amoebae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'amoeba'.en.plural.should == 'amoebae'
 		end
 	end
@@ -197,7 +205,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'anathema' as 'anathemata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'anathema'.en.plural.should == 'anathemata'
 		end
 	end
@@ -219,7 +227,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'antenna' as 'antennae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'antenna'.en.plural.should == 'antennae'
 		end
 	end
@@ -233,7 +241,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'apex' as 'apices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'apex'.en.plural.should == 'apices'
 		end
 	end
@@ -252,7 +260,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'apparatus' as 'apparatus' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'apparatus'.en.plural.should == 'apparatus'
 		end
 	end
@@ -262,7 +270,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'appendix' as 'appendices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'appendix'.en.plural.should == 'appendices'
 		end
 	end
@@ -276,7 +284,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'aquarium' as 'aquaria' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'aquarium'.en.plural.should == 'aquaria'
 		end
 	end
@@ -363,7 +371,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'aurora' as 'aurorae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'aurora'.en.plural.should == 'aurorae'
 		end
 	end
@@ -374,7 +382,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'aviatrix' as 'aviatrices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'aviatrix'.en.plural.should == 'aviatrices'
 		end
 	end
@@ -446,7 +454,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'basso' as 'bassi' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'basso'.en.plural.should == 'bassi'
 		end
 	end
@@ -462,7 +470,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'beau' as 'beaux' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'beau'.en.plural.should == 'beaux'
 		end
 	end
@@ -473,7 +481,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'beef' as 'beeves' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'beef'.en.plural.should == 'beeves'
 		end
 	end
@@ -527,7 +535,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'bison' as 'bison' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'bison'.en.plural.should == 'bison'
 		end
 	end
@@ -608,7 +616,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'brother' as 'brethren' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'brother'.en.plural.should == 'brethren'
 		end
 	end
@@ -624,7 +632,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'buffalo' as 'buffalo' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'buffalo'.en.plural.should == 'buffalo'
 		end
 	end
@@ -645,7 +653,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'bureau' as 'bureaux' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'bureau'.en.plural.should == 'bureaux'
 		end
 	end
@@ -780,7 +788,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'carcinoma' as 'carcinomata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'carcinoma'.en.plural.should == 'carcinomata'
 		end
 	end
@@ -851,7 +859,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'chapeau' as 'chapeaux' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'chapeau'.en.plural.should == 'chapeaux'
 		end
 	end
@@ -862,7 +870,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'charisma' as 'charismata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'charisma'.en.plural.should == 'charismata'
 		end
 	end
@@ -883,7 +891,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'chateau' as 'chateaux' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'chateau'.en.plural.should == 'chateaux'
 		end
 	end
@@ -894,7 +902,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'cherub' as 'cherubim' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'cherub'.en.plural.should == 'cherubim'
 		end
 	end
@@ -935,7 +943,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'cicatrix' as 'cicatrices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'cicatrix'.en.plural.should == 'cicatrices'
 		end
 	end
@@ -967,7 +975,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'clitoris' as 'clitorides' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'clitoris'.en.plural.should == 'clitorides'
 		end
 	end
@@ -998,7 +1006,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'compendium' as 'compendia' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'compendium'.en.plural.should == 'compendia'
 		end
 	end
@@ -1024,7 +1032,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'contralto' as 'contralti' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'contralto'.en.plural.should == 'contralti'
 		end
 	end
@@ -1050,7 +1058,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'corpus' as 'corpora' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'corpus'.en.plural.should == 'corpora'
 		end
 	end
@@ -1061,7 +1069,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'cortex' as 'cortices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'cortex'.en.plural.should == 'cortices'
 		end
 	end
@@ -1082,7 +1090,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'cow' as 'kine' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'cow'.en.plural.should == 'kine'
 		end
 	end
@@ -1093,7 +1101,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'cranium' as 'crania' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'cranium'.en.plural.should == 'crania'
 		end
 	end
@@ -1114,7 +1122,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'curriculum' as 'curricula' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'curriculum'.en.plural.should == 'curricula'
 		end
 	end
@@ -1170,7 +1178,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'dictum' as 'dicta' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'dictum'.en.plural.should == 'dicta'
 		end
 	end
@@ -1201,7 +1209,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'diploma' as 'diplomata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'diploma'.en.plural.should == 'diplomata'
 		end
 	end
@@ -1242,7 +1250,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'dogma' as 'dogmata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'dogma'.en.plural.should == 'dogmata'
 		end
 	end
@@ -1253,7 +1261,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'dominatrix' as 'dominatrices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'dominatrix'.en.plural.should == 'dominatrices'
 		end
 	end
@@ -1274,7 +1282,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'drama' as 'dramata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'drama'.en.plural.should == 'dramata'
 		end
 	end
@@ -1300,7 +1308,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'edema' as 'edemata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'edema'.en.plural.should == 'edemata'
 		end
 	end
@@ -1311,7 +1319,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'eland' as 'eland' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'eland'.en.plural.should == 'eland'
 		end
 	end
@@ -1327,7 +1335,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'elk' as 'elk' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'elk'.en.plural.should == 'elk'
 		end
 	end
@@ -1343,7 +1351,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'emporium' as 'emporia' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'emporium'.en.plural.should == 'emporia'
 		end
 	end
@@ -1359,7 +1367,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'enconium' as 'enconia' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'enconium'.en.plural.should == 'enconia'
 		end
 	end
@@ -1370,7 +1378,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'enema' as 'enemata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'enema'.en.plural.should == 'enemata'
 		end
 	end
@@ -1381,7 +1389,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'enigma' as 'enigmata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'enigma'.en.plural.should == 'enigmata'
 		end
 	end
@@ -1437,7 +1445,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'fauna' as 'faunae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'fauna'.en.plural.should == 'faunae'
 		end
 	end
@@ -1498,7 +1506,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'flora' as 'florae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'flora'.en.plural.should == 'florae'
 		end
 	end
@@ -1514,7 +1522,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'focus' as 'foci' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'focus'.en.plural.should == 'foci'
 		end
 	end
@@ -1551,7 +1559,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'foramen' as 'foramina' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'foramen'.en.plural.should == 'foramina'
 		end
 	end
@@ -1562,7 +1570,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'formula' as 'formulae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'formula'.en.plural.should == 'formulae'
 		end
 	end
@@ -1599,7 +1607,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'fungus' as 'fungi' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'fungus'.en.plural.should == 'fungi'
 		end
 	end
@@ -1620,7 +1628,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'ganglion' as 'ganglia' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'ganglion'.en.plural.should == 'ganglia'
 		end
 	end
@@ -1636,7 +1644,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'gateau' as 'gateaux' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'gateau'.en.plural.should == 'gateaux'
 		end
 	end
@@ -1662,7 +1670,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'genie' as 'genii' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'genie'.en.plural.should == 'genii'
 		end
 	end
@@ -1673,7 +1681,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'genius' as 'genii' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'genius'.en.plural.should == 'genii'
 		end
 	end
@@ -1729,7 +1737,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'goy' as 'goyim' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'goy'.en.plural.should == 'goyim'
 		end
 	end
@@ -1765,7 +1773,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'gumma' as 'gummata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'gumma'.en.plural.should == 'gummata'
 		end
 	end
@@ -1776,7 +1784,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'gymnasium' as 'gymnasia' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'gymnasium'.en.plural.should == 'gymnasia'
 		end
 	end
@@ -1915,7 +1923,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'hiatus' as 'hiatus' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'hiatus'.en.plural.should == 'hiatus'
 		end
 	end
@@ -1946,7 +1954,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'hippopotamus' as 'hippopotami' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'hippopotamus'.en.plural.should == 'hippopotami'
 		end
 	end
@@ -1974,7 +1982,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'honorarium' as 'honoraria' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'honorarium'.en.plural.should == 'honoraria'
 		end
 	end
@@ -1985,7 +1993,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'hoof' as 'hooves' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'hoof'.en.plural.should == 'hooves'
 		end
 	end
@@ -2031,7 +2039,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'hydra' as 'hydrae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'hydra'.en.plural.should == 'hydrae'
 		end
 	end
@@ -2047,7 +2055,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'hyperbola' as 'hyperbolae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'hyperbola'.en.plural.should == 'hyperbolae'
 		end
 	end
@@ -2073,7 +2081,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'impetus' as 'impetus' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'impetus'.en.plural.should == 'impetus'
 		end
 	end
@@ -2084,7 +2092,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'incubus' as 'incubi' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'incubus'.en.plural.should == 'incubi'
 		end
 	end
@@ -2095,7 +2103,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'index' as 'indices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'index'.en.plural.should == 'indices'
 		end
 	end
@@ -2126,7 +2134,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'interregnum' as 'interregna' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'interregnum'.en.plural.should == 'interregna'
 		end
 	end
@@ -2137,7 +2145,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'iris' as 'irides' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'iris'.en.plural.should == 'irides'
 		end
 	end
@@ -2264,7 +2272,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'lacuna' as 'lacunae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'lacuna'.en.plural.should == 'lacunae'
 		end
 	end
@@ -2285,7 +2293,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'larynx' as 'larynges' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'larynx'.en.plural.should == 'larynges'
 		end
 	end
@@ -2296,7 +2304,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'latex' as 'latices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'latex'.en.plural.should == 'latices'
 		end
 	end
@@ -2330,7 +2338,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'lemma' as 'lemmata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'lemma'.en.plural.should == 'lemmata'
 		end
 	end
@@ -2416,7 +2424,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'lumen' as 'lumina' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'lumen'.en.plural.should == 'lumina'
 		end
 	end
@@ -2427,7 +2435,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'lustrum' as 'lustra' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'lustrum'.en.plural.should == 'lustra'
 		end
 	end
@@ -2443,7 +2451,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'lymphoma' as 'lymphomata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'lymphoma'.en.plural.should == 'lymphomata'
 		end
 	end
@@ -2494,7 +2502,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'magma' as 'magmata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'magma'.en.plural.should == 'magmata'
 		end
 	end
@@ -2555,7 +2563,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'maximum' as 'maxima' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'maximum'.en.plural.should == 'maxima'
 		end
 	end
@@ -2576,7 +2584,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'medium' as 'media' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'medium'.en.plural.should == 'media'
 		end
 	end
@@ -2592,7 +2600,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'medusa' as 'medusae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'medusa'.en.plural.should == 'medusae'
 		end
 	end
@@ -2603,7 +2611,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'memorandum' as 'memoranda' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'memorandum'.en.plural.should == 'memoranda'
 		end
 	end
@@ -2639,7 +2647,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'miasma' as 'miasmata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'miasma'.en.plural.should == 'miasmata'
 		end
 	end
@@ -2655,7 +2663,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'milieu' as 'milieux' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'milieu'.en.plural.should == 'milieux'
 		end
 	end
@@ -2666,7 +2674,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'millenium' as 'millenia' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'millenium'.en.plural.should == 'millenia'
 		end
 	end
@@ -2677,7 +2685,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'minimum' as 'minima' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'minimum'.en.plural.should == 'minima'
 		end
 	end
@@ -2721,7 +2729,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'momentum' as 'momenta' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'momentum'.en.plural.should == 'momenta'
 		end
 	end
@@ -2742,7 +2750,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'moose' as 'moose' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'moose'.en.plural.should == 'moose'
 		end
 	end
@@ -2824,7 +2832,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'nebula' as 'nebulae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'nebula'.en.plural.should == 'nebulae'
 		end
 	end
@@ -2870,7 +2878,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'nimbus' as 'nimbi' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'nimbus'.en.plural.should == 'nimbi'
 		end
 	end
@@ -2901,7 +2909,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'nova' as 'novae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'nova'.en.plural.should == 'novae'
 		end
 	end
@@ -2912,7 +2920,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'nucleolus' as 'nucleoli' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'nucleolus'.en.plural.should == 'nucleoli'
 		end
 	end
@@ -2938,7 +2946,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'octopus' as 'octopodes' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'octopus'.en.plural.should == 'octopodes'
 		end
 	end
@@ -2949,7 +2957,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'oedema' as 'oedemata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'oedema'.en.plural.should == 'oedemata'
 		end
 	end
@@ -2986,7 +2994,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'optimum' as 'optima' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'optimum'.en.plural.should == 'optima'
 		end
 	end
@@ -2997,7 +3005,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'opus' as 'opera' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'opus'.en.plural.should == 'opera'
 		end
 	end
@@ -3035,7 +3043,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'oxymoron' as 'oxymora' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'oxymoron'.en.plural.should == 'oxymora'
 		end
 	end
@@ -3051,7 +3059,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'parabola' as 'parabolae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'parabola'.en.plural.should == 'parabolae'
 		end
 	end
@@ -3092,7 +3100,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'penis' as 'penes' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'penis'.en.plural.should == 'penes'
 		end
 	end
@@ -3103,7 +3111,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'penumbra' as 'penumbrae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'penumbra'.en.plural.should == 'penumbrae'
 		end
 	end
@@ -3129,7 +3137,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'phalanx' as 'phalanges' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'phalanx'.en.plural.should == 'phalanges'
 		end
 	end
@@ -3160,7 +3168,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'phylum' as 'phyla' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'phylum'.en.plural.should == 'phyla'
 		end
 	end
@@ -3171,7 +3179,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'piano' as 'piani' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'piano'.en.plural.should == 'piani'
 		end
 	end
@@ -3202,7 +3210,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'plateau' as 'plateaux' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'plateau'.en.plural.should == 'plateaux'
 		end
 	end
@@ -3218,7 +3226,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'plexus' as 'plexus' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'plexus'.en.plural.should == 'plexus'
 		end
 	end
@@ -3250,7 +3258,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'pontifex' as 'pontifices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'pontifex'.en.plural.should == 'pontifices'
 		end
 	end
@@ -3261,7 +3269,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'portmanteau' as 'portmanteaux' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'portmanteau'.en.plural.should == 'portmanteaux'
 		end
 	end
@@ -3287,7 +3295,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'pragma' as 'pragmata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'pragma'.en.plural.should == 'pragmata'
 		end
 	end
@@ -3303,7 +3311,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'prima donna' as 'prime donne' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'prima donna'.en.plural.should == 'prime donne'
 		end
 	end
@@ -3339,7 +3347,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'prosecutrix' as 'prosecutrices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'prosecutrix'.en.plural.should == 'prosecutrices'
 		end
 	end
@@ -3350,7 +3358,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'prospectus' as 'prospectus' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'prospectus'.en.plural.should == 'prospectus'
 		end
 	end
@@ -3376,7 +3384,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'quantum' as 'quanta' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'quantum'.en.plural.should == 'quanta'
 		end
 	end
@@ -3407,7 +3415,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'radius' as 'radii' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'radius'.en.plural.should == 'radii'
 		end
 	end
@@ -3438,7 +3446,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'rhinoceros' as 'rhinoceros' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'rhinoceros'.en.plural.should == 'rhinoceros'
 		end
 	end
@@ -3469,7 +3477,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'rostrum' as 'rostra' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'rostrum'.en.plural.should == 'rostra'
 		end
 	end
@@ -3505,7 +3513,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'sarcoma' as 'sarcomata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'sarcoma'.en.plural.should == 'sarcomata'
 		end
 	end
@@ -3544,7 +3552,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'schema' as 'schemata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'schema'.en.plural.should == 'schemata'
 		end
 	end
@@ -3585,7 +3593,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'seraph' as 'seraphim' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'seraph'.en.plural.should == 'seraphim'
 		end
 	end
@@ -3666,7 +3674,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'simplex' as 'simplices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'simplex'.en.plural.should == 'simplices'
 		end
 	end
@@ -3687,7 +3695,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'sinus' as 'sinus' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'sinus'.en.plural.should == 'sinus'
 		end
 	end
@@ -3729,7 +3737,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'solo' as 'soli' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'solo'.en.plural.should == 'soli'
 		end
 	end
@@ -3740,7 +3748,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'soma' as 'somata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'soma'.en.plural.should == 'somata'
 		end
 	end
@@ -3761,7 +3769,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'soprano' as 'soprani' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'soprano'.en.plural.should == 'soprani'
 		end
 	end
@@ -3782,7 +3790,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'spectrum' as 'spectra' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'spectrum'.en.plural.should == 'spectra'
 		end
 	end
@@ -3793,7 +3801,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'speculum' as 'specula' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'speculum'.en.plural.should == 'specula'
 		end
 	end
@@ -3814,7 +3822,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'sphinx' as 'sphinges' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'sphinx'.en.plural.should == 'sphinges'
 		end
 	end
@@ -3825,7 +3833,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'stadium' as 'stadia' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'stadium'.en.plural.should == 'stadia'
 		end
 	end
@@ -3836,7 +3844,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'stamen' as 'stamina' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'stamen'.en.plural.should == 'stamina'
 		end
 	end
@@ -3847,7 +3855,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'status' as 'status' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'status'.en.plural.should == 'status'
 		end
 	end
@@ -3863,7 +3871,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'stigma' as 'stigmata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'stigma'.en.plural.should == 'stigmata'
 		end
 	end
@@ -3879,7 +3887,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'stoma' as 'stomata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'stoma'.en.plural.should == 'stomata'
 		end
 	end
@@ -3915,7 +3923,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'stylus' as 'styli' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'stylus'.en.plural.should == 'styli'
 		end
 	end
@@ -3926,7 +3934,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'succubus' as 'succubi' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'succubus'.en.plural.should == 'succubi'
 		end
 	end
@@ -3972,7 +3980,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'swine' as 'swine' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'swine'.en.plural.should == 'swine'
 		end
 	end
@@ -3988,7 +3996,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'syrinx' as 'syringes' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'syrinx'.en.plural.should == 'syringes'
 		end
 	end
@@ -3999,7 +4007,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'tableau' as 'tableaux' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'tableau'.en.plural.should == 'tableaux'
 		end
 	end
@@ -4020,7 +4028,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'tempo' as 'tempi' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'tempo'.en.plural.should == 'tempi'
 		end
 	end
@@ -4036,7 +4044,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'testatrix' as 'testatrices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'testatrix'.en.plural.should == 'testatrices'
 		end
 	end
@@ -4210,7 +4218,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'torus' as 'tori' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'torus'.en.plural.should == 'tori'
 		end
 	end
@@ -4221,7 +4229,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'trapezium' as 'trapezia' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'trapezium'.en.plural.should == 'trapezia'
 		end
 	end
@@ -4232,7 +4240,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'trauma' as 'traumata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'trauma'.en.plural.should == 'traumata'
 		end
 	end
@@ -4268,7 +4276,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'trousseau' as 'trousseaux' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'trousseau'.en.plural.should == 'trousseaux'
 		end
 	end
@@ -4294,7 +4302,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'turf' as 'turves' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'turf'.en.plural.should == 'turves'
 		end
 	end
@@ -4310,7 +4318,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'ultimatum' as 'ultimata' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'ultimatum'.en.plural.should == 'ultimata'
 		end
 	end
@@ -4321,7 +4329,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'umbilicus' as 'umbilici' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'umbilicus'.en.plural.should == 'umbilici'
 		end
 	end
@@ -4332,7 +4340,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'umbra' as 'umbrae' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'umbra'.en.plural.should == 'umbrae'
 		end
 	end
@@ -4343,7 +4351,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'uterus' as 'uteri' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'uterus'.en.plural.should == 'uteri'
 		end
 	end
@@ -4354,7 +4362,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'vacuum' as 'vacua' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'vacuum'.en.plural.should == 'vacua'
 		end
 	end
@@ -4370,7 +4378,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'velum' as 'vela' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'velum'.en.plural.should == 'vela'
 		end
 	end
@@ -4396,7 +4404,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'vertex' as 'vertices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'vertex'.en.plural.should == 'vertices'
 		end
 	end
@@ -4427,7 +4435,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'vortex' as 'vortices' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'vortex'.en.plural.should == 'vortices'
 		end
 	end
@@ -4493,7 +4501,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 	it "pluralizes 'wildebeest' as 'wildebeest' in classical mode" do
-		Linguistics.in_classical_mode do
+		Linguistics::EN.in_classical_mode do
 			'wildebeest'.en.plural.should == 'wildebeest'
 		end
 	end

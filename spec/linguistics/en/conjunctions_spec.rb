@@ -6,14 +6,15 @@ BEGIN {
 
 	libdir = basedir + "lib"
 
-	$LOAD_PATH.unshift( libdir ) unless $LOAD_PATH.include?( libdir )
+	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
+	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
 }
 
-require 'spec'
+require 'rspec'
 require 'spec/lib/helpers'
 
 require 'linguistics'
-require 'linguistics/en/conjunctions'
+require 'linguistics/en'
 
 
 describe Linguistics::EN::Conjunctions do
@@ -46,7 +47,7 @@ describe Linguistics::EN::Conjunctions do
 			"hat rack",
 		]
 
-		scene_items.conjunction.should ==
+		scene_items.en.conjunction.should ==
 			"a desk with stamps, paper, and envelopes on it; " +
 			"a basket containing milk, eggs, and broccoli; " +
 			"a chair; a wooden chest; and a hat rack"

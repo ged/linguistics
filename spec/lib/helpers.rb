@@ -10,19 +10,17 @@ BEGIN {
 	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
 }
 
-begin
-	require 'yaml'
-	require 'linguistics'
+require 'yaml'
+require 'linguistics'
 
-	require 'spec/lib/constants'
-rescue LoadError
-	unless Object.const_defined?( :Gem )
-		require 'rubygems'
-		retry
-	end
-	raise
+require 'rspec'
+require 'spec/lib/constants'
+
+
+### Mock with Rspec
+Rspec.configure do |c|
+	c.mock_with :rspec
 end
-
 
 ### RSpec helper functions.
 module Linguistics::SpecHelpers

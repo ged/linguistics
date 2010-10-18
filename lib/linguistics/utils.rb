@@ -6,7 +6,7 @@ require 'erb'
 require 'bigdecimal'
 require 'date'
 
-require 'linguistics'
+require 'linguistics' unless defined?( Linguistics )
 
 
 module Linguistics # :nodoc:
@@ -86,7 +86,7 @@ module Linguistics # :nodoc:
 	# 
 	# == Version
 	#
-	#  $Id: utils.rb,v 485369a7d3ac 2010/03/02 06:33:58 ged $
+	#  $Id: utils.rb,v 2732414c5fa0 2010/10/18 22:26:46 ged $
 	#
 	# == Authors
 	#
@@ -162,7 +162,7 @@ module Linguistics # :nodoc:
 	# 
 	# == Version
 	#
-	#  $Id: utils.rb,v 485369a7d3ac 2010/03/02 06:33:58 ged $
+	#  $Id: utils.rb,v 2732414c5fa0 2010/10/18 22:26:46 ged $
 	#
 	# == Authors
 	#
@@ -236,7 +236,7 @@ module Linguistics # :nodoc:
 	# 
 	# == Version
 	#
-	#  $Id: utils.rb,v 485369a7d3ac 2010/03/02 06:33:58 ged $
+	#  $Id: utils.rb,v 2732414c5fa0 2010/10/18 22:26:46 ged $
 	#
 	# == Authors
 	#

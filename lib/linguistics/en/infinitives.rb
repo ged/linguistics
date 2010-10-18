@@ -1,7 +1,6 @@
 #!/usr/bin/ruby
 
-require 'linguistics'
-require 'linguistics/en'
+require 'linguistics/en' unless defined?( Linguistics::EN )
 
 # 
 # This file contains functions for deriving the infinitive forms of conjugated
@@ -10,7 +9,7 @@ require 'linguistics/en'
 # 
 # == Version
 #
-#  $Id: infinitive.rb 99 2008-09-06 05:20:07Z deveiant $
+#  $Id$
 # 
 # == Authors
 # 
@@ -1045,13 +1044,13 @@ module Linguistics::EN::Infinitives
 	end
 
 
-	###############
-	module_function
-	###############
+	######
+	public
+	######
 
 	### Return the infinitive form of the given word
-	def infinitive( word )
-		word = word.to_s
+	def infinitive
+		word = self.obj.to_s
 		word1 = word2 = suffix = rule = newword = ''
 
 		if IRREGULAR_INFINITIVES.key?( word )
@@ -1073,35 +1072,35 @@ module Linguistics::EN::Infinitives
 				}
 			}
 
-			$stderr.puts "prefixes: %p" % prefixes if $DEBUG
+			self.log.debug "prefixes: %p" % [ prefixes ]
 
 			# Now check for rules covering the prefixes for this word, picking
 			# the first one if one was found.
 			if (( suffix = ((INF_SUFFIX_RULE_ORDER & prefixes.keys).first) ))
 				rule = INF_SUFFIX_RULES[ suffix ][:rule]
 				shortestPrefix = INF_SUFFIX_RULES[ suffix ][:word1]
-				$stderr.puts "Using rule %p (%p) for suffix %p" % 
+				self.log.debug "Using rule %p (%p) for suffix %p" % 
 					[ rule, shortestPrefix, suffix ] if $DEBUG
 
 				case shortestPrefix
 				when 0
 					word1 = prefixes[ suffix ][ 0 ]
 					word2 = prefixes[ suffix ][ 1 ]
-					$stderr.puts "For sp = 0: word1: %p, word2: %p" %
+					self.log.debug "For sp = 0: word1: %p, word2: %p" %
 						[ word1, word2 ] if $DEBUG
 
 				when -1
 					word1 = prefixes[ suffix ].last +
 						INF_SUFFIX_RULES[ suffix ][:suffix1]
 					word2 = ''
-					$stderr.puts "For sp = -1: word1: %p, word2: %p" %
+					self.log.debug "For sp = -1: word1: %p, word2: %p" %
 						[ word1, word2 ] if $DEBUG
 
 				when -2
 					word1 = prefixes[ suffix ].last +
 						INF_SUFFIX_RULES[ suffix ][:suffix1]
 					word2 = prefixes[ suffix ].last
-					$stderr.puts "For sp = -2: word1: %p, word2: %p" %
+					self.log.debug "For sp = -2: word1: %p, word2: %p" %
 						[ word1, word2 ] if $DEBUG
 
 				when -3
@@ -1109,13 +1108,13 @@ module Linguistics::EN::Infinitives
 						INF_SUFFIX_RULES[ suffix ][:suffix1]
 					word2 = prefixes[ suffix ].last +
 						INF_SUFFIX_RULES[ suffix ][:suffix2]
-					$stderr.puts "For sp = -3: word1: %p, word2: %p" %
+					self.log.debug "For sp = -3: word1: %p, word2: %p" %
 						[ word1, word2 ] if $DEBUG
 
 				when -4
 					word1 = word
 					word2 = ''
-					$stderr.puts "For sp = -4: word1: %p, word2: %p" %
+					self.log.debug "For sp = -4: word1: %p, word2: %p" %
 						[ word1, word2 ] if $DEBUG
 
 				else

@@ -5,7 +5,7 @@ require 'erb'
 require 'etc'
 require 'logger'
 
-require 'linguistics'
+require 'linguistics' unless defined?( Linguistics )
 
 
 #--
