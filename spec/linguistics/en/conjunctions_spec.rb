@@ -21,14 +21,14 @@ describe Linguistics::EN::Conjunctions do
 	include Linguistics::SpecHelpers
 
 	before( :all ) do
-		setup_logging( :debug )
+		Linguistics.use( :en )
+		setup_logging( :fatal )
 	end
 
 
 	TEST_ITEMS = %w[cow chicken dog goat dog dog duck duck goose goose goose dog goat]
 
 	it "don't use a penultimate separator if it's turned off" do
-		Linguistics.use( :en )
 		TEST_ITEMS.en.conjunction( :penultimate => false ).should ==
 			"four dogs, three geese, two goats, two ducks, a cow and a chicken"
 	end
@@ -38,19 +38,24 @@ describe Linguistics::EN::Conjunctions do
 			"a duck, a cow and a dog"
 	end
 
+	it "uses the supplied block for transformation before building the conjunction" do
+		TEST_ITEMS.en.conjunction {|item| "'%s' animal" % [item[0]] }.should ==
+			"six 'd' animals, five 'g' animals, and two 'c' animals"
+	end
+
 	it "uses the alternative separator if one or more phrases include the primary one" do
 		scene_items = [
 			"desk with stamps, paper, and envelopes on it",
 			"basket containing milk, eggs, and broccoli",
-			"chair",
+			"chair", "chair", "chair",
 			"wooden chest",
 			"hat rack",
 		]
 
 		scene_items.en.conjunction.should ==
-			"a desk with stamps, paper, and envelopes on it; " +
+			"three chairs; a desk with stamps, paper, and envelopes on it; " +
 			"a basket containing milk, eggs, and broccoli; " +
-			"a chair; a wooden chest; and a hat rack"
+			"a wooden chest; and a hat rack"
 	end
 
 
@@ -145,32 +150,5 @@ describe Linguistics::EN::Conjunctions do
 
 	end
 
-
-	describe "with an object-transform block" do
-
-		before( :each ) do
-			# Create a new class, as we need to guarantee that this will be the
-			# first #conjunction call to it.
-			@collection = Class.new {
-				include Enumerable, Linguistics
-				def initialize( *ary )
-					@ary = ary.flatten
-				end
-
-				# Delegate #each to the contained Array
-				def each( &block )
-					@ary.each( &block )
-				end
-			}
-
-			@obj = @collection.new( 'foo', 'bar', 'baz', 'tree', 'node', 'sonogram' )
-		end
-
-		it "uses supplied block for object transform on first invocation" do
-			@obj.en.conjunction {|word| "%s-letter word" % word.length.en.numwords }.should ==
-				"three three-letter words, two four-letter words, and an eight-letter word"
-		end
-
-	end
 
 end

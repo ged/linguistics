@@ -114,7 +114,7 @@ module Linguistics::EN::Conjunctions
 		end
 
 		# No need for a conjunction if there's only one thing
-		return a(phrases[0]) if phrases.length < 2
+		return phrases[0].en.a if phrases.length < 2
 
 		# Set up a Proc to derive a collector key from a phrase depending on the
 		# configuration
@@ -169,19 +169,19 @@ module Linguistics::EN::Conjunctions
 		# collector.
 		filter =
 			if config[:generalize]
-				proc {|phrase, count| quantify(phrase, count) }
+				proc {|phrase, count| phrase.en.quantify(count) }
 			else
-				proc {|phrase, count|
-				if count > 1
-					"%s %s" % [
-						# :TODO: Make this threshold settable
-						count < 10 ? count.en.numwords : count.to_s,
-						phrase.en.plural(count)
-					]
-				else
-					a( phrase )
+				proc do |phrase, count|
+					if count > 1
+						"%s %s" % [
+							# :TODO: Make this threshold settable
+							count < 10 ? count.en.numwords : count.to_s,
+							phrase.en.plural( count )
+						]
+					else
+						phrase.en.a
+					end
 				end
-			}
 			end
 
 		# Now use the configured filter to turn each phrase into its final
