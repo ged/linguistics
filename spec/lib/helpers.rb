@@ -17,11 +17,6 @@ require 'rspec'
 require 'spec/lib/constants'
 
 
-### Mock with Rspec
-Rspec.configure do |c|
-	c.mock_with :rspec
-end
-
 ### RSpec helper functions.
 module Linguistics::SpecHelpers
 	include Linguistics::TestConstants
@@ -88,6 +83,11 @@ module Linguistics::SpecHelpers
 
 end
 
+### Mock with Rspec
+Rspec.configure do |c|
+	c.mock_with :rspec
+	c.include( Linguistics::SpecHelpers )
+end
 
 # vim: set nosta noet ts=4 sw=4:
 
