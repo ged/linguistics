@@ -17,7 +17,7 @@ require 'linguistics'
 require 'linguistics/en'
 
 
-describe Linguistics::EN::Pluralization do
+describe Linguistics::EN::Participles do
 	include Linguistics::SpecHelpers
 
 	before( :all ) do
