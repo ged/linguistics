@@ -131,8 +131,8 @@ module Linguistics::EN::Articles
 		return pre + result + post
 	end
 	alias_method :an, :a
-	Linguistics::EN.register_lprintf_formatter :A, self.instance_method( :a )
-	Linguistics::EN.register_lprintf_formatter :AN, self.instance_method( :a )
+	Linguistics::EN.register_lprintf_formatter :A, :a
+	Linguistics::EN.register_lprintf_formatter :AN, :a
 
 
 	### Translate zero-quantified +phrase+ to "no +phrase.plural+"

@@ -442,6 +442,7 @@ module Linguistics::EN::Pluralization
 
 		return pre + plural + post
 	end
+	Linguistics::EN.register_lprintf_formatter :PL, :plural
 
 
 	### Return the plural of the given noun +phrase+ if +count+ indicates it
