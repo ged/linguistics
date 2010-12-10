@@ -287,10 +287,31 @@ module Linguistics::EN
 	end
 
 
-	### Add the specified method (which can be either a Method object or a
-	### Symbol for looking up a method)
-	def self::register_lprintf_formatter( name, meth )
-		@@lprintf_formatters[ name ] = meth
+	### Add an lprintf formatter that will use the specified +callback+ method.
+	### @param [#to_s] name         the name of the formatter, i.e., the 
+	###                             placeholder that will be used in the
+	###                             format string.
+	### @param [#to_proc] callback  the method to call on the english-language
+	###                             inflector for the lprintf argument
+	### @example Using a Symbol
+	###    def plural( count=2 )
+	###      # return the plural of the inflected object
+	###    end
+	###    Linguistics::EN.register_lprintf_formatter :PL, :plural
+	###
+	### @example Using a Method
+	###    Linguistics::EN.register_lprintf_formatter :PL, method( :plural )
+	###
+	### @example Using a block
+	###    Linguistics::EN.register_lprintf_formatter :PL do |obj|
+	###      obj.en.plural
+	###    end
+	###
+	def self::register_lprintf_formatter( name, callback=nil )
+		raise LocalJumpError, "no callback or block given" unless callback || block_given?
+		callback ||= Proc.new
+
+		@@lprintf_formatters[ name ] = callback.to_proc
 	end
 
 
@@ -335,14 +356,14 @@ module Linguistics::EN
 	###   Convert a number into the corresponding words.
 	### %CONJUNCT::
 	###   Conjunction.
-	def lprintf( fmt, *args )
-		fmt.to_s.gsub( /%([A-Z_]+)/ ) do |match|
+	def lprintf( *args )
+		return self.obj.to_s.gsub( /%([A-Z_]+)/ ) do |match|
 			op = $1.to_s.upcase.to_sym
-			if self.lprintf_formatters.key?( op )
+			if (( callback = Linguistics::EN.lprintf_formatters[op] ))
 				arg = args.shift
-				self.lprintf_formatters[ op ].call( arg )
+				callback.call( arg.en )
 			else
-				raise "no such formatter %p" % op
+				raise "no such formatter %p" % [ op ]
 			end
 		end
 	end

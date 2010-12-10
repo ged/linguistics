@@ -6,7 +6,7 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 # 
 # == Version
 #
-#  $Id: articles.rb,v e6ca28d45eb1 2010/10/19 20:14:36 ged $
+#  $Id: articles.rb,v b31562e6d34c 2010/12/10 17:45:36 ged $
 # 
 # == Authors
 # 
@@ -131,8 +131,8 @@ module Linguistics::EN::Articles
 		return pre + result + post
 	end
 	alias_method :an, :a
-	Linguistics::EN.register_lprintf_formatter :A, self.instance_method( :a )
-	Linguistics::EN.register_lprintf_formatter :AN, self.instance_method( :a )
+	Linguistics::EN.register_lprintf_formatter :A, :a
+	Linguistics::EN.register_lprintf_formatter :AN, :a
 
 
 	### Translate zero-quantified +phrase+ to "no +phrase.plural+"

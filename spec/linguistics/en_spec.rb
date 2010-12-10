@@ -50,5 +50,35 @@ describe Linguistics::EN do
 		Linguistics::EN.should_not be_classical()
 	end
 
+
+	it "provides a sprintf-like function for interpolating variables into a String" do
+		"I have %CONJUNCT.".en.lprintf( ["cat", "cat", "dog"] ).
+			should == "I have two cats and a dog."
+	end
+
+
+	context "lprintf formatters" do
+
+		before( :all ) do
+			@real_formatters = Linguistics::EN.lprintf_formatters
+		end
+
+		before( :each ) do
+			Linguistics::EN.lprintf_formatters.clear
+		end
+
+		after( :all ) do
+			Linguistics::EN.lprintf_formatters.replace( @real_formatters )
+		end
+
+
+		it "provides a way to register new lprintf formatters with a Symbol" do
+			Linguistics::EN.register_lprintf_formatter :TEST, :plural
+			Linguistics::EN.lprintf_formatters.should have( 1 ).member
+			Linguistics::EN.lprintf_formatters.should include( :TEST )
+			Linguistics::EN.lprintf_formatters[ :TEST ].should be_a( Proc )
+		end
+
+	end
 end
 

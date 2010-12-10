@@ -15,7 +15,7 @@ require 'linguistics/en' unless defined?( Linguistics )
 # 
 # == Version
 #
-#  $Id: pluralization.rb,v 2732414c5fa0 2010/10/18 22:26:46 ged $
+#  $Id: pluralization.rb,v b31562e6d34c 2010/12/10 17:45:36 ged $
 # 
 # == Authors
 # 
@@ -442,6 +442,7 @@ module Linguistics::EN::Pluralization
 
 		return pre + plural + post
 	end
+	Linguistics::EN.register_lprintf_formatter :PL, :plural
 
 
 	### Return the plural of the given noun +phrase+ if +count+ indicates it
