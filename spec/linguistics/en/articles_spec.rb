@@ -770,5 +770,28 @@ describe Linguistics::EN::Articles do
 		"zoo".en.a.should == "a zoo"
 	end
 
+
+	context "lprintf formatters" do
+
+		it "registers the :A lprintf formatter" do
+			Linguistics::EN.lprintf_formatters.should include( :A )
+		end
+
+		it "registers the :AN lprintf formatter" do
+			Linguistics::EN.lprintf_formatters.should include( :AN )
+		end
+
+		it "adds an indefinite article to the argument to %A" do
+			"You pick up %A.".en.lprintf( "umbrella" ).
+				should == "You pick up an umbrella."
+		end
+
+		it "adds an indefinite article to the argument to %AN" do
+			"You pick up %AN.".en.lprintf( "chocolate bar" ).
+				should == "You pick up a chocolate bar."
+		end
+
+	end
+
 end
 

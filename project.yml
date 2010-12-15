@@ -8,6 +8,8 @@ project_description: |-
   contains various English-language utilities.
 project_pubhost: deveiate
 project_pubdir: /usr/local/www/public/code
+project_licenses: 
+- BSD
 gem_pubhost: rubygems.org
 release_mailto: Ruby-Talk List <ruby-talk@ruby-lang.org>
 release_smtphost: mail.faeriemud.org
@@ -17,14 +19,14 @@ authors:
 project_dependencies: {}
 
 dev_dependencies: 
-  rspec: ">=2.0.0"
-  wordnet: ">=0.0.5"
-  linkparser: ">=1.0.6"
+  rspec: ~> 2.0.0
+  wordnet: ~> 0.0.5
+  linkparser: ~> 1.1.0
 project_requirements: {}
 
 additional_pkgfiles: 
 - examples/*.rb
-- README.english
 excluded_pkgfiles: []
 
+required_ruby_version: ">= 1.9.2"
 version_file: linguistics.rb
