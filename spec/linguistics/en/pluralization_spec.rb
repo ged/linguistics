@@ -4618,5 +4618,19 @@ describe Linguistics::EN::Pluralization do
 		'zoon'.en.plural.should == 'zoa' # 
 	end
 
+
+	context "lprintf formatters" do
+
+		it "registers the :PL lprintf formatter" do
+			Linguistics::EN.lprintf_formatters.should include( :PL )
+		end
+
+		it "pluralizes the argument to %PL" do
+			"What's with all the %PL?".en.lprintf( 'mouse' ).
+				should == "What's with all the mice?"
+		end
+
+	end
+
 end
 

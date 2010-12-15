@@ -85,7 +85,7 @@ end
 
 ### Mock with Rspec
 Rspec.configure do |c|
-	c.mock_with :rspec
+	c.mock_with( :rspec )
 	c.include( Linguistics::SpecHelpers )
 end
 
