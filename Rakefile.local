@@ -1,7 +1,0 @@
-#!/usr/bin/env rake
-# coding: utf-8
-
-# This file contains supplementary rake tasks that are specific to
-# the Linguistics project. The regular Rakefile is a generated file;
-# see http://repo.deveiate.org/rake-tasklibs/Metarakefile for more info.
-
