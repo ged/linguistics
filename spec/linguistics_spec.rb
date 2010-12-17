@@ -6,102 +6,124 @@ BEGIN {
 
 	libdir = basedir + "lib"
 
-	$LOAD_PATH.unshift( libdir ) unless $LOAD_PATH.include?( libdir )
+	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
+	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
 }
 
-begin
-	require 'spec/runner'
-	require 'linguistics'
-rescue LoadError
-	unless Object.const_defined?( :Gem )
-		require 'rubygems'
-		retry
-	end
-	raise
-end
+require 'rspec'
+require 'spec/lib/helpers'
+
+require 'linguistics'
 
 
 describe Linguistics do
-
-	TestArray = %w{stone stick hammer stone lantern}
-	TestString = "banner"
-	TestNumber = 5
+	include Linguistics::SpecHelpers
 
 	before( :all ) do
-		Linguistics.use( :en )
+		@original_logger = Linguistics.default_logger
+		@original_log_formatter = Linguistics.default_log_formatter
+		setup_logging( :fatal )
+	end
+
+	after( :each ) do
+		Linguistics.default_logger = @original_logger
+		Linguistics.default_log_formatter = @original_log_formatter
+		reset_logging()
 	end
 
 
-	it "loads a language's linguistic functions via variants of its ISO639 code" do
+	describe "version methods" do
 
-		[:en, :EN, 'en', 'EN', 'En', 'eN'].each do |code|
-			res = Linguistics.use( code )
-			res.should have(3).members
-			res.should include(Array)
-			res.should include(String)
-			res.should include(Numeric)
+		it "returns a version string if asked" do
+			Linguistics.version_string.should =~ /\w+ [\d.]+/
+		end
+
+		it "returns a version string with a build number if asked" do
+			Linguistics.version_string(true).should =~ /\w+ [\d.]+ \(build [[:xdigit:]]+\)/
 		end
 	end
 
 
-	it "raises an error when a language that doesn't exist is requested" do
-		[ :zz, :ry, :qi ].each do |code|
-			lambda { 
-				Linguistics.use( code )
-			  }.should raise_error( RuntimeError, /unknown language code/i )
-		end
-	end
-	
-	
-	it "raises an error for valid languages that don't have any linguistic functions to load" do
-		[ :ja, :fr, :es ].each do |code|
-			lambda {
-				Linguistics.use( code )
-			  }.should raise_error( LoadError, /failed to load language extension/i )
+	describe " logging subsystem" do
+		before(:each) do
+			Linguistics.reset_logger
 		end
 
+		after(:each) do
+			Linguistics.reset_logger
+		end
+
+
+		it "knows if its default logger is replaced" do
+			Linguistics.reset_logger
+			Linguistics.should be_using_default_logger
+			Linguistics.logger = Logger.new( $stderr )
+			Linguistics.should_not be_using_default_logger
+		end
+
+		it "has the default logger instance after being reset" do
+			Linguistics.logger.should equal( Linguistics.default_logger )
+		end
+
+		it "has the default log formatter instance after being reset" do
+			Linguistics.logger.formatter.should equal( Linguistics.default_log_formatter )
+		end
+
 	end
 
 
-	it "adds a method with the same name as the language code to Array that returns an inflector" +
-	   " proxy for that language" do
-		TestArray.should respond_to( :en )
-		TestArray.en.should be_a_kind_of( Linguistics::LanguageProxyClass )
-	end
-	
-	
-	it "adds a method with the same name as the language code to String that returns an inflector" +
-	   " proxy for that language" do
-		TestString.should respond_to( :en )
-		TestString.en.should be_a_kind_of( Linguistics::LanguageProxyClass )
-	end
-	
-	
-	it "adds a method with the same name as the language code to Numeric that returns an inflector" +
-	   " proxy for that language" do
-		TestNumber.should respond_to( :en )
-		TestNumber.en.should be_a_kind_of( Linguistics::LanguageProxyClass )
-	end
-	
-	
-	it "allows one to extend an additional class by passing it in the ':classes' argument to ::use" do
-		Linguistics.use( :en, :classes => Symbol )
-		:foo.should respond_to( :en )
-		:foo.en.should be_a_kind_of( Linguistics::LanguageProxyClass )
-	end
-	
+	describe " logging subsystem with new defaults" do
+		it "uses the new defaults when the logging subsystem is reset" do
+			logger = double( "dummy logger" )
+			formatter = double( "dummy logger" )
 
-	it "allows one to extend multiple additional classes by passing them in an Array in the "+
-	   " ':classes' argument to ::use" do
-		Linguistics.use( :en, :classes => [IO, Class, Range] )
-		$stderr.should respond_to( :en )
-		$stderr.en.should be_a_kind_of( Linguistics::LanguageProxyClass )
+			Linguistics.default_logger = logger
+			Linguistics.default_log_formatter = formatter
 
-		Object.should respond_to( :en )
-		Object.en.should be_a_kind_of( Linguistics::LanguageProxyClass )
+			logger.should_receive( :formatter= ).with( formatter )
+			logger.should_receive( :level= ).with( Logger::WARN )
 
-		(0..155).should respond_to( :en )
-		(0..155).en.should be_a_kind_of( Linguistics::LanguageProxyClass )
+			Linguistics.reset_logger
+			Linguistics.logger.should equal( logger )
+		end
+
 	end
-	
+
+
+	describe "language-loading functions" do
+
+		it "load a language's linguistic functions via variants of its ISO639 code" do
+			testclass = Class.new
+			Linguistics.use( :eng, :classes => testclass ).should == [ testclass ]
+			testclass.new.should respond_to( :eng )
+			testclass.new.should respond_to( :en )
+		end
+
+		it "load a language's linguistic functions via the 2-letter variant of its ISO639 code" do
+			testclass = Class.new
+			Linguistics.use( :en, :classes => testclass ).should == [ testclass ]
+			testclass.new.should respond_to( :eng )
+			testclass.new.should respond_to( :en )
+		end
+
+		it "default to extending a default set of classes" do
+			Linguistics.use( :eng ).should == Linguistics::DEFAULT_EXT_CLASSES
+			[].should respond_to( :eng )
+		end
+
+		it "raise an error when a language that doesn't exist is requested" do
+			expect {
+				Linguistics.use( :zz )
+			}.to raise_error( RuntimeError, /unknown ISO639-2 language code/i )
+		end
+
+		it "raise an error for valid languages that don't have any linguistic functions to load" do
+			Linguistics.logger.level = Logger::FATAL
+			expect {
+				Linguistics.use( :ja )
+			}.to raise_error( LoadError, /failed to load a language extension/i )
+		end
+
+	end
+
 end

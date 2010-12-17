@@ -1,2 +1,14 @@
-^pkg/
-^docs/api/
+^commit\-msg\.txt$
+docs/manual/output
+docs/api
+^pkg$
+ChangeLog$
+coverage/
+coverage\\.info
+^coverage\.info$
+\.DS_Store
+~$
+\.orig$
+^\.yardoc/
+docs/.*\.dump$
+^release\.notes$
