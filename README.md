@@ -1,35 +1,18 @@
 
-h1. Linguistics
+# Linguistics
 
-h2. Authors
+http://deveiate.org/projects/Linguistics
 
-* Michael Granger <ged@FaerieMUD.org>
-* Martin Chase <stillflame@FaerieMUD.org>
-
-
-h2. Requirements
-
-* Ruby >= 1.9.2
-
-
-h2. Optional
-
-* "Ruby-WordNet":http://deveiate.org/projects/Ruby-WordNet (>= 0.0.5) - adds integration for the
-  Ruby binding for the WordNet® lexical refrence system.
-
-* "LinkParser":http://deveiate.org/projects/Ruby-LinkParser (>= 1.0.7)
-  Ruby high-level interface to the CMU Link Grammar library
-
-
-h2. General Information
+## Description
 
 Linguistics is a framework for building linguistic utilities for Ruby objects
 in any language. It includes a generic language-independant front end, a
 module for mapping language codes into language names, and a module which
 contains various English-language utilities.
 
+## General Information
 
-h3. Method Interface
+### Method Interface
 
 The Linguistics module comes with a language-independant mechanism for
 extending core Ruby classes with linguistic methods.
@@ -49,22 +32,35 @@ more characters per method invocation. For example:
 	Linguistics::use( :en )
 	"goose".en.plural
 	# => "geese"
-  
 
-h4. Adding Language Modules
+
+### Adding Language Modules
 
 To add a new language to the framework, [...rewrite after 2.0 is more stable...]
 
 
-h3. English Language Module
+## English Language Module
 
-See the README.english file for a synopsis.
+Linguistics comes with an English-language module; see the API documentation for 
+Linguistics::EN for more information about it.
 
-The English-language module currently contains linguistic functions ported
-from a few excellent Perl modules:
 
-	Lingua::EN::Inflect
-	Lingua::Conjunction
-	Lingua::EN::Infinitive
+## Authors
 
-See the lib/linguistics/en.rb file for specific attributions.
+* Michael Granger <ged@FaerieMUD.org>
+* Martin Chase <stillflame@FaerieMUD.org>
+
+
+## Requirements
+
+* Ruby >= 1.9.2
+
+
+## Optional
+
+* [Ruby-WordNet](http://deveiate.org/projects/Ruby-WordNet) (>= 1.1.0) - adds integration for the Ruby binding for the WordNet® lexical refrence system.
+
+* [LinkParser](http://deveiate.org/projects/Ruby-LinkParser) (>= 1.1.0) - Ruby high-level interface to the CMU Link Grammar library
+
+
+
