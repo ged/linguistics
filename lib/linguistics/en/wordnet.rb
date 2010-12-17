@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-require 'linguistics/en'
+require 'linguistics/en' unless defined?( Linguistics::EN )
 
 # This file contains functions for finding relations for English words. It
 # requires the Ruby-WordNet module to be installed; if it is not installed,
@@ -74,16 +74,18 @@ require 'linguistics/en'
 # 
 # == Version
 #
-#  $Id: wordnet.rb,v 2640c845eb5c 2009/11/17 16:59:25 ged $
+#  $Id: wordnet.rb,v 29f18e9ec72b 2010/12/17 01:14:17 ged $
 # 
-module Linguistics::EN
+module Linguistics::EN::WordNet
+
+	# Register this module to the list of modules to include
+	Linguistics::EN.register_extension( self )
 
 	@has_wordnet	= false
 	@wn_error		= nil
 	@wn_lexicon		= nil
 
-	# Load WordNet and open the lexicon if possible, saving the error that
-	# occurs if anything goes wrong.
+	# Load WordNet if possible, saving the error that occurs if anything goes wrong.
 	begin
 		require 'wordnet'
 		@has_wordnet = true
@@ -95,41 +97,34 @@ module Linguistics::EN
 	#################################################################
 	###	M O D U L E   M E T H O D S
 	#################################################################
-	class << self
 
-		### Returns +true+ if WordNet was loaded okay
-		def has_wordnet? ; @has_wordnet; end
+	### Returns +true+ if WordNet was loaded okay
+	def self::has_wordnet? ; @has_wordnet; end
 
-		### If #haveWordnet? returns +false+, this can be called to fetch the
-		### exception which was raised when WordNet was loaded.
-		def wn_error ; @wn_error; end
+	### If #has_wordnet? returns +false+, this can be called to fetch the
+	### exception which was raised when WordNet was loaded.
+	def self::wn_error ; @wn_error; end
 
-		### The instance of the WordNet::Lexicon used for all Linguistics WordNet
-		### functions.
-		def wn_lexicon
-			if @wn_error
-				raise NotImplementedError,
-					"WordNet functions are not loaded: %s" %
-					@wn_error.message
-			end
-
-			@wn_lexicon ||= WordNet::Lexicon::new
+	### The instance of the WordNet::Lexicon used for all Linguistics WordNet
+	### functions.
+	def self::wn_lexicon
+		if @wn_error
+			raise NotImplementedError,
+				"WordNet functions are not loaded: %s" %
+				@wn_error.message
 		end
 
-		### Make a function that calls the method +meth+ on the synset of an input
-		### word.
-		def def_synset_function( meth )
-			(class << self; self; end).instance_eval do
-				define_method( meth ) {|*args|
-					word, pos, sense = *args
-					raise ArgumentError,
-						"wrong number of arguments (0 for 1)" unless word
-					sense ||= 1
+		@wn_lexicon ||= WordNet::Lexicon::new
+	end
 
-					syn = synset( word.to_s, pos, sense )
-					return syn.nil? ? nil : syn.send( meth )
-				}
-			end
+	### Make a function that calls the method +meth+ on the synset of an input
+	### word.
+	def self::def_synset_function( name )
+		define_method( name ) do |word, pos=nil, sense=nil|
+			sense ||= 1
+
+			syn = self.en.synset( word.to_s, pos, sense )
+			return syn.nil? ? nil : syn.send( name )
 		end
 	end
 
@@ -139,14 +134,17 @@ module Linguistics::EN
 	###	W O R D N E T   I N T E R F A C E
 	#################################################################
 
-	###############
-	module_function
-	###############
+	######
+	public
+	######
 
 	### Look up the synset associated with the given word or collocation in the
 	### WordNet lexicon and return a WordNet::Synset object.
-	def synset( word, pos=nil, sense=1 )
-		lex = Linguistics::EN::wn_lexicon
+	def synset( pos=nil, sense=1 )
+		word = self.obj.to_s
+
+		lex = Linguistics::EN::WordNet.wn_lexicon
+
 		if pos.is_a?( Fixnum )
 			sense = pos
 			pos = nil
@@ -170,9 +168,9 @@ module Linguistics::EN
 		postries = pos ? [pos] : [:noun, :verb, :adjective, :adverb, :other]
 		syns = []
 
-		postries.each {|pos|
+		postries.each do |pos|
 			syns << lex.lookup_synsets( word.to_s, pos )
-		}
+		end
 
 		return syns.flatten.compact
 	end
