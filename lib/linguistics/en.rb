@@ -115,8 +115,6 @@ require 'linguistics' unless defined?( Linguistics )
 # 
 # == Infinitives
 # 
-# New in version 0.02:
-# 
 #    "leaving".en.infinitive
 #    # => "leave"
 #    
@@ -129,15 +127,15 @@ require 'linguistics' unless defined?( Linguistics )
 # 
 # == WordNet® Integration
 # 
-# Also new in version 0.02, if you have the Ruby-WordNet module installed, you can
-# look up WordNet synsets using the Linguistics interface:
+# If you have the Ruby-WordNet module installed, you can look up 
+# WordNet synsets using the Linguistics interface:
 # 
 #    # Test to be sure the WordNet module loaded okay.
 #    Linguistics::EN.has_wordnet?
 #    # => true
 #    
 #    # Fetch the default synset for the word "balance"
-#    "balance".synset
+#    "balance".en.synset
 #    # => #<WordNet::Synset:0x40376844 balance (noun): "a state of equilibrium"
 #    #   (derivations: 3, antonyms: 1, hypernyms: 1, hyponyms: 3)>
 #    

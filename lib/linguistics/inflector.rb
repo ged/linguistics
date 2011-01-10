@@ -3,7 +3,7 @@
 
 require 'linguistics' unless defined?( Linguistics )
 
-# A facade object that acts as the mixin point for linguistic modules
+# A facade object that acts as the extension point for linguistic modules
 # for a single language. A single instance of an inflector is generated
 # for an object that has been extended with a Linguistics language
 # the first time the language is used.
