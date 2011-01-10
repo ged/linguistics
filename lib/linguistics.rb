@@ -190,14 +190,14 @@ module Linguistics
 		unless mixin = self.inflector_mixins[ mod ]
 			Linguistics.log.debug "Making an inflector mixin for %p" % [ mod ]
 
-			alpha2code, bibcode, termcode = *language[:codes]
+			bibcode, alpha2code, termcode = *language[:codes]
 			inflector = Class.new( Linguistics::Inflector ) { include(mod) }
 			Linguistics.log.debug "  created inflector class %p for [%p, %p, %p]" %
 				[ inflector, bibcode, termcode, alpha2code ]
 
 			mixin = Module.new do
 				define_method( bibcode ) do
-					@__inflector ||= inflector.new( self )
+					@__inflector ||= inflector.new( bibcode, self )
 				end
 				alias_method termcode, bibcode unless termcode.nil? || termcode.empty?
 				alias_method alpha2code, bibcode unless alpha2code.nil? || alpha2code.empty?
@@ -221,4 +221,5 @@ module Linguistics
 		end
 	end
 
+end # module Linguistics
 
