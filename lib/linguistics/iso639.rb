@@ -47,7 +47,7 @@ module Linguistics::ISO639
 		entry      = {
 			:eng_name => eng_name,
 			:fre_name => fre_name,
-			:codes    => [ alpha2, bib_alpha3, term_alpha3 ].reject {|item| item.empty? }
+			:codes    => [ bib_alpha3, alpha2, term_alpha3 ].reject {|item| item.empty? }
 		}
 		$stderr.puts "  adding language code entry %p from line: %p" %
 			[ entry, line ] if $DEBUG
