@@ -15,6 +15,7 @@ require 'spec/lib/helpers'
 
 require 'linguistics'
 require 'linguistics/en'
+require 'linguistics/languagebehavior'
 
 
 describe Linguistics::EN do
@@ -29,6 +30,10 @@ describe Linguistics::EN do
 	after( :all ) do
 		reset_logging()
 	end
+
+
+	it_behaves_like "a Linguistics language module"
+
 
 	it "knows that it's not in 'classical' mode by default" do
 		Linguistics::EN.should_not be_classical()
