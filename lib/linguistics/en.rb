@@ -335,12 +335,6 @@ module Linguistics::EN
 	###	P U B L I C   F U N C T I O N S
 	#################################################################
 
-	### Return the name of the language this module is for.
-	def language( unused=nil )
-		"English"
-	end
-
-
 	### Format the given +fmt+ string by replacing %-escaped sequences with the
 	### result of performing a specified operation on the corresponding
 	### argument, ala Kernel.sprintf.
