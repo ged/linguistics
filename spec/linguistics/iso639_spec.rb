@@ -18,7 +18,7 @@ require 'linguistics'
 require 'linguistics/iso639'
 
 
-describe Linguistics, " language codes" do
+describe Linguistics::ISO639 do
 
 	# eng||en|English|anglais
 	it "loads simple language codes from its __DATA__ section" do
