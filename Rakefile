@@ -15,11 +15,11 @@ hoespec = Hoe.spec 'linguistics' do
 
 	self.developer 'Michael Granger', 'ged@FaerieMUD.org'
 
-	self.extra_dev_deps <<
-		['rspec', '~> 2.3.0'] <<
-		['linkparser', '~> 1.1.0'] <<
-		['wordnet', '~> 0.99.0'] <<
-		['yard', '~> 0.6.1']
+	self.extra_dev_deps.push *{
+		'rspec'      => '~> 2.4.0',
+		'linkparser' => '~> 1.1.0',
+		'wordnet'    => '~> 0.99.0',
+	}
 
 	self.spec_extras[:licenses] = ["BSD"]
     self.spec_extras[:signing_key] = '/Volumes/Keys/ged-private_gem_key.pem'
@@ -30,8 +30,9 @@ hoespec = Hoe.spec 'linguistics' do
 		  ].join( "\n" )
 
 	self.require_ruby_version( '>=1.9.2' )
-	self.hg_sign_tags = true
-	self.yard_opts = [ '--use-cache', '--protected', '--verbose' ]
+	self.hg_sign_tags = true if self.respond_to?( :hg_sign_tags= )
+	self.yard_opts = [ '--use-cache', '--protected', '--verbose' ] if
+		self.respond_to?( :yard_opts= )
 end
 
 ENV['VERSION'] ||= hoespec.spec.version.to_s
