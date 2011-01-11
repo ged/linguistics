@@ -152,8 +152,8 @@ module Linguistics::EN::WordNet
 		postries = pos ? [pos] : [:noun, :verb, :adjective, :adverb, :other]
 		syn = nil
 
-		postries.each do |pos|
-			break if syn = lex.lookup_synsets( word.to_s, pos, sense )
+		postries.each do |try|
+			break if syn = lex.lookup_synsets( word.to_s, try, sense )
 		end
 
 		return syn
@@ -168,8 +168,8 @@ module Linguistics::EN::WordNet
 		postries = pos ? [pos] : [:noun, :verb, :adjective, :adverb, :other]
 		syns = []
 
-		postries.each do |pos|
-			syns << lex.lookup_synsets( word.to_s, pos )
+		postries.each do |try|
+			syns << lex.lookup_synsets( word.to_s, try )
 		end
 
 		return syns.flatten.compact
