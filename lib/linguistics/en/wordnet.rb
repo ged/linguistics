@@ -74,7 +74,7 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 # 
 # == Version
 #
-#  $Id: wordnet.rb,v 29f18e9ec72b 2010/12/17 01:14:17 ged $
+#  $Id: wordnet.rb,v 7502d8cc69cf 2011/01/11 18:52:06 ged $
 # 
 module Linguistics::EN::WordNet
 
@@ -152,8 +152,8 @@ module Linguistics::EN::WordNet
 		postries = pos ? [pos] : [:noun, :verb, :adjective, :adverb, :other]
 		syn = nil
 
-		postries.each do |pos|
-			break if syn = lex.lookup_synsets( word.to_s, pos, sense )
+		postries.each do |try|
+			break if syn = lex.lookup_synsets( word.to_s, try, sense )
 		end
 
 		return syn
@@ -168,8 +168,8 @@ module Linguistics::EN::WordNet
 		postries = pos ? [pos] : [:noun, :verb, :adjective, :adverb, :other]
 		syns = []
 
-		postries.each do |pos|
-			syns << lex.lookup_synsets( word.to_s, pos )
+		postries.each do |try|
+			syns << lex.lookup_synsets( word.to_s, try )
 		end
 
 		return syns.flatten.compact
