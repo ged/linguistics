@@ -1,5 +1,7 @@
+ChangeLog
+History.md
 LICENSE
-README.textile
+README.md
 Rakefile
 examples/generalize_sentence.rb
 lib/linguistics.rb
