@@ -30,6 +30,22 @@ describe Linguistics::EN::TitleCase do
 		reset_logging()
 	end
 
+	it "CamelCases 'motion is madness' correctly" do
+		"motion is madness".en.to_camel_case.should == 'motionIsMadness'
+	end
+
+	it "CamelCases 'Special Verb Case' correctly" do
+		"Special Verb Case".en.to_camel_case.should == 'SpecialVerbCase'
+	end
+
+	it "un-CamelCases 'motionIsMadness' correctly" do
+		"motionIsMadness".en.un_camel_case.should == 'motion is madness'
+	end
+
+	it "un-CamelCases 'ASpecialVerbCase' correctly" do
+		"ASpecialVerbCase".en.un_camel_case.should == 'a special verb case'
+	end
+
 	it "titlecases _Absalom, Absalom!_ correctly" do
 		%{Absalom, Absalom!}.downcase.en.titlecase.should == %{Absalom, Absalom!}
 	end
