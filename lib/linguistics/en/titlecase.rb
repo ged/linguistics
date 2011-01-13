@@ -3,23 +3,8 @@
 require 'linguistics/en' unless defined?( Linguistics::EN )
 
 # This file contains functions for capitalizing a sentence as a title and nouns as
-# proper nouns.
-# 
-# == Version
-#
-#  $Id$
-# 
-# == Authors
-# 
-# * Michael Granger <ged@FaerieMUD.org>
-#    
-# :include: LICENSE
-# 
-#---
-#
-# Please see the file LICENSE in the base directory for licensing details for the 
-# Ruby port.
-#
+# proper nouns, as well as functions for turning a sentence into its equivalent
+# CamelCaseSentence and vice-versa.
 module Linguistics::EN::TitleCase
 
 	# Register this module to the list of modules to include
@@ -60,8 +45,8 @@ module Linguistics::EN::TitleCase
 
 
 	### Turns an English language +string+ into a CamelCase word.
-	def to_camel_case( string )
-		self.obj.to_s.gsub( /\s+([a-z])/ ) { $1.upcase }
+	def to_camel_case
+		self.obj.to_s.gsub( /\s+([a-z])/i ) { $1.upcase }
 	end
 
 
