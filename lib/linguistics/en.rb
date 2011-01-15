@@ -279,6 +279,15 @@ module Linguistics::EN
 	end
 
 
+	### Returns +true+ if the English-language module with the given +name+ was
+	### successfully registered.
+	def self::has_extension?( name )
+		return MODULES.any? do |mod|
+			mod.name.sub( /.*::/, '' ).downcase == name.to_s.downcase
+		end
+	end
+
+
 	### Debugging output
 	def self::debug_msg( *msgs ) # :nodoc:
 		$stderr.puts msgs.join(" ") if $DEBUG
