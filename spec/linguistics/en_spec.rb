@@ -35,6 +35,11 @@ describe Linguistics::EN do
 	it_behaves_like "a Linguistics language module"
 
 
+	it "provides a predicate for testing for the presence of modules by name" do
+		Linguistics::EN.should_not have_extension( 'nonexistant' )
+		Linguistics::EN.should have_extension( 'articles' )
+	end
+
 	it "knows that it's not in 'classical' mode by default" do
 		Linguistics::EN.should_not be_classical()
 	end
