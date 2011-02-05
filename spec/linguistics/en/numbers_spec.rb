@@ -31,7 +31,7 @@ describe Linguistics::EN::Numbers do
 
 
 	it "adds EN::Numbers to the list of English language modules" do
-		Linguistics::EN::MODULES.include?( Linguistics::EN::Numbers )
+		Linguistics::EN.should have_extension( :numbers )
 	end
 
 	describe "numbers to words" do
