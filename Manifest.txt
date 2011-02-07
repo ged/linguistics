@@ -6,6 +6,7 @@ Rakefile
 examples/generalize_sentence.rb
 examples/klingon.rb
 lib/linguistics.rb
+lib/linguistics/en.rb
 lib/linguistics/en/articles.rb
 lib/linguistics/en/conjunctions.rb
 lib/linguistics/en/infinitives.rb
@@ -15,7 +16,6 @@ lib/linguistics/en/participles.rb
 lib/linguistics/en/pluralization.rb
 lib/linguistics/en/titlecase.rb
 lib/linguistics/en/wordnet.rb
-lib/linguistics/en.rb
 lib/linguistics/inflector.rb
 lib/linguistics/iso639.rb
 lib/linguistics/languagebehavior.rb
