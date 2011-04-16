@@ -125,6 +125,18 @@ require 'linguistics' unless defined?( Linguistics )
 #    # => "ing"
 # 
 # 
+# == Conjugation
+#
+#    "run".en.past
+#    # => "ran"
+#
+#    "run".en.present_participle
+#    # => "running"
+#
+#    "see".en.conjugate :past, :third_person_singular
+#    # => "saw"
+#
+#
 # == WordNet® Integration
 # 
 # If you have the Ruby-WordNet module installed, you can look up 
