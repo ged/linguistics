@@ -3,12 +3,14 @@
 
 http://deveiate.org/projects/Linguistics
 
+
 ## Description
 
 Linguistics is a framework for building linguistic utilities for Ruby objects
 in any language. It includes a generic language-independant front end, a
 module for mapping language codes into language names, and a module which
 contains various English-language utilities.
+
 
 ## General Information
 
@@ -96,6 +98,11 @@ Linguistics::EN for more information about it.
 
 * Michael Granger <ged@FaerieMUD.org>
 * Martin Chase <stillflame@FaerieMUD.org>
+
+
+## Contributors
+
+* Robert Berry (bdigital on github) - English conjugation ported from MorphAdorner
 
 
 ## Requirements
