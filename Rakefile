@@ -15,7 +15,7 @@ hoespec = Hoe.spec 'linguistics' do
 	self.developer 'Michael Granger', 'ged@FaerieMUD.org'
 
 	self.dependency 'rspec', '~> 2.6.0', :development
-	self.dependency 'linkparser', '~> 1.1.0', :development
+	self.dependency 'linkparser', '~> 1.1.3', :development
 	self.dependency 'wordnet', '~> 0.99.0', :development
 
 	self.spec_extras[:licenses] = ["BSD"]
