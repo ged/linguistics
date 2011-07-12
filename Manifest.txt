@@ -13,6 +13,7 @@ lib/linguistics/en/linkparser.rb
 lib/linguistics/en/numbers.rb
 lib/linguistics/en/participles.rb
 lib/linguistics/en/pluralization.rb
+lib/linguistics/en/conjugator.rb
 lib/linguistics/en/titlecase.rb
 lib/linguistics/en/wordnet.rb
 lib/linguistics/en.rb
