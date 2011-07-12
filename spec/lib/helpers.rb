@@ -83,8 +83,8 @@ module Linguistics::SpecHelpers
 
 end
 
-### Mock with Rspec
-Rspec.configure do |c|
+### Mock with RSpec
+RSpec.configure do |c|
 	c.mock_with( :rspec )
 	c.include( Linguistics::SpecHelpers )
 end
