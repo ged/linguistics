@@ -6,7 +6,7 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 # 
 # == Version
 #
-#  $Id: conjugation.rb,v ee0eb694852b 2011/07/12 17:47:55 ged $
+#  $Id: conjugation.rb,v 6d1c9c82437d 2011/07/12 18:05:50 ged $
 # 
 # == Authors
 # 
@@ -67,9 +67,10 @@ module Linguistics::EN::Conjugation
 			data = File.read( __FILE__ ).split( /^__END__$/ ).last
 			irrverb_data, doublverb_data = data.split( /^#\n# Doubling Verbs.*\n#\n/, 2 )
 			IRREGULAR_VERBS.replace( self.load_irregular_verbs(irrverb_data) )
-			DOUBLING_VERBS.replace( self.load_doubling_verbs(doublverb_data) )
+			Linguistics.log.debug "  loaded %d irregular verbs" % [ IRREGULAR_VERBS.length ]
 
-			Linguistics.log.debug "  irregular verbs: %p" % [ IRREGULAR_VERBS ]
+			DOUBLING_VERBS.replace( self.load_doubling_verbs(doublverb_data) )
+			Linguistics.log.debug "  loaded %d doubling verbs" % [ DOUBLING_VERBS.length ]
 		end
 
 		super
