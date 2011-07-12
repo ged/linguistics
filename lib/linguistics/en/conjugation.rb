@@ -67,9 +67,10 @@ module Linguistics::EN::Conjugation
 			data = File.read( __FILE__ ).split( /^__END__$/ ).last
 			irrverb_data, doublverb_data = data.split( /^#\n# Doubling Verbs.*\n#\n/, 2 )
 			IRREGULAR_VERBS.replace( self.load_irregular_verbs(irrverb_data) )
-			DOUBLING_VERBS.replace( self.load_doubling_verbs(doublverb_data) )
+			Linguistics.log.debug "  loaded %d irregular verbs" % [ IRREGULAR_VERBS.length ]
 
-			Linguistics.log.debug "  irregular verbs: %p" % [ IRREGULAR_VERBS ]
+			DOUBLING_VERBS.replace( self.load_doubling_verbs(doublverb_data) )
+			Linguistics.log.debug "  loaded %d doubling verbs" % [ DOUBLING_VERBS.length ]
 		end
 
 		super
