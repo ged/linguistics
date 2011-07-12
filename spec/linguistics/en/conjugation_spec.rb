@@ -20,7 +20,7 @@ require 'linguistics/en/conjugation'
 describe Linguistics::EN::Conjugation do
 
 	before( :all ) do
-		setup_logging( :debug )
+		setup_logging( :fatal )
 		Linguistics.use( :en )
 	end
 
