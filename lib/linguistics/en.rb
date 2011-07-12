@@ -125,6 +125,40 @@ require 'linguistics' unless defined?( Linguistics )
 #    # => "ing"
 # 
 # 
+# == Conjugation
+# 
+# Conjugate a verb given an infinitive:
+# 
+#   "run".en.past_tense
+#   # => "ran"
+#   
+#   "run".en.past_participle
+#   # => "run"
+# 
+#   "run".en.present_tense
+#   # => "run"
+# 
+#   "run".en.present_participle
+#   # => "running"
+# 
+# Conjugate an infinitive with an explicit tense and grammatical person:
+# 
+#   "be".en.conjugate( :present, :third_person_singular )
+#   # => "is"
+#   
+#   "be".en.conjugate( :present, :first_person_singular )
+#   # => "am"
+#   
+#   "be".en.conjugate( :past, :first_person_singular )
+#   # => "was"
+#
+# The functionality is a port of the verb conjugation portion of Morph 
+# Adorner (http://morphadorner.northwestern.edu/).
+# 
+# It includes a good number of irregular verbs, but it's not going to be 
+# 100% correct everytime.
+# 
+# 
 # == WordNet® Integration
 # 
 # If you have the Ruby-WordNet module installed, you can look up 
