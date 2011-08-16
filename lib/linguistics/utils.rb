@@ -79,25 +79,9 @@ module Linguistics # :nodoc:
 	# 
 	# A alternate formatter for Logger instances.
 	# 
-	# == Usage
-	# 
 	#   require 'linguistics/utils'
 	#   Linguistics.logger.formatter = Linguistics::LogFormatter.new( Linguistics.logger )
 	# 
-	# == Version
-	#
-	#  $Id: utils.rb,v 2732414c5fa0 2010/10/18 22:26:46 ged $
-	#
-	# == Authors
-	#
-	# * Michael Granger <ged@FaerieMUD.org>
-	#
-	# :include: LICENSE
-	#
-	#--
-	#
-	# Please see the file LICENSE in the 'docs' directory for licensing details.
-	#
 	class LogFormatter < Logger::Formatter
 
 		# The format to output unless debugging is turned on
@@ -155,24 +139,8 @@ module Linguistics # :nodoc:
 	# 
 	# A ANSI-colorized formatter for Logger instances.
 	# 
-	# == Usage
-	# 
 	#   require 'linguistics/utils'
 	#   Linguistics.logger.formatter = Linguistics::ColorLogFormatter.new( Linguistics.logger )
-	# 
-	# == Version
-	#
-	#  $Id: utils.rb,v 2732414c5fa0 2010/10/18 22:26:46 ged $
-	#
-	# == Authors
-	#
-	# * Michael Granger <ged@FaerieMUD.org>
-	#
-	# :include: LICENSE
-	#
-	#--
-	#
-	# Please see the file LICENSE in the 'docs' directory for licensing details.
 	#
 	class ColorLogFormatter < Logger::Formatter
 		extend Linguistics::ANSIColorUtilities
@@ -229,25 +197,9 @@ module Linguistics # :nodoc:
 	# An alternate formatter for Logger instances that outputs +div+ HTML
 	# fragments.
 	# 
-	# == Usage
-	# 
 	#   require 'linguistics/utils'
 	#   Linguistics.logger.formatter = Linguistics::HtmlLogFormatter.new( Linguistics.logger )
 	# 
-	# == Version
-	#
-	#  $Id: utils.rb,v 2732414c5fa0 2010/10/18 22:26:46 ged $
-	#
-	# == Authors
-	#
-	# * Michael Granger <ged@FaerieMUD.org>
-	#
-	# :include: LICENSE
-	#
-	#--
-	#
-	# Please see the file LICENSE in the 'docs' directory for licensing details.
-	#
 	class HtmlLogFormatter < Logger::Formatter
 		include ERB::Util  # for html_escape()
 
