@@ -15,7 +15,7 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 #   # => true
 #  
 #   # Fetch the default synset for the word "balance"
-#   "balance".synset
+#   "balance".en.synset
 #   # => #<WordNet::Synset:0x40376844 balance (noun): "a state of equilibrium"
 #    (derivations: 3, antonyms: 1, hypernyms: 1, hyponyms: 3)>
 #  
