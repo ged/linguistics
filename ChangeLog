@@ -1,640 +1,468 @@
--- Wed, 30 Jan 2008 07:01:39 -0000 by deveiant (r98) -----
-   Added:   spec/linguistics/iso639_spec.rb (new)
-            spec/linguistics_spec.rb
-            -> renamed from /trunk/tests/use.tests.rb@r97
-            spec/linguistics/en_spec.rb
-            -> renamed from /trunk/tests/en/conjunction.tests.rb@r97
-            misc/rake/verifytask.rb (new)
-            misc/rake (new)
-            misc/rake/helpers.rb (new) (and 6 other/s)
-   Changed: lib/linguistics/iso639.rb
-            lib/linguistics.rb
-            Linguistics.tmproj
-   Deleted: tests/en/conjunction.tests.rb
-            tests/use.tests.rb
+155[github/master,tip][master]   80e1b8080912   2011-08-16 11:41 -0700   ged
+  Comment cleanup
 
-   Started update of specs and build system
+154   6d1c9c82437d   2011-07-12 11:05 -0700   ged
+  Removed the giant debugging log dump in favor of short diagnostics.
 
+153   1d2be604d02c   2011-07-12 10:56 -0700   ged
+  Updated linkparser dependency to the latest release
 
--- Wed, 25 Jul 2007 17:18:09 -0000 by deveiant (r97) -----
-   Added:   examples (new)
-            examples/generalize_sentence.rb (new)
+152   ac3dba55f167   2011-07-12 10:56 -0700   ged
+  Turn off debugging output in the conjugation spec
 
-   Adding examples directory
+151   ee0eb694852b   2011-07-12 10:47 -0700   ged
+  Adding English verb conjugation via Robert Berry (bdigital)'s fork on Github.
 
+150   9fc5ac3506f8   2011-07-12 08:43 -0700   ged
+  Updated for recent versions of RSpec.
 
--- Wed, 13 Jun 2007 05:25:38 -0000 by deveiant (r95) -----
-   Added:   tests/en/lprintf.tests.rb (new)
-   Changed: README
-            tests/en/conjunction.tests.rb
-            .gemspec
-            tests/use.tests.rb
-            utils.rb
-            makedist.rb (and 17 other/s)
+149   967cb7c12329   2011-07-11 20:38 -0700   ged
+  De-YARD.
 
-   Checkpoint commit
+148   e41a2fa5315e   2011-02-07 11:21 -0800   ged
+  Reordering Manifest to make check_manifest work.
 
+147   d4a5f1f59053   2011-02-07 11:12 -0800   ged
+  Adding a project .rvmrc to switch to 1.9.2
 
--- Tue, 11 Jul 2006 22:42:34 -0000 by ged (r93) -----
-   Changed: docs/CATALOG
+146:145,144   077cc5f72d2e   2011-02-05 08:42 -0800   ged
+  Merged with 144:0218912e346c
 
+145:143   cb2a12c6752c   2011-02-05 08:33 -0800   ged
+  Change the numbers spec to use the extension predicate
 
-    * Updating docs/CATALOG with new CVS/server info
+144   0218912e346c   2011-01-19 10:20 -0800   ged
+  Fix the numwords spec
 
+143   d2266b5f6c73   2011-01-14 22:06 -0800   ged
+  Adding Linguistics::EN.has_extension? for feature-testing.
 
--- Tue, 11 Jul 2006 22:41:56 -0000 by ged (r92) -----
-   Changed: tests/en/conjunction.tests.rb
-            lib/linguistics/en.rb
+142   117e2904e95e   2011-01-13 08:16 -0800   ged
+  Add specs (and fixed bugs they uncovered) for EN#to_camel_case and EN#un_camel_case
 
+141   7502d8cc69cf   2011-01-11 10:52 -0800   ged
+  Fix shadowed variables.
 
-    * Fix #conjunction with :penultimate => false for lists of three.
+140   166e1d9a20dd   2011-01-11 08:26 -0800   ged
+  Updated the release manifest
 
+139   12ebb23b545a   2011-01-11 07:37 -0800   ged
+  Updating the manifest.
 
--- Tue, 11 Jul 2006 19:17:58 -0000 by ged (r91) -----
-   Changed: lib/linguistics/en.rb
-            tests/en/inflect.tests.rb
+138   63386a913414   2011-01-11 07:35 -0800   ged
+  Update the Rakefile
 
+137   880dfd357afb   2011-01-11 07:32 -0800   ged
+  Removing old project file
 
-    * Fixed the ':and' setting in EN#numwords. Closes #8.
+136[github/redesign_for_2.0]   6ba52cffd4f6   2011-01-10 10:36 -0800   ged
+  Better comments for the klingon example
 
+135   bd49f872dcef   2011-01-10 10:28 -0800   ged
+  Updating the "how to add a language module" section of the README
 
--- Sun, 30 Apr 2006 00:53:56 -0000 by ged (r89) -----
-   Added:   Linguistics.tmproj (new)
-            experiments/conjunct-with-block.rb (new)
-   Changed: /trunk
-            tests/en/conjunction.tests.rb
-            utils.rb
-            lib/linguistics.rb
-            lib/linguistics/en.rb
-            lib/linguistics/en/wordnet.rb (and 2 other/s)
+134   6993866cb5a5   2011-01-10 10:28 -0800   ged
+  Adding some more test coverage
 
-    * Added optional block to #conjuction to allow inline conversion of joined
-    objects.
-    * Added lprintf for injecting linguistics into formatted strings.
+133   a6e22bd4d5c4   2011-01-10 10:27 -0800   ged
+  Removed the explicit #language method, as it's now implemented in the inflector
 
+132   81360f6cb3f1   2011-01-10 10:26 -0800   ged
+  Fixed a bug in inflector construction for languages with only a 3-character code
 
--- Fri, 04 Nov 2005 12:17:24 -0000 by ged (r88) -----
-   Added:   experiments/lprintf.rb (new)
-   Changed: experiments/api.rb
+131   df32ab4ec78f   2011-01-10 10:20 -0800   ged
+  Splitting out monkeypatches into a separate file
 
-   * Updated api experiment so that it actually runs by commenting out the leftover
-   Perl stuff.
-   * Added lprintf() experiment.
+130   eb91956633ba   2011-01-10 10:05 -0800   ged
+  Removing unused mixin code
 
+129   77ff43777256   2011-01-10 09:56 -0800   ged
+  Added a RSpec 2 shared behavior for testing language modules
 
--- Sun, 30 Oct 2005 23:59:33 -0000 by ged (r87) -----
-   Changed: lib/linguistics.rb
+128   c740766cfc01   2011-01-10 08:24 -0800   ged
+  Fixes for systems without the dev hoe plugins
 
-   - Added autoloading of language constants.
+127   4cfcdca46d1a   2011-01-10 08:23 -0800   ged
+  Fixing some API docs
 
+126   d648b470243c   2010-12-16 17:25 -0800   ged
+  Remove unused module
 
--- Fri, 14 Oct 2005 20:39:57 -0000 by ged (r86) -----
-   Changed: docs/makedocs.rb
-            utils.rb
-            makedist.rb
-            install.rb
+125:113,124   29f18e9ec72b   2010-12-16 17:14 -0800   ged
+  Merged in work from the 20_redesign branch
 
-   - Updated to latest project-utils.
+124   7bab3eac65e1   2010-12-16 17:05 -0800   ged
+  Prepare feature branch for merging
 
+123   1ddb089668a6   2010-12-16 16:58 -0800   ged
+  Converted to Hoe for build stuff, cleanup.
 
--- Fri, 14 Oct 2005 20:34:49 -0000 by ged (r85) -----
-   Changed: lib/linguistics/en.rb
+122   a5c25f0f1458   2010-12-15 08:04 -0800   ged
+  Updated packaging, updated WordNet module, lprintf().
 
-   - Replaced 'hash.dup.update' with 'hash.merge'.
+121   b31562e6d34c   2010-12-10 09:45 -0800   ged
+  Cleaned up and wrote initial specs for Linguistics::EN.lprintf and related methods.
 
+120   33d03eab7092   2010-12-09 11:40 -0800   ged
+  Clean up spec helper, and fix participles spec.
 
--- Thu, 14 Jul 2005 23:12:24 -0000 by ged (r83) -----
-   Changed: ChangeLog
+119   80451a09a77c   2010-10-19 15:04 -0700   ged
+  Removed stuff that's been moved out into addons.
 
-   Updated changelog
+118   302486502d36   2010-10-19 15:03 -0700   ged
+  Split out titlecase addon
 
+117   d68037e0be3d   2010-10-19 14:19 -0700   ged
+  Updated linkparser addon and added a rudimentary spec
 
--- Wed, 13 Jul 2005 23:09:21 -0000 by ged (r82) -----
-   Changed: docs
+116   f79a44c612e4   2010-10-19 13:14 -0700   ged
+  Split out present participles
 
-   - Ignored html directory.
+115   e6ca28d45eb1   2010-10-19 13:14 -0700   ged
+  Split out indefinite article functions
 
+114:112   5b7d00ffe607   2010-10-19 08:55 -0700   ged
+  Fixed conjunctions.
 
--- Wed, 13 Jul 2005 22:35:45 -0000 by ged (r81) -----
-   Changed: docs/makedocs.rb
-            utils.rb
-            makedist.rb
+113:111,105   a2fa99d19aeb   2010-10-18 15:45 -0700   ged
+  Catch github master up to current version
 
-   - Merged changes from project-utils.
+112:107   b58ab2bda74a   2010-10-18 15:43 -0700   ged
+  Updating README for the 2.0 branch
 
+111   90d4b94647c1   2009-08-15 06:36 -0700   ged
+  Updated build system
 
--- Wed, 13 Jul 2005 21:04:50 -0000 by ged (r80) -----
-   Added:   .gemspec (new)
+110   4df4ff96ffcd   2008-12-23 15:39 +0000   ged
+  * Updated build system.
 
-   Initial checkin. Fixes #3.
+109   c14698509a9c   2008-09-06 05:20 +0000   ged
+  Converted to a new build system.
 
+108:88   079785674777   2008-01-30 07:01 +0000   ged
+  Started update of specs and build system
 
--- Wed, 13 Jul 2005 20:18:54 -0000 by ged (r79) -----
-   Changed: experiments/api.rb
-            experiments/randobjlist.rb
-            experiments/wn-proglang.rb
-            experiments/allobjlist.rb
-            experiments/lafcadio_plural.rb
-            experiments/farmobjs.rb (and 2 other/s)
+107   2732414c5fa0   2010-10-18 15:26 -0700   ged
+  Checkpoint commit; got pluralization, numbers, and indefinite articles working
 
-   - Set svn:keyword
+106:93   485369a7d3ac   2010-03-01 22:33 -0800   ged
+  Checkpoint commit
 
+105   8bd6ee08ffb1   2009-12-17 22:03 -0800   ged
+  Started work on a modern replacement for the old iso639 language tags.
 
--- Wed, 13 Jul 2005 19:58:43 -0000 by ged (r78) -----
-   Added:   tests/en/titlecase.tests.rb (new)
-            tests/en/lafcadio.tests.rb (new)
-   Changed: redist/crosscase.rb
-            tests/use.tests.rb
-            tests/en/linkparser.tests.rb
-            lib/linguistics.rb
-            lib/linguistics/en.rb
-            tests/lingtestcase.rb (and 2 other/s)
-   Deleted: redist/hashslice.rb
+104   dad041cf748b   2009-11-17 09:04 -0800   ged
+  Added tag 1.0.8 for changeset da353c888ad4
 
-   - Fixed up subversion constants
-   - Merged contributions from Francis Hwang <sera@fhwang.net>
-   (#camel_case_to_english, #english_to_camel_case, #proper_noun). Closes #2
-   - Set svn:keyword
+103[1.0.8]   da353c888ad4   2009-11-17 09:04 -0800   ged
+  Added signature for changeset 8029de2f9c60
 
+102   8029de2f9c60   2009-11-17 09:03 -0800   ged
+  Updated build system, bump version to 1.0.8.
 
--- Wed, 13 Jul 2005 12:46:29 -0000 by ged (r77) -----
-   Changed: lib/linguistics.rb
+101   2640c845eb5c   2009-11-17 08:59 -0800   ged
+  Fixes for 1.9.1 and license consistency update.
 
-   - Added Subversion constants
-   - Cleaned up comments for language proxy class.
+100   5608e79a8c0e   2009-11-06 21:40 -0800   ged
+  Added tag 1.0.7 for changeset 5f4fa2c136c7
 
+99[1.0.7]   5f4fa2c136c7   2009-11-06 21:40 -0800   ged
+  Added signature for changeset bebbaa868974
 
--- Wed, 13 Jul 2005 12:43:53 -0000 by ged (r76) -----
-   Added:   experiments/lafcadio_plural.rb (new)
+98   bebbaa868974   2009-11-06 21:39 -0800   ged
+  Removed tag 1.0.7
 
-   Initial checkin.
+97   745ab2865e60   2009-11-06 21:34 -0800   ged
+  Updated build system/gem; migrating to gemcutter.
 
+96   768322417359   2009-11-06 21:16 -0800   ged
+  Added tag 1.0.7 for changeset 1e029bfd9ead
 
--- Wed, 13 Jul 2005 12:42:30 -0000 by ged (r75) -----
-   Added:   experiments/TEMPLATE.rb.tpl (new)
+95   1e029bfd9ead   2009-11-06 21:16 -0800   ged
+  Added signature for changeset 401a04c4cf43
 
-   Initial checkin.
+94:92   401a04c4cf43   2009-11-06 21:15 -0800   ged
+  Bumping version
 
+93   95790e776f43   2009-11-06 21:11 -0800   ged
+  Checkpoint commit
 
--- Sat, 08 May 2004 19:15:04 -0000 by deveiant (r74) -----
-   Changed: install.rb
+92   405a85e00d33   2009-08-15 06:36 -0700   ged
+  Updated build system
 
-   - Added compatibility with Aoki-san's install.rb. Kind of.
+91   10f0010d38f7   2008-12-23 15:39 +0000   ged
+  * Updated build system.
 
+90   21e0fa69b1a3   2008-09-06 05:20 +0000   ged
+  Converted to a new build system.
 
--- Sat, 08 May 2004 19:07:51 -0000 by deveiant (r73) -----
-   Changed: lib/linguistics/en/linkparser.rb
+89   31309a47cd51   2008-01-30 07:01 +0000   ged
+  Started update of specs and build system
 
-   - Bugfix: Linkparser should start out missing by default.
+88   25721aae944c   2007-07-25 17:18 +0000   ged
+  Adding examples directory
 
+87   221d313ccdd5   2007-06-13 05:25 +0000   ged
+  Checkpoint commit
 
--- Sat, 08 May 2004 19:07:09 -0000 by deveiant (r72) -----
-   Changed: test.rb
+86   4e41be395a2f   2006-07-11 22:42 +0000   ged
+  * Updating docs/CATALOG with new CVS/server info
 
-   - Fixed to work even if it's not in the cwd. Thanks to batsman on
-   irc://irc.freenode.net/#ruby-lang for reporting this.
+85   53aa0aa41c17   2006-07-11 22:41 +0000   ged
+  * Fix #conjunction with :penultimate => false for lists of three.
 
+84   2082fa705aed   2006-07-11 19:17 +0000   ged
+  * Fixed the ':and' setting in EN#numwords. Closes #8.
 
--- Thu, 09 Oct 2003 13:24:25 -0000 by deveiant (r68) -----
-   Added:   .cvsignore (new)
+83   baf5b4b35b56   2006-04-30 00:53 +0000   ged
+  * Added optional block to #conjuction to allow inline conversion of joined
 
-   Initial checkin.
+82   4e3d732b608d   2005-11-04 12:17 +0000   ged
+  * Updated api experiment so that it actually runs by commenting out the leftover
 
+81   733a1fe188d9   2005-10-30 23:59 +0000   ged
+  - Added autoloading of language constants.
 
--- Thu, 09 Oct 2003 13:23:09 -0000 by deveiant (r67) -----
-   Changed: install.rb
+80   2d110ae82da4   2005-10-14 20:39 +0000   ged
+  - Updated to latest project-utils.
 
-   - Updated requirements list
-   - Removed unnecessary readline require
+79   6b3f1ba74aef   2005-10-14 20:34 +0000   ged
+  - Replaced 'hash.dup.update' with 'hash.merge'.
 
+78   7f7a1183b57d   2005-07-14 23:12 +0000   ged
+  Updated changelog
 
--- Thu, 09 Oct 2003 13:21:48 -0000 by deveiant (r66) -----
-   Changed: README
+77   54788ab9bcf8   2005-07-13 23:09 +0000   ged
+  - Ignored html directory.
 
-   - Fixed requirements/optional libraries (Thanks to Yuri Leikind
-   <y.leikind@sam-solutions.net> for bringing this to my attention).
+76   b5d49e0c35ca   2005-07-13 22:35 +0000   ged
+  - Merged changes from project-utils.
 
+75   31560ff75fd3   2005-07-13 21:04 +0000   ged
+  Initial checkin. Fixes #3.
 
--- Thu, 09 Oct 2003 13:20:50 -0000 by deveiant (r65) -----
-   Changed: MANIFEST
+74   37d8a6c881ee   2005-07-13 20:18 +0000   ged
+  - Set svn:keyword
 
-   - Wildcarded everything under lib/ so new additions don't have to be explicitly
-   listed.
-   - Added README.english (Thanks to Yuri Leikind <y.leikind@sam-solutions.net> for
-   bringing this to my attention).
+73   a63acb00f644   2005-07-13 19:58 +0000   ged
+  - Fixed up subversion constants
 
+72   63e8c69d1907   2005-07-13 12:46 +0000   ged
+  - Added Subversion constants
 
--- Sun, 14 Sep 2003 11:28:02 -0000 by deveiant (r64) -----
-   Changed: lib/linguistics/en/wordnet.rb
+71   238673eaaee4   2005-07-13 12:43 +0000   ged
+  Initial checkin.
 
-   - Calls to #synset no longer trap parse errors. This was done for two reasons:
-   1. If the WordNet doesn't load, WordNet::ParseError is an undefined constant,
-   so the function fails with a semi-ambiguous error message.
-   2. The user of the library might wish to handle the parse failure herself.
+70   f6514ebec6a5   2005-07-13 12:42 +0000   ged
+  Initial checkin.
 
+69   ee9fdfc4c36c   2004-05-08 19:15 +0000   ged
+  - Added compatibility with Aoki-san's install.rb. Kind of.
 
--- Sun, 14 Sep 2003 11:20:51 -0000 by deveiant (r63) -----
-   Changed: test.rb
+68   158cf095a9fa   2004-05-08 19:07 +0000   ged
+  - Bugfix: Linkparser should start out missing by default.
 
-   - Added redist/ to $LOAD_PATH.
+67   474e184fe6ff   2004-05-08 19:07 +0000   ged
+  - Fixed to work even if it's not in the cwd. Thanks to batsman on
 
+66   8a0b2a4b886e   2003-10-09 13:24 +0000   ged
+  Initial checkin.
 
--- Sun, 14 Sep 2003 11:15:57 -0000 by deveiant (r62) -----
-   Changed: lib/linguistics/en/wordnet.rb
+65   845e03b13966   2003-10-09 13:23 +0000   ged
+  - Updated requirements list
 
-   - Added synopsis of use to the comment header.
-   - Added reminder to finish documenting the auto-generated code.
+64   4666486a50eb   2003-10-09 13:21 +0000   ged
+  - Fixed requirements/optional libraries (Thanks to Yuri Leikind
 
+63   214171390c1e   2003-10-09 13:20 +0000   ged
+  - Wildcarded everything under lib/ so new additions don't have to be explicitly
 
--- Sun, 14 Sep 2003 11:15:33 -0000 by deveiant (r61) -----
-   Changed: lib/linguistics/en/linkparser.rb
+62   f5db1fb97033   2003-09-14 11:28 +0000   ged
+  - Calls to #synset no longer trap parse errors. This was done for two reasons:
 
-   - Added synopsis of use to the comment header.
+61   02ca82bc6984   2003-09-14 11:20 +0000   ged
+  - Added redist/ to $LOAD_PATH.
 
+60   4db8df9973b4   2003-09-14 11:15 +0000   ged
+  - Added synopsis of use to the comment header.
 
--- Sun, 14 Sep 2003 11:15:18 -0000 by deveiant (r60) -----
-   Changed: docs/CATALOG
+59   6bad66b91135   2003-09-14 11:15 +0000   ged
+  - Added synopsis of use to the comment header.
 
-   - Added README.english
+58   634ce53493be   2003-09-14 11:15 +0000   ged
+  - Added README.english
 
+57   fb47d6b0ded6   2003-09-14 11:15 +0000   ged
+  - Fixed screwed-up code resulting from broken paste.
 
--- Sun, 14 Sep 2003 11:15:05 -0000 by deveiant (r59) -----
-   Changed: README.english
+56   7146ca3eebfc   2003-09-14 11:14 +0000   ged
+  - Added mention of README.english.
 
-   - Fixed screwed-up code resulting from broken paste.
+55   9881c8ad3958   2003-09-14 10:47 +0000   ged
+  - Removed redundant mention of the WordNet module from the comment header.
 
+54   7aaa4bd062f6   2003-09-14 10:45 +0000   ged
+  - Fixed the comment header some more.
 
--- Sun, 14 Sep 2003 11:14:28 -0000 by deveiant (r58) -----
-   Changed: README
+53   5eac6f24970e   2003-09-14 10:39 +0000   ged
+  - Now installs the stuff in redist/ too.
 
-   - Added mention of README.english.
+52   1ca51228553c   2003-09-14 10:36 +0000   ged
+  - Changed pattern for the redist directory to catch any .rb files.
 
+51   a790dfd55178   2003-09-14 10:35 +0000   ged
+  - Fixed names of constants to reduce the chances of collision.
 
--- Sun, 14 Sep 2003 10:47:12 -0000 by deveiant (r57) -----
-   Changed: lib/linguistics/en.rb
+50   e9b089d13462   2003-09-14 10:33 +0000   ged
+  Initial checkin from version 0.01 of CrossCase.
 
-   - Removed redundant mention of the WordNet module from the comment header.
+49   87fad66155c9   2003-09-14 10:30 +0000   ged
+  - Changed parsing of non-sentences to expect errors in accordance with changes
 
+48   2c428d7f5cf8   2003-09-14 10:24 +0000   ged
+  - Added CrossCase require/include to provide under_barred aliasing for camelCase
 
--- Sun, 14 Sep 2003 10:45:01 -0000 by deveiant (r56) -----
-   Changed: lib/linguistics/en/linkparser.rb
+47   ea35375458c6   2003-09-14 10:24 +0000   ged
+  - Added Martin to the Authors list.
 
-   - Fixed the comment header some more.
+46   30d897f7238c   2003-09-14 10:23 +0000   ged
+  Initial checkin.
 
+45   e305e6d5c5f6   2003-09-14 09:29 +0000   ged
+  - Touched up the file description a bit.
 
--- Sun, 14 Sep 2003 10:39:04 -0000 by deveiant (r55) -----
-   Changed: install.rb
+44   9c2ff236f6b1   2003-09-11 05:04 +0000   ged
+  Checkpoint commit
 
-   - Now installs the stuff in redist/ too.
+43   c67f784e7948   2003-09-11 05:04 +0000   ged
+  - Added test for functional interface to auto-generated code.
 
+42   4d6e8b90bcb0   2003-09-11 05:03 +0000   ged
+  - Added test for functional interface to auto-generated code.
 
--- Sun, 14 Sep 2003 10:36:00 -0000 by deveiant (r54) -----
-   Changed: MANIFEST
+41   6f71252ff658   2003-09-11 05:02 +0000   ged
+  Initial checkin.
 
-   - Changed pattern for the redist directory to catch any .rb files.
+40   8eb3e2977dd5   2003-09-11 05:02 +0000   ged
+  - Fixed require block at the top.
 
+39   75be1895f357   2003-09-11 05:00 +0000   ged
+  - Added a dummy test so if the tests for optional modules can't be run (because
 
--- Sun, 14 Sep 2003 10:35:32 -0000 by deveiant (r53) -----
-   Changed: lib/linguistics/en/infinitive.rb
+38   743382c087e6   2003-09-11 04:59 +0000   ged
+  - Fixed leftover comment from copy.
 
-   - Fixed names of constants to reduce the chances of collision.
+37   23790f38a0cb   2003-09-11 04:57 +0000   ged
+  - Fixed typo.
 
+36   9a7bed5457b2   2003-09-11 04:57 +0000   ged
+  - Removed some more code for the aborted attempt to make the module
 
--- Sun, 14 Sep 2003 10:33:01 -0000 by deveiant (r52) -----
-   Added:   redist/crosscase.rb (new)
+35   579fb11da29c   2003-09-11 04:55 +0000   ged
+  - Changed name of "inflector" class to "languageProxy" to better fit what it
 
-   Initial checkin from version 0.01 of CrossCase.
+34   5d62e88eabf3   2003-09-11 04:52 +0000   ged
+  - Added :installProxy config to the #use call.
 
+33   28370746e077   2003-09-11 04:52 +0000   ged
+  Initial checkin.
 
--- Sun, 14 Sep 2003 10:30:38 -0000 by deveiant (r51) -----
-   Changed: tests/en/linkparser.tests.rb
+32   e75da92bfb98   2003-09-11 04:51 +0000   ged
+  - Added example output.
 
-   - Changed parsing of non-sentences to expect errors in accordance with changes
-   to the API of the LinkParser integration.
+31   d2ff7131481d   2003-09-11 04:51 +0000   ged
+  - Reworked to be more generically useful, and support parsing of options from
 
+30   a7edb22b3097   2003-09-11 04:50 +0000   ged
+  - Added rdoc-option header.
 
--- Sun, 14 Sep 2003 10:24:58 -0000 by deveiant (r50) -----
-   Changed: lib/linguistics/en.rb
+29   ca2dcef4471a   2003-09-11 04:50 +0000   ged
+  - Brought up-to-date with canonical source.
 
-   - Added CrossCase require/include to provide under_barred aliasing for camelCase
-   functions.
+28   5d7d40c0bf22   2003-09-11 04:49 +0000   ged
+  - Removed finished items.
 
+27   865273ac947c   2003-09-11 04:48 +0000   ged
+  - Beginnings of update for new release. Still needs more work before release.
 
--- Sun, 14 Sep 2003 10:24:06 -0000 by deveiant (r49) -----
-   Changed: README
+26   0c1335f96c40   2003-09-11 04:48 +0000   ged
+  - Added ChangeLog.
 
-   - Added Martin to the Authors list.
-   - Updated optional list.
+25   0d4f3e0f6b33   2003-09-11 04:25 +0000   ged
+  Initial checkin.
 
+24   74aa7e9f9ba8   2003-09-10 03:48 +0000   ged
+  Initial checkin.
 
--- Sun, 14 Sep 2003 10:23:19 -0000 by deveiant (r48) -----
-   Added:   README.english (new)
+23   ae845807a0f4   2003-09-09 19:29 +0000   stillflame
+  initial import
 
-   Initial checkin.
+22   f2ddd83efeef   2003-08-26 10:35 +0000   ged
+  Initial checkin.
 
+21   724036a529a6   2003-07-11 00:36 +0000   ged
+  - Added a Range#step 1.6 compat function.
 
--- Sun, 14 Sep 2003 09:29:15 -0000 by deveiant (r47) -----
-   Changed: lib/linguistics/en/linkparser.rb
+20   32814ce3597d   2003-07-11 00:20 +0000   ged
+  - 1.6 fixes.
 
-   - Touched up the file description a bit.
-   - @lpError now intitialized: bug spotted by Martin Chase.
-   - Calls to #linkParse no longer trap parse errors. This was done for two
-   reasons:
-   1. If the LinkParser module doesn't load, LinkParser::ParseError is an
-   undefined constant, so the function fails with a semi-ambiguous error
-   message.
-   2. The user of the library might wish to handle the parse failure herself.
+19   9b7ee80b50ee   2003-07-11 00:13 +0000   ged
+  - More 1.6ish fixes.
 
+18   a3f5d11906de   2003-07-10 23:52 +0000   ged
+  Made module_methods out of the backend functions to support including linguistic methods again.
 
--- Thu, 11 Sep 2003 05:04:55 -0000 by deveiant (r46) -----
-   Added:   ChangeLog (new)
+17   7a7f05b223f7   2003-07-10 23:45 +0000   ged
+  - Fixed use of Hash#merge! (1.8 feature)
 
-   Checkpoint commit
+16   40457b3c1a48   2003-07-10 23:38 +0000   ged
+  - Fixed usage of Hash#merge (a 1.8 feature).
 
+15   d11ee5810b08   2003-07-10 00:00 +0000   ged
+  - Removed unneccessary require of test/unit/mock.
 
--- Thu, 11 Sep 2003 05:04:04 -0000 by deveiant (r45) -----
-   Changed: tests/en/inflect.tests.rb
+14   9c32a7e30cb0   2003-07-09 23:24 +0000   ged
+  Initial checkin.
 
-   - Added test for functional interface to auto-generated code.
-   - Removed tests of the 'use' function into their own test case.
+13   38aded3c6801   2003-07-09 21:45 +0000   ged
+  Initial checkin.
 
+12   76747915b8c5   2003-07-09 20:39 +0000   ged
+  - Explicitly listed linguistics.rb so it gets documented first.
 
--- Thu, 11 Sep 2003 05:03:12 -0000 by deveiant (r44) -----
-   Changed: tests/en/conjunction.tests.rb
+11   fcb245968c83   2003-07-09 20:39 +0000   ged
+  - Commented out rdoc-selection code, as it doesn't work.
 
-   - Added test for functional interface to auto-generated code.
+10   64c33b94c128   2003-07-09 20:38 +0000   ged
+  - Fleshed out instructions for use and addition.
 
+9   07bd25eaf347   2003-07-09 20:37 +0000   ged
+  - RDoc fixes
 
--- Thu, 11 Sep 2003 05:02:32 -0000 by deveiant (r43) -----
-   Added:   lib/linguistics/en/wordnet.rb (new)
-            tests/en/infinitive.tests.rb (new)
+8   943c544612cd   2003-07-09 20:35 +0000   ged
+  - Made some RDoc fixes
 
-   Initial checkin.
+7   509a93564b58   2003-07-09 19:30 +0000   ged
+  - Added array-wrapping to allow single classes in the :classes config argument.
 
+6   76b35a68af3e   2003-07-09 19:16 +0000   ged
+  - Moved Array extension to the bottom of the file to avoid confusion, and turned on :nodoc: for it.
 
--- Thu, 11 Sep 2003 05:02:04 -0000 by deveiant (r42) -----
-   Changed: tests/use.tests.rb
+5   3e099b6e65ab   2003-07-09 18:24 +0000   ged
+  - Moved into the en/ directory to separate language-specific tests from general tests.
 
-   - Fixed require block at the top.
-   - Changed name of intermediate class to reflect change in linguistics.rb.
-   - Fixed 1.8 complaint.
+4   86d7a993f44f   2003-07-09 16:15 +0000   ged
+  Fixed project-grokking expression
 
+3   2832244cb478   2003-07-09 16:13 +0000   ged
+  Initial checkin.
 
--- Thu, 11 Sep 2003 05:00:56 -0000 by deveiant (r41) -----
-   Changed: tests/lingtestcase.rb
+2:0   12cb5587127a   2003-07-09 15:54 +0000   ged
+  Initial checkin
 
-   - Added a dummy test so if the tests for optional modules can't be run (because
-   the modules on which they depend aren't installed), it doesn't count as a
-   failure because there were no tests.
+1   b969bf3cdcb7   2003-07-09 14:49 +0000   unknown
+  This commit was manufactured by cvs2svn to create branch
 
-
--- Thu, 11 Sep 2003 04:59:51 -0000 by deveiant (r40) -----
-   Changed: tests/TEMPLATE.rb.tpl
-
-   - Fixed leftover comment from copy.
-
-
--- Thu, 11 Sep 2003 04:57:46 -0000 by deveiant (r39) -----
-   Changed: lib/linguistics/iso639.rb
-
-   - Fixed typo.
-
-
--- Thu, 11 Sep 2003 04:57:27 -0000 by deveiant (r38) -----
-   Changed: lib/linguistics/en.rb
-
-   - Removed some more code for the aborted attempt to make the module
-   1.6-compatible.
-   - Added requires for new extensions 'wordnet', 'linkparser', and 'infinitive'.
-   - Updated docs in the header, though they're not yet ready for release.
-
-
--- Thu, 11 Sep 2003 04:55:11 -0000 by deveiant (r37) -----
-   Changed: lib/linguistics.rb
-
-   - Changed name of "inflector" class to "languageProxy" to better fit what it
-   does.
-   - Added support for transparent delegator proxy methods.
-   - Added support for MyClass::extend( Linguistics ) and class MyClass; include
-   Linguistics; end.
-   - Modified code in #loadLanguage to minimize the number of requires.
-
-
--- Thu, 11 Sep 2003 04:52:32 -0000 by deveiant (r36) -----
-   Changed: .irbrc
-
-   - Added :installProxy config to the #use call.
-
-
--- Thu, 11 Sep 2003 04:52:03 -0000 by deveiant (r35) -----
-   Added:   experiments/wn-proglang.rb (new)
-            experiments/generalize.rb (new)
-
-   Initial checkin.
-
-
--- Thu, 11 Sep 2003 04:51:41 -0000 by deveiant (r34) -----
-   Changed: experiments/allobjlist.rb
-
-   - Added example output.
-
-
--- Thu, 11 Sep 2003 04:51:26 -0000 by deveiant (r33) -----
-   Changed: docs/makedocs.rb
-
-   - Reworked to be more generically useful, and support parsing of options from
-   CATALOG file.
-
-
--- Thu, 11 Sep 2003 04:50:49 -0000 by deveiant (r32) -----
-   Changed: docs/CATALOG
-
-   - Added rdoc-option header.
-
-
--- Thu, 11 Sep 2003 04:50:13 -0000 by deveiant (r31) -----
-   Changed: utils.rb
-
-   - Brought up-to-date with canonical source.
-
-
--- Thu, 11 Sep 2003 04:49:45 -0000 by deveiant (r30) -----
-   Changed: TODO
-
-   - Removed finished items.
-
-
--- Thu, 11 Sep 2003 04:48:46 -0000 by deveiant (r29) -----
-   Changed: README
-
-   - Beginnings of update for new release. Still needs more work before release.
-
-
--- Thu, 11 Sep 2003 04:48:06 -0000 by deveiant (r28) -----
-   Changed: MANIFEST
-
-   - Added ChangeLog.
-
-
--- Thu, 11 Sep 2003 04:25:23 -0000 by deveiant (r27) -----
-   Added:   lib/linguistics/en/linkparser.rb (new)
-            lib/linguistics/en (new)
-            lib/linguistics/en/infinitive.rb (new)
-
-   Initial checkin.
-
-
--- Wed, 10 Sep 2003 03:48:46 -0000 by deveiant (r26) -----
-   Added:   tests/en/wordnet.tests.rb (new)
-
-   Initial checkin.
-
-
--- Tue, 09 Sep 2003 19:29:15 -0000 by stillflame (r25) -----
-   Added:   tests/en/linkparser.tests.rb (new)
-
-   initial import
-
-
--- Tue, 26 Aug 2003 10:35:16 -0000 by deveiant (r24) -----
-   Added:   docs/.cvsignore (new)
-
-   Initial checkin.
-
-
--- Fri, 11 Jul 2003 00:36:40 -0000 by deveiant (r23) -----
-   Changed: lib/linguistics/en.rb
-
-   - Added a Range#step 1.6 compat function.
-
-
--- Fri, 11 Jul 2003 00:20:10 -0000 by deveiant (r22) -----
-   Changed: tests/use.tests.rb
-
-   - 1.6 fixes.
-
-
--- Fri, 11 Jul 2003 00:13:54 -0000 by deveiant (r21) -----
-   Changed: lib/linguistics.rb
-
-   - More 1.6ish fixes.
-
-
--- Thu, 10 Jul 2003 23:52:36 -0000 by deveiant (r20) -----
-   Changed: lib/linguistics/en.rb
-
-   Made module_methods out of the backend functions to support including linguistic methods again.
-
-
--- Thu, 10 Jul 2003 23:45:26 -0000 by deveiant (r19) -----
-   Changed: lib/linguistics.rb
-
-   - Fixed use of Hash#merge! (1.8 feature)
-
-
--- Thu, 10 Jul 2003 23:38:24 -0000 by deveiant (r18) -----
-   Changed: lib/linguistics/en.rb
-
-   - Fixed usage of Hash#merge (a 1.8 feature).
-
-
--- Thu, 10 Jul 2003 00:00:00 -0000 by deveiant (r17) -----
-   Changed: tests/lingtestcase.rb
-
-   - Removed unneccessary require of test/unit/mock.
-
-
--- Wed, 09 Jul 2003 23:24:42 -0000 by deveiant (r16) -----
-   Added:   MANIFEST (new)
-
-   Initial checkin.
-
-
--- Wed, 09 Jul 2003 21:45:36 -0000 by deveiant (r15) -----
-   Added:   install.rb (new)
-
-   Initial checkin.
-
-
--- Wed, 09 Jul 2003 20:39:59 -0000 by deveiant (r14) -----
-   Changed: docs/CATALOG
-
-   - Explicitly listed linguistics.rb so it gets documented first.
-
-
--- Wed, 09 Jul 2003 20:39:25 -0000 by deveiant (r13) -----
-   Changed: utils.rb
-
-   - Commented out rdoc-selection code, as it doesn't work.
-
-
--- Wed, 09 Jul 2003 20:38:14 -0000 by deveiant (r12) -----
-   Changed: README
-
-   - Fleshed out instructions for use and addition.
-
-
--- Wed, 09 Jul 2003 20:37:06 -0000 by deveiant (r11) -----
-   Changed: tests/use.tests.rb
-            Artistic
-            lib/linguistics.rb
-
-   - RDoc fixes
-
-
--- Wed, 09 Jul 2003 20:35:29 -0000 by deveiant (r10) -----
-   Changed: lib/linguistics/iso639.rb
-
-   - Made some RDoc fixes
-
-
--- Wed, 09 Jul 2003 19:30:42 -0000 by deveiant (r9) -----
-   Changed: lib/linguistics.rb
-
-   - Added array-wrapping to allow single classes in the :classes config argument.
-   - Wrapped the code that adds the inflector method in a test for the method's existance to avoid constantly redefining it for classes which already have it.
-
-
--- Wed, 09 Jul 2003 19:16:21 -0000 by deveiant (r8) -----
-   Changed: lib/linguistics/en.rb
-
-   - Moved Array extension to the bottom of the file to avoid confusion, and turned on :nodoc: for it.
-
-
--- Wed, 09 Jul 2003 18:24:13 -0000 by deveiant (r7) -----
-   Deleted: tests/conjunction.tests.rb
-            tests/en_inflect.tests.rb
-
-   - Moved into the en/ directory to separate language-specific tests from general tests.
-
-
--- Wed, 09 Jul 2003 16:15:20 -0000 by deveiant (r6) -----
-   Changed: makedist.rb
-
-   Fixed project-grokking expression
-
-
--- Wed, 09 Jul 2003 16:13:52 -0000 by deveiant (r5) -----
-   Added:   docs/makedocs.rb (new)
-
-   Initial checkin.
-
-
--- Wed, 09 Jul 2003 15:54:43 -0000 by deveiant (r4) -----
-   Added:   experiments/allobjlist.rb (new)
-            experiments/farmobjs.rb (new)
-
-   Initial checkin
-
-
--- Wed, 09 Jul 2003 14:49:57 -0000 by deveiant (r1) -----
-   Added:   README (new)
-            tests/conjunction.tests.rb (new)
-            redist/hashslice.rb (new)
-            tests/en/conjunction.tests.rb (new)
-            /trunk (new)
-            tests/use.tests.rb (new) (and 24 other/s)
-
-   Initial revision
-
+0   6c6bdac4c291   2003-07-09 14:49 +0000   ged
+  Initial revision
 

@@ -26,7 +26,7 @@ module Linguistics
 	### Class constants
 
 	# Release version
-	VERSION = '1.0.8'
+	VERSION = '1.0.9'
 
 	# Language module implementors should do something like:
 	#   Linguistics::DefaultLanguages.push( :ja ) # or whatever

@@ -1,22 +1,24 @@
-#!rake
+#!rake -*- ruby -*-
 #
 # Linguistics rakefile
 #
 # Based on various other Rakefiles, especially one by Ben Bleything
 #
-# Copyright (c) 2007-2009 The FaerieMUD Consortium
+# Copyright (c) 2007-2011 The FaerieMUD Consortium
 #
 # Authors:
 #  * Michael Granger <ged@FaerieMUD.org>
 #
 
 BEGIN {
+	require 'rbconfig'
 	require 'pathname'
 	basedir = Pathname.new( __FILE__ ).dirname
 
 	libdir = basedir + "lib"
-	extdir = basedir + "ext"
+	extdir = libdir + Config::CONFIG['sitearch']
 
+	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
 	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
 	$LOAD_PATH.unshift( extdir.to_s ) unless $LOAD_PATH.include?( extdir.to_s )
 }
@@ -32,6 +34,15 @@ rescue LoadError
 	end
 end
 
+begin
+	require 'rubygems'
+rescue LoadError
+	module Gem
+		class Specification; end
+	end
+end
+
+require 'pathname'
 require 'rbconfig'
 require 'rake'
 require 'rake/testtask'
@@ -65,9 +76,9 @@ if VERSION_FILE.exist? && buildrev = ENV['CC_BUILD_LABEL']
 	PKG_VERSION = VERSION_FILE.read[ /VERSION\s*=\s*['"](\d+\.\d+\.\d+)['"]/, 1 ] + '.' + buildrev
 elsif VERSION_FILE.exist?
 	PKG_VERSION = VERSION_FILE.read[ /VERSION\s*=\s*['"](\d+\.\d+\.\d+)['"]/, 1 ]
-else
-	PKG_VERSION = '0.0.0'
 end
+
+PKG_VERSION = '0.0.0' unless defined?( PKG_VERSION ) && !PKG_VERSION.nil?
 
 PKG_FILE_NAME = "#{PKG_NAME.downcase}-#{PKG_VERSION}"
 GEM_FILE_NAME = "#{PKG_FILE_NAME}.gem"
@@ -82,7 +93,7 @@ EXTCONF       = EXTDIR + 'extconf.rb'
 
 ARTIFACTS_DIR = Pathname.new( CC_BUILD_ARTIFACTS )
 
-TEXT_FILES    = Rake::FileList.new( %w[Rakefile ChangeLog README LICENSE] )
+TEXT_FILES    = Rake::FileList.new( %w[Rakefile ChangeLog README* LICENSE] )
 BIN_FILES     = Rake::FileList.new( "#{BINDIR}/*" )
 LIB_FILES     = Rake::FileList.new( "#{LIBDIR}/**/*.rb" )
 EXT_FILES     = Rake::FileList.new( "#{EXTDIR}/**/*.{c,h,rb}" )
@@ -121,6 +132,10 @@ RELEASE_FILES = TEXT_FILES +
 
 RELEASE_FILES << LOCAL_RAKEFILE.to_s if LOCAL_RAKEFILE.exist?
 
+RELEASE_ANNOUNCE_ADDRESSES = [
+	"Ruby-Talk List <ruby-talk@tuby-lang.org>",
+]
+
 COVERAGE_MINIMUM = ENV['COVERAGE_MINIMUM'] ? Float( ENV['COVERAGE_MINIMUM'] ) : 85.0
 RCOV_EXCLUDES = 'spec,tests,/Library/Ruby,/var/lib,/usr/local/lib'
 RCOV_OPTS = [
@@ -140,7 +155,7 @@ if !RAKE_TASKDIR.exist?
 
 	if ans =~ /^y/i
 		$stderr.puts "Okay, fetching #{RAKE_TASKLIBS_URL} into #{RAKE_TASKDIR}..."
-		system 'hg', 'clone', RAKE_TASKLIBS_URL, RAKE_TASKDIR
+		system 'hg', 'clone', RAKE_TASKLIBS_URL, "./#{RAKE_TASKDIR}"
 		if ! $?.success?
 			fail "Damn. That didn't work. Giving up; maybe try manually fetching?"
 		end
@@ -153,30 +168,40 @@ if !RAKE_TASKDIR.exist?
 end
 
 require RAKE_TASKDIR + 'helpers.rb'
+include RakefileHelpers
 
-# Define some constants that depend on the 'svn' tasklib
+# Set the build ID if the mercurial executable is available
 if hg = which( 'hg' )
-	id = IO.read('|-') or exec hg.to_s, 'id', '-n'
-	PKG_BUILD = id.chomp[ /^[[:xdigit:]]+/ ]
+	id = `#{hg} id -n`.chomp
+	PKG_BUILD = (id.chomp[ /^[[:xdigit:]]+/ ] || '1')
 else
-	PKG_BUILD = 0
+	PKG_BUILD = '0'
 end
 SNAPSHOT_PKG_NAME = "#{PKG_FILE_NAME}.#{PKG_BUILD}"
 SNAPSHOT_GEM_NAME = "#{SNAPSHOT_PKG_NAME}.gem"
 
 # Documentation constants
-RDOCDIR = DOCSDIR + 'api'
+API_DOCSDIR = DOCSDIR + 'api'
+README_FILE = TEXT_FILES.find {|path| path =~ /^README/ } || 'README'
 RDOC_OPTIONS = [
-	'-w', '4',
-	'-HN',
-	'-i', '.',
-	'-m', 'README',
-	'-t', PKG_NAME,
-	'-W', 'http://deveiate.org/projects/Linguistics/browser/'
+	'--tab-width=4',
+	'--show-hash',
+	'--include', BASEDIR.to_s,
+	"--main=#{README_FILE}",
+	"--title=#{PKG_NAME}",
+  ]
+YARD_OPTIONS = [
+	'--use-cache',
+	'--protected',
+	'-r', README_FILE,
+	'--exclude', 'extconf\\.rb',
+	'--files', 'ChangeLog,LICENSE',
+	'--output-dir', API_DOCSDIR.to_s,
+	'--title', "#{PKG_NAME} #{PKG_VERSION}",
   ]
 
 # Release constants
-SMTP_HOST = 'mail.faeriemud.org'
+SMTP_HOST = "mail.faeriemud.org"
 SMTP_PORT = 465 # SMTP + SSL
 
 # Project constants
@@ -186,9 +211,7 @@ PROJECT_DOCDIR = "#{PROJECT_PUBDIR}/#{PKG_NAME}"
 PROJECT_SCPPUBURL = "#{PROJECT_HOST}:#{PROJECT_PUBDIR}"
 PROJECT_SCPDOCURL = "#{PROJECT_HOST}:#{PROJECT_DOCDIR}"
 
-# Rubyforge stuff
-RUBYFORGE_GROUP = 'deveiate'
-RUBYFORGE_PROJECT = 'linguistics'
+GEM_PUBHOST = 'rubygems.org'
 
 # Gem dependencies: gemname => version
 DEPENDENCIES = {
@@ -196,17 +219,14 @@ DEPENDENCIES = {
 
 # Developer Gem dependencies: gemname => version
 DEVELOPMENT_DEPENDENCIES = {
-	'rake'        => '>= 0.8.7',
-	'rcodetools'  => '>= 0.7.0.0',
-	'rcov'        => '>= 0.8.1.2.0',
-	'rdoc'        => '>= 2.4.3',
-	'RedCloth'    => '>= 4.0.3',
-	'rspec'       => '>= 1.2.6',
-	'rubyforge'   => '>= 0',
-	'termios'     => '>= 0',
-	'text-format' => '>= 1.0.0',
-	'tmail'       => '>= 1.2.3.1',
-	'diff-lcs'    => '>= 1.1.2',
+	'rake'          => '~> 0.8.7',
+	'rcodetools'    => '~> 0.7.0.0',
+	'rcov'          => '~> 0.8.1.2.0',
+	'RedCloth'      => '~> 4.2.3',
+	'rspec'         => '~> 1.2.6',
+	'ruby-termios'  => '~> 0.9.6',
+	'text-format'   => '~> 1.0.0',
+	'tmail'         => '~> 1.2.3.1',
 	'wordnet' => '>=0.0.5',
 	'linkparser' => '>=1.0.3',
 }
@@ -227,16 +247,14 @@ GEMSPEC   = Gem::Specification.new do |gem|
 		"contains various English-language utilities.",
   	  ].join( "\n" )
 
-	gem.authors           = "Michael Granger"
+	gem.authors           = ["Michael Granger"]
 	gem.email             = ["ged@FaerieMUD.org"]
 	gem.homepage          = 'http://deveiate.org/projects/Linguistics/'
-
-	# Apparently this isn't actually the 'project'?
-	gem.rubyforge_project = RUBYFORGE_GROUP
+	gem.licenses          = ["BSD"]
 
 	gem.has_rdoc          = true
 	gem.rdoc_options      = RDOC_OPTIONS
-	gem.extra_rdoc_files  = %w[ChangeLog README LICENSE]
+	gem.extra_rdoc_files  = TEXT_FILES - [ 'Rakefile' ]
 
 	gem.bindir            = BINDIR.relative_path_from(BASEDIR).to_s
 	gem.executables       = BIN_FILES.select {|pn| File.executable?(pn) }.
@@ -249,6 +267,13 @@ GEMSPEC   = Gem::Specification.new do |gem|
 
 	gem.files             = RELEASE_FILES
 	gem.test_files        = SPEC_FILES
+
+	# signing key and certificate chain
+	gem.signing_key       = '/Volumes/Keys/ged-private_gem_key.pem'
+	gem.cert_chain        = [File.expand_path('~/.gem/ged-public_gem_cert.pem')]
+
+
+	gem.required_ruby_version = '>= 1.8.7'
 
 	DEPENDENCIES.each do |name, version|
 		version = '>= 0' if version.length.zero?
@@ -290,14 +315,14 @@ import LOCAL_RAKEFILE if LOCAL_RAKEFILE.exist?
 #####################################################################
 
 ### Default task
-task :default  => [:clean, :local, :spec, :rdoc, :package]
+task :default  => [:clean, :local, :spec, :apidocs, :package]
 
 ### Task the local Rakefile can append to -- no-op by default
 task :local
 
 ### Task: clean
-CLEAN.include 'coverage'
-CLOBBER.include 'artifacts', 'coverage.info', PKGDIR
+CLEAN.include 'coverage', '**/*.orig', '**/*.rej'
+CLOBBER.include 'artifacts', 'coverage.info', 'ChangeLog', PKGDIR
 
 ### Task: changelog
 file 'ChangeLog' do |task|
