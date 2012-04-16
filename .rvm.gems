@@ -1,0 +1,3 @@
+hoe-deveiate -v'~>0.1'
+linkparser -v'~>1.1'
+wordnet 
