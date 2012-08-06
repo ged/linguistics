@@ -1,14 +1,15 @@
 #!/usr/bin/ruby
 # coding: utf-8
 
-# An interface for extending core Ruby classes with linguistic methods.
-# 
-# @version 2.0.0
-#
-# 
-# @author Michael Granger <ged@FaerieMUD.org>
-# 
+require 'loggability'
+
+# An interface for extending core Ruby classes with natural-language methods.
 module Linguistics
+	extend Loggability
+
+	# Loggability API -- set up a logger for Linguistics objects
+	log_as :linguistics
+
 
 	# Release version
 	VERSION = '2.0.0'
@@ -26,7 +27,6 @@ module Linguistics
 
 
 	require 'linguistics/monkeypatches'
-	require 'linguistics/utils'
 	require 'linguistics/mixins'
 	require 'linguistics/iso639'
 	require 'linguistics/inflector'
@@ -48,44 +48,6 @@ module Linguistics
 	end
 
 
-	### Logging
-	@default_logger = Logger.new( $stderr )
-	@default_logger.level = $DEBUG ? Logger::DEBUG : Logger::WARN
-
-	@default_log_formatter = Linguistics::LogFormatter.new( @default_logger )
-	@default_logger.formatter = @default_log_formatter
-
-	@logger = @default_logger
-
-	class << self
-		# The log formatter that will be used when the logging subsystem is reset
-		attr_accessor :default_log_formatter
-
-		# The logger that will be used when the logging subsystem is reset
-		attr_accessor :default_logger
-
-		# The logger that's currently in effect
-		attr_accessor :logger
-		alias_method :log, :logger
-		alias_method :log=, :logger=
-	end
-
-
-	### Reset the global logger object to the default
-	def self::reset_logger
-		self.logger = self.default_logger
-		self.logger.level = Logger::WARN
-		self.logger.formatter = self.default_log_formatter
-	end
-
-
-	### Returns +true+ if the global logger has not been set to something other than
-	### the default one.
-	def self::using_default_logger?
-		return self.logger == self.default_logger
-	end
-
-
 	### Return the library's version string
 	def self::version_string( include_buildnum=false )
 		vstring = "%s %s" % [ self.name, VERSION ]
@@ -93,10 +55,6 @@ module Linguistics
 		return vstring
 	end
 
-
-	###############
-	module_function
-	###############
 
 	### Add linguistics functions for the specified languages to Ruby's core
 	### classes. The interface to all linguistic functions for a given language
@@ -109,8 +67,8 @@ module Linguistics
 	###   the Class objects in Linguistics::DEFAULT_EXT_CLASSES (an Array) are
 	###   extended.
 	### [<b>:proxy</b>]
-	###   
-	def use( *languages )
+	###
+	def self::use( *languages )
 		config = {}
 		config = languages.pop if languages.last.is_a?( Hash )
 
@@ -141,7 +99,7 @@ module Linguistics
 
 	### Try to load the module that implements the given language, returning
 	### the Module object if successful.
-	def load_language( lang )
+	def self::load_language( lang )
 		unless mod = self.languages[ lang.to_sym ]
 
 			Linguistics.log.debug "Trying to load language %p" % [ lang ]
@@ -183,7 +141,7 @@ module Linguistics
 
 	### Create a mixin module/class pair that act as the per-object interface to
 	### the given language +mod+'s inflector.
-	def make_inflector_mixin( lang, mod )
+	def self::make_inflector_mixin( lang, mod )
 		language = LANGUAGE_CODES[ lang.to_sym ] or
 			raise "Unknown ISO639-2 language code '#{lang}'"
 
@@ -211,7 +169,7 @@ module Linguistics
 
 	### Register a module as providing linguistic functions for the specified +language+ (a two- 
 	### or three-letter ISO639-2 language codes as a Symbol)
-	def register_language( language, mod )
+	def self::register_language( language, mod )
 		language_entry = LANGUAGE_CODES[ language.to_sym ] or
 			raise "Unknown ISO639-2 language code '#{language}'"
 		Linguistics.log.info "Registering %s for language %p" % [ mod, language_entry ]

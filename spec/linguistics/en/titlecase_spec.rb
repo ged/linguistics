@@ -19,7 +19,6 @@ require 'linguistics/en'
 
 
 describe Linguistics::EN::TitleCase do
-	include Linguistics::SpecHelpers
 
 	before( :all ) do
 		setup_logging( :fatal )

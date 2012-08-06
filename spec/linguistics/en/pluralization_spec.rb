@@ -18,7 +18,6 @@ require 'linguistics/en'
 
 
 describe Linguistics::EN::Pluralization do
-	include Linguistics::SpecHelpers
 
 	before( :all ) do
 		setup_logging( :fatal )

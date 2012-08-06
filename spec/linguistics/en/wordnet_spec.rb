@@ -54,7 +54,7 @@ describe Linguistics::EN::WordNet do
 			if Linguistics::EN.has_wordnet?
 				error = LoadError.new( "no such file to load -- wordnet" )
 				Linguistics::EN::WordNet.instance_variable_set( :@has_wordnet, false )
-				Linguistics::EN::WordNet.instance_variable_set( :@wn_error, error )
+				Linguistics::EN::WordNet.instance_variable_set( :@error, error )
 			end
 		end
 

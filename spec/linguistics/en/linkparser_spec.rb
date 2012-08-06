@@ -18,7 +18,6 @@ require 'linguistics/en/linkparser'
 
 
 describe Linguistics::EN::LinkParser do
-	include Linguistics::SpecHelpers
 
 	before( :all ) do
 		setup_logging( :fatal )

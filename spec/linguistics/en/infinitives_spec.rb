@@ -18,7 +18,6 @@ require 'linguistics/en/infinitives'
 
 
 describe Linguistics::EN::Infinitives do
-	include Linguistics::SpecHelpers
 
 	before( :all ) do
 		setup_logging( :fatal )

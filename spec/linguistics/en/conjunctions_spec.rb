@@ -18,7 +18,6 @@ require 'linguistics/en'
 
 
 describe Linguistics::EN::Conjunctions do
-	include Linguistics::SpecHelpers
 
 	before( :all ) do
 		Linguistics.use( :en )

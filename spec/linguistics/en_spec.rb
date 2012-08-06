@@ -19,7 +19,6 @@ require 'linguistics/languagebehavior'
 
 
 describe Linguistics::EN do
-	include Linguistics::SpecHelpers
 
 	before( :all ) do
 		setup_logging( :fatal )

@@ -23,7 +23,6 @@ lib/linguistics/iso639.rb
 lib/linguistics/languagebehavior.rb
 lib/linguistics/mixins.rb
 lib/linguistics/monkeypatches.rb
-lib/linguistics/utils.rb
 spec/lib/constants.rb
 spec/lib/helpers.rb
 spec/linguistics/en/articles_spec.rb

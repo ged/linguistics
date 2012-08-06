@@ -1,17 +1,16 @@
 = Linguistics
 
-home :: http://deveiate.org/projects/Linguistics
-source :: http://repo.deveiate.org/Linguistics
-issues :: https://bitbucket.org/ged/linguistics
+docs :: http://deveiate.org/code/linguistics
+project :: https://bitbucket.org/ged/linguistics
 github :: https://github.com/ged/linguistics
 
 
 == Description
 
-Linguistics is a framework for building linguistic utilities for Ruby objects
-in any language. It includes a generic language-independant front end, a
-module for mapping language codes into language names, and a module which
-contains various English-language utilities.
+Linguistics is a framework for building linguistic utilities for Ruby
+objects in any language. It includes a generic language-independant
+front end, a module for mapping language codes into language names, and
+a module which contains various English-language utilities.
 
 Here are a few whimsical examples:
 
@@ -20,11 +19,117 @@ Here are a few whimsical examples:
   
   puts "Head of State".en.quantify( 11 )'
 
+
+== Usage
+
+The Linguistics module comes with a language-independant mechanism for
+extending core Ruby classes with linguistic methods.
+
+It consists of three parts: a core linguistics module which contains the
+class-extension framework for languages, a generic inflector class that
+serves as an extension point for linguistic methods on Ruby objects, and
+one or more language-specific modules which contain the actual
+linguistic functions.
+
+The module works by adding a single instance method for each language
+named after the language's two-letter code (or three-letter code, if no
+two-letter code is defined by ISO639) to various Ruby classes. This
+allows many language-specific methods to be added to objects without
+cluttering up the interface or risking collision between them, albeit at
+the cost of three or four more characters per method invocation. For
+example:
+
+	Linguistics::use( :en )
+	"goose".en.plural
+	# => "geese"
+
+
+=== Adding Language Modules
+
+To add a new language to the framework, define a module that will act as
+the top-level namespace for all your linguistic functions, and then
+register it as being available, like so:
+
+	module Linguistics::TLH
+	
+		# Add Klingon to the list of default languages
+		Linguistics.register_language( :tlh, self )
+
+	end
+
+The first argument is either the two- or three-letter [ISO 639.2]
+(http://www.loc.gov/standards/iso639-2/php/code_list.php) language code
+for the language you're registering.
+
+The second is the container module itself.
+
+After you register your language, each class that Linguistics is told to
+extend will have a method for your language code/s:
+
+	irb> Linguistics.use( :tlh, :classes => Object )
+	# => [Object]
+	irb> Object.new.tlh
+	# => #<(Klingon; tlhIngan-Hol-language inflector) for <Object:0x402d9674> >
+
+If you use RSpec 2, you can test out any API requirements of the module
+by requiring  'linguistics/languagebehavior' and adding a shared
+behavior to your spec:
+
+	require 'rspec'
+    require 'linguistics/languagebehavior'
+	
+	describe Linguistics::TLH do
+	
+	  it_should_behave_like "a Linguistics language module"
+	
+	  # ... any other specs for your module
+	
+	end
+
+If you wish to use the logging subsystem set up by Linguistics, you can
+do so one of two ways: by logging to the logger directly:
+
+	Linguistics.log.debug "Registering Klingon language extension"
+
+or by mixing the `Linguistics::Loggable' module into your class/module,
+which will give you a 'log' method that prepends the object class on
+each log message so it's easy to filter out the ones you want:
+
+	require 'linguistics/mixins'
+	class Linguistics::TLH::Generator
+		include Linguistics::Loggable
+
+		def generate_it
+			self.log.debug "starting generation..."
+		end
+	end
+
+
+
+== English Language Module
+
+Linguistics comes with an English-language module; see the API
+documentation for Linguistics::EN for more information about it.
+
+
+== Authors
+
+* Michael Granger <ged@FaerieMUD.org>
+* Martin Chase <stillflame@FaerieMUD.org>
+
+
+== Contributors
+
+* Robert Berry (bdigital on github) - English conjugation ported from
+  MorphAdorner
+
+
 == Requirements
 
-* Ruby >= 1.9.2
+* Ruby >= 1.9.3
 
-It may work under earlier versions, but I'll only be testing it on 1.9.2 or later.
+It may work under earlier versions, but I'll only be testing it on 1.9.3
+or later.
 
 
 == Optional
@@ -40,94 +145,49 @@ wordnet[http://deveiate.org/projects/Ruby-WordNet] ::
   lexical refrence system.
 
 
-== Usage
+== Contributing
 
-The Linguistics module comes with a language-independant mechanism for
-extending core Ruby classes with linguistic methods.
+You can check out the current development source with Mercurial via its
+{project page}[http://deveiate.org/projects/Linguistics]. Or if you prefer
+Git, via {its Github mirror}[https://github.com/ged/linguistics].
 
-It consists of three parts: a core linguistics module which contains the
-class-extension framework for languages, a generic inflector class that serves
-as an extension point for linguistic methods on Ruby objects, and one or more
-language-specific modules which contain the actual linguistic functions.
+After checking out the source, run:
 
-The module works by adding a single instance method for each language named
-after the language's two-letter code (or three-letter code, if no two-letter
-code is defined by ISO639) to various Ruby classes. This allows many
-language-specific methods to be added to objects without cluttering up the
-interface or risking collision between them, albeit at the cost of three or four
-more characters per method invocation. For example:
+    $ rake newb
 
-	Linguistics::use( :en )
-	"goose".en.plural
-	# => "geese"
+This task will install any missing dependencies, run the tests/specs, and
+generate the API documentation.
 
 
-=== Adding Language Modules
+== License
 
-To add a new language to the framework, define a module that will act as the top-level namespace for all your linguistic functions, and then register it as being available, like so:
+Copyright (c) 2003-2012, Michael Granger
+All rights reserved.
 
-	module Linguistics::TLH
-	
-		# Add Klingon to the list of default languages
-		Linguistics.register_language( :tlh, self )
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-	end
+* Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
 
-The first argument is either the two- or three-letter [ISO 639.2] (http://www.loc.gov/standards/iso639-2/php/code_list.php) language code for the language you're registering.
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
 
-The second is the container module itself.
+* Neither the name of the author/s, nor the names of the project's
+  contributors may be used to endorse or promote products derived from this
+  software without specific prior written permission.
 
-After you register your language, each class that Linguistics is told to extend will have a method for your language code/s:
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-	irb> Linguistics.use( :tlh, :classes => Object )
-	# => [Object]
-	irb> Object.new.tlh
-	# => #<(Klingon; tlhIngan-Hol-language inflector) for <Object:0x402d9674> >
-
-If you use RSpec 2, you can test out any API requirements of the module by requiring  'linguistics/languagebehavior' and adding a shared behavior to your spec:
-
-	require 'rspec'
-    require 'linguistics/languagebehavior'
-	
-	describe Linguistics::TLH do
-	
-	  it_should_behave_like "a Linguistics language module"
-	
-	  # ... any other specs for your module
-	
-	end
-
-If you wish to use the logging subsystem set up by Linguistics, you can do so one of two ways: by logging to the logger directly:
-
-	Linguistics.log.debug "Registering Klingon language extension"
-
-or by mixing the `Linguistics::Loggable' module into your class/module, which will give you a 'log' method that prepends the object class on each log message so it's easy to filter out the ones you want:
-
-	require 'linguistics/mixins'
-	class Linguistics::TLH::Generator
-		include Linguistics::Loggable
-
-		def generate_it
-			self.log.debug "starting generation..."
-		end
-	end
-
-
-
-== English Language Module
-
-Linguistics comes with an English-language module; see the API documentation for
-Linguistics::EN for more information about it.
-
-
-== Authors
-
-* Michael Granger <ged@FaerieMUD.org>
-* Martin Chase <stillflame@FaerieMUD.org>
-
-
-== Contributors
-
-* Robert Berry (bdigital on github) - English conjugation ported from MorphAdorner
 
 

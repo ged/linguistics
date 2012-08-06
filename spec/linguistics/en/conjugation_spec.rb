@@ -90,9 +90,9 @@ describe Linguistics::EN::Conjugation do
 	end
 
 	it "conjugates 'be' in first person singular as 'was'" do
-		pending "figuring out how this is supposed to work" do
+		# pending "figuring out how this is supposed to work" do
 			"be".en.past_tense( :first_person ).should == 'was'
-		end
+		# end
 	end
 
 	it "conjugates 'be' in third person singular as 'were'" do

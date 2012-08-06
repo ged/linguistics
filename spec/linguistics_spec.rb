@@ -17,17 +17,12 @@ require 'linguistics'
 
 
 describe Linguistics do
-	include Linguistics::SpecHelpers
 
 	before( :all ) do
-		@original_logger = Linguistics.default_logger
-		@original_log_formatter = Linguistics.default_log_formatter
-		setup_logging( :fatal )
+		setup_logging()
 	end
 
 	after( :each ) do
-		Linguistics.default_logger = @original_logger
-		Linguistics.default_log_formatter = @original_log_formatter
 		reset_logging()
 	end
 
@@ -41,52 +36,6 @@ describe Linguistics do
 		it "returns a version string with a build number if asked" do
 			Linguistics.version_string(true).should =~ /\w+ [\d.]+ \(build [[:xdigit:]]+\)/
 		end
-	end
-
-
-	describe " logging subsystem" do
-		before(:each) do
-			Linguistics.reset_logger
-		end
-
-		after(:each) do
-			Linguistics.reset_logger
-		end
-
-
-		it "knows if its default logger is replaced" do
-			Linguistics.reset_logger
-			Linguistics.should be_using_default_logger
-			Linguistics.logger = Logger.new( $stderr )
-			Linguistics.should_not be_using_default_logger
-		end
-
-		it "has the default logger instance after being reset" do
-			Linguistics.logger.should equal( Linguistics.default_logger )
-		end
-
-		it "has the default log formatter instance after being reset" do
-			Linguistics.logger.formatter.should equal( Linguistics.default_log_formatter )
-		end
-
-	end
-
-
-	describe " logging subsystem with new defaults" do
-		it "uses the new defaults when the logging subsystem is reset" do
-			logger = double( "dummy logger" )
-			formatter = double( "dummy logger" )
-
-			Linguistics.default_logger = logger
-			Linguistics.default_log_formatter = formatter
-
-			logger.should_receive( :formatter= ).with( formatter )
-			logger.should_receive( :level= ).with( Logger::WARN )
-
-			Linguistics.reset_logger
-			Linguistics.logger.should equal( logger )
-		end
-
 	end
 
 

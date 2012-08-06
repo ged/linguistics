@@ -65,8 +65,8 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 module Linguistics::EN::WordNet
 
 	@has_wordnet	= false
-	@wn_error		= nil
-	@wn_lexicon		= nil
+	@error		= nil
+	@lexicon		= nil
 
 	# Load WordNet if possible, saving the error that occurs if anything goes wrong.
 	begin
@@ -74,7 +74,7 @@ module Linguistics::EN::WordNet
 		WordNet.logger = Linguistics.logger
 		@has_wordnet = true
 	rescue LoadError => err
-		@wn_error = err
+		@error = err
 	end
 
 
@@ -86,7 +86,7 @@ module Linguistics::EN::WordNet
 
 		### If #has_wordnet? returns +false+, this can be called to fetch the
 		### exception which was raised when WordNet was loaded.
-		def wn_error ; @wn_error; end
+		def error ; @error; end
 
 	end # module SingletonMethods
 	extend SingletonMethods
@@ -101,25 +101,29 @@ module Linguistics::EN::WordNet
 
 	### The instance of the WordNet::Lexicon used for all Linguistics WordNet
 	### functions.
-	def self::wn_lexicon
-		if @wn_error
+	def self::lexicon
+		if @error
 			raise NotImplementedError,
 				"WordNet functions are not loaded: %s" %
-				@wn_error.message
+				@error.message
 		end
 
-		@wn_lexicon ||= WordNet::Lexicon::new
+		@lexicon ||= WordNet::Lexicon::new
+	end
+
+
+	### Set the WordNet::Lexicon used by the linguistic functions.
+	def self::lexicon=( newlex )
+		@lexicon = newlex
 	end
 
 
 	### Make a function that calls the method +meth+ on the synset of an input
 	### word.
 	def self::def_synset_function( name )
-		define_method( name ) do |word, pos=nil, sense=nil|
-			sense ||= 1
-
-			syn = self.en.synset( word.to_s, pos, sense )
-			return syn.nil? ? nil : syn.send( name )
+		define_method( name ) do |*criteria|
+			syn = self.en.synset( *criteria ) or return nil
+			return syn.send( name )
 		end
 	end
 
@@ -135,39 +139,16 @@ module Linguistics::EN::WordNet
 
 	### Look up the synset associated with the given word or collocation in the
 	### WordNet lexicon and return a WordNet::Synset object.
-	def synset( pos=nil, sense=1 )
-		word = self.obj.to_s
-
-		lex = Linguistics::EN::WordNet.wn_lexicon
-
-		if pos.is_a?( Fixnum )
-			sense = pos
-			pos = nil
-		end
-		postries = pos ? [pos] : [:noun, :verb, :adjective, :adverb, :other]
-		syn = nil
-
-		postries.each do |try|
-			break if syn = lex.lookup_synsets( word.to_s, try, sense )
-		end
-
-		return syn
+	def synset( *args )
+		return Linguistics::EN::WordNet.lexicon[ self.obj.to_s, *args ]
 	end
 
 
 	### Look up all the synsets associated with the given word or collocation in
 	### the WordNet lexicon and return an Array of WordNet::Synset objects. If
 	### +pos+ is +nil+, return synsets for all parts of speech.
-	def synsets( word, pos=nil )
-		lex = Linguistics::EN::wn_lexicon
-		postries = pos ? [pos] : [:noun, :verb, :adjective, :adverb, :other]
-		syns = []
-
-		postries.each do |try|
-			syns << lex.lookup_synsets( word.to_s, try )
-		end
-
-		return syns.flatten.compact
+	def synsets( *args )
+		return Linguistics::EN.lexicon.lookup_synsets( self.obj.to_s, *args )
 	end
 
 
