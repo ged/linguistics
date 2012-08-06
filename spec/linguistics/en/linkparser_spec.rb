@@ -38,7 +38,7 @@ describe Linguistics::EN::LinkParser do
 
 		it "can create a LinkParser::Sentence from a sentence in a string" do
 			pending "installation of the linkparser library" unless
-				Linguistics::EN::LinkParser.has_link_parser?
+				Linguistics::EN.has_linkparser?
 			"This is a sentence.".en.sentence.should be_a( LinkParser::Sentence )
 		end
 
@@ -49,9 +49,10 @@ describe Linguistics::EN::LinkParser do
 		it "raises an NotImplementedError when you try to use linkparser functionality" do
 
 			# If the system *does* have linkparser support, pretend it doesn't.
-			if Linguistics::EN::LinkParser.has_link_parser?
+			if Linguistics::EN.has_linkparser?
+				Linguistics::EN::LinkParser.stub( :has_linkparser? ).and_return( false )
 				exception = stub( "linkparser load error", :message => 'no such file to load' )
-				Linguistics::EN::LinkParser.stub!( :lp_error ).and_return( exception )
+				Linguistics::EN::LinkParser.stub( :lp_error ).and_return( exception )
 			end
 
 			expect {

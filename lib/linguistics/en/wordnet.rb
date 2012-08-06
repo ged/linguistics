@@ -95,6 +95,7 @@ module Linguistics::EN::WordNet
 	# Register this module to the list of modules to include
 	Linguistics::EN.register_extension( self )
 
+
 	#################################################################
 	###	M O D U L E   M E T H O D S
 	#################################################################
