@@ -11,6 +11,7 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 # == Authors
 # 
 # * Robert Berry <berrydigital@gmail.com>
+# * Michael Granger <ged@FaerieMUD.org>
 # 
 # == Copyright
 #    

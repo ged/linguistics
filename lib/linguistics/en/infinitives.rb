@@ -2,26 +2,8 @@
 
 require 'linguistics/en' unless defined?( Linguistics::EN )
 
-# 
-# This file contains functions for deriving the infinitive forms of conjugated
-# English words. Requiring this file adds functions and constants to the
-# Linguistics::EN module.
-# 
-# == Version
-#
-#  $Id$
-# 
-# == Authors
-# 
-# * Michael Granger <ged@FaerieMUD.org>
-#    
-# :include: LICENSE
-# 
-#---
-#
-# Please see the file LICENSE in the base directory for licensing details for the 
-# Ruby port.
-#
+# Methods for deriving the infinitive forms of conjugated words for
+# the English-language Linguistics module.
 module Linguistics::EN::Infinitives
 
 	# Register this module to the list of modules to include

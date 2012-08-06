@@ -2,23 +2,7 @@
 
 require 'linguistics/en' unless defined?( Linguistics::EN )
 
-# This file contains functions for constructing words out of numbers.
-# 
-# == Version
-#
-#  $Id$
-# 
-# == Authors
-# 
-# * Michael Granger <ged@FaerieMUD.org>
-#    
-# :include: LICENSE
-# 
-#---
-#
-# Please see the file LICENSE in the base directory for licensing details for the 
-# Ruby port.
-#
+# Numeric methods for the English-language Linguistics module.
 module Linguistics::EN::Numbers
 
 	# Register this module to the list of modules to include

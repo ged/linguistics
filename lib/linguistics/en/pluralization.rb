@@ -2,32 +2,12 @@
 
 require 'linguistics/en' unless defined?( Linguistics )
 
-# This module contains plural inflections for the English-language
-# module of the Linguistics library.
+# Plural inflection methods for the English-language Linguistics module.
 # 
 # It provides conversion of plural forms of all nouns, most verbs,
 # and some adjectives. It also provides "classical" variants (for
 # example: "brother" -> "brethren", "dogma" -> "dogmata", etc.) where
 # appropriate.
-# 
-# These can be accessed via the #plural, #plural_noun, #plural_verb,
-# and #plural_adjective methods.
-# 
-# == Version
-#
-#  $Id$
-# 
-# == Authors
-# 
-# * Martin Chase <stillflame@FaerieMUD.org>
-# * Michael Granger <ged@FaerieMUD.org>
-# 
-# :include: LICENSE
-#
-#--
-#
-# Please see the file LICENSE in the base directory for licensing details.
-#
 module Linguistics::EN::Pluralization
 
 	# Register this module to the list of modules to include

@@ -2,13 +2,10 @@
 
 require 'linguistics/en' unless defined?( Linguistics::EN )
 
-# This file contains functions for finding relations for English words. It
-# requires the Ruby-WordNet module to be installed; if it is not installed,
-# calling the functions defined by this file will raise NotImplemented
-# exceptions if called. Requiring this file adds functions and constants to the
-# Linguistics::EN module.
-#
-# == Synopsis
+# WordNet support for the English-language Linguistics module. It
+# requires the Ruby-WordNet module to be installed; if it is not
+# installed, calling the functions defined by this file will raise
+# NotImplementedErrors.
 #
 #   # Test to be sure the WordNet module loaded okay.
 #   Linguistics::EN.has_wordnet?
@@ -65,21 +62,7 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 #   instrument", "sonograph", "surveying instrument", "surveyor's instrument",
 #   "tracer", "weapon", "arm", "weapon system", "whip"]
 # 
-# 
-# == Authors
-# 
-# * Michael Granger <ged@FaerieMUD.org>
-# 
-# :include: LICENSE
-# 
-# == Version
-#
-#  $Id$
-# 
 module Linguistics::EN::WordNet
-
-	# Register this module to the list of modules to include
-	Linguistics::EN.register_extension( self )
 
 	@has_wordnet	= false
 	@wn_error		= nil
@@ -88,22 +71,33 @@ module Linguistics::EN::WordNet
 	# Load WordNet if possible, saving the error that occurs if anything goes wrong.
 	begin
 		require 'wordnet'
+		WordNet.logger = Linguistics.logger
 		@has_wordnet = true
 	rescue LoadError => err
 		@wn_error = err
 	end
 
 
+	# Container for methods intended to extend the EN module as singleton methods.
+	module SingletonMethods
+
+		### Returns +true+ if WordNet was loaded okay
+		def has_wordnet? ; @has_wordnet; end
+
+		### If #has_wordnet? returns +false+, this can be called to fetch the
+		### exception which was raised when WordNet was loaded.
+		def wn_error ; @wn_error; end
+
+	end # module SingletonMethods
+	extend SingletonMethods
+
+
+	# Register this module to the list of modules to include
+	Linguistics::EN.register_extension( self )
+
 	#################################################################
 	###	M O D U L E   M E T H O D S
 	#################################################################
-
-	### Returns +true+ if WordNet was loaded okay
-	def self::has_wordnet? ; @has_wordnet; end
-
-	### If #has_wordnet? returns +false+, this can be called to fetch the
-	### exception which was raised when WordNet was loaded.
-	def self::wn_error ; @wn_error; end
 
 	### The instance of the WordNet::Lexicon used for all Linguistics WordNet
 	### functions.
@@ -116,6 +110,7 @@ module Linguistics::EN::WordNet
 
 		@wn_lexicon ||= WordNet::Lexicon::new
 	end
+
 
 	### Make a function that calls the method +meth+ on the synset of an input
 	### word.

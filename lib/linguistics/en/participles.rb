@@ -2,23 +2,8 @@
 
 require 'linguistics/en' unless defined?( Linguistics::EN )
 
-# This file contains functions for deriving present participles.
-# 
-# == Version
-#
-#  $Id$
-# 
-# == Authors
-# 
-# * Michael Granger <ged@FaerieMUD.org>
-#    
-# :include: LICENSE
-# 
-#---
-#
-# Please see the file LICENSE in the base directory for licensing details for the 
-# Ruby port.
-#
+# Methods for deriving present participles for the English-language
+# Linguistics module.
 module Linguistics::EN::Participles
 
 	# Register this module to the list of modules to include

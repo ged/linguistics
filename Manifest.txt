@@ -1,13 +1,15 @@
 ChangeLog
-History.md
+History.rdoc
 LICENSE
-README.md
+Manifest.txt
+README.rdoc
 Rakefile
 examples/generalize_sentence.rb
 examples/klingon.rb
 lib/linguistics.rb
 lib/linguistics/en.rb
 lib/linguistics/en/articles.rb
+lib/linguistics/en/conjugation.rb
 lib/linguistics/en/conjunctions.rb
 lib/linguistics/en/infinitives.rb
 lib/linguistics/en/linkparser.rb
@@ -25,6 +27,7 @@ lib/linguistics/utils.rb
 spec/lib/constants.rb
 spec/lib/helpers.rb
 spec/linguistics/en/articles_spec.rb
+spec/linguistics/en/conjugation_spec.rb
 spec/linguistics/en/conjunctions_spec.rb
 spec/linguistics/en/infinitives_spec.rb
 spec/linguistics/en/linkparser_spec.rb

@@ -2,9 +2,9 @@
 
 require 'linguistics/en' unless defined?( Linguistics::EN )
 
-# This file contains functions for capitalizing a sentence as a title and nouns as
-# proper nouns, as well as functions for turning a sentence into its equivalent
-# CamelCaseSentence and vice-versa.
+# Methods for capitalizing a sentence as a title, nouns as proper
+# nouns, and for turning a sentence into its equivalent CamelCaseSentence
+# and vice-versa. It's part of the English-language Linguistics module.
 module Linguistics::EN::TitleCase
 
 	# Register this module to the list of modules to include

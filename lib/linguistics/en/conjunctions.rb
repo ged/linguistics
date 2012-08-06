@@ -2,25 +2,7 @@
 
 require 'linguistics/en' unless defined?( Linguistics::EN )
 
-# This file contains functions for constructing conjunctions out of Enumerable 
-# objects. Requiring this file adds functions and constants to the Linguistics::EN 
-# module.
-# 
-# == Version
-#
-#  $Id$
-# 
-# == Authors
-# 
-# * Michael Granger <ged@FaerieMUD.org>
-#    
-# :include: LICENSE
-# 
-#---
-#
-# Please see the file LICENSE in the base directory for licensing details for the 
-# Ruby port.
-#
+# Conjunction methods for the English-language Linguistics module.
 module Linguistics::EN::Conjunctions
 
 	# Register this module to the list of modules to include
