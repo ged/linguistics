@@ -1,0 +1,13 @@
+# Settings
+projectDirectory     = "$CWD"
+windowTitle          = "${CWD/^.*\///} «$TM_DISPLAYNAME»"
+excludeInFileChooser = "{$exclude,.hg,pkg}"
+
+TM_RUBY                  = "/Users/mgranger/.rvm/bin/rvm-auto-ruby"
+
+TM_RSPEC_OPTS            = '-rrspec/core/formatters/webkit -Ilib:../Mongrel2/lib'
+TM_RSPEC_FORMATTER       = 'RSpec::Core::Formatters::WebKit'
+
+[ source.ruby ]
+disableIndentCorrections = true
+

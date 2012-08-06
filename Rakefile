@@ -27,7 +27,7 @@ hoespec = Hoe.spec 'linguistics' do
 			"gems of the same name."
 		  ].join( "\n" )
 
-	self.require_ruby_version( '>=1.9.2' )
+	self.require_ruby_version( '>=1.9.3' )
 	self.hg_sign_tags = true if self.respond_to?( :hg_sign_tags= )
 	self.check_history_on_release = true if self.respond_to?( :check_history_on_release= )
 
@@ -35,24 +35,6 @@ hoespec = Hoe.spec 'linguistics' do
 end
 
 ENV['VERSION'] ||= hoespec.spec.version.to_s
-
-task 'hg:precheckin' => :spec
-
-### Make the ChangeLog update if the repo has changed since it was last built
-file '.hg/branch'
-file 'ChangeLog' => '.hg/branch' do |task|
-	content = begin
-		$stderr.puts "Updating the changelog..."
-		make_changelog()
-	rescue NoMethodError
-		abort "This task requires the hoe-mercurial plugin (gem install hoe-mercurial)."
-	end
-
-	File.open( task.name, 'w', 0644 ) do |fh|
-		fh.print( content )
-	end
-end
-
-# Rebuild the ChangeLog immediately before release
-task :prerelease => 'ChangeLog'
-
+ 
+task 'hg:precheckin' => [ :check_history, :check_manifest, :spec ]
+ 

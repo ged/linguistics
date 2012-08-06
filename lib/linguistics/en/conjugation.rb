@@ -1,12 +1,13 @@
 #!/usr/bin/ruby
 
+require 'loggability'
 require 'linguistics/en' unless defined?( Linguistics::EN )
 
 # This file contains functions for conjugating verbs.
 # 
 # == Version
 #
-#  $Id: conjugation.rb,v 5d7f373a901f 2012/08/06 21:27:59 ged $
+#  $Id: conjugation.rb,v a01e8cf31ac3 2012/08/06 21:38:46 ged $
 # 
 # == Authors
 # 
@@ -53,6 +54,11 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 # THE SOFTWARE.
 # 
 module Linguistics::EN::Conjugation
+	extend Loggability
+
+	# Use the Linguistics module's logger
+	log_to :linguistics
+
 
 	# Hash of irregular verb infinitives, read from the DATA section of the file
 	IRREGULAR_VERBS = {}
@@ -64,14 +70,14 @@ module Linguistics::EN::Conjugation
 	### Inclusion hook -- load the verb data when the module is first included.
 	def self::included( mod )
 		if IRREGULAR_VERBS.empty?
-			Linguistics.log.debug "Loading conjunctions data."
+			self.log.debug "Loading conjunctions data."
 			data = File.read( __FILE__ ).split( /^__END__$/ ).last
 			irrverb_data, doublverb_data = data.split( /^#\n# Doubling Verbs.*\n#\n/, 2 )
 			IRREGULAR_VERBS.replace( self.load_irregular_verbs(irrverb_data) )
-			Linguistics.log.debug "  loaded %d irregular verbs" % [ IRREGULAR_VERBS.length ]
+			self.log.debug "  loaded %d irregular verbs" % [ IRREGULAR_VERBS.length ]
 
 			DOUBLING_VERBS.replace( self.load_doubling_verbs(doublverb_data) )
-			Linguistics.log.debug "  loaded %d doubling verbs" % [ DOUBLING_VERBS.length ]
+			self.log.debug "  loaded %d doubling verbs" % [ DOUBLING_VERBS.length ]
 		end
 
 		super
@@ -82,17 +88,17 @@ module Linguistics::EN::Conjugation
 	### @param [String] data  the irregular verb data from the DATA section of this file.
 	### @return [Hash]
 	def self::load_irregular_verbs( data )
-		Linguistics.log.debug "  loading irregular verbs from %d bytes of data." % [ data.length ]
+		self.log.debug "  loading irregular verbs from %d bytes of data." % [ data.length ]
 		results = {}
 
 		data.each_line do |line|
 			if line =~ /^(#|\s*$)/ # Skip comments and blank lines
-				Linguistics.log.debug "  skipping line: %p" % [ line ]
+				self.log.debug "  skipping line: %p" % [ line ]
 				next
 			end
 
 			infinitive, person, tense, conjugation = line.chomp.split( /\s+/, 4 )
-			Linguistics.log.debug "  line split into: %p" %
+			self.log.debug "  line split into: %p" %
 				[[ infinitive, person, tense, conjugation ]]
 
 			raise "malformed line: %p" % [ line ] unless infinitive && person && tense && conjugation
@@ -102,7 +108,7 @@ module Linguistics::EN::Conjugation
 			results[ infinitive ][ person.to_sym ][ tense.to_sym ] = conjugation
 		end
 
-		Linguistics.log.debug "  %d infinitives loaded." % [ results.length ]
+		self.log.debug "  %d infinitives loaded." % [ results.length ]
 		return results
 	end
 
@@ -111,7 +117,7 @@ module Linguistics::EN::Conjugation
 	### @param [String] data  the doubling verbs, one on each line
 	### @return [Array]
 	def self::load_doubling_verbs( data )
-		Linguistics.log.debug "  loading doubling verbs."
+		self.log.debug "  loading doubling verbs."
 		results = []
 
 		data.each_line do |line|
@@ -119,7 +125,7 @@ module Linguistics::EN::Conjugation
 			results << line.chomp
 		end
 
-		Linguistics.log.debug "  %d doubling verbs loaded." % [ results.length ]
+		self.log.debug "  %d doubling verbs loaded." % [ results.length ]
 		return results
 	end
 

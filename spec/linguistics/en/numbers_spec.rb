@@ -18,7 +18,6 @@ require 'linguistics/en/numbers'
 
 
 describe Linguistics::EN::Numbers do
-	include Linguistics::SpecHelpers
 
 	before( :all ) do
 		setup_logging( :fatal )
