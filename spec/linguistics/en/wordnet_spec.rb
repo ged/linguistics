@@ -18,10 +18,9 @@ require 'linguistics/en/wordnet'
 
 
 describe Linguistics::EN::WordNet do
-	include Linguistics::SpecHelpers
 
 	before( :all ) do
-		setup_logging( :fatal )
+		setup_logging( :debug )
 		Linguistics.use( :en )
 	end
 
@@ -39,7 +38,7 @@ describe Linguistics::EN::WordNet do
 
 		before( :each ) do
 			pending "installation of the wordnet library" unless
-				Linguistics::EN::WordNet.has_wordnet?
+				Linguistics::EN.has_wordnet?
 		end
 
 		it "can create a WordNet::Synset from a word" do
@@ -52,7 +51,7 @@ describe Linguistics::EN::WordNet do
 	describe "on a system that doesn't have the 'wordnet' library" do
 		before( :all ) do
 			# If the system *does* have wordnet support, pretend it doesn't.
-			if Linguistics::EN::WordNet.has_wordnet?
+			if Linguistics::EN.has_wordnet?
 				error = LoadError.new( "no such file to load -- wordnet" )
 				Linguistics::EN::WordNet.instance_variable_set( :@has_wordnet, false )
 				Linguistics::EN::WordNet.instance_variable_set( :@wn_error, error )

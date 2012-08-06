@@ -161,8 +161,8 @@ require 'linguistics' unless defined?( Linguistics )
 # 
 # == WordNet® Integration
 # 
-# If you have the Ruby-WordNet module installed, you can look up 
-# WordNet synsets using the Linguistics interface:
+# If you have the 'wordnet' gem installed, you can look up WordNet synsets using 
+# the Linguistics interface:
 # 
 #    # Test to be sure the WordNet module loaded okay.
 #    Linguistics::EN.has_wordnet?
@@ -225,10 +225,8 @@ require 'linguistics' unless defined?( Linguistics )
 # 
 # == LinkParser Integration
 # 
-# Another new feature in version 0.02 is integration with the Ruby version of the
-# CMU Link Grammar Parser by Martin Chase. If you have the LinkParser module
-# installed, you can create linkages from English sentences that let you query for
-# parts of speech:
+# If you have the 'linkparser' gem installed, you can create linkages
+# from English sentences that let you query for parts of speech:
 # 
 #    # Test to see whether or not the link parser is loaded.
 #    Linguistics::EN.has_link_parser?
@@ -310,6 +308,16 @@ module Linguistics::EN
 		MODULES.push( mod )
 		Linguistics.log.debug "Registered English extension %p" % [ mod ]
 		include( mod )
+		if mod.const_defined?( :SingletonMethods )
+			smod = mod.const_get(:SingletonMethods)
+			Linguistics.log.debug "  and its singleton methods %p" % [ smod ]
+			extend( smod )
+			ivars = mod.instance_variables
+			Linguistics.log.debug "  and instance variables %p" % [ ivars ]
+			ivars.each do |ivar|
+				instance_variable_set( ivar, mod.instance_variable_get(ivar) )
+			end
+		end
 	end
 
 

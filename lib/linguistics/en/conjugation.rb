@@ -6,11 +6,12 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 # 
 # == Version
 #
-#  $Id: conjugation.rb,v 6d1c9c82437d 2011/07/12 18:05:50 ged $
+#  $Id: conjugation.rb,v 5d7f373a901f 2012/08/06 21:27:59 ged $
 # 
 # == Authors
 # 
 # * Robert Berry <berrydigital@gmail.com>
+# * Michael Granger <ged@FaerieMUD.org>
 # 
 # == Copyright
 #    

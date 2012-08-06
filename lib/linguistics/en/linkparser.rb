@@ -2,18 +2,15 @@
 
 require 'linguistics/en' unless defined?( Linguistics::EN )
 
-# This file contains the extensions to the Linguistics::EN module which provide
-# support for the Ruby LinkParser module. LinkParser enables grammatic queries
-# of English language sentences.
-#
-# == Synopsis
+# LinkParser support for the English-language Linguistics module.
+# LinkParser enables grammatic queries of English language sentences.
 #
 #   # Test to see whether or not the link parser is loaded.
 #   Linguistics::EN.has_link_parser?
 #   # => true
 # 
 #   # Diagram the first linkage for a test sentence
-#   puts "he is a big dog".sentence.linkages.first.to_s
+#   puts "he is a big dog".en.sentence.linkages.first.to_s
 # 	  +---O*---+ 
 # 	  | +--Ds--+ 
 #    +Ss+ |  +-A-+ 
@@ -40,56 +37,45 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 #   has been domesticated by man since prehistoric times; occurs in many breeds;
 #   \"the dog barked all night\""
 # 
-# == Version
-#
-#  $Id: linkparser.rb,v 29f18e9ec72b 2010/12/17 01:14:17 ged $
-# 
-# == Authors
-# 
-# * Martin Chase <stillflame@FaerieMUD.org>
-# * Michael Granger <ged@FaerieMUD.org>
-# 
-# :include: LICENSE
-#
-#--
-#
-# Please see the file LICENSE in the base directory for licensing details.
-#
 module Linguistics::EN::LinkParser
 
-	# Register this module to the list of modules to include
-	Linguistics::EN.register_extension( self )
-
-	@lp_dict  = nil
-	@lp_error = nil
+	@has_linkparser = false
+	@lp_dict        = nil
+	@lp_error       = nil
 
 	begin
 		require "linkparser"
+		@has_linkparser = true
 	rescue LoadError => err
 		@lp_error = err
 	end
 
 
+	# Container for methods intended to extend the EN module as singleton methods.
+	module SingletonMethods
+
+		### Returns +true+ if WordNet was loaded okay
+		def has_linkparser? ; @has_linkparser; end
+
+		### If #has_linkparser? returns +false+, this can be called to fetch the
+		### exception which was raised when WordNet was loaded.
+		def linkparser_error ; @lp_error; end
+
+	end # module SingletonMethods
+	extend SingletonMethods
+
+
+	# Register this module to the list of modules to include
+	Linguistics::EN.register_extension( self )
+
 	#################################################################
 	###	M O D U L E   M E T H O D S
 	#################################################################
 
-	### If #has_link_parser? returns +false+, this will be the
-	### Exception which was raised when trying to load LinkParser.
-	### @return [LoadError] the exception that was raised
-	class << self; attr_accessor :lp_error; end
-
-
-	### Returns +true+ if LinkParser was loaded okay
-	def self::has_link_parser?
-		return self.lp_error ? false : true
-	end
-
-
 	### The instance of LinkParser used for all Linguistics LinkParser
 	### functions.
 	def self::lp_dict
-		if !self.has_link_parser?
+		if !self.has_linkparser?
 			raise NotImplementedError,
 				"LinkParser functions are not loaded: %s" %
 				self.lp_error.message

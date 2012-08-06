@@ -2,23 +2,7 @@
 
 require 'linguistics/en' unless defined?( Linguistics::EN )
 
-# This file contains functions for prepending articles to nouns or noun phrases.
-# 
-# == Version
-#
-#  $Id: articles.rb,v b31562e6d34c 2010/12/10 17:45:36 ged $
-# 
-# == Authors
-# 
-# * Michael Granger <ged@FaerieMUD.org>
-#    
-# :include: LICENSE
-# 
-#---
-#
-# Please see the file LICENSE in the base directory for licensing details for the 
-# Ruby port.
-#
+# Indefinite article methods for the English-language Linguistics module.
 module Linguistics::EN::Articles
 
 	# Register this module to the list of modules to include
