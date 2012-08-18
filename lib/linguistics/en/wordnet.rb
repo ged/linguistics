@@ -123,7 +123,7 @@ module Linguistics::EN::WordNet
 	### word.
 	def self::def_synset_function( name )
 		define_method( name ) do |*criteria|
-			syn = self.en.synset( *criteria ) or return nil
+			syn = self.synset( *criteria ) or return nil
 			return syn.send( name )
 		end
 	end
@@ -141,7 +141,7 @@ module Linguistics::EN::WordNet
 	### Look up the synset associated with the given word or collocation in the
 	### WordNet lexicon and return a WordNet::Synset object.
 	def synset( *args )
-		return Linguistics::EN::WordNet.lexicon[ self.obj.to_s, *args ]
+		return Linguistics::EN::WordNet.lexicon[ self.to_s, *args ]
 	end
 
 
@@ -149,15 +149,12 @@ module Linguistics::EN::WordNet
 	### the WordNet lexicon and return an Array of WordNet::Synset objects. If
 	### +pos+ is +nil+, return synsets for all parts of speech.
 	def synsets( *args )
-		return Linguistics::EN.lexicon.lookup_synsets( self.obj.to_s, *args )
+		return Linguistics::EN.lexicon.lookup_synsets( self.to_s, *args )
 	end
 
 
 	# Returns definitions and/or example sentences as a String.
-	def_synset_function :gloss
-
-	# Returns definitions and/or example sentences as an Array.
-	def_synset_function :glosses
+	def_synset_function :definition
 
 	# Return nouns or verbs that have the same hypernym as the receiver.
 	def_synset_function :coordinates

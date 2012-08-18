@@ -399,21 +399,22 @@ module Linguistics::EN::Pluralization
 	### Return the plural of the given +phrase+ if +count+ indicates it should
 	### be plural.
 	def plural( count=2 )
-		phrase = if self.obj.is_a?( Numeric )
-				self.log.debug "Converting %p to number words." % [ self.obj ]
+		phrase = if self.respond_to?( :to_int )
 				self.numwords
 			else
-				self.obj.to_s
+				self.to_s
 			end
 
 		self.log.debug "Pluralizing %p" % [ phrase ]
+		pre = text = post = nil
 
 		# If the string has whitespace, only pluralize the middle bit, but
 		# preserve the whitespace to add back to the result.
-		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
-		pre, text, post = md.captures
-
-		return phrase if text.nil? or text.empty?
+		if md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
+			pre, text, post = md.captures
+		else
+			return phrase
+		end
 
 		plural = postprocess( text,
 			pluralize_special_adjective(text, count) ||
@@ -428,8 +429,8 @@ module Linguistics::EN::Pluralization
 	### Return the plural of the given noun +phrase+ if +count+ indicates it
 	### should be plural.
 	def plural_noun( count=2 )
-		phrase = self.obj
-		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
+		phrase = self.to_s
+		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase )
 		pre, word, post = md.captures
 
 		return phrase if word.nil? or word.empty?
@@ -443,8 +444,8 @@ module Linguistics::EN::Pluralization
 	### Return the plural of the given verb +phrase+ if +count+ indicates it
 	### should be plural.
 	def plural_verb( count=2 )
-		phrase = self.obj
-		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
+		phrase = self.to_s
+		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase )
 		pre, word, post = md.captures
 
 		return phrase if word.nil? or word.empty?
@@ -460,8 +461,8 @@ module Linguistics::EN::Pluralization
 	### Return the plural of the given adjectival +phrase+ if +count+ indicates
 	### it should be plural.
 	def plural_adjective( count=2 )
-		phrase = self.obj
-		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase.to_s )
+		phrase = self.to_s
+		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase )
 		pre, word, post = md.captures
 
 		return phrase if word.nil? or word.empty?

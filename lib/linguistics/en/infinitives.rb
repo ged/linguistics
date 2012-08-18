@@ -1032,7 +1032,7 @@ module Linguistics::EN::Infinitives
 
 	### Return the infinitive form of the given word
 	def infinitive
-		word = self.obj.to_s
+		word = self.to_s
 		word1 = word2 = suffix = rule = newword = ''
 
 		if IRREGULAR_INFINITIVES.key?( word )

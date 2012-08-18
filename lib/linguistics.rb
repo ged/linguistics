@@ -56,44 +56,30 @@ module Linguistics
 	end
 
 
-	### Add linguistics functions for the specified languages to Ruby's core
-	### classes. The interface to all linguistic functions for a given language
-	### is through a method which is the same the language's international 2- or
-	### 3-letter code (ISO 639). You can also specify a Hash of configuration
-	### options which control which classes are extended:
-	###
-	### [<b>:classes</b>]
-	###   Specify the classes which are to be extended. If this is not specified,
-	###   the Class objects in Linguistics::DEFAULT_EXT_CLASSES (an Array) are
-	###   extended.
-	### [<b>:proxy</b>]
-	###
-	def self::use( *languages )
-		config = {}
-		config = languages.pop if languages.last.is_a?( Hash )
+	### Register a module as providing linguistic functions for the specified +language+ (a two- 
+	### or three-letter ISO639-2 language codes as a Symbol)
+	def self::register_language( language, mod )
+		language_entry = LANGUAGE_CODES[ language.to_sym ] or
+			raise "Unknown ISO639-2 language code '#{language}'"
+		Linguistics.log.info "Registering %s for language %p" % [ mod, language_entry ]
 
-		classes = Array(config[:classes]) if config[:classes] 
-		classes ||= DEFAULT_EXT_CLASSES
+		language_entry[:codes].each do |lang|
+			self.languages[ lang.to_sym ] = mod
+		end
 
-		Linguistics.log.debug "Extending %d classes with %d language modules." %
-			[ classes.length, languages.length ]
-
-		# Mix the language module for each requested language into each
-		# specified class
-		classes.each do |klass|
-			Linguistics.log.debug "  extending %p" % [ klass ]
-			languages.each do |lang|
-				mod = load_language( lang ) or
-					raise LoadError, "failed to load a language extension for %p" % [ lang ]
-				Linguistics.log.debug "    using %s language module: %p" % [ lang, mod ]
-
-				inflector = make_inflector_mixin( lang, mod )
-				Linguistics.log.debug "    made an inflector mixin: %p" % [ inflector ]
-				klass.send( :include, inflector )
+		# Load in plugins for the language
+		Gem.find_files( "linguistics/#{language}/**.rb" ).each do |extension|
+			Linguistics.log.debug "  trying to load #{language_entry[:eng_name]} extension %p" % [ extension ]
+			begin
+				require extension
+			rescue LoadError => err
+				Linguistics.log.debug "    failed (%s): %s %s" %
+					[ err.class.name, err.message, err.backtrace.first ]
+			else
+				Linguistics.log.debug "    success."
 			end
 		end
 
-		return classes
 	end
 
 
@@ -139,6 +125,52 @@ module Linguistics
 	end
 
 
+	### Add linguistics functions for the specified languages to Ruby's core
+	### classes. The interface to all linguistic functions for a given language
+	### is through a method which is the same the language's international 2- or
+	### 3-letter code (ISO 639). You can also specify a Hash of configuration
+	### options which control which classes are extended:
+	###
+	### [<b>:classes</b>]
+	###   Specify the classes which are to be extended. If this is not specified,
+	###   the Class objects in Linguistics::DEFAULT_EXT_CLASSES (an Array) are
+	###   extended.
+	### [<b>:monkeypatch</b>]
+	###   Monkeypatch directly (albeit responsibly, via a mixin) the specified
+	###   +classes+ instead of adding a single language-code method.
+	def self::use( *languages )
+		config = languages.pop if languages.last.is_a?( Hash )
+		config ||= {}
+
+		classes = Array(config[:classes]) if config[:classes] 
+		classes ||= DEFAULT_EXT_CLASSES
+
+		Linguistics.log.debug "Extending %d classes with %d language modules." %
+			[ classes.length, languages.length ]
+
+		# Mix the language module for each requested language into each
+		# specified class
+		classes.each do |klass|
+			Linguistics.log.debug "  extending %p" % [ klass ]
+			languages.each do |lang|
+				mod = load_language( lang ) or
+					raise LoadError, "failed to load a language extension for %p" % [ lang ]
+				Linguistics.log.debug "    using %s language module: %p" % [ lang, mod ]
+
+				if config[:monkeypatch]
+					klass.send( :include, mod )
+				else
+					inflector = make_inflector_mixin( lang, mod )
+					Linguistics.log.debug "    made an inflector mixin: %p" % [ inflector ]
+					klass.send( :include, inflector )
+				end
+			end
+		end
+
+		return classes
+	end
+
+
 	### Create a mixin module/class pair that act as the per-object interface to
 	### the given language +mod+'s inflector.
 	def self::make_inflector_mixin( lang, mod )
@@ -166,18 +198,6 @@ module Linguistics
 		return mixin
 	end
 
-
-	### Register a module as providing linguistic functions for the specified +language+ (a two- 
-	### or three-letter ISO639-2 language codes as a Symbol)
-	def self::register_language( language, mod )
-		language_entry = LANGUAGE_CODES[ language.to_sym ] or
-			raise "Unknown ISO639-2 language code '#{language}'"
-		Linguistics.log.info "Registering %s for language %p" % [ mod, language_entry ]
-
-		language_entry[:codes].each do |lang|
-			self.languages[ lang.to_sym ] = mod
-		end
-	end
 
 end # module Linguistics
 

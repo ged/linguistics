@@ -39,9 +39,42 @@ cluttering up the interface or risking collision between them, albeit at
 the cost of three or four more characters per method invocation. For
 example:
 
-	Linguistics::use( :en )
+	Linguistics.use( :en )
 	"goose".en.plural
 	# => "geese"
+
+If you prefer monkeypatching (around 70) linguistics methods directly onto core
+classes, you can do that by adding a 'monkeypatch' option to ::use:
+
+    Linguistics.use( :en, monkeypatch: true )
+	"goose".plural
+	# => "geese"
+
+=== Controlling Which Classes Get Extended
+
+If you should wish to extend classes other than the ones in
+<tt>Linguistics::DEFAULT_EXT_CLASSES</tt>, you have a few options.
+
+You can modify the DEFAULT_EXT_CLASSES array directly (before you call
+::use, of course):
+
+    Linguistics::DEFAULT_EXT_CLASSES << MyClass
+
+You can also pass an Array of classes to .use:
+
+    Linguistics.use( :en, classes: [MyClass] )
+
+Or you can add language methods to classes via mixin:
+
+    class MyClass
+	    include Linguistics::EN
+	end
+
+All Linguistics methods use Ruby's casting mechanism, so at a minimum,
+your classes should provide an implementation of #to_s that returns
+words or phrases.
+
+
 
 
 === Adding Language Modules

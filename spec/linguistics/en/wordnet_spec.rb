@@ -14,13 +14,14 @@ require 'rspec'
 require 'spec/lib/helpers'
 
 require 'linguistics'
+require 'linguistics/en'
 require 'linguistics/en/wordnet'
 
 
 describe Linguistics::EN::WordNet do
 
 	before( :all ) do
-		setup_logging( :debug )
+		setup_logging()
 		Linguistics.use( :en )
 	end
 
@@ -52,9 +53,17 @@ describe Linguistics::EN::WordNet do
 		before( :all ) do
 			# If the system *does* have wordnet support, pretend it doesn't.
 			if Linguistics::EN.has_wordnet?
+				@had_wordnet = true
 				error = LoadError.new( "no such file to load -- wordnet" )
 				Linguistics::EN::WordNet.instance_variable_set( :@has_wordnet, false )
 				Linguistics::EN::WordNet.instance_variable_set( :@error, error )
+			end
+		end
+
+		after( :all ) do
+			if @had_wordnet
+				Linguistics::EN::WordNet.instance_variable_set( :@has_wordnet, true )
+				Linguistics::EN::WordNet.instance_variable_set( :@error, nil )
 			end
 		end
 

@@ -95,7 +95,7 @@ module Linguistics::EN::LinkParser
 
 	### Return a LinkParser::Sentence for the stringified +obj+.
 	def sentence
-		return Linguistics::EN::LinkParser.lp_dict.parse( self.obj.to_s )
+		return Linguistics::EN::LinkParser.lp_dict.parse( self.to_s )
 	end
 
 end # class Linguistics::EN::LinkParser

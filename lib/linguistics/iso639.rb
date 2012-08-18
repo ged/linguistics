@@ -14,14 +14,14 @@ require 'linguistics' unless defined?( Linguistics )
 # [<tt>:fre_name</tt>]
 #   The French-language name of the language.
 #
-# @example Entries for 'ja' and 'en'
+# Entries for 'ja' and 'en':
 #
-# irb > Linguistics::ISO639::LANGUAGE_CODES[:en]
-#  => {:eng_name=>"English", :fre_name=>"anglais", :codes=>["en", "eng"]} 
-# irb > Linguistics::ISO639::LANGUAGE_CODES[:eng]
-#  => {:eng_name=>"English", :fre_name=>"anglais", :codes=>["en", "eng"]} 
-# irb > Linguistics::ISO639::LANGUAGE_CODES[:ja]
-#  => {:eng_name=>"Japanese", :fre_name=>"japonais", :codes=>["ja", "jpn"]} 
+#   irb > Linguistics::ISO639::LANGUAGE_CODES[:en]
+#    => {:eng_name=>"English", :fre_name=>"anglais", :codes=>["en", "eng"]}
+#   irb > Linguistics::ISO639::LANGUAGE_CODES[:eng]
+#    => {:eng_name=>"English", :fre_name=>"anglais", :codes=>["en", "eng"]}
+#   irb > Linguistics::ISO639::LANGUAGE_CODES[:ja]
+#    => {:eng_name=>"Japanese", :fre_name=>"japonais", :codes=>["ja", "jpn"]}
 
 module Linguistics::ISO639
 

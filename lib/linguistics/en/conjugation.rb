@@ -61,77 +61,10 @@ module Linguistics::EN::Conjugation
 
 
 	# Hash of irregular verb infinitives, read from the DATA section of the file
-	IRREGULAR_VERBS = {}
+	IRREGULAR_VERBS = {} # :nodoc:
 
 	# Array of doubling verbs, read from the DATA section of the file
-	DOUBLING_VERBS = []
-
-
-	### Inclusion hook -- load the verb data when the module is first included.
-	def self::included( mod )
-		if IRREGULAR_VERBS.empty?
-			self.log.debug "Loading conjunctions data."
-			data = File.read( __FILE__ ).split( /^__END__$/ ).last
-			irrverb_data, doublverb_data = data.split( /^#\n# Doubling Verbs.*\n#\n/, 2 )
-			IRREGULAR_VERBS.replace( self.load_irregular_verbs(irrverb_data) )
-			self.log.debug "  loaded %d irregular verbs" % [ IRREGULAR_VERBS.length ]
-
-			DOUBLING_VERBS.replace( self.load_doubling_verbs(doublverb_data) )
-			self.log.debug "  loaded %d doubling verbs" % [ DOUBLING_VERBS.length ]
-		end
-
-		super
-	end
-
-
-	### Parse irregular verbs from the given +data+, and return the resulting Hash.
-	### @param [String] data  the irregular verb data from the DATA section of this file.
-	### @return [Hash]
-	def self::load_irregular_verbs( data )
-		self.log.debug "  loading irregular verbs from %d bytes of data." % [ data.length ]
-		results = {}
-
-		data.each_line do |line|
-			if line =~ /^(#|\s*$)/ # Skip comments and blank lines
-				self.log.debug "  skipping line: %p" % [ line ]
-				next
-			end
-
-			infinitive, person, tense, conjugation = line.chomp.split( /\s+/, 4 )
-			self.log.debug "  line split into: %p" %
-				[[ infinitive, person, tense, conjugation ]]
-
-			raise "malformed line: %p" % [ line ] unless infinitive && person && tense && conjugation
-
-			results[ infinitive ] ||= {}
-			results[ infinitive ][ person.to_sym ] ||= {}
-			results[ infinitive ][ person.to_sym ][ tense.to_sym ] = conjugation
-		end
-
-		self.log.debug "  %d infinitives loaded." % [ results.length ]
-		return results
-	end
-
-
-	### Load the doubling verbs from the given +data+ and return the resulting Array.
-	### @param [String] data  the doubling verbs, one on each line
-	### @return [Array]
-	def self::load_doubling_verbs( data )
-		self.log.debug "  loading doubling verbs."
-		results = []
-
-		data.each_line do |line|
-			next if line =~ /^(#|\s*$)/ # Skip comments and blank lines
-			results << line.chomp
-		end
-
-		self.log.debug "  %d doubling verbs loaded." % [ results.length ]
-		return results
-	end
-
-
-	# Register this module to the list of modules to include
-	Linguistics::EN.register_extension( self )
+	DOUBLING_VERBS = [] # :nodoc:
 
 
 	### Return the past tense of the word
@@ -163,9 +96,9 @@ module Linguistics::EN::Conjugation
 	### and +person+.
 	def conjugate( tense, person=nil )
 		self.log.debug "Conjugating %p in %s tense, %s person" %
-			[ self.obj, tense, person || "any" ]
+			[ self.to_s, tense, person || "any" ]
 		person ||= :*
-		verb = self.obj.to_s.downcase
+		verb = self.to_s.downcase
 
 		if result = get_irregular( verb, person, tense )
 			self.log.debug "  verb %p is irregular: %p" % [ verb, result ]
@@ -261,6 +194,74 @@ module Linguistics::EN::Conjugation
 			[ irrperson, tense, irrperson[tense] ]
 		return irrperson[ tense ]
 	end
+
+
+	######
+	public
+	######
+
+	### Inclusion hook -- load the verb data when the module is first included.
+	def self::included( mod ) # :nodoc:
+		if IRREGULAR_VERBS.empty?
+			self.log.debug "Loading conjunctions data."
+			data = File.read( __FILE__ ).split( /^__END__$/ ).last
+			irrverb_data, doublverb_data = data.split( /^#\n# Doubling Verbs.*\n#\n/, 2 )
+			IRREGULAR_VERBS.replace( self.load_irregular_verbs(irrverb_data) )
+			self.log.debug "  loaded %d irregular verbs" % [ IRREGULAR_VERBS.length ]
+
+			DOUBLING_VERBS.replace( self.load_doubling_verbs(doublverb_data) )
+			self.log.debug "  loaded %d doubling verbs" % [ DOUBLING_VERBS.length ]
+		end
+
+		super
+	end
+
+
+	### Parse irregular verbs from the given +data+, and return the resulting Hash.
+	def self::load_irregular_verbs( data )
+		self.log.debug "  loading irregular verbs from %d bytes of data." % [ data.length ]
+		results = {}
+
+		data.each_line do |line|
+			if line =~ /^(#|\s*$)/ # Skip comments and blank lines
+				self.log.debug "  skipping line: %p" % [ line ]
+				next
+			end
+
+			infinitive, person, tense, conjugation = line.chomp.split( /\s+/, 4 )
+			self.log.debug "  line split into: %p" %
+				[[ infinitive, person, tense, conjugation ]]
+
+			raise "malformed line: %p" % [ line ] unless infinitive && person && tense && conjugation
+
+			results[ infinitive ] ||= {}
+			results[ infinitive ][ person.to_sym ] ||= {}
+			results[ infinitive ][ person.to_sym ][ tense.to_sym ] = conjugation
+		end
+
+		self.log.debug "  %d infinitives loaded." % [ results.length ]
+		return results
+	end
+
+
+	### Load the doubling verbs from the given +data+ and return the resulting Array.
+	def self::load_doubling_verbs( data )
+		self.log.debug "  loading doubling verbs."
+		results = []
+
+		data.each_line do |line|
+			next if line =~ /^(#|\s*$)/ # Skip comments and blank lines
+			results << line.chomp
+		end
+
+		self.log.debug "  %d doubling verbs loaded." % [ results.length ]
+		return results
+	end
+
+
+	# Register this module to the list of modules to include
+	Linguistics::EN.register_extension( self )
+
 
 end # module Linguistics::EN::Conjugation
 

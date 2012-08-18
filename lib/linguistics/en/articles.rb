@@ -48,7 +48,7 @@ module Linguistics::EN::Articles
 	### Returns the given word with a prepended indefinite article, unless
 	### +count+ is non-nil and not singular.
 	def indef_article( count=nil )
-		word = self.obj.to_s
+		word = self.to_s
 
 		self.log.debug "Fetching the indefinite article for %p (count = %p)" % [ word, count ]
 		return "#{count} #{word}" if
@@ -105,7 +105,7 @@ module Linguistics::EN::Articles
 	### "an") prepended. 
 	def a( count=nil )
 		count ||= 1
-		phrase = self.obj.to_s
+		phrase = self.to_s
 
 		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase )
 		pre, word, post = md.to_a[1,3]
@@ -121,7 +121,7 @@ module Linguistics::EN::Articles
 
 	### Translate zero-quantified +phrase+ to "no +phrase.plural+"
 	def no( count=nil )
-		phrase = self.obj.to_s
+		phrase = self.to_s
 		md = /\A(\s*)(.+?)(\s*)\Z/.match( phrase )
 		pre, word, post = md.to_a[1,3]
 		count ||= 0

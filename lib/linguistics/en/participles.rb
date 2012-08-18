@@ -13,7 +13,7 @@ module Linguistics::EN::Participles
 	### Attempt to return the inflected string in its present participle 
 	### form (e.g., talked -> talking).
 	def present_participle
-        plural = self.obj.to_s.en.plural_verb
+        plural = self.to_s.en.plural_verb
 
 		plural.sub!( /ie$/, 'y' ) or
 			plural.sub!( /ue$/, 'u' ) or
