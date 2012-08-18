@@ -38,7 +38,7 @@ module Linguistics::EN::TitleCase
 	### Turns a camel-case +string+ ("camelCaseToEnglish") to plain English
 	### ("camel case to english"). Each word is decapitalized.
 	def un_camel_case
-		self.obj.to_s.
+		self.to_s.
 			gsub( /([A-Z])([A-Z])/ ) { "#$1 #$2" }.
 			gsub( /([a-z])([A-Z])/ ) { "#$1 #$2" }.downcase
 	end
@@ -46,21 +46,29 @@ module Linguistics::EN::TitleCase
 
 	### Turns an English language +string+ into a CamelCase word.
 	def to_camel_case
-		self.obj.to_s.gsub( /\s+([a-z])/i ) { $1.upcase }
+		self.to_s.gsub( /\s+([a-z])/i ) { $1.upcase }
 	end
 
 
-	### This method doesn't work quite right yet. It does okay for simple cases,
-	### but it misses more complex ones, e.g. 'as' used as a coordinating
-	### conjunction in "A Portrait of the Artist as a Young Man". Perhaps after
-	### there's a working (non-leaking) LinkParser for Ruby, this can be fixed
-	### up. Until then it'll just be undocumented.
-
 	### Returns the inflected object as a title-cased String.
+	###
+	### Some examples:
+	###
+	###   "a portrait of the artist as a young man".en.titlecase
+	###   # => "A Portrait of the Artist as a Young Man"
+	###
+	###   "a seven-sided romance".en.titlecase
+	###   # => "A Seven-Sided Romance"
+	###
+	###   "the curious incident of the dog in the night-time".en.titlecase
+	###   # => "The Curious Incident of the Dog in the Night-Time"
+	###
+	###   "the rats of n.i.m.h.".en.titlecase
+	###   # => "The Rats of N.I.M.H."
 	def titlecase
 
 		# Split on word-boundaries
-		words = self.obj.to_s.split( /\b/ )
+		words = self.to_s.split( /\b/ )
 
 		# Always capitalize the first and last words
 		words.first.capitalize!
@@ -91,15 +99,16 @@ module Linguistics::EN::TitleCase
 	### Returns the proper noun form of the inflected object by capitalizing most of the
 	### words.
 	###
-	### @example
-	###   English.proper_noun("bosnia and herzegovina") ->
-	###     "Bosnia and Herzegovina"
-	###   English.proper_noun("macedonia, the former yugoslav republic of") ->
-	###     "Macedonia, the Former Yugoslav Republic of"
-	###   English.proper_noun("virgin islands, u.s.") ->
-	###     "Virgin Islands, U.S."
+	### Some examples:
+	###
+	###   "bosnia and herzegovina".en.proper_noun
+	###   # => "Bosnia and Herzegovina"
+	###   "macedonia, the former yugoslav republic of".en.proper_noun
+	###   # => "Macedonia, the Former Yugoslav Republic of"
+	###   "virgin islands, u.s.".en.proper_noun
+	###   # => "Virgin Islands, U.S."
 	def proper_noun
-		return self.obj.to_s.split(/([ .]+)/).collect do |word|
+		return self.to_s.split(/([ .]+)/).collect do |word|
 			next word unless
 				/^[a-z]/.match( word ) &&
 				! (PROPER_NOUN_EXCEPTIONS.include?( word ))

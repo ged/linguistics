@@ -16,6 +16,7 @@ require 'spec/lib/helpers'
 
 require 'linguistics'
 require 'linguistics/en'
+require 'linguistics/en/titlecase'
 
 
 describe Linguistics::EN::TitleCase do

@@ -13,6 +13,8 @@ class Linguistics::Inflector
 
 	### Create a new inflector for +obj+.
 	def initialize( language_code, obj )
+		raise TypeError, "can't inflect for another inflector!" if
+			obj.is_a?( Linguistics::Inflector )
 		@language_code = language_code
 		@obj = obj
 		super()
@@ -37,6 +39,25 @@ class Linguistics::Inflector
 	end
 
 
+	### Returns +true+ if either the inflector or the object it's wrapping respond to
+	### the specified +message+.
+	def respond_to_missing?( message, include_priv=false )
+		return self.obj.respond_to?( message, include_priv )
+	end
+
+
+	### Return the target object as a String.
+	def to_s
+		return self.obj.to_s
+	end
+
+
+	### Return the target object as an Integer
+	def to_i
+		return self.obj.to_i
+	end
+
+
 	### Output a programmer-readable representation of the object suitable for debugging.
 	def inspect
 		return "#<(%s-language inflector) for <%s:0x%0x> >" % [
@@ -47,9 +68,16 @@ class Linguistics::Inflector
 	end
 
 
-	### Output a human-readable representation of the object.
-	def to_s
-		return "%s-language inflector for %s" % [ self.language, @obj ]
+	#########
+	protected
+	#########
+
+	### Delegate missing methods to the target object.
+	def method_missing( sym, *args, &block )
+		return super unless self.obj.respond_to?( sym )
+		meth = self.obj.method( sym )
+		self.singleton_class.send( :define_method, sym, &meth )
+		return self.method( sym ).call( *args, &block )
 	end
 
 end # class Linguistics::Inflector

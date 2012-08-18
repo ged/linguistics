@@ -86,14 +86,19 @@ module Linguistics::EN::Conjunctions
 	###
 	def conjunction( args={} )
 		config = CONJUNCTION_DEFAULTS.merge( args )
-		phrases = []
 
 		# Transform items in the obj to phrases
-		if block_given?
-			phrases = self.obj.collect {|item| yield(item) }.compact
-		else
-			phrases = self.obj.collect {|item| item.to_s }
-		end
+		phrases = if block_given?
+				self.log.debug "  collecting with a block"
+				self.collect {|item| yield(item) }.compact
+			else
+				self.log.debug "  collecting without a block"
+				rval = self.collect( &:to_s )
+				self.log.debug "  collected: %p" % [ rval ]
+				rval
+			end
+
+		self.log.debug "  phrases is: %p" % [ phrases ]
 
 		# No need for a conjunction if there's only one thing
 		return phrases[0].en.a if phrases.length < 2

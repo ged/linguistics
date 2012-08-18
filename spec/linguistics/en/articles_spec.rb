@@ -15,6 +15,7 @@ require 'spec/lib/helpers'
 
 require 'linguistics'
 require 'linguistics/en'
+require 'linguistics/en/articles'
 
 
 describe Linguistics::EN::Articles do

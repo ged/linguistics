@@ -134,7 +134,7 @@ module Linguistics::EN::Numbers
 	###   If set to a true value, the number will be returned as an array of
 	###   word groups instead of a String.
 	def numwords( hashargs={} )
-		num = self.obj.to_s
+		num = self.to_s
 		Linguistics.log.debug "Turning %p into number words..." % [ num ]
 		config = NUMWORD_DEFAULTS.merge( hashargs )
 		raise "Bad chunking option: #{config[:group]}" unless
@@ -268,16 +268,14 @@ module Linguistics::EN::Numbers
 	### Transform the given +number+ into an ordinal word. The +number+ object
 	### can be either an Integer or a String.
 	def ordinal
-		number = self.obj
-
-		case number
-		when Integer
-			Linguistics.log.debug "Making an ordinal out of an Integer (%p)" % [ number ]
-			return number.to_s + (NTH[ number % 100 ] || NTH[ number % 10 ])
+		if self.respond_to?( :to_int )
+			number = self.to_int
+			return "%d%s" % [ number, (NTH[ number % 100 ] || NTH[ number % 10 ]) ]
 
 		else
+			number = self.to_s
 			Linguistics.log.debug "Making an ordinal out of a non-Integer (%p)" % [ number ]
-			return number.to_s.sub( /(#{ORDINAL_SUFFIXES})\Z/ ) { ORDINALS[$1] }
+			return number.sub( /(#{ORDINAL_SUFFIXES})\Z/ ) { ORDINALS[$1] }
 		end
 	end
 	Linguistics::EN.register_lprintf_formatter :ORD, :ordinal
@@ -292,13 +290,13 @@ module Linguistics::EN::Numbers
 	### Return a phrase describing the specified +number+ of objects in the
 	### inflected object in general terms. The following options can be used to 
 	### control the makeup of the returned quantity String:
-	### 
+	###
     ### [<b>:joinword</b>]
     ###   Sets the word (and any surrounding spaces) used as the word separating the
     ###   quantity from the noun in the resulting string. Defaults to <tt>' of
     ###   '</tt>.
 	def quantify( number=0, args={} )
-		phrase = self.obj.to_s
+		phrase = self.to_s
 		self.log.debug "Quantifying %d instances of %p" % [ number, phrase ]
 
 		num = number.to_i
@@ -427,10 +425,6 @@ module Linguistics::EN::Numbers
 
 	### Split the given +number+ up into groups of +groupsize+ and return
 	### them as an Array of words. Use +zeroword+ for any occurences of '0'.
-	### @param [Integer] number     the number to wordify
-	### @param [Integer] groupsize  the size of the groups
-	### @param [String] zeroword    the word to use for the numeral '0'
-	### @return [Array<String>]  words
 	def number_to_custom_word_groups( number, groupsize, zeroword="zero" )
 		self.log.debug "Making custom word groups of %d digits out of %p" % [ groupsize, number ]
 
@@ -455,9 +449,6 @@ module Linguistics::EN::Numbers
 
 	### Split the given +number+ up into groups of three and return
 	### the Array of words describing each group in the standard style.
-	### @param [Integer] number  the number to describe
-	### @param [String] andword  the word to use in the last clause of the
-	###                          number.
 	def number_to_standard_word_groups( number, andword="and" )
 		phrase = number.to_s
 		phrase.sub!( /\A\s*0+/, '' )
