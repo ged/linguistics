@@ -10,7 +10,6 @@ BEGIN {
 	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
 }
 
-require 'yaml'
 require 'linguistics'
 
 require 'rspec'
