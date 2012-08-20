@@ -64,9 +64,9 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 # 
 module Linguistics::EN::WordNet
 
-	@has_wordnet	= false
-	@error		= nil
-	@lexicon		= nil
+	@has_wordnet  = false
+	@error		  = nil
+	@lexicon      = nil
 
 	# Load WordNet if possible, saving the error that occurs if anything goes wrong.
 	begin
@@ -149,7 +149,7 @@ module Linguistics::EN::WordNet
 	### the WordNet lexicon and return an Array of WordNet::Synset objects. If
 	### +pos+ is +nil+, return synsets for all parts of speech.
 	def synsets( *args )
-		return Linguistics::EN.lexicon.lookup_synsets( self.to_s, *args )
+		return Linguistics::EN::WordNet.lexicon.lookup_synsets( self.to_s, *args )
 	end
 
 

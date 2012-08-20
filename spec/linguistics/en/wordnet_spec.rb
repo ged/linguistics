@@ -46,6 +46,12 @@ describe Linguistics::EN::WordNet do
 			"jackal".en.synset.should be_a( WordNet::Synset )
 		end
 
+		it "can load all synsets for a word" do
+			result = "appear".en.synsets
+			result.should have( 7 ).members
+			result.should include( WordNet::Synset[200422090] )
+		end
+
 	end
 
 
