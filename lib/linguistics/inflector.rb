@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 # coding: utf-8
 
+require 'loggability'
 require 'linguistics' unless defined?( Linguistics )
 
 # A facade object that acts as the extension point for linguistic modules
@@ -8,7 +9,11 @@ require 'linguistics' unless defined?( Linguistics )
 # for an object that has been extended with a Linguistics language
 # the first time the language is used.
 class Linguistics::Inflector
-	include ::Linguistics::Loggable
+	extend Loggability
+
+
+	# Loggability API -- log to the linguistics logger
+	log_to :linguistics
 
 
 	### Create a new inflector for +obj+.

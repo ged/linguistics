@@ -27,7 +27,6 @@ module Linguistics
 
 
 	require 'linguistics/monkeypatches'
-	require 'linguistics/mixins'
 	require 'linguistics/iso639'
 	require 'linguistics/inflector'
 
@@ -61,7 +60,7 @@ module Linguistics
 	def self::register_language( language, mod )
 		language_entry = LANGUAGE_CODES[ language.to_sym ] or
 			raise "Unknown ISO639-2 language code '#{language}'"
-		Linguistics.log.info "Registering %s for language %p" % [ mod, language_entry ]
+		self.log.info "Registering %s for language %p" % [ mod, language_entry ]
 
 		language_entry[:codes].each do |lang|
 			self.languages[ lang.to_sym ] = mod
@@ -69,14 +68,15 @@ module Linguistics
 
 		# Load in plugins for the language
 		Gem.find_files( "linguistics/#{language}/**.rb" ).each do |extension|
-			Linguistics.log.debug "  trying to load #{language_entry[:eng_name]} extension %p" % [ extension ]
+			extension.sub!( %r{.*/linguistics/}, 'linguistics/' )
+			self.log.debug "  trying to load #{language_entry[:eng_name]} extension %p" % [ extension ]
 			begin
 				require extension
 			rescue LoadError => err
-				Linguistics.log.debug "    failed (%s): %s %s" %
+				self.log.debug "    failed (%s): %s %s" %
 					[ err.class.name, err.message, err.backtrace.first ]
 			else
-				Linguistics.log.debug "    success."
+				self.log.debug "    success."
 			end
 		end
 
@@ -88,10 +88,10 @@ module Linguistics
 	def self::load_language( lang )
 		unless mod = self.languages[ lang.to_sym ]
 
-			Linguistics.log.debug "Trying to load language %p" % [ lang ]
+			self.log.debug "Trying to load language %p" % [ lang ]
 			language = LANGUAGE_CODES[ lang.to_sym ] or
 				raise "Unknown ISO639-2 language code '#{lang}'"
-			Linguistics.log.debug "  got language code %p" % [ language ]
+			self.log.debug "  got language code %p" % [ language ]
 
 			# Sort all the codes for the specified language, trying the 2-letter
 			# versions first in alphabetical order, then the 3-letter ones
@@ -103,12 +103,12 @@ module Linguistics
 
 				begin
 					require "linguistics/#{code}"
-					Linguistics.log.debug "  loaded linguistics/#{code}!"
+					self.log.debug "  loaded linguistics/#{code}!"
 					mod = self.languages[ lang.to_sym ]
-					Linguistics.log.debug "  set mod to %p" % [ mod ]
+					self.log.debug "  set mod to %p" % [ mod ]
 					break
 				rescue LoadError => err
-					Linguistics.log.error "  require of linguistics/#{code} failed: #{err.message}"
+					self.log.error "  require of linguistics/#{code} failed: #{err.message}"
 					msgs << "Tried 'linguistics/#{code}': #{err.message}\n"
 				end
 			end
@@ -145,23 +145,23 @@ module Linguistics
 		classes = Array(config[:classes]) if config[:classes] 
 		classes ||= DEFAULT_EXT_CLASSES
 
-		Linguistics.log.debug "Extending %d classes with %d language modules." %
+		self.log.debug "Extending %d classes with %d language modules." %
 			[ classes.length, languages.length ]
 
 		# Mix the language module for each requested language into each
 		# specified class
 		classes.each do |klass|
-			Linguistics.log.debug "  extending %p" % [ klass ]
+			self.log.debug "  extending %p" % [ klass ]
 			languages.each do |lang|
 				mod = load_language( lang ) or
 					raise LoadError, "failed to load a language extension for %p" % [ lang ]
-				Linguistics.log.debug "    using %s language module: %p" % [ lang, mod ]
+				self.log.debug "    using %s language module: %p" % [ lang, mod ]
 
 				if config[:monkeypatch]
 					klass.send( :include, mod )
 				else
 					inflector = make_inflector_mixin( lang, mod )
-					Linguistics.log.debug "    made an inflector mixin: %p" % [ inflector ]
+					self.log.debug "    made an inflector mixin: %p" % [ inflector ]
 					klass.send( :include, inflector )
 				end
 			end
@@ -178,11 +178,11 @@ module Linguistics
 			raise "Unknown ISO639-2 language code '#{lang}'"
 
 		unless mixin = self.inflector_mixins[ mod ]
-			Linguistics.log.debug "Making an inflector mixin for %p" % [ mod ]
+			self.log.debug "Making an inflector mixin for %p" % [ mod ]
 
 			bibcode, alpha2code, termcode = *language[:codes]
 			inflector = Class.new( Linguistics::Inflector ) { include(mod) }
-			Linguistics.log.debug "  created inflector class %p for [%p, %p, %p]" %
+			self.log.debug "  created inflector class %p for [%p, %p, %p]" %
 				[ inflector, bibcode, termcode, alpha2code ]
 
 			mixin = Module.new do

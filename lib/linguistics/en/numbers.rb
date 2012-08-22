@@ -135,7 +135,7 @@ module Linguistics::EN::Numbers
 	###   word groups instead of a String.
 	def numwords( hashargs={} )
 		num = self.to_s
-		Linguistics.log.debug "Turning %p into number words..." % [ num ]
+		self.log.debug "Turning %p into number words..." % [ num ]
 		config = NUMWORD_DEFAULTS.merge( hashargs )
 		raise "Bad chunking option: #{config[:group]}" unless
 			config[:group].between?( 0, 3 )
@@ -164,7 +164,7 @@ module Linguistics::EN::Numbers
 		# Wordify each chunk, pushing arrays into the parts array
 		chunks.each_with_index do |chunk,section|
 			chunk.gsub!( /\D+/, '' )
-			Linguistics.log.debug "  working on chunk %p (section %d)" % [ chunk, section ]
+			self.log.debug "  working on chunk %p (section %d)" % [ chunk, section ]
 
 			# If there's nothing in this chunk of the number, set it to zero
 			# unless it's the whole-number part, in which case just push an
@@ -182,14 +182,14 @@ module Linguistics::EN::Numbers
 			# second or succeeding part of a non-group number
 			unless config[:group].zero? && section.nonzero?
 				parts.push number_to_words( chunk, config )
-				Linguistics.log.debug "  added %p" % [ parts.last ]
+				self.log.debug "  added %p" % [ parts.last ]
 			else
 				parts.push number_to_words( chunk, config.merge(:group => 1) )
-				Linguistics.log.debug "  added %p" % [ parts.last ]
+				self.log.debug "  added %p" % [ parts.last ]
 			end
 		end
 
-		Linguistics.log.debug "Parts => %p" % [ parts ]
+		self.log.debug "Parts => %p" % [ parts ]
 
 		# Turn the last word of the whole-number part back into an ordinal if
 		# the original number came in that way.
@@ -274,7 +274,7 @@ module Linguistics::EN::Numbers
 
 		else
 			number = self.to_s
-			Linguistics.log.debug "Making an ordinal out of a non-Integer (%p)" % [ number ]
+			self.log.debug "Making an ordinal out of a non-Integer (%p)" % [ number ]
 			return number.sub( /(#{ORDINAL_SUFFIXES})\Z/ ) { ORDINALS[$1] }
 		end
 	end
@@ -436,9 +436,9 @@ module Linguistics::EN::Numbers
 		# Scan the string, and call the word-chunk function that deals with
 		# chunks of the found number of digits.
 		return number.to_s.scan( re ).collect do |digits|
-			Linguistics.log.debug "   digits = %p" % [ digits ]
+			self.log.debug "   digits = %p" % [ digits ]
 			numerals = digits.flatten.compact.collect {|i| i.to_i}
-			Linguistics.log.debug "   numerals = %p" % [ numerals ]
+			self.log.debug "   numerals = %p" % [ numerals ]
 
 			fn = NUMBER_TO_WORDS_FUNCTIONS[ numerals.length ]
 			self.log.debug "  number to word function is #%d: %p" % [ numerals.length, fn ]
@@ -454,7 +454,7 @@ module Linguistics::EN::Numbers
 		phrase.sub!( /\A\s*0+/, '' )
 		chunks = []
 		mill = 0
-		Linguistics.log.debug "Making standard word groups out of %p" % [ phrase ]
+		self.log.debug "Making standard word groups out of %p" % [ phrase ]
 
 		# Match backward from the end of the digits in the string, turning
 		# chunks of three, of two, and of one into words.
