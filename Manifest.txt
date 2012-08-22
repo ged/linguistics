@@ -22,7 +22,6 @@ lib/linguistics/en/wordnet.rb
 lib/linguistics/inflector.rb
 lib/linguistics/iso639.rb
 lib/linguistics/languagebehavior.rb
-lib/linguistics/mixins.rb
 lib/linguistics/monkeypatches.rb
 spec/lib/constants.rb
 spec/lib/helpers.rb
@@ -39,6 +38,5 @@ spec/linguistics/en/wordnet_spec.rb
 spec/linguistics/en_spec.rb
 spec/linguistics/inflector_spec.rb
 spec/linguistics/iso639_spec.rb
-spec/linguistics/mixins_spec.rb
 spec/linguistics/monkeypatches_spec.rb
 spec/linguistics_spec.rb
