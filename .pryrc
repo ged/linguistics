@@ -8,11 +8,12 @@ BEGIN {
 
 begin
 	require 'loggability'
+	require 'linguistics'
+
 	Loggability.level = :debug
 	Loggability.format_with( :color )
 
-	require 'linguistics'
-	Linguistics.use( :en )
+	# Linguistics.use( :en )
 	# Linguistics.use( :en, monkeypatch: true )
 rescue Exception => err
 	$stderr.puts "Linguistics failed to load: %p: %s" % [ err.class, err.message ]

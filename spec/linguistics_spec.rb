@@ -67,7 +67,6 @@ describe Linguistics do
 		end
 
 		it "raise an error for valid languages that don't have any linguistic functions to load" do
-			Linguistics.logger.level = Logger::FATAL
 			expect {
 				Linguistics.use( :ja )
 			}.to raise_error( LoadError, /failed to load a language extension/i )

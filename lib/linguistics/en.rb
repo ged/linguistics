@@ -315,7 +315,7 @@ module Linguistics::EN
 	### Register an English-language extension.
 	def self::register_extension( mod )
 		MODULES.push( mod )
-		Linguistics.log.debug "Registered English extension %p" % [ mod ]
+		self.log.debug "Registered English extension %p" % [ mod ]
 
 		include( mod )
 		mod.extend( Loggability )
@@ -323,11 +323,11 @@ module Linguistics::EN
 
 		if mod.const_defined?( :SingletonMethods )
 			smod = mod.const_get(:SingletonMethods)
-			Linguistics.log.debug "  and its singleton methods %p" % [ smod ]
+			self.log.debug "  and its singleton methods %p" % [ smod ]
 			extend( smod )
 
 			ivars = mod.instance_variables
-			Linguistics.log.debug "  and instance variables %p" % [ ivars ]
+			self.log.debug "  and instance variables %p" % [ ivars ]
 			ivars.each do |ivar|
 				instance_variable_set( ivar, mod.instance_variable_get(ivar) )
 			end

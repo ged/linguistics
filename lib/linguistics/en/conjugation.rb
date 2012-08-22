@@ -4,47 +4,47 @@ require 'loggability'
 require 'linguistics/en' unless defined?( Linguistics::EN )
 
 # This file contains functions for conjugating verbs.
-# 
+#
 # == Version
 #
-#  $Id: conjugation.rb,v 8103736e8a86 2012/08/18 17:28:23 ged $
-# 
+#  $Id: conjugation.rb,v 8b1c8ec50991 2012/08/22 02:09:29 ged $
+#
 # == Authors
-# 
+#
 # * Robert Berry <berrydigital@gmail.com>
 # * Michael Granger <ged@FaerieMUD.org>
-# 
+#
 # == Copyright
-#    
-# Based on MorphAdorner (http://morphadorner.northwestern.edu/), which is 
+#
+# Based on MorphAdorner (http://morphadorner.northwestern.edu/), which is
 # licensed under the following terms:
 #
 # Copyright © 2006-2009 by Northwestern University. All rights reserved.
-# 
+#
 # Developed by:
 # Academic and Research Technologies
 # Northwestern University
 # http://www.it.northwestern.edu/about/departments/at/
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # with the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 #   Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimers.
-# 
+#
 #   Redistributions in binary form must reproduce the above copyright notice,
 #   this list of conditions and the following disclaimers in the documentation
 #   and/or other materials provided with the distribution.
-# 
+#
 #   Neither the names of Academic and Research Technologies, Northwestern
 #   University, nor the names of its contributors may be used to endorse or
 #   promote products derived from this Software without specific prior written
 #   permission.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -52,7 +52,7 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH
 # THE SOFTWARE.
-# 
+#
 module Linguistics::EN::Conjugation
 	extend Loggability
 
@@ -92,7 +92,7 @@ module Linguistics::EN::Conjugation
 
 
 
-	### Conjugate the receiving string as an infinitive with the specified +tense+ 
+	### Conjugate the receiving string as an infinitive with the specified +tense+
 	### and +person+.
 	def conjugate( tense, person=nil )
 		self.log.debug "Conjugating %p in %s tense, %s person" %
@@ -126,7 +126,7 @@ module Linguistics::EN::Conjugation
 	#######
 
 	### Conjugate the specified +verb+ in the present tense in the given +person+. The
-	### only +person+ that is 
+	### only +person+ that is
 	def conjugate_present( verb, person=:third_person_singular )
 		return verb unless person == :third_person_singular
 
@@ -181,7 +181,7 @@ module Linguistics::EN::Conjugation
 	alias_method :conjugate_past_participle, :conjugate_past
 
 
-	#### If the given +verb+ is irregular in the given +person_ and 
+	#### If the given +verb+ is irregular in the given +person_ and
 	def get_irregular( verb, person, tense )
 		self.log.debug "  looking for irregular verb: %p, %p person, %p tense" %
 			[ verb, person, tense ]
@@ -224,13 +224,13 @@ module Linguistics::EN::Conjugation
 
 		data.each_line do |line|
 			if line =~ /^(#|\s*$)/ # Skip comments and blank lines
-				self.log.debug "  skipping line: %p" % [ line ]
+				# self.log.debug "  skipping line: %p" % [ line ]
 				next
 			end
 
 			infinitive, person, tense, conjugation = line.chomp.split( /\s+/, 4 )
-			self.log.debug "  line split into: %p" %
-				[[ infinitive, person, tense, conjugation ]]
+			# self.log.debug "  line split into: %p" %
+			#	[[ infinitive, person, tense, conjugation ]]
 
 			raise "malformed line: %p" % [ line ] unless infinitive && person && tense && conjugation
 
@@ -268,7 +268,7 @@ end # module Linguistics::EN::Conjugation
 __END__
 #
 # Irregular verbs (from MorphAdorner's irregularverbs.txt)
-# 
+#
 arise	*	past	arose
 arise	*	past_participle	arisen
 awake	*	past	awoke

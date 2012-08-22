@@ -10,49 +10,49 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 #   # Test to be sure the WordNet module loaded okay.
 #   Linguistics::EN.has_wordnet?
 #   # => true
-#  
+#
 #   # Fetch the default synset for the word "balance"
 #   "balance".en.synset
 #   # => #<WordNet::Synset:0x40376844 balance (noun): "a state of equilibrium"
 #    (derivations: 3, antonyms: 1, hypernyms: 1, hyponyms: 3)>
-#  
+#
 #   # Fetch the synset for the first verb sense of "balance"
 #   "balance".en.synset( :verb )
 #   # => #<WordNet::Synset:0x4033f448 balance, equilibrate, equilibrize, equilibrise
 #   (verb): "bring into balance or equilibrium; "She has to balance work and her
 #   domestic duties"; "balance the two weights"" (derivations: 7, antonyms: 1,
 #   verbGroups: 2, hypernyms: 1, hyponyms: 5)>
-#  
+#
 #   # Fetch the second noun sense
 #   "balance".en.synset( 2, :noun )
 #   # => #<WordNet::Synset:0x404ebb24 balance (noun): "a scale for weighing; depends
 #   on pull of gravity" (hypernyms: 1, hyponyms: 5)>
-#  
+#
 #   # Fetch the second noun sense's hypernyms (more-general words, like a superclass)
 #   "balance".en.synset( 2, :noun ).hypernyms
 #   # => [#<WordNet::Synset:0x404e5620 scale, weighing machine (noun): "a measuring
 #   instrument for weighing; shows amount of mass" (derivations: 2, hypernyms: 1,
 #   hyponyms: 2)>]
-#  
+#
 #   # A simpler way of doing the same thing:
 #   "balance".en.hypernyms( 2, :noun )
 #   # => [#<WordNet::Synset:0x404e5620 scale, weighing machine (noun): "a measuring
 #   instrument for weighing; shows amount of mass" (derivations: 2, hypernyms: 1,
 #   hyponyms: 2)>]
-#  
+#
 #   # Fetch the first hypernym's hypernyms
 #   "balance".en.synset( 2, :noun ).hypernyms.first.hypernyms
 #   # => [#<WordNet::Synset:0x404c60b8 measuring instrument, measuring system,
 #   measuring device (noun): "instrument that shows the extent or amount or quantity
 #   or degree of something" (hypernyms: 1, hyponyms: 83)>]
-#  
+#
 #   # Find the synset to which both the second noun sense of "balance" and the
 #   # default sense of "shovel" belong.
 #   ("balance".en.synset( 2, :noun ) | "shovel".en.synset)
 #   # => #<WordNet::Synset:0x40473da4 instrumentality, instrumentation (noun): "an
 #   artifact (or system of artifacts) that is instrumental in accomplishing some
 #   end" (derivations: 1, hypernyms: 1, hyponyms: 13)>
-#  
+#
 #   # Fetch just the words for the other kinds of "instruments"
 #   "instrument".en.hyponyms.collect {|synset| synset.words}.flatten
 #   # => ["analyzer", "analyser", "cautery", "cauterant", "drafting instrument",
@@ -71,7 +71,6 @@ module Linguistics::EN::WordNet
 	# Load WordNet if possible, saving the error that occurs if anything goes wrong.
 	begin
 		require 'wordnet'
-		WordNet.logger = Linguistics.logger
 		@has_wordnet = true
 	rescue LoadError => err
 		@error = err
