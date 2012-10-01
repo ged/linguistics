@@ -35,6 +35,11 @@ hoespec = Hoe.spec 'linguistics' do
 end
 
 ENV['VERSION'] ||= hoespec.spec.version.to_s
- 
+
 task 'hg:precheckin' => [ :check_history, :check_manifest, :spec ]
- 
+
+desc "Build a coverage report"
+task :coverage do
+	ENV["COVERAGE"] = 'yes'
+	Rake::Task[:spec].invoke
+end
