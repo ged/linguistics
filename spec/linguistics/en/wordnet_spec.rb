@@ -62,21 +62,21 @@ describe Linguistics::EN::WordNet do
 				@had_wordnet = true
 				error = LoadError.new( "no such file to load -- wordnet" )
 				Linguistics::EN::WordNet.instance_variable_set( :@has_wordnet, false )
-				Linguistics::EN::WordNet.instance_variable_set( :@error, error )
+				Linguistics::EN::WordNet.instance_variable_set( :@wn_error, error )
 			end
 		end
 
 		after( :all ) do
 			if @had_wordnet
 				Linguistics::EN::WordNet.instance_variable_set( :@has_wordnet, true )
-				Linguistics::EN::WordNet.instance_variable_set( :@error, nil )
+				Linguistics::EN::WordNet.instance_variable_set( :@wn_error, nil )
 			end
 		end
 
-		it "raises an NotImplementedError when you try to use wordnet functionality" do
+		it "raises the appropriate LoadError when you try to use wordnet functionality" do
 			expect {
 				"persimmon".en.synset
-			}.to raise_error( NotImplementedError, /not loaded/i )
+			}.to raise_error( LoadError, %r{wordnet}i )
 		end
 
 	end
