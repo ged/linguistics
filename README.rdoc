@@ -12,13 +12,6 @@ objects in any language. It includes a generic language-independant
 front end, a module for mapping language codes into language names, and
 a module which contains various English-language utilities.
 
-Here are a few whimsical examples:
-
-  Linguistics.use( :en )
-  # 
-  
-  puts "Head of State".en.quantify( 11 )'
-
 
 == Usage
 
@@ -39,16 +32,16 @@ cluttering up the interface or risking collision between them, albeit at
 the cost of three or four more characters per method invocation. For
 example:
 
-	Linguistics.use( :en )
-	"goose".en.plural
-	# => "geese"
+    Linguistics.use( :en )
+    "goose".en.plural
+    # => "geese"
 
 If you prefer monkeypatching (around 70) linguistics methods directly onto core
 classes, you can do that by adding a 'monkeypatch' option to ::use:
 
     Linguistics.use( :en, monkeypatch: true )
-	"goose".plural
-	# => "geese"
+    "goose".plural
+    # => "geese"
 
 === Controlling Which Classes Get Extended
 
@@ -67,14 +60,12 @@ You can also pass an Array of classes to .use:
 Or you can add language methods to classes via mixin:
 
     class MyClass
-	    include Linguistics::EN
-	end
+        include Linguistics::EN
+    end
 
 All Linguistics methods use Ruby's casting mechanism, so at a minimum,
 your classes should provide an implementation of #to_s that returns
 words or phrases.
-
-
 
 
 === Adding Language Modules
@@ -83,12 +74,12 @@ To add a new language to the framework, define a module that will act as
 the top-level namespace for all your linguistic functions, and then
 register it as being available, like so:
 
-	module Linguistics::TLH
-	
-		# Add Klingon to the list of default languages
-		Linguistics.register_language( :tlh, self )
+    module Linguistics::TLH
+    
+        # Add Klingon to the list of default languages
+        Linguistics.register_language( :tlh, self )
 
-	end
+    end
 
 The first argument is either the two- or three-letter [ISO 639.2]
 (http://www.loc.gov/standards/iso639-2/php/code_list.php) language code
@@ -99,43 +90,43 @@ The second is the container module itself.
 After you register your language, each class that Linguistics is told to
 extend will have a method for your language code/s:
 
-	irb> Linguistics.use( :tlh, :classes => Object )
-	# => [Object]
-	irb> Object.new.tlh
-	# => #<(Klingon; tlhIngan-Hol-language inflector) for <Object:0x402d9674> >
+    irb> Linguistics.use( :tlh, :classes => Object )
+    # => [Object]
+    irb> Object.new.tlh
+    # => #<(Klingon; tlhIngan-Hol-language inflector) for <Object:0x402d9674> >
 
 If you use RSpec 2, you can test out any API requirements of the module
 by requiring  'linguistics/languagebehavior' and adding a shared
 behavior to your spec:
 
-	require 'rspec'
+    require 'rspec'
     require 'linguistics/languagebehavior'
-	
-	describe Linguistics::TLH do
-	
-	  it_should_behave_like "a Linguistics language module"
-	
-	  # ... any other specs for your module
-	
-	end
+    
+    describe Linguistics::TLH do
+    
+      it_should_behave_like "a Linguistics language module"
+    
+      # ... any other specs for your module
+    
+    end
 
 If you wish to use the logging subsystem set up by Linguistics, you can
 do so one of two ways: by logging to the logger directly:
 
-	Linguistics.log.debug "Registering Klingon language extension"
+    Linguistics.log.debug "Registering Klingon language extension"
 
 or by mixing the `Linguistics::Loggable' module into your class/module,
 which will give you a 'log' method that prepends the object class on
 each log message so it's easy to filter out the ones you want:
 
-	require 'linguistics/mixins'
-	class Linguistics::TLH::Generator
-		include Linguistics::Loggable
+    require 'linguistics/mixins'
+    class Linguistics::TLH::Generator
+        include Linguistics::Loggable
 
-		def generate_it
-			self.log.debug "starting generation..."
-		end
-	end
+        def generate_it
+            self.log.debug "starting generation..."
+        end
+    end
 
 
 
