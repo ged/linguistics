@@ -15,7 +15,7 @@ module Linguistics
 	VERSION = '2.0.0'
 
 	# VCS version
-	REVISION = %q$Revision: 8b1c8ec50991 $
+	REVISION = %q$Revision: a7cda4b8747c $
 
 	# The list of Classes to add linguistic behaviours to.
 	DEFAULT_EXT_CLASSES = [ String, Numeric, Array ]
@@ -67,7 +67,8 @@ module Linguistics
 		end
 
 		# Load in plugins for the language
-		Gem.find_files( "linguistics/#{language}/**.rb" ).each do |extension|
+		Gem.find_files( "linguistics/#{language}/*.rb" ).each do |extension|
+			next if extension.include?( '/spec/' ) # Skip specs
 			extension.sub!( %r{.*/linguistics/}, 'linguistics/' )
 			self.log.debug "  trying to load #{language_entry[:eng_name]} extension %p" % [ extension ]
 			begin

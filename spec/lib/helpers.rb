@@ -28,7 +28,6 @@ require 'rspec'
 require 'spec/lib/constants'
 require 'loggability/spechelpers'
 
-
 ### Mock with RSpec
 RSpec.configure do |c|
 	c.mock_with( :rspec )
