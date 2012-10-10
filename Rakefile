@@ -18,6 +18,7 @@ hoespec = Hoe.spec 'linguistics' do
 	self.dependency 'hoe-deveiate', '~> 0.1', :development
 	self.dependency 'linkparser', '~> 1.1', :development
 	self.dependency 'wordnet', '~> 0.99', :development
+	self.dependency 'ruby-stemmer', '~> 0.9', :development
 
 	self.spec_extras[:licenses] = ["BSD"]
 	self.spec_extras[:rdoc_options] = ['-f', 'fivefish', '-t', 'Ruby Linguistics Toolkit']
