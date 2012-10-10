@@ -14,13 +14,14 @@ require 'rspec'
 require 'spec/lib/helpers'
 
 require 'linguistics'
+require 'linguistics/en'
 require 'linguistics/en/stemmer'
 
 
 describe Linguistics::EN::Stemmer do
 
 	before( :all ) do
-		setup_logging( :debug )
+		setup_logging()
 		Linguistics.use( :en )
 	end
 
@@ -53,7 +54,7 @@ describe Linguistics::EN::Stemmer do
 		before( :all ) do
 			# If the system *does* have stemmer support, pretend it doesn't.
 			if Linguistics::EN.has_stemmer?
-				error = LoadError.new( "no such file to load -- lingua/stemmer" )
+				error = LoadError.new( "simulated exception: no such file to load -- lingua/stemmer" )
 				Linguistics::EN::Stemmer.instance_variable_set( :@has_stemmer, false )
 				Linguistics::EN::Stemmer.instance_variable_set( :@stemmer_error, error )
 			end

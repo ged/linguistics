@@ -21,7 +21,7 @@ require 'linguistics/en/articles'
 describe Linguistics::EN::Articles do
 
 	before( :all ) do
-		setup_logging( :fatal )
+		setup_logging()
 		Linguistics.use( :en )
 	end
 

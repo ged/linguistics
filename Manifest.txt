@@ -17,6 +17,7 @@ lib/linguistics/en/linkparser.rb
 lib/linguistics/en/numbers.rb
 lib/linguistics/en/participles.rb
 lib/linguistics/en/pluralization.rb
+lib/linguistics/en/stemmer.rb
 lib/linguistics/en/titlecase.rb
 lib/linguistics/en/wordnet.rb
 lib/linguistics/inflector.rb
@@ -33,6 +34,7 @@ spec/linguistics/en/linkparser_spec.rb
 spec/linguistics/en/numbers_spec.rb
 spec/linguistics/en/participles_spec.rb
 spec/linguistics/en/pluralization_spec.rb
+spec/linguistics/en/stemmer_spec.rb
 spec/linguistics/en/titlecase_spec.rb
 spec/linguistics/en/wordnet_spec.rb
 spec/linguistics/en_spec.rb

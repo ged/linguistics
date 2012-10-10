@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'linguistics' unless defined?( Linguistics )
 require 'linguistics/en' unless defined?( Linguistics::EN )
 
 # Ruby-Stemmer support for the English-language Linguistics module. It

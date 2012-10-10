@@ -67,7 +67,8 @@ module Linguistics
 		end
 
 		# Load in plugins for the language
-		Gem.find_files( "linguistics/#{language}/**.rb" ).each do |extension|
+		Gem.find_files( "linguistics/#{language}/*.rb" ).each do |extension|
+			next if extension.include?( '/spec/' ) # Skip specs
 			extension.sub!( %r{.*/linguistics/}, 'linguistics/' )
 			self.log.debug "  trying to load #{language_entry[:eng_name]} extension %p" % [ extension ]
 			begin
