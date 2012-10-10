@@ -65,7 +65,7 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 module Linguistics::EN::WordNet
 
 	@has_wordnet  = false
-	@error		  = nil
+	@wn_error     = nil
 	@lexicon      = nil
 
 	# Load WordNet if possible, saving the error that occurs if anything goes wrong.
@@ -73,7 +73,7 @@ module Linguistics::EN::WordNet
 		require 'wordnet'
 		@has_wordnet = true
 	rescue LoadError => err
-		@error = err
+		@wn_error = err
 	end
 
 
@@ -85,7 +85,7 @@ module Linguistics::EN::WordNet
 
 		### If #has_wordnet? returns +false+, this can be called to fetch the
 		### exception which was raised when WordNet was loaded.
-		def error ; @error; end
+		def wordnet_error ; @wn_error; end
 
 	end # module SingletonMethods
 	extend SingletonMethods
@@ -102,12 +102,7 @@ module Linguistics::EN::WordNet
 	### The instance of the WordNet::Lexicon used for all Linguistics WordNet
 	### functions.
 	def self::lexicon
-		if @error
-			raise NotImplementedError,
-				"WordNet functions are not loaded: %s" %
-				@error.message
-		end
-
+		raise self.wordnet_error unless self.has_wordnet?
 		@lexicon ||= WordNet::Lexicon::new
 	end
 
