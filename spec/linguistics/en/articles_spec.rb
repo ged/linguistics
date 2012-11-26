@@ -29,6 +29,34 @@ describe Linguistics::EN::Articles do
 		reset_logging()
 	end
 
+	it "adds EN::Articles to the list of English language modules" do
+		Linguistics::EN.should have_extension( :articles )
+	end
+
+
+	describe "in monkeypatch mode" do
+
+		let( :monkeypatched_class ) do
+			Class.new do
+				def to_s; "antelope"; end
+			end
+		end
+		let( :monkeypatched_object ) do
+			Linguistics.use( :en, classes: monkeypatched_class, monkeypatch: true )
+			monkeypatched_class.new
+		end
+
+
+		it "uses the stringified receiver as the object which should get the article" do
+			monkeypatched_object.a.should == 'an antelope'
+		end
+
+		it "uses correct pluralization to form the negative article" do
+			monkeypatched_object.no.should == 'no antelopes'
+		end
+
+	end
+
 
 	it "uses 'an' as the indefinite article for 'A.B.C'" do
 		"A.B.C".en.a.should == "an A.B.C"
@@ -768,6 +796,19 @@ describe Linguistics::EN::Articles do
 
 	it "uses 'a' as the indefinite article for 'zoo'" do
 		"zoo".en.a.should == "a zoo"
+	end
+
+
+	it "uses correct pluralization to form the negative article" do
+		"mouse".en.no.should == "no mice"
+	end
+
+	it "uses currect pluralization for noun phrases to form the negative article" do
+		"univariate statistic".en.no.should == "no univariate statistics"
+	end
+
+	it "uses the correct pluralization for 'Secretary of State' to form the negative article" do
+		"Secretary of State".en.no.should == "no Secretaries of State"
 	end
 
 

@@ -1461,7 +1461,7 @@ describe Linguistics::EN::Pluralization do
 	end
 
 
-	it "pluralizes 'ferry' as 'ferries'" do
+	it "pluralizes 'ferry as 'ferries'" do
 		'ferry'.en.plural.should == 'ferries' # 
 	end
 
@@ -4628,6 +4628,14 @@ describe Linguistics::EN::Pluralization do
 		it "pluralizes the argument to %PL" do
 			"What's with all the %PL?".en.lprintf( 'mouse' ).
 				should == "What's with all the mice?"
+		end
+
+	end
+
+	context "workarounds" do
+
+		it "correctly pluralizes 'Secretary' when capitalized, despite the proper-noun exception" do
+			'Secretary'.en.plural.should == 'Secretaries'
 		end
 
 	end
