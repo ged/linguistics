@@ -658,6 +658,7 @@ module Linguistics::EN::Pluralization
 
 		# Handle ...y
 		when /(.*[aeiou])y$/i then             return "#{$1}ys"
+		when /(.*)Secretary$/ then             return "#{$1}Secretaries"
 		when /([A-Z].*y)$/ then                return "#{$1}s"
 		when /(.*)y$/i then                    return "#{$1}ies"
 
