@@ -15,6 +15,8 @@ hoespec = Hoe.spec 'linguistics' do
 
 	self.developer 'Michael Granger', 'ged@FaerieMUD.org'
 
+	self.dependency 'loggability', '~> 0.5'
+
 	self.dependency 'hoe-deveiate', '~> 0.1', :development
 	self.dependency 'linkparser', '~> 1.1', :development
 	self.dependency 'wordnet', '~> 0.99', :development
