@@ -1,3 +1,11 @@
+== v2.0.1 [2013-02-25] Michael Granger <ged@FaerieMUD.org>
+
+- Add missing loggability dependency to the gem (fixes #3).
+- Adding some monkeypatch specs (refs #1), fixing some edge-case
+  pluralizations.
+- Documentation fixes.
+
+
 == v2.0.0 [2012-10-10] Michael Granger  <ged@FaerieMUD.org>
 
 Rewritten to be more modular, easier to extend and maintain, and to work under
