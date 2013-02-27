@@ -15,7 +15,7 @@ module Linguistics
 	VERSION = '2.0.1'
 
 	# VCS version
-	REVISION = %q$Revision: 5240c28c80bd $
+	REVISION = %q$Revision: 1b4ebdf345e6 $
 
 	# The list of Classes to add linguistic behaviours to.
 	DEFAULT_EXT_CLASSES = [ String, Numeric, Array ]
@@ -188,7 +188,7 @@ module Linguistics
 
 			mixin = Module.new do
 				define_method( bibcode ) do
-					@__inflector ||= inflector.new( bibcode, self )
+					inflector.new( bibcode, self )
 				end
 				alias_method termcode, bibcode unless termcode.nil? || termcode.empty?
 				alias_method alpha2code, bibcode unless alpha2code.nil? || alpha2code.empty?
