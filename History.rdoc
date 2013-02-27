@@ -1,3 +1,8 @@
+== v2.0.2 [2013-02-27] Michael Granger <ged@FaerieMUD.org>
+
+- Fix for Ruby 2: don't memoize the inflector.
+
+
 == v2.0.1 [2013-02-25] Michael Granger <ged@FaerieMUD.org>
 
 - Add missing loggability dependency to the gem (fixes #3).
