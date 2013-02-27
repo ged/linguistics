@@ -12,10 +12,10 @@ module Linguistics
 
 
 	# Release version
-	VERSION = '2.0.1'
+	VERSION = '2.0.2'
 
 	# VCS version
-	REVISION = %q$Revision: 1b4ebdf345e6 $
+	REVISION = %q$Revision: d2eeec0b7832 $
 
 	# The list of Classes to add linguistic behaviours to.
 	DEFAULT_EXT_CLASSES = [ String, Numeric, Array ]
