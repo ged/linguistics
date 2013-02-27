@@ -188,7 +188,7 @@ module Linguistics
 
 			mixin = Module.new do
 				define_method( bibcode ) do
-					@__inflector ||= inflector.new( bibcode, self )
+					inflector.new( bibcode, self )
 				end
 				alias_method termcode, bibcode unless termcode.nil? || termcode.empty?
 				alias_method alpha2code, bibcode unless alpha2code.nil? || alpha2code.empty?
