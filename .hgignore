@@ -13,3 +13,4 @@ coverage\\.info
 docs/.*\.dump$
 ^release\.notes$
 ^doc/
+Gemfile.lock

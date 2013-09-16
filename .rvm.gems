@@ -1,5 +1,7 @@
-hoe-deveiate -v0.1.1
-linkparser -v1.1.3
+hoe-deveiate -v0.3.0
+hoe-bundler -v1.2.0
+linkparser -v1.1.4
 simplecov -v0.6.4
 wordnet -v1.0.0
+wordnet-defaultdb -v1.0.1
 ruby-stemmer -v0.9.3
