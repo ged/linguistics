@@ -10,4 +10,11 @@ TM_RSPEC_FORMATTER       = 'RSpec::Core::Formatters::WebKit'
 
 [ source.ruby ]
 disableIndentCorrections = true
+tabSize = 4
+softTabs = false
+
+[ source.ruby.rspec ]
+tabSize = 4
+softTabs = false
+
 
