@@ -172,7 +172,7 @@ module Linguistics::EN::Conjugation
 			return verb[ 0..-1 ] + 'ied'
 		else
 			if DOUBLING_VERBS.include?( verb )
-				verb = verb[ -2..-1 ] + 'ed'
+				verb = verb + verb[ -1 ] + 'ed'
 			else
 				return verb + 'ed'
 			end
