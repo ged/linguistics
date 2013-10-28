@@ -147,11 +147,11 @@ module Linguistics::EN::Conjugation
 	def conjugate_present_participle( verb )
 		case verb
 		when /[^aeiou]e$/
-			return verb[ 0..-2 ]
+			return verb[ 0..-2 ] + 'ing'
 		when /ie$/
-			return verb[ 0..-3 ] + 'y'
+			return verb[ 0..-3 ] + 'y' + 'ing'
 		when /[aou]e$/
-			return verb[ 0..-2 ]
+			return verb[ 0..-2 ] + 'ing'
 		else
 			if DOUBLING_VERBS.include?( verb )
 				return verb + verb[ -1 ] + 'ing'
