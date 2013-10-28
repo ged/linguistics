@@ -1833,6 +1833,10 @@ describe Linguistics::EN::Conjugation do
 		"troubleshoot".en.past_tense.should == 'troubleshot'
 	end
 
+	it "conjugates 'try' as 'tried'" do
+		"try".en.past_tense.should == 'tried'
+	end
+
 	it "conjugates 'typecast' as 'typecast'" do
 		"typecast".en.past_tense.should == 'typecast'
 	end
