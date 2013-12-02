@@ -1,3 +1,12 @@
+== v2.0.3 [2013-12-02] Michael Granger <ged@FaerieMUD.org>
+
+A bunch of fixes from Ippei UKAI <ippei_ukai@mac.com>
+
+- fix past tense for words end with y
+- fix past tense for doubling verbs
+- fix present participle conjugation of verbs that end with 'e'
+
+
 == v2.0.2 [2013-02-27] Michael Granger <ged@FaerieMUD.org>
 
 - Fix for Ruby 2: don't memoize the inflector.
