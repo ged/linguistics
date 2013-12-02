@@ -169,7 +169,7 @@ module Linguistics::EN::Conjugation
 		when /e$/
 			return verb + 'd'
 		when /[^aeiou]y$/
-			return verb[ 0..-1 ] + 'ied'
+			return verb[ 0..-2 ] + 'ied'
 		else
 			if DOUBLING_VERBS.include?( verb )
 				verb = verb + verb[ -1 ] + 'ed'
