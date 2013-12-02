@@ -1,17 +1,8 @@
 #!/usr/bin/env rspec -cfd
 
-BEGIN {
-	require 'pathname'
-	basedir = Pathname.new( __FILE__ ).dirname.parent.parent.parent
-
-	libdir = basedir + "lib"
-
-	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
-	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
-}
+require_relative '../../helpers'
 
 require 'rspec'
-require 'spec/lib/helpers'
 
 require 'linguistics'
 require 'linguistics/en'
@@ -30,7 +21,7 @@ describe Linguistics::EN::Articles do
 	end
 
 	it "adds EN::Articles to the list of English language modules" do
-		Linguistics::EN.should have_extension( :articles )
+		expect( Linguistics::EN ).to have_extension( :articles )
 	end
 
 
@@ -48,778 +39,778 @@ describe Linguistics::EN::Articles do
 
 
 		it "uses the stringified receiver as the object which should get the article" do
-			monkeypatched_object.a.should == 'an antelope'
+			expect( monkeypatched_object.a ).to eq( 'an antelope' )
 		end
 
 		it "uses correct pluralization to form the negative article" do
-			monkeypatched_object.no.should == 'no antelopes'
+			expect( monkeypatched_object.no ).to eq( 'no antelopes' )
 		end
 
 	end
 
 
 	it "uses 'an' as the indefinite article for 'A.B.C'" do
-		"A.B.C".en.a.should == "an A.B.C"
+		expect( "A.B.C".en.a ).to eq( "an A.B.C" )
 	end
 
 	it "uses 'an' as the indefinite article for 'AI'" do
-		"AI".en.a.should == "an AI"
+		expect( "AI".en.a ).to eq( "an AI" )
 	end
 
 	it "uses 'an' as the indefinite article for 'AGE'" do
-		"AGE".en.a.should == "an AGE"
+		expect( "AGE".en.a ).to eq( "an AGE" )
 	end
 
 	it "uses 'an' as the indefinite article for 'agendum'" do
-		"agendum".en.a.should == "an agendum"
+		expect( "agendum".en.a ).to eq( "an agendum" )
 	end
 
 	it "uses 'an' as the indefinite article for 'aide-de-camp'" do
-		"aide-de-camp".en.a.should == "an aide-de-camp"
+		expect( "aide-de-camp".en.a ).to eq( "an aide-de-camp" )
 	end
 
 	it "uses 'an' as the indefinite article for 'albino'" do
-		"albino".en.a.should == "an albino"
+		expect( "albino".en.a ).to eq( "an albino" )
 	end
 
 	it "uses 'a' as the indefinite article for 'B.L.T. sandwich'" do
-		"B.L.T. sandwich".en.a.should == "a B.L.T. sandwich"
+		expect( "B.L.T. sandwich".en.a ).to eq( "a B.L.T. sandwich" )
 	end
 
 	it "uses 'a' as the indefinite article for 'BMW'" do
-		"BMW".en.a.should == "a BMW"
+		expect( "BMW".en.a ).to eq( "a BMW" )
 	end
 
 	it "uses 'a' as the indefinite article for 'BLANK'" do
-		"BLANK".en.a.should == "a BLANK"
+		expect( "BLANK".en.a ).to eq( "a BLANK" )
 	end
 
 	it "uses 'a' as the indefinite article for 'bacterium'" do
-		"bacterium".en.a.should == "a bacterium"
+		expect( "bacterium".en.a ).to eq( "a bacterium" )
 	end
 
 	it "uses 'a' as the indefinite article for 'Burmese restaurant'" do
-		"Burmese restaurant".en.a.should == "a Burmese restaurant"
+		expect( "Burmese restaurant".en.a ).to eq( "a Burmese restaurant" )
 	end
 
 	it "uses 'a' as the indefinite article for 'C.O.'" do
-		"C.O.".en.a.should == "a C.O."
+		expect( "C.O.".en.a ).to eq( "a C.O." )
 	end
 
 	it "uses 'a' as the indefinite article for 'CCD'" do
-		"CCD".en.a.should == "a CCD"
+		expect( "CCD".en.a ).to eq( "a CCD" )
 	end
 
 	it "uses 'a' as the indefinite article for 'COLON'" do
-		"COLON".en.a.should == "a COLON"
+		expect( "COLON".en.a ).to eq( "a COLON" )
 	end
 
 	it "uses 'a' as the indefinite article for 'cameo'" do
-		"cameo".en.a.should == "a cameo"
+		expect( "cameo".en.a ).to eq( "a cameo" )
 	end
 
 	it "uses 'a' as the indefinite article for 'CAPITAL'" do
-		"CAPITAL".en.a.should == "a CAPITAL"
+		expect( "CAPITAL".en.a ).to eq( "a CAPITAL" )
 	end
 
 	it "uses 'a' as the indefinite article for 'D.S.M.'" do
-		"D.S.M.".en.a.should == "a D.S.M."
+		expect( "D.S.M.".en.a ).to eq( "a D.S.M." )
 	end
 
 	it "uses 'a' as the indefinite article for 'DNR'" do
-		"DNR".en.a.should == "a DNR"
+		expect( "DNR".en.a ).to eq( "a DNR" )
 	end
 
 	it "uses 'a' as the indefinite article for 'DINNER'" do
-		"DINNER".en.a.should == "a DINNER"
+		expect( "DINNER".en.a ).to eq( "a DINNER" )
 	end
 
 	it "uses 'a' as the indefinite article for 'dynamo'" do
-		"dynamo".en.a.should == "a dynamo"
+		expect( "dynamo".en.a ).to eq( "a dynamo" )
 	end
 
 	it "uses 'an' as the indefinite article for 'E.K.G.'" do
-		"E.K.G.".en.a.should == "an E.K.G."
+		expect( "E.K.G.".en.a ).to eq( "an E.K.G." )
 	end
 
 	it "uses 'an' as the indefinite article for 'ECG'" do
-		"ECG".en.a.should == "an ECG"
+		expect( "ECG".en.a ).to eq( "an ECG" )
 	end
 
 	it "uses 'an' as the indefinite article for 'EGG'" do
-		"EGG".en.a.should == "an EGG"
+		expect( "EGG".en.a ).to eq( "an EGG" )
 	end
 
 	it "uses 'an' as the indefinite article for 'embryo'" do
-		"embryo".en.a.should == "an embryo"
+		expect( "embryo".en.a ).to eq( "an embryo" )
 	end
 
 	it "uses 'an' as the indefinite article for 'erratum'" do
-		"erratum".en.a.should == "an erratum"
+		expect( "erratum".en.a ).to eq( "an erratum" )
 	end
 
 	it "uses 'a' as the indefinite article for 'eucalyptus'" do
-		"eucalyptus".en.a.should == "a eucalyptus"
+		expect( "eucalyptus".en.a ).to eq( "a eucalyptus" )
 	end
 
 	it "uses 'an' as the indefinite article for 'Euler number'" do
-		"Euler number".en.a.should == "an Euler number"
+		expect( "Euler number".en.a ).to eq( "an Euler number" )
 	end
 
 	it "uses 'a' as the indefinite article for 'eulogy'" do
-		"eulogy".en.a.should == "a eulogy"
+		expect( "eulogy".en.a ).to eq( "a eulogy" )
 	end
 
 	it "uses 'a' as the indefinite article for 'euphemism'" do
-		"euphemism".en.a.should == "a euphemism"
+		expect( "euphemism".en.a ).to eq( "a euphemism" )
 	end
 
 	it "uses 'a' as the indefinite article for 'euphoria'" do
-		"euphoria".en.a.should == "a euphoria"
+		expect( "euphoria".en.a ).to eq( "a euphoria" )
 	end
 
 	it "uses 'a' as the indefinite article for 'ewe'" do
-		"ewe".en.a.should == "a ewe"
+		expect( "ewe".en.a ).to eq( "a ewe" )
 	end
 
 	it "uses 'a' as the indefinite article for 'ewer'" do
-		"ewer".en.a.should == "a ewer"
+		expect( "ewer".en.a ).to eq( "a ewer" )
 	end
 
 	it "uses 'an' as the indefinite article for 'extremum'" do
-		"extremum".en.a.should == "an extremum"
+		expect( "extremum".en.a ).to eq( "an extremum" )
 	end
 
 	it "uses 'an' as the indefinite article for 'eye'" do
-		"eye".en.a.should == "an eye"
+		expect( "eye".en.a ).to eq( "an eye" )
 	end
 
 	it "uses 'an' as the indefinite article for 'F.B.I. agent'" do
-		"F.B.I. agent".en.a.should == "an F.B.I. agent"
+		expect( "F.B.I. agent".en.a ).to eq( "an F.B.I. agent" )
 	end
 
 	it "uses 'an' as the indefinite article for 'FSM'" do
-		"FSM".en.a.should == "an FSM"
+		expect( "FSM".en.a ).to eq( "an FSM" )
 	end
 
 	it "uses 'a' as the indefinite article for 'FACT'" do
-		"FACT".en.a.should == "a FACT"
+		expect( "FACT".en.a ).to eq( "a FACT" )
 	end
 
 	it "uses 'a' as the indefinite article for 'FAQ'" do
-		"FAQ".en.a.should == "a FAQ"
+		expect( "FAQ".en.a ).to eq( "a FAQ" )
 	end
 
 	it "uses 'an' as the indefinite article for 'F.A.Q.'" do
-		"F.A.Q.".en.a.should == "an F.A.Q."
+		expect( "F.A.Q.".en.a ).to eq( "an F.A.Q." )
 	end
 
 	it "uses 'a' as the indefinite article for 'fish'" do
-		"fish".en.a.should == "a fish"
+		expect( "fish".en.a ).to eq( "a fish" )
 	end
 
 	it "uses 'a' as the indefinite article for 'G-string'" do
-		"G-string".en.a.should == "a G-string"
+		expect( "G-string".en.a ).to eq( "a G-string" )
 	end
 
 	it "uses 'a' as the indefinite article for 'GSM phone'" do
-		"GSM phone".en.a.should == "a GSM phone"
+		expect( "GSM phone".en.a ).to eq( "a GSM phone" )
 	end
 
 	it "uses 'a' as the indefinite article for 'GOD'" do
-		"GOD".en.a.should == "a GOD"
+		expect( "GOD".en.a ).to eq( "a GOD" )
 	end
 
 	it "uses 'a' as the indefinite article for 'genus'" do
-		"genus".en.a.should == "a genus"
+		expect( "genus".en.a ).to eq( "a genus" )
 	end
 
 	it "uses 'a' as the indefinite article for 'Governor General'" do
-		"Governor General".en.a.should == "a Governor General"
+		expect( "Governor General".en.a ).to eq( "a Governor General" )
 	end
 
 	it "uses 'an' as the indefinite article for 'H-Bomb'" do
-		"H-Bomb".en.a.should == "an H-Bomb"
+		expect( "H-Bomb".en.a ).to eq( "an H-Bomb" )
 	end
 
 	it "uses 'an' as the indefinite article for 'H.M.S Ark Royal'" do
-		"H.M.S Ark Royal".en.a.should == "an H.M.S Ark Royal"
+		expect( "H.M.S Ark Royal".en.a ).to eq( "an H.M.S Ark Royal" )
 	end
 
 	it "uses 'an' as the indefinite article for 'HSL colour space'" do
-		"HSL colour space".en.a.should == "an HSL colour space"
+		expect( "HSL colour space".en.a ).to eq( "an HSL colour space" )
 	end
 
 	it "uses 'a' as the indefinite article for 'HAL 9000'" do
-		"HAL 9000".en.a.should == "a HAL 9000"
+		expect( "HAL 9000".en.a ).to eq( "a HAL 9000" )
 	end
 
 	it "uses 'an' as the indefinite article for 'H.A.L. 9000'" do
-		"H.A.L. 9000".en.a.should == "an H.A.L. 9000"
+		expect( "H.A.L. 9000".en.a ).to eq( "an H.A.L. 9000" )
 	end
 
 	it "uses 'a' as the indefinite article for 'has-been'" do
-		"has-been".en.a.should == "a has-been"
+		expect( "has-been".en.a ).to eq( "a has-been" )
 	end
 
 	it "uses 'a' as the indefinite article for 'height'" do
-		"height".en.a.should == "a height"
+		expect( "height".en.a ).to eq( "a height" )
 	end
 
 	it "uses 'an' as the indefinite article for 'heir'" do
-		"heir".en.a.should == "an heir"
+		expect( "heir".en.a ).to eq( "an heir" )
 	end
 
 	it "uses 'a' as the indefinite article for 'honed blade'" do
-		"honed blade".en.a.should == "a honed blade"
+		expect( "honed blade".en.a ).to eq( "a honed blade" )
 	end
 
 	it "uses 'an' as the indefinite article for 'honest man'" do
-		"honest man".en.a.should == "an honest man"
+		expect( "honest man".en.a ).to eq( "an honest man" )
 	end
 
 	it "uses 'a' as the indefinite article for 'honeymoon'" do
-		"honeymoon".en.a.should == "a honeymoon"
+		expect( "honeymoon".en.a ).to eq( "a honeymoon" )
 	end
 
 	it "uses 'an' as the indefinite article for 'honorarium'" do
-		"honorarium".en.a.should == "an honorarium"
+		expect( "honorarium".en.a ).to eq( "an honorarium" )
 	end
 
 	it "uses 'an' as the indefinite article for 'honorary degree'" do
-		"honorary degree".en.a.should == "an honorary degree"
+		expect( "honorary degree".en.a ).to eq( "an honorary degree" )
 	end
 
 	it "uses 'an' as the indefinite article for 'honoree'" do
-		"honoree".en.a.should == "an honoree"
+		expect( "honoree".en.a ).to eq( "an honoree" )
 	end
 
 	it "uses 'an' as the indefinite article for 'honorific'" do
-		"honorific".en.a.should == "an honorific"
+		expect( "honorific".en.a ).to eq( "an honorific" )
 	end
 
 	it "uses 'a' as the indefinite article for 'Hough transform'" do
-		"Hough transform".en.a.should == "a Hough transform"
+		expect( "Hough transform".en.a ).to eq( "a Hough transform" )
 	end
 
 	it "uses 'a' as the indefinite article for 'hound'" do
-		"hound".en.a.should == "a hound"
+		expect( "hound".en.a ).to eq( "a hound" )
 	end
 
 	it "uses 'an' as the indefinite article for 'hour'" do
-		"hour".en.a.should == "an hour"
+		expect( "hour".en.a ).to eq( "an hour" )
 	end
 
 	it "uses 'an' as the indefinite article for 'hourglass'" do
-		"hourglass".en.a.should == "an hourglass"
+		expect( "hourglass".en.a ).to eq( "an hourglass" )
 	end
 
 	it "uses 'a' as the indefinite article for 'houri'" do
-		"houri".en.a.should == "a houri"
+		expect( "houri".en.a ).to eq( "a houri" )
 	end
 
 	it "uses 'a' as the indefinite article for 'house'" do
-		"house".en.a.should == "a house"
+		expect( "house".en.a ).to eq( "a house" )
 	end
 
 	it "uses 'an' as the indefinite article for 'I.O.U.'" do
-		"I.O.U.".en.a.should == "an I.O.U."
+		expect( "I.O.U.".en.a ).to eq( "an I.O.U." )
 	end
 
 	it "uses 'an' as the indefinite article for 'IQ'" do
-		"IQ".en.a.should == "an IQ"
+		expect( "IQ".en.a ).to eq( "an IQ" )
 	end
 
 	it "uses 'an' as the indefinite article for 'IDEA'" do
-		"IDEA".en.a.should == "an IDEA"
+		expect( "IDEA".en.a ).to eq( "an IDEA" )
 	end
 
 	it "uses 'an' as the indefinite article for 'inferno'" do
-		"inferno".en.a.should == "an inferno"
+		expect( "inferno".en.a ).to eq( "an inferno" )
 	end
 
 	it "uses 'an' as the indefinite article for 'Inspector General'" do
-		"Inspector General".en.a.should == "an Inspector General"
+		expect( "Inspector General".en.a ).to eq( "an Inspector General" )
 	end
 
 	it "uses 'a' as the indefinite article for 'jumbo'" do
-		"jumbo".en.a.should == "a jumbo"
+		expect( "jumbo".en.a ).to eq( "a jumbo" )
 	end
 
 	it "uses 'a' as the indefinite article for 'knife'" do
-		"knife".en.a.should == "a knife"
+		expect( "knife".en.a ).to eq( "a knife" )
 	end
 
 	it "uses 'an' as the indefinite article for 'L.E.D.'" do
-		"L.E.D.".en.a.should == "an L.E.D."
+		expect( "L.E.D.".en.a ).to eq( "an L.E.D." )
 	end
 
 	it "uses 'a' as the indefinite article for 'LED'" do
-		"LED".en.a.should == "a LED"
+		expect( "LED".en.a ).to eq( "a LED" )
 	end
 
 	it "uses 'an' as the indefinite article for 'LCD'" do
-		"LCD".en.a.should == "an LCD"
+		expect( "LCD".en.a ).to eq( "an LCD" )
 	end
 
 	it "uses 'a' as the indefinite article for 'lady in waiting'" do
-		"lady in waiting".en.a.should == "a lady in waiting"
+		expect( "lady in waiting".en.a ).to eq( "a lady in waiting" )
 	end
 
 	it "uses 'a' as the indefinite article for 'leaf'" do
-		"leaf".en.a.should == "a leaf"
+		expect( "leaf".en.a ).to eq( "a leaf" )
 	end
 
 	it "uses 'an' as the indefinite article for 'M.I.A.'" do
-		"M.I.A.".en.a.should == "an M.I.A."
+		expect( "M.I.A.".en.a ).to eq( "an M.I.A." )
 	end
 
 	it "uses 'a' as the indefinite article for 'MIASMA'" do
-		"MIASMA".en.a.should == "a MIASMA"
+		expect( "MIASMA".en.a ).to eq( "a MIASMA" )
 	end
 
 	it "uses 'an' as the indefinite article for 'MTV channel'" do
-		"MTV channel".en.a.should == "an MTV channel"
+		expect( "MTV channel".en.a ).to eq( "an MTV channel" )
 	end
 
 	it "uses 'a' as the indefinite article for 'Major General'" do
-		"Major General".en.a.should == "a Major General"
+		expect( "Major General".en.a ).to eq( "a Major General" )
 	end
 
 	it "uses 'an' as the indefinite article for 'N.C.O.'" do
-		"N.C.O.".en.a.should == "an N.C.O."
+		expect( "N.C.O.".en.a ).to eq( "an N.C.O." )
 	end
 
 	it "uses 'an' as the indefinite article for 'NCO'" do
-		"NCO".en.a.should == "an NCO"
+		expect( "NCO".en.a ).to eq( "an NCO" )
 	end
 
 	it "uses 'a' as the indefinite article for 'NATO country'" do
-		"NATO country".en.a.should == "a NATO country"
+		expect( "NATO country".en.a ).to eq( "a NATO country" )
 	end
 
 	it "uses 'a' as the indefinite article for 'note'" do
-		"note".en.a.should == "a note"
+		expect( "note".en.a ).to eq( "a note" )
 	end
 
 	it "uses 'an' as the indefinite article for 'O.K.'" do
-		"O.K.".en.a.should == "an O.K."
+		expect( "O.K.".en.a ).to eq( "an O.K." )
 	end
 
 	it "uses 'an' as the indefinite article for 'OK'" do
-		"OK".en.a.should == "an OK"
+		expect( "OK".en.a ).to eq( "an OK" )
 	end
 
 	it "uses 'an' as the indefinite article for 'OLE'" do
-		"OLE".en.a.should == "an OLE"
+		expect( "OLE".en.a ).to eq( "an OLE" )
 	end
 
 	it "uses 'an' as the indefinite article for 'octavo'" do
-		"octavo".en.a.should == "an octavo"
+		expect( "octavo".en.a ).to eq( "an octavo" )
 	end
 
 	it "uses 'an' as the indefinite article for 'octopus'" do
-		"octopus".en.a.should == "an octopus"
+		expect( "octopus".en.a ).to eq( "an octopus" )
 	end
 
 	it "uses 'an' as the indefinite article for 'okay'" do
-		"okay".en.a.should == "an okay"
+		expect( "okay".en.a ).to eq( "an okay" )
 	end
 
 	it "uses 'a' as the indefinite article for 'once-and-future-king'" do
-		"once-and-future-king".en.a.should == "a once-and-future-king"
+		expect( "once-and-future-king".en.a ).to eq( "a once-and-future-king" )
 	end
 
 	it "uses 'an' as the indefinite article for 'oncologist'" do
-		"oncologist".en.a.should == "an oncologist"
+		expect( "oncologist".en.a ).to eq( "an oncologist" )
 	end
 
 	it "uses 'a' as the indefinite article for 'one night stand'" do
-		"one night stand".en.a.should == "a one night stand"
+		expect( "one night stand".en.a ).to eq( "a one night stand" )
 	end
 
 	it "uses 'an' as the indefinite article for 'onerous task'" do
-		"onerous task".en.a.should == "an onerous task"
+		expect( "onerous task".en.a ).to eq( "an onerous task" )
 	end
 
 	it "uses 'an' as the indefinite article for 'opera'" do
-		"opera".en.a.should == "an opera"
+		expect( "opera".en.a ).to eq( "an opera" )
 	end
 
 	it "uses 'an' as the indefinite article for 'optimum'" do
-		"optimum".en.a.should == "an optimum"
+		expect( "optimum".en.a ).to eq( "an optimum" )
 	end
 
 	it "uses 'an' as the indefinite article for 'opus'" do
-		"opus".en.a.should == "an opus"
+		expect( "opus".en.a ).to eq( "an opus" )
 	end
 
 	it "uses 'an' as the indefinite article for 'ox'" do
-		"ox".en.a.should == "an ox"
+		expect( "ox".en.a ).to eq( "an ox" )
 	end
 
 	it "uses 'a' as the indefinite article for 'Ph.D.'" do
-		"Ph.D.".en.a.should == "a Ph.D."
+		expect( "Ph.D.".en.a ).to eq( "a Ph.D." )
 	end
 
 	it "uses 'a' as the indefinite article for 'PET'" do
-		"PET".en.a.should == "a PET"
+		expect( "PET".en.a ).to eq( "a PET" )
 	end
 
 	it "uses 'a' as the indefinite article for 'P.E.T. scan'" do
-		"P.E.T. scan".en.a.should == "a P.E.T. scan"
+		expect( "P.E.T. scan".en.a ).to eq( "a P.E.T. scan" )
 	end
 
 	it "uses 'a' as the indefinite article for 'plateau'" do
-		"plateau".en.a.should == "a plateau"
+		expect( "plateau".en.a ).to eq( "a plateau" )
 	end
 
 	it "uses 'a' as the indefinite article for 'quantum'" do
-		"quantum".en.a.should == "a quantum"
+		expect( "quantum".en.a ).to eq( "a quantum" )
 	end
 
 	it "uses 'an' as the indefinite article for 'R.S.V.P.'" do
-		"R.S.V.P.".en.a.should == "an R.S.V.P."
+		expect( "R.S.V.P.".en.a ).to eq( "an R.S.V.P." )
 	end
 
 	it "uses 'an' as the indefinite article for 'RSVP'" do
-		"RSVP".en.a.should == "an RSVP"
+		expect( "RSVP".en.a ).to eq( "an RSVP" )
 	end
 
 	it "uses 'a' as the indefinite article for 'REST'" do
-		"REST".en.a.should == "a REST"
+		expect( "REST".en.a ).to eq( "a REST" )
 	end
 
 	it "uses 'a' as the indefinite article for 'reindeer'" do
-		"reindeer".en.a.should == "a reindeer"
+		expect( "reindeer".en.a ).to eq( "a reindeer" )
 	end
 
 	it "uses 'an' as the indefinite article for 'S.O.S.'" do
-		"S.O.S.".en.a.should == "an S.O.S."
+		expect( "S.O.S.".en.a ).to eq( "an S.O.S." )
 	end
 
 	it "uses 'a' as the indefinite article for 'SUM'" do
-		"SUM".en.a.should == "a SUM"
+		expect( "SUM".en.a ).to eq( "a SUM" )
 	end
 
 	it "uses 'an' as the indefinite article for 'SST'" do
-		"SST".en.a.should == "an SST"
+		expect( "SST".en.a ).to eq( "an SST" )
 	end
 
 	it "uses 'a' as the indefinite article for 'salmon'" do
-		"salmon".en.a.should == "a salmon"
+		expect( "salmon".en.a ).to eq( "a salmon" )
 	end
 
 	it "uses 'a' as the indefinite article for 'T.N.T. bomb'" do
-		"T.N.T. bomb".en.a.should == "a T.N.T. bomb"
+		expect( "T.N.T. bomb".en.a ).to eq( "a T.N.T. bomb" )
 	end
 
 	it "uses 'a' as the indefinite article for 'TNT bomb'" do
-		"TNT bomb".en.a.should == "a TNT bomb"
+		expect( "TNT bomb".en.a ).to eq( "a TNT bomb" )
 	end
 
 	it "uses 'a' as the indefinite article for 'TENT'" do
-		"TENT".en.a.should == "a TENT"
+		expect( "TENT".en.a ).to eq( "a TENT" )
 	end
 
 	it "uses 'a' as the indefinite article for 'thought'" do
-		"thought".en.a.should == "a thought"
+		expect( "thought".en.a ).to eq( "a thought" )
 	end
 
 	it "uses 'a' as the indefinite article for 'tomato'" do
-		"tomato".en.a.should == "a tomato"
+		expect( "tomato".en.a ).to eq( "a tomato" )
 	end
 
 	it "uses 'a' as the indefinite article for 'U-boat'" do
-		"U-boat".en.a.should == "a U-boat"
+		expect( "U-boat".en.a ).to eq( "a U-boat" )
 	end
 
 	it "uses 'a' as the indefinite article for 'U.F.O.'" do
-		"U.F.O.".en.a.should == "a U.F.O."
+		expect( "U.F.O.".en.a ).to eq( "a U.F.O." )
 	end
 
 	it "uses 'a' as the indefinite article for 'UFO'" do
-		"UFO".en.a.should == "a UFO"
+		expect( "UFO".en.a ).to eq( "a UFO" )
 	end
 
 	it "uses 'a' as the indefinite article for 'ubiquity'" do
-		"ubiquity".en.a.should == "a ubiquity"
+		expect( "ubiquity".en.a ).to eq( "a ubiquity" )
 	end
 
 	it "uses 'a' as the indefinite article for 'unicorn'" do
-		"unicorn".en.a.should == "a unicorn"
+		expect( "unicorn".en.a ).to eq( "a unicorn" )
 	end
 
 	it "uses 'an' as the indefinite article for 'unidentified flying object'" do
-		"unidentified flying object".en.a.should == "an unidentified flying object"
+		expect( "unidentified flying object".en.a ).to eq( "an unidentified flying object" )
 	end
 
 	it "uses 'a' as the indefinite article for 'uniform'" do
-		"uniform".en.a.should == "a uniform"
+		expect( "uniform".en.a ).to eq( "a uniform" )
 	end
 
 	it "uses 'a' as the indefinite article for 'unimodal system'" do
-		"unimodal system".en.a.should == "a unimodal system"
+		expect( "unimodal system".en.a ).to eq( "a unimodal system" )
 	end
 
 	it "uses 'an' as the indefinite article for 'unimpressive record'" do
-		"unimpressive record".en.a.should == "an unimpressive record"
+		expect( "unimpressive record".en.a ).to eq( "an unimpressive record" )
 	end
 
 	it "uses 'an' as the indefinite article for 'uninformed opinion'" do
-		"uninformed opinion".en.a.should == "an uninformed opinion"
+		expect( "uninformed opinion".en.a ).to eq( "an uninformed opinion" )
 	end
 
 	it "uses 'an' as the indefinite article for 'uninvited guest'" do
-		"uninvited guest".en.a.should == "an uninvited guest"
+		expect( "uninvited guest".en.a ).to eq( "an uninvited guest" )
 	end
 
 	it "uses 'a' as the indefinite article for 'union'" do
-		"union".en.a.should == "a union"
+		expect( "union".en.a ).to eq( "a union" )
 	end
 
 	it "uses 'a' as the indefinite article for 'uniplex'" do
-		"uniplex".en.a.should == "a uniplex"
+		expect( "uniplex".en.a ).to eq( "a uniplex" )
 	end
 
 	it "uses 'a' as the indefinite article for 'uniprocessor'" do
-		"uniprocessor".en.a.should == "a uniprocessor"
+		expect( "uniprocessor".en.a ).to eq( "a uniprocessor" )
 	end
 
 	it "uses 'a' as the indefinite article for 'unique opportunity'" do
-		"unique opportunity".en.a.should == "a unique opportunity"
+		expect( "unique opportunity".en.a ).to eq( "a unique opportunity" )
 	end
 
 	it "uses 'a' as the indefinite article for 'unisex hairdresser'" do
-		"unisex hairdresser".en.a.should == "a unisex hairdresser"
+		expect( "unisex hairdresser".en.a ).to eq( "a unisex hairdresser" )
 	end
 
 	it "uses 'a' as the indefinite article for 'unison'" do
-		"unison".en.a.should == "a unison"
+		expect( "unison".en.a ).to eq( "a unison" )
 	end
 
 	it "uses 'a' as the indefinite article for 'unit'" do
-		"unit".en.a.should == "a unit"
+		expect( "unit".en.a ).to eq( "a unit" )
 	end
 
 	it "uses 'a' as the indefinite article for 'unitarian'" do
-		"unitarian".en.a.should == "a unitarian"
+		expect( "unitarian".en.a ).to eq( "a unitarian" )
 	end
 
 	it "uses 'a' as the indefinite article for 'united front'" do
-		"united front".en.a.should == "a united front"
+		expect( "united front".en.a ).to eq( "a united front" )
 	end
 
 	it "uses 'a' as the indefinite article for 'unity'" do
-		"unity".en.a.should == "a unity"
+		expect( "unity".en.a ).to eq( "a unity" )
 	end
 
 	it "uses 'a' as the indefinite article for 'univalent bond'" do
-		"univalent bond".en.a.should == "a univalent bond"
+		expect( "univalent bond".en.a ).to eq( "a univalent bond" )
 	end
 
 	it "uses 'a' as the indefinite article for 'univariate statistic'" do
-		"univariate statistic".en.a.should == "a univariate statistic"
+		expect( "univariate statistic".en.a ).to eq( "a univariate statistic" )
 	end
 
 	it "uses 'a' as the indefinite article for 'universe'" do
-		"universe".en.a.should == "a universe"
+		expect( "universe".en.a ).to eq( "a universe" )
 	end
 
 	it "uses 'an' as the indefinite article for 'unordered meal'" do
-		"unordered meal".en.a.should == "an unordered meal"
+		expect( "unordered meal".en.a ).to eq( "an unordered meal" )
 	end
 
 	it "uses 'a' as the indefinite article for 'uranium atom'" do
-		"uranium atom".en.a.should == "a uranium atom"
+		expect( "uranium atom".en.a ).to eq( "a uranium atom" )
 	end
 
 	it "uses 'an' as the indefinite article for 'urban myth'" do
-		"urban myth".en.a.should == "an urban myth"
+		expect( "urban myth".en.a ).to eq( "an urban myth" )
 	end
 
 	it "uses 'an' as the indefinite article for 'urbane miss'" do
-		"urbane miss".en.a.should == "an urbane miss"
+		expect( "urbane miss".en.a ).to eq( "an urbane miss" )
 	end
 
 	it "uses 'an' as the indefinite article for 'urchin'" do
-		"urchin".en.a.should == "an urchin"
+		expect( "urchin".en.a ).to eq( "an urchin" )
 	end
 
 	it "uses 'a' as the indefinite article for 'urea detector'" do
-		"urea detector".en.a.should == "a urea detector"
+		expect( "urea detector".en.a ).to eq( "a urea detector" )
 	end
 
 	it "uses 'a' as the indefinite article for 'urethane monomer'" do
-		"urethane monomer".en.a.should == "a urethane monomer"
+		expect( "urethane monomer".en.a ).to eq( "a urethane monomer" )
 	end
 
 	it "uses 'an' as the indefinite article for 'urge'" do
-		"urge".en.a.should == "an urge"
+		expect( "urge".en.a ).to eq( "an urge" )
 	end
 
 	it "uses 'an' as the indefinite article for 'urgency'" do
-		"urgency".en.a.should == "an urgency"
+		expect( "urgency".en.a ).to eq( "an urgency" )
 	end
 
 	it "uses 'a' as the indefinite article for 'urinal'" do
-		"urinal".en.a.should == "a urinal"
+		expect( "urinal".en.a ).to eq( "a urinal" )
 	end
 
 	it "uses 'an' as the indefinite article for 'urn'" do
-		"urn".en.a.should == "an urn"
+		expect( "urn".en.a ).to eq( "an urn" )
 	end
 
 	it "uses 'a' as the indefinite article for 'usage'" do
-		"usage".en.a.should == "a usage"
+		expect( "usage".en.a ).to eq( "a usage" )
 	end
 
 	it "uses 'a' as the indefinite article for 'use'" do
-		"use".en.a.should == "a use"
+		expect( "use".en.a ).to eq( "a use" )
 	end
 
 	it "uses 'an' as the indefinite article for 'usher'" do
-		"usher".en.a.should == "an usher"
+		expect( "usher".en.a ).to eq( "an usher" )
 	end
 
 	it "uses 'a' as the indefinite article for 'usual suspect'" do
-		"usual suspect".en.a.should == "a usual suspect"
+		expect( "usual suspect".en.a ).to eq( "a usual suspect" )
 	end
 
 	it "uses 'a' as the indefinite article for 'usurer'" do
-		"usurer".en.a.should == "a usurer"
+		expect( "usurer".en.a ).to eq( "a usurer" )
 	end
 
 	it "uses 'a' as the indefinite article for 'usurper'" do
-		"usurper".en.a.should == "a usurper"
+		expect( "usurper".en.a ).to eq( "a usurper" )
 	end
 
 	it "uses 'a' as the indefinite article for 'utensil'" do
-		"utensil".en.a.should == "a utensil"
+		expect( "utensil".en.a ).to eq( "a utensil" )
 	end
 
 	it "uses 'a' as the indefinite article for 'utility'" do
-		"utility".en.a.should == "a utility"
+		expect( "utility".en.a ).to eq( "a utility" )
 	end
 
 	it "uses 'an' as the indefinite article for 'utmost urgency'" do
-		"utmost urgency".en.a.should == "an utmost urgency"
+		expect( "utmost urgency".en.a ).to eq( "an utmost urgency" )
 	end
 
 	it "uses 'a' as the indefinite article for 'utopia'" do
-		"utopia".en.a.should == "a utopia"
+		expect( "utopia".en.a ).to eq( "a utopia" )
 	end
 
 	it "uses 'an' as the indefinite article for 'utterance'" do
-		"utterance".en.a.should == "an utterance"
+		expect( "utterance".en.a ).to eq( "an utterance" )
 	end
 
 	it "uses 'a' as the indefinite article for 'V.I.P.'" do
-		"V.I.P.".en.a.should == "a V.I.P."
+		expect( "V.I.P.".en.a ).to eq( "a V.I.P." )
 	end
 
 	it "uses 'a' as the indefinite article for 'VIPER'" do
-		"VIPER".en.a.should == "a VIPER"
+		expect( "VIPER".en.a ).to eq( "a VIPER" )
 	end
 
 	it "uses 'a' as the indefinite article for 'viper'" do
-		"viper".en.a.should == "a viper"
+		expect( "viper".en.a ).to eq( "a viper" )
 	end
 
 	it "uses 'an' as the indefinite article for 'X-ray'" do
-		"X-ray".en.a.should == "an X-ray"
+		expect( "X-ray".en.a ).to eq( "an X-ray" )
 	end
 
 	it "uses 'an' as the indefinite article for 'X.O.'" do
-		"X.O.".en.a.should == "an X.O."
+		expect( "X.O.".en.a ).to eq( "an X.O." )
 	end
 
 	it "uses 'a' as the indefinite article for 'XYLAPHONE'" do
-		"XYLAPHONE".en.a.should == "a XYLAPHONE"
+		expect( "XYLAPHONE".en.a ).to eq( "a XYLAPHONE" )
 	end
 
 	it "uses 'an' as the indefinite article for 'XY chromosome'" do
-		"XY chromosome".en.a.should == "an XY chromosome"
+		expect( "XY chromosome".en.a ).to eq( "an XY chromosome" )
 	end
 
 	it "uses 'a' as the indefinite article for 'xenophobe'" do
-		"xenophobe".en.a.should == "a xenophobe"
+		expect( "xenophobe".en.a ).to eq( "a xenophobe" )
 	end
 
 	it "uses 'a' as the indefinite article for 'Y-shaped pipe'" do
-		"Y-shaped pipe".en.a.should == "a Y-shaped pipe"
+		expect( "Y-shaped pipe".en.a ).to eq( "a Y-shaped pipe" )
 	end
 
 	it "uses 'a' as the indefinite article for 'Y.Z. plane'" do
-		"Y.Z. plane".en.a.should == "a Y.Z. plane"
+		expect( "Y.Z. plane".en.a ).to eq( "a Y.Z. plane" )
 	end
 
 	it "uses 'a' as the indefinite article for 'YMCA'" do
-		"YMCA".en.a.should == "a YMCA"
+		expect( "YMCA".en.a ).to eq( "a YMCA" )
 	end
 
 	it "uses 'an' as the indefinite article for 'YBLENT eye'" do
-		"YBLENT eye".en.a.should == "an YBLENT eye"
+		expect( "YBLENT eye".en.a ).to eq( "an YBLENT eye" )
 	end
 
 	it "uses 'an' as the indefinite article for 'yblent eye'" do
-		"yblent eye".en.a.should == "an yblent eye"
+		expect( "yblent eye".en.a ).to eq( "an yblent eye" )
 	end
 
 	it "uses 'an' as the indefinite article for 'yclad body'" do
-		"yclad body".en.a.should == "an yclad body"
+		expect( "yclad body".en.a ).to eq( "an yclad body" )
 	end
 
 	it "uses 'a' as the indefinite article for 'yellowing'" do
-		"yellowing".en.a.should == "a yellowing"
+		expect( "yellowing".en.a ).to eq( "a yellowing" )
 	end
 
 	it "uses 'a' as the indefinite article for 'yield'" do
-		"yield".en.a.should == "a yield"
+		expect( "yield".en.a ).to eq( "a yield" )
 	end
 
 	it "uses 'a' as the indefinite article for 'youth'" do
-		"youth".en.a.should == "a youth"
+		expect( "youth".en.a ).to eq( "a youth" )
 	end
 
 	it "uses 'a' as the indefinite article for 'youth'" do
-		"youth".en.a.should == "a youth"
+		expect( "youth".en.a ).to eq( "a youth" )
 	end
 
 	it "uses 'an' as the indefinite article for 'ypsiliform junction'" do
-		"ypsiliform junction".en.a.should == "an ypsiliform junction"
+		expect( "ypsiliform junction".en.a ).to eq( "an ypsiliform junction" )
 	end
 
 	it "uses 'an' as the indefinite article for 'yttrium atom'" do
-		"yttrium atom".en.a.should == "an yttrium atom"
+		expect( "yttrium atom".en.a ).to eq( "an yttrium atom" )
 	end
 
 	it "uses 'a' as the indefinite article for 'zoo'" do
-		"zoo".en.a.should == "a zoo"
+		expect( "zoo".en.a ).to eq( "a zoo" )
 	end
 
 
 	it "uses correct pluralization to form the negative article" do
-		"mouse".en.no.should == "no mice"
+		expect( "mouse".en.no ).to eq( "no mice" )
 	end
 
 	it "uses currect pluralization for noun phrases to form the negative article" do
-		"univariate statistic".en.no.should == "no univariate statistics"
+		expect( "univariate statistic".en.no ).to eq( "no univariate statistics" )
 	end
 
 	it "uses the correct pluralization for 'Secretary of State' to form the negative article" do
-		"Secretary of State".en.no.should == "no Secretaries of State"
+		expect( "Secretary of State".en.no ).to eq( "no Secretaries of State" )
 	end
 
 
 	context "lprintf formatters" do
 
 		it "registers the :A lprintf formatter" do
-			Linguistics::EN.lprintf_formatters.should include( :A )
+			expect( Linguistics::EN.lprintf_formatters ).to include( :A )
 		end
 
 		it "registers the :AN lprintf formatter" do
-			Linguistics::EN.lprintf_formatters.should include( :AN )
+			expect( Linguistics::EN.lprintf_formatters ).to include( :AN )
 		end
 
 		it "adds an indefinite article to the argument to %A" do

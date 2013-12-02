@@ -1061,7 +1061,7 @@ module Linguistics::EN::Infinitives
 			if (( suffix = ((INF_SUFFIX_RULE_ORDER & prefixes.keys).first) ))
 				rule = INF_SUFFIX_RULES[ suffix ][:rule]
 				shortestPrefix = INF_SUFFIX_RULES[ suffix ][:word1]
-				self.log.debug "Using rule %p (%p) for suffix %p" % 
+				self.log.debug "Using rule %p (%p) for suffix %p" %
 					[ rule, shortestPrefix, suffix ] if $DEBUG
 
 				case shortestPrefix

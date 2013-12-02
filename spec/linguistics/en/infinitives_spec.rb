@@ -1,17 +1,8 @@
 #!/usr/bin/env spec -cfs
 
-BEGIN {
-	require 'pathname'
-	basedir = Pathname.new( __FILE__ ).dirname.parent.parent.parent
-
-	libdir = basedir + "lib"
-
-	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
-	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
-}
+require_relative '../../helpers'
 
 require 'rspec'
-require 'spec/lib/helpers'
 
 require 'linguistics'
 require 'linguistics/en/infinitives'
@@ -20,498 +11,493 @@ require 'linguistics/en/infinitives'
 describe Linguistics::EN::Infinitives do
 
 	before( :all ) do
-		setup_logging( :fatal )
 		Linguistics.use( :en, :proxy => true )
 		include Linguistics::EN
-	end
-
-	after( :all ) do
-		reset_logging()
 	end
 
 
 	describe "Infinitive object class" do
 		it "compares as equal if its primary word is equal" do
-			Linguistics::EN::Infinitives::Infinitive.new( 'basse', 'bass', 's', '2' ).should ==
-				'basse'
+			expect( Linguistics::EN::Infinitives::Infinitive.new('basse', 'bass', 's', '2') ).
+				to eq( 'basse' )
 		end
 
 		it "compares as equal if its secondary word is equal" do
-			Linguistics::EN::Infinitives::Infinitive.new( 'basse', 'bass', 's', '2' ).should ==
-				'bass'
+			expect( Linguistics::EN::Infinitives::Infinitive.new('basse', 'bass', 's', '2') ).
+				to eq( 'bass' )
 		end
 
 	end
 
 
 	it "uses rule 1 when calculating the infinitive of 'aches'" do
-		"aches".en.infinitive.should == 'ache'
-		"aches".en.infinitive.rule.should == '1'
+		expect( "aches".en.infinitive ).to eq( 'ache' )
+		expect( "aches".en.infinitive.rule ).to eq( '1' )
 	end
 
 	it "uses rule 2 when calculating the infinitive of 'vases'" do
-		"vases".en.infinitive.should == 'vase'
-		"vases".en.infinitive.rule.should == '2'
+		expect( "vases".en.infinitive ).to eq( 'vase' )
+		expect( "vases".en.infinitive.rule ).to eq( '2' )
 	end
 
 	it "uses rule 2 when calculating the infinitive of 'basses'" do
-		"basses".en.infinitive.should == 'bass'
-		"basses".en.infinitive.rule.should == '2'
+		expect( "basses".en.infinitive ).to eq( 'bass' )
+		expect( "basses".en.infinitive.rule ).to eq( '2' )
 	end
 
 	it "uses rule 3 when calculating the infinitive of 'axes'" do
-		"axes".en.infinitive.should == 'axe'
-		"axes".en.infinitive.rule.should == '3'
+		expect( "axes".en.infinitive ).to eq( 'axe' )
+		expect( "axes".en.infinitive.rule ).to eq( '3' )
 	end
 
 	it "uses rule 3 when calculating the infinitive of 'fixes'" do
-		"fixes".en.infinitive.should == 'fix'
-		"fixes".en.infinitive.rule.should == '3'
+		expect( "fixes".en.infinitive ).to eq( 'fix' )
+		expect( "fixes".en.infinitive.rule ).to eq( '3' )
 	end
 
 	it "uses rule 4 when calculating the infinitive of 'hazes'" do
-		"hazes".en.infinitive.should == 'haze'
-		"hazes".en.infinitive.rule.should == '4'
+		expect( "hazes".en.infinitive ).to eq( 'haze' )
+		expect( "hazes".en.infinitive.rule ).to eq( '4' )
 	end
 
 	it "uses rule 4 when calculating the infinitive of 'buzzes'" do
-		"buzzes".en.infinitive.should == 'buzz'
-		"buzzes".en.infinitive.rule.should == '4'
+		expect( "buzzes".en.infinitive ).to eq( 'buzz' )
+		expect( "buzzes".en.infinitive.rule ).to eq( '4' )
 	end
 
 	it "uses rule 6a when calculating the infinitive of 'caress'" do
-		"caress".en.infinitive.should == 'caress'
-		"caress".en.infinitive.rule.should == '6a'
+		expect( "caress".en.infinitive ).to eq( 'caress' )
+		expect( "caress".en.infinitive.rule ).to eq( '6a' )
 	end
 
 	it "uses rule 6b when calculating the infinitive of 'bans'" do
-		"bans".en.infinitive.should == 'ban'
-		"bans".en.infinitive.rule.should == '6b'
+		expect( "bans".en.infinitive ).to eq( 'ban' )
+		expect( "bans".en.infinitive.rule ).to eq( '6b' )
 	end
 
 	it "uses rule 7 when calculating the infinitive of 'Jones's'" do
-		"Jones's".en.infinitive.should == 'Jones'
-		"Jones's".en.infinitive.rule.should == '7'
+		expect( "Jones's".en.infinitive ).to eq( 'Jones' )
+		expect( "Jones's".en.infinitive.rule ).to eq( '7' )
 	end
 
 	it "uses rule 8 when calculating the infinitive of 'creater'" do
-		"creater".en.infinitive.should == 'creater'
-		"creater".en.infinitive.rule.should == '8'
+		expect( "creater".en.infinitive ).to eq( 'creater' )
+		expect( "creater".en.infinitive.rule ).to eq( '8' )
 	end
 
 	it "uses rule 9 when calculating the infinitive of 'reacter'" do
-		"reacter".en.infinitive.should == 'reacter'
-		"reacter".en.infinitive.rule.should == '9'
+		expect( "reacter".en.infinitive ).to eq( 'reacter' )
+		expect( "reacter".en.infinitive.rule ).to eq( '9' )
 	end
 
 	it "uses rule 10 when calculating the infinitive of 'copier'" do
-		"copier".en.infinitive.should == 'copy'
-		"copier".en.infinitive.rule.should == '10'
+		expect( "copier".en.infinitive ).to eq( 'copy' )
+		expect( "copier".en.infinitive.rule ).to eq( '10' )
 	end
 
 	it "uses rule 11 when calculating the infinitive of 'baker'" do
-		"baker".en.infinitive.should == 'bake'
-		"baker".en.infinitive.rule.should == '11'
+		expect( "baker".en.infinitive ).to eq( 'bake' )
+		expect( "baker".en.infinitive.rule ).to eq( '11' )
 	end
 
 	it "uses rule 11 when calculating the infinitive of 'smaller'" do
-		"smaller".en.infinitive.should == 'small'
-		"smaller".en.infinitive.rule.should == '11'
+		expect( "smaller".en.infinitive ).to eq( 'small' )
+		expect( "smaller".en.infinitive.rule ).to eq( '11' )
 	end
 
 	it "uses rule 12a when calculating the infinitive of 'curried'" do
-		"curried".en.infinitive.should == 'curry'
-		"curried".en.infinitive.rule.should == '12a'
+		expect( "curried".en.infinitive ).to eq( 'curry' )
+		expect( "curried".en.infinitive.rule ).to eq( '12a' )
 	end
 
 	it "uses rule 12b when calculating the infinitive of 'bored'" do
-		"bored".en.infinitive.should == 'bore'
-		"bored".en.infinitive.rule.should == '12b'
+		expect( "bored".en.infinitive ).to eq( 'bore' )
+		expect( "bored".en.infinitive.rule ).to eq( '12b' )
 	end
 
 	it "uses rule 12b when calculating the infinitive of 'seated'" do
-		"seated".en.infinitive.should == 'seat'
-		"seated".en.infinitive.rule.should == '12b'
+		expect( "seated".en.infinitive ).to eq( 'seat' )
+		expect( "seated".en.infinitive.rule ).to eq( '12b' )
 	end
 
 	it "uses rule 12b when calculating the infinitive of 'tipped'" do
-		"tipped".en.infinitive.should == 'tip'
-		"tipped".en.infinitive.rule.should == '12b'
+		expect( "tipped".en.infinitive ).to eq( 'tip' )
+		expect( "tipped".en.infinitive.rule ).to eq( '12b' )
 	end
 
 	it "uses rule 12b when calculating the infinitive of 'kitted'" do
-		"kitted".en.infinitive.should == 'kit'
-		"kitted".en.infinitive.rule.should == '12b'
+		expect( "kitted".en.infinitive ).to eq( 'kit' )
+		expect( "kitted".en.infinitive.rule ).to eq( '12b' )
 	end
 
 	it "uses rule 12b when calculating the infinitive of 'capped'" do
-		"capped".en.infinitive.should == 'cap'
-		"capped".en.infinitive.rule.should == '12b'
+		expect( "capped".en.infinitive ).to eq( 'cap' )
+		expect( "capped".en.infinitive.rule ).to eq( '12b' )
 	end
 
 	it "uses rule 12b when calculating the infinitive of 'chopped'" do
-		"chopped".en.infinitive.should == 'chop'
-		"chopped".en.infinitive.rule.should == '12b'
+		expect( "chopped".en.infinitive ).to eq( 'chop' )
+		expect( "chopped".en.infinitive.rule ).to eq( '12b' )
 	end
 
 	it "uses rule 13a when calculating the infinitive of 'flies'" do
-		"flies".en.infinitive.should == 'fly'
-		"flies".en.infinitive.rule.should == '13a'
+		expect( "flies".en.infinitive ).to eq( 'fly' )
+		expect( "flies".en.infinitive.rule ).to eq( '13a' )
 	end
 
 	it "uses rule 13b when calculating the infinitive of 'palates'" do
-		"palates".en.infinitive.should == 'palate'
-		"palates".en.infinitive.rule.should == '13b'
+		expect( "palates".en.infinitive ).to eq( 'palate' )
+		expect( "palates".en.infinitive.rule ).to eq( '13b' )
 	end
 
 	it "uses rule 14a when calculating the infinitive of 'liveliest'" do
-		"liveliest".en.infinitive.should == 'lively'
-		"liveliest".en.infinitive.rule.should == '14a'
+		expect( "liveliest".en.infinitive ).to eq( 'lively' )
+		expect( "liveliest".en.infinitive.rule ).to eq( '14a' )
 	end
 
 	it "uses rule 14b when calculating the infinitive of 'wisest'" do
-		"wisest".en.infinitive.should == 'wise'
-		"wisest".en.infinitive.rule.should == '14b'
+		expect( "wisest".en.infinitive ).to eq( 'wise' )
+		expect( "wisest".en.infinitive.rule ).to eq( '14b' )
 	end
 
 	it "uses rule 14b when calculating the infinitive of 'strongest'" do
-		"strongest".en.infinitive.should == 'strong'
-		"strongest".en.infinitive.rule.should == '14b'
+		expect( "strongest".en.infinitive ).to eq( 'strong' )
+		expect( "strongest".en.infinitive.rule ).to eq( '14b' )
 	end
 
 	it "uses rule 15 when calculating the infinitive of 'living'" do
-		"living".en.infinitive.should == 'live'
-		"living".en.infinitive.rule.should == '15'
+		expect( "living".en.infinitive ).to eq( 'live' )
+		expect( "living".en.infinitive.rule ).to eq( '15' )
 	end
 
 	it "uses rule 15 when calculating the infinitive of 'laughing'" do
-		"laughing".en.infinitive.should == 'laugh'
-		"laughing".en.infinitive.rule.should == '15'
+		expect( "laughing".en.infinitive ).to eq( 'laugh' )
+		expect( "laughing".en.infinitive.rule ).to eq( '15' )
 	end
 
 	it "uses rule 15 when calculating the infinitive of 'swaying'" do
-		"swaying".en.infinitive.should == 'sway'
-		"swaying".en.infinitive.rule.should == '15'
+		expect( "swaying".en.infinitive ).to eq( 'sway' )
+		expect( "swaying".en.infinitive.rule ).to eq( '15' )
 	end
 
 	it "uses rule 15 when calculating the infinitive of 'catching'" do
-		"catching".en.infinitive.should == 'catch'
-		"catching".en.infinitive.rule.should == '15'
+		expect( "catching".en.infinitive ).to eq( 'catch' )
+		expect( "catching".en.infinitive.rule ).to eq( '15' )
 	end
 
 	it "uses rule 15 when calculating the infinitive of 'smiling'" do
-		"smiling".en.infinitive.should == 'smile'
-		"smiling".en.infinitive.rule.should == '15'
+		expect( "smiling".en.infinitive ).to eq( 'smile' )
+		expect( "smiling".en.infinitive.rule ).to eq( '15' )
 	end
 
 	it "uses rule 15 when calculating the infinitive of 'swimming'" do
-		"swimming".en.infinitive.should == 'swim'
-		"swimming".en.infinitive.rule.should == '15'
+		expect( "swimming".en.infinitive ).to eq( 'swim' )
+		expect( "swimming".en.infinitive.rule ).to eq( '15' )
 	end
 
 	it "uses rule 15 when calculating the infinitive of 'running'" do
-		"running".en.infinitive.should == 'run'
-		"running".en.infinitive.rule.should == '15'
+		expect( "running".en.infinitive ).to eq( 'run' )
+		expect( "running".en.infinitive.rule ).to eq( '15' )
 	end
 
 	it "uses rule 15 when calculating the infinitive of 'floating'" do
-		"floating".en.infinitive.should == 'float'
-		"floating".en.infinitive.rule.should == '15'
+		expect( "floating".en.infinitive ).to eq( 'float' )
+		expect( "floating".en.infinitive.rule ).to eq( '15' )
 	end
 
 	it "uses rule 15 when calculating the infinitive of 'keyboarding'" do
-		"keyboarding".en.infinitive.should == 'keyboard'
-		"keyboarding".en.infinitive.rule.should == '15'
+		expect( "keyboarding".en.infinitive ).to eq( 'keyboard' )
+		expect( "keyboarding".en.infinitive.rule ).to eq( '15' )
 	end
 
 	it "uses rule 15 when calculating the infinitive of 'wrestling'" do
-		"wrestling".en.infinitive.should == 'wrestle'
-		"wrestling".en.infinitive.rule.should == '15'
+		expect( "wrestling".en.infinitive ).to eq( 'wrestle' )
+		expect( "wrestling".en.infinitive.rule ).to eq( '15' )
 	end
 
 	it "uses rule 15 when calculating the infinitive of 'traveling'" do
-		"traveling".en.infinitive.should == 'travel'
-		"traveling".en.infinitive.rule.should == '15'
+		expect( "traveling".en.infinitive ).to eq( 'travel' )
+		expect( "traveling".en.infinitive.rule ).to eq( '15' )
 	end
 
 	it "uses rule 15 when calculating the infinitive of 'traipsing'" do
-		"traipsing".en.infinitive.should == 'traipse'
-		"traipsing".en.infinitive.rule.should == '15'
+		expect( "traipsing".en.infinitive ).to eq( 'traipse' )
+		expect( "traipsing".en.infinitive.rule ).to eq( '15' )
 	end
 
 	it "uses rule 16 when calculating the infinitive of 'stylist'" do
-		"stylist".en.infinitive.should == 'style'
-		"stylist".en.infinitive.rule.should == '16'
+		expect( "stylist".en.infinitive ).to eq( 'style' )
+		expect( "stylist".en.infinitive.rule ).to eq( '16' )
 	end
 
 	it "uses rule 16 when calculating the infinitive of 'dentist'" do
-		"dentist".en.infinitive.should == 'dent'
-		"dentist".en.infinitive.rule.should == '16'
+		expect( "dentist".en.infinitive ).to eq( 'dent' )
+		expect( "dentist".en.infinitive.rule ).to eq( '16' )
 	end
 
 	it "uses rule 17 when calculating the infinitive of 'cubism'" do
-		"cubism".en.infinitive.should == 'cube'
-		"cubism".en.infinitive.rule.should == '17'
+		expect( "cubism".en.infinitive ).to eq( 'cube' )
+		expect( "cubism".en.infinitive.rule ).to eq( '17' )
 	end
 
 	it "uses rule 17 when calculating the infinitive of 'socialism'" do
-		"socialism".en.infinitive.should == 'social'
-		"socialism".en.infinitive.rule.should == '17'
+		expect( "socialism".en.infinitive ).to eq( 'social' )
+		expect( "socialism".en.infinitive.rule ).to eq( '17' )
 	end
 
 	it "uses rule 18 when calculating the infinitive of 'scarcity'" do
-		"scarcity".en.infinitive.should == 'scarce'
-		"scarcity".en.infinitive.rule.should == '18'
+		expect( "scarcity".en.infinitive ).to eq( 'scarce' )
+		expect( "scarcity".en.infinitive.rule ).to eq( '18' )
 	end
 
 	it "uses rule 18 when calculating the infinitive of 'rapidity'" do
-		"rapidity".en.infinitive.should == 'rapid'
-		"rapidity".en.infinitive.rule.should == '18'
+		expect( "rapidity".en.infinitive ).to eq( 'rapid' )
+		expect( "rapidity".en.infinitive.rule ).to eq( '18' )
 	end
 
 	it "uses rule 19 when calculating the infinitive of 'immunize'" do
-		"immunize".en.infinitive.should == 'immune'
-		"immunize".en.infinitive.rule.should == '19'
+		expect( "immunize".en.infinitive ).to eq( 'immune' )
+		expect( "immunize".en.infinitive.rule ).to eq( '19' )
 	end
 
 	it "uses rule 19 when calculating the infinitive of 'lionize'" do
-		"lionize".en.infinitive.should == 'lion'
-		"lionize".en.infinitive.rule.should == '19'
+		expect( "lionize".en.infinitive ).to eq( 'lion' )
+		expect( "lionize".en.infinitive.rule ).to eq( '19' )
 	end
 
 	it "uses rule 20c when calculating the infinitive of 'livable'" do
-		"livable".en.infinitive.should == 'live'
-		"livable".en.infinitive.rule.should == '20c'
+		expect( "livable".en.infinitive ).to eq( 'live' )
+		expect( "livable".en.infinitive.rule ).to eq( '20c' )
 	end
 
 	it "uses rule 20c when calculating the infinitive of 'portable'" do
-		"portable".en.infinitive.should == 'port'
-		"portable".en.infinitive.rule.should == '20c'
+		expect( "portable".en.infinitive ).to eq( 'port' )
+		expect( "portable".en.infinitive.rule ).to eq( '20c' )
 	end
 
 	it "uses rule 22 when calculating the infinitive of 'nobility'" do
-		"nobility".en.infinitive.should == 'noble'
-		"nobility".en.infinitive.rule.should == '22'
+		expect( "nobility".en.infinitive ).to eq( 'noble' )
+		expect( "nobility".en.infinitive.rule ).to eq( '22' )
 	end
 
 	it "uses rule 23 when calculating the infinitive of 'identifiable'" do
-		"identifiable".en.infinitive.should == 'identify'
-		"identifiable".en.infinitive.rule.should == '23'
+		expect( "identifiable".en.infinitive ).to eq( 'identify' )
+		expect( "identifiable".en.infinitive.rule ).to eq( '23' )
 	end
 
 	it "uses rule 24 when calculating the infinitive of 'psychologist'" do
-		"psychologist".en.infinitive.should == 'psychology'
-		"psychologist".en.infinitive.rule.should == '24'
+		expect( "psychologist".en.infinitive ).to eq( 'psychology' )
+		expect( "psychologist".en.infinitive.rule ).to eq( '24' )
 	end
 
 	it "uses rule 25 when calculating the infinitive of 'photographic'" do
-		"photographic".en.infinitive.should == 'photography'
-		"photographic".en.infinitive.rule.should == '25'
+		expect( "photographic".en.infinitive ).to eq( 'photography' )
+		expect( "photographic".en.infinitive.rule ).to eq( '25' )
 	end
 
 	it "uses rule 26 when calculating the infinitive of 'stylistic'" do
-		"stylistic".en.infinitive.should == 'stylist'
-		"stylistic".en.infinitive.rule.should == '26'
+		expect( "stylistic".en.infinitive ).to eq( 'stylist' )
+		expect( "stylistic".en.infinitive.rule ).to eq( '26' )
 	end
 
 	it "uses rule 27 when calculating the infinitive of 'martensitic'" do
-		"martensitic".en.infinitive.should == 'martensite'
-		"martensitic".en.infinitive.rule.should == '27'
+		expect( "martensitic".en.infinitive ).to eq( 'martensite' )
+		expect( "martensitic".en.infinitive.rule ).to eq( '27' )
 	end
 
 	it "uses rule 27 when calculating the infinitive of 'politic'" do
-		"politic".en.infinitive.should == 'polite'
-		"politic".en.infinitive.rule.should == '27'
+		expect( "politic".en.infinitive ).to eq( 'polite' )
+		expect( "politic".en.infinitive.rule ).to eq( '27' )
 	end
 
 	it "uses rule 28 when calculating the infinitive of 'ladylike'" do
-		"ladylike".en.infinitive.should == 'lady'
-		"ladylike".en.infinitive.rule.should == '28'
+		expect( "ladylike".en.infinitive ).to eq( 'lady' )
+		expect( "ladylike".en.infinitive.rule ).to eq( '28' )
 	end
 
 	it "uses rule 29 when calculating the infinitive of 'biologic'" do
-		"biologic".en.infinitive.should == 'biology'
-		"biologic".en.infinitive.rule.should == '29'
+		expect( "biologic".en.infinitive ).to eq( 'biology' )
+		expect( "biologic".en.infinitive.rule ).to eq( '29' )
 	end
 
 	it "uses rule 30 when calculating the infinitive of 'battlement'" do
-		"battlement".en.infinitive.should == 'battle'
-		"battlement".en.infinitive.rule.should == '30'
+		expect( "battlement".en.infinitive ).to eq( 'battle' )
+		expect( "battlement".en.infinitive.rule ).to eq( '30' )
 	end
 
 	it "uses rule 31 when calculating the infinitive of 'supplemental'" do
-		"supplemental".en.infinitive.should == 'supplement'
-		"supplemental".en.infinitive.rule.should == '31'
+		expect( "supplemental".en.infinitive ).to eq( 'supplement' )
+		expect( "supplemental".en.infinitive.rule ).to eq( '31' )
 	end
 
 	it "uses rule 32 when calculating the infinitive of 'thermometry'" do
-		"thermometry".en.infinitive.should == 'thermometer'
-		"thermometry".en.infinitive.rule.should == '32'
+		expect( "thermometry".en.infinitive ).to eq( 'thermometer' )
+		expect( "thermometry".en.infinitive.rule ).to eq( '32' )
 	end
 
 	it "uses rule 33 when calculating the infinitive of 'inadvertence'" do
-		"inadvertence".en.infinitive.should == 'inadvertent'
-		"inadvertence".en.infinitive.rule.should == '33'
+		expect( "inadvertence".en.infinitive ).to eq( 'inadvertent' )
+		expect( "inadvertence".en.infinitive.rule ).to eq( '33' )
 	end
 
 	it "uses rule 34 when calculating the infinitive of 'potency'" do
-		"potency".en.infinitive.should == 'potent'
-		"potency".en.infinitive.rule.should == '34'
+		expect( "potency".en.infinitive ).to eq( 'potent' )
+		expect( "potency".en.infinitive.rule ).to eq( '34' )
 	end
 
 	it "uses rule 35 when calculating the infinitive of 'discipleship'" do
-		"discipleship".en.infinitive.should == 'disciple'
-		"discipleship".en.infinitive.rule.should == '35'
+		expect( "discipleship".en.infinitive ).to eq( 'disciple' )
+		expect( "discipleship".en.infinitive.rule ).to eq( '35' )
 	end
 
 	it "uses rule 36 when calculating the infinitive of 'mystical'" do
-		"mystical".en.infinitive.should == 'mystic'
-		"mystical".en.infinitive.rule.should == '36'
+		expect( "mystical".en.infinitive ).to eq( 'mystic' )
+		expect( "mystical".en.infinitive.rule ).to eq( '36' )
 	end
 
 	it "uses rule 37 when calculating the infinitive of 'regional'" do
-		"regional".en.infinitive.should == 'region'
-		"regional".en.infinitive.rule.should == '37'
+		expect( "regional".en.infinitive ).to eq( 'region' )
+		expect( "regional".en.infinitive.rule ).to eq( '37' )
 	end
 
 	it "uses rule 37 when calculating the infinitive of 'national'" do
-		"national".en.infinitive.should == 'nation'
-		"national".en.infinitive.rule.should == '37'
+		expect( "national".en.infinitive ).to eq( 'nation' )
+		expect( "national".en.infinitive.rule ).to eq( '37' )
 	end
 
 	it "uses rule 38 when calculating the infinitive of 'horribly'" do
-		"horribly".en.infinitive.should == 'horrible'
-		"horribly".en.infinitive.rule.should == '38'
+		expect( "horribly".en.infinitive ).to eq( 'horrible' )
+		expect( "horribly".en.infinitive.rule ).to eq( '38' )
 	end
 
 	it "uses rule 39 when calculating the infinitive of 'scantily'" do
-		"scantily".en.infinitive.should == 'scanty'
-		"scantily".en.infinitive.rule.should == '39'
+		expect( "scantily".en.infinitive ).to eq( 'scanty' )
+		expect( "scantily".en.infinitive.rule ).to eq( '39' )
 	end
 
 	it "uses rule 40 when calculating the infinitive of 'partly'" do
-		"partly".en.infinitive.should == 'part'
-		"partly".en.infinitive.rule.should == '40'
+		expect( "partly".en.infinitive ).to eq( 'part' )
+		expect( "partly".en.infinitive.rule ).to eq( '40' )
 	end
 
 	it "uses rule 41a when calculating the infinitive of 'dutiful'" do
-		"dutiful".en.infinitive.should == 'duty'
-		"dutiful".en.infinitive.rule.should == '41a'
+		expect( "dutiful".en.infinitive ).to eq( 'duty' )
+		expect( "dutiful".en.infinitive.rule ).to eq( '41a' )
 	end
 
 	it "uses rule 41b when calculating the infinitive of 'harmful'" do
-		"harmful".en.infinitive.should == 'harm'
-		"harmful".en.infinitive.rule.should == '41b'
+		expect( "harmful".en.infinitive ).to eq( 'harm' )
+		expect( "harmful".en.infinitive.rule ).to eq( '41b' )
 	end
 
 	it "uses rule 42a when calculating the infinitive of 'likelihood'" do
-		"likelihood".en.infinitive.should == 'likely'
-		"likelihood".en.infinitive.rule.should == '42a'
+		expect( "likelihood".en.infinitive ).to eq( 'likely' )
+		expect( "likelihood".en.infinitive.rule ).to eq( '42a' )
 	end
 
 	it "uses rule 42b when calculating the infinitive of 'neighborhood'" do
-		"neighborhood".en.infinitive.should == 'neighbor'
-		"neighborhood".en.infinitive.rule.should == '42b'
+		expect( "neighborhood".en.infinitive ).to eq( 'neighbor' )
+		expect( "neighborhood".en.infinitive.rule ).to eq( '42b' )
 	end
 
 	it "uses rule 42b when calculating the infinitive of 'neighbourhood'" do
-		"neighbourhood".en.infinitive.should == 'neighbour'
-		"neighbourhood".en.infinitive.rule.should == '42b'
+		expect( "neighbourhood".en.infinitive ).to eq( 'neighbour' )
+		expect( "neighbourhood".en.infinitive.rule ).to eq( '42b' )
 	end
 
 	it "uses rule 43a when calculating the infinitive of 'penniless'" do
-		"penniless".en.infinitive.should == 'penny'
-		"penniless".en.infinitive.rule.should == '43a'
+		expect( "penniless".en.infinitive ).to eq( 'penny' )
+		expect( "penniless".en.infinitive.rule ).to eq( '43a' )
 	end
 
 	it "uses rule 43b when calculating the infinitive of 'listless'" do
-		"listless".en.infinitive.should == 'list'
-		"listless".en.infinitive.rule.should == '43b'
+		expect( "listless".en.infinitive ).to eq( 'list' )
+		expect( "listless".en.infinitive.rule ).to eq( '43b' )
 	end
 
 	it "uses rule 44a when calculating the infinitive of 'heartiness'" do
-		"heartiness".en.infinitive.should == 'hearty'
-		"heartiness".en.infinitive.rule.should == '44a'
+		expect( "heartiness".en.infinitive ).to eq( 'hearty' )
+		expect( "heartiness".en.infinitive.rule ).to eq( '44a' )
 	end
 
 	it "uses rule 44b when calculating the infinitive of 'coolness'" do
-		"coolness".en.infinitive.should == 'cool'
-		"coolness".en.infinitive.rule.should == '44b'
+		expect( "coolness".en.infinitive ).to eq( 'cool' )
+		expect( "coolness".en.infinitive.rule ).to eq( '44b' )
 	end
 
 	it "uses rule 45 when calculating the infinitive of 'specification'" do
-		"specification".en.infinitive.should == 'specify'
-		"specification".en.infinitive.rule.should == '45'
+		expect( "specification".en.infinitive ).to eq( 'specify' )
+		expect( "specification".en.infinitive.rule ).to eq( '45' )
 	end
 
 	it "uses rule 46 when calculating the infinitive of 'rationalization'" do
-		"rationalization".en.infinitive.should == 'rationalize'
-		"rationalization".en.infinitive.rule.should == '46'
+		expect( "rationalization".en.infinitive ).to eq( 'rationalize' )
+		expect( "rationalization".en.infinitive.rule ).to eq( '46' )
 	end
 
 	it "uses rule 47 when calculating the infinitive of 'detection'" do
-		"detection".en.infinitive.should == 'detect'
-		"detection".en.infinitive.rule.should == '47'
+		expect( "detection".en.infinitive ).to eq( 'detect' )
+		expect( "detection".en.infinitive.rule ).to eq( '47' )
 	end
 
 	it "uses rule 48 when calculating the infinitive of 'exertion'" do
-		"exertion".en.infinitive.should == 'exert'
-		"exertion".en.infinitive.rule.should == '48'
+		expect( "exertion".en.infinitive ).to eq( 'exert' )
+		expect( "exertion".en.infinitive.rule ).to eq( '48' )
 	end
 
 	it "uses rule 49 when calculating the infinitive of 'creation'" do
-		"creation".en.infinitive.should == 'create'
-		"creation".en.infinitive.rule.should == '49'
+		expect( "creation".en.infinitive ).to eq( 'create' )
+		expect( "creation".en.infinitive.rule ).to eq( '49' )
 	end
 
 	it "uses rule 50 when calculating the infinitive of 'creator'" do
-		"creator".en.infinitive.should == 'create'
-		"creator".en.infinitive.rule.should == '50'
+		expect( "creator".en.infinitive ).to eq( 'create' )
+		expect( "creator".en.infinitive.rule ).to eq( '50' )
 	end
 
 	it "uses rule 51 when calculating the infinitive of 'detector'" do
-		"detector".en.infinitive.should == 'detect'
-		"detector".en.infinitive.rule.should == '51'
+		expect( "detector".en.infinitive ).to eq( 'detect' )
+		expect( "detector".en.infinitive.rule ).to eq( '51' )
 	end
 
 	it "uses rule 52 when calculating the infinitive of 'creative'" do
-		"creative".en.infinitive.should == 'creation'
-		"creative".en.infinitive.rule.should == '52'
+		expect( "creative".en.infinitive ).to eq( 'creation' )
+		expect( "creative".en.infinitive.rule ).to eq( '52' )
 	end
 
 	it "uses rule 52 when calculating the infinitive of 'decisive'" do
-		"decisive".en.infinitive.should == 'decision'
-		"decisive".en.infinitive.rule.should == '52'
+		expect( "decisive".en.infinitive ).to eq( 'decision' )
+		expect( "decisive".en.infinitive.rule ).to eq( '52' )
 	end
 
 	it "uses rule 53 when calculating the infinitive of 'Australian'" do
-		"Australian".en.infinitive.should == 'Australia'
-		"Australian".en.infinitive.rule.should == '53'
+		expect( "Australian".en.infinitive ).to eq( 'Australia' )
+		expect( "Australian".en.infinitive.rule ).to eq( '53' )
 	end
 
 	it "uses rule 54 when calculating the infinitive of 'Jeffersonian'" do
-		"Jeffersonian".en.infinitive.should == 'Jefferson'
-		"Jeffersonian".en.infinitive.rule.should == '54'
+		expect( "Jeffersonian".en.infinitive ).to eq( 'Jefferson' )
+		expect( "Jeffersonian".en.infinitive.rule ).to eq( '54' )
 	end
 
 	it "uses irregular rule when calculating the infinitive of 'rove'" do
-		"rove".en.infinitive.should == 'reeve'
-		"rove".en.infinitive.rule.should == 'irregular'
+		expect( "rove".en.infinitive ).to eq( 'reeve' )
+		expect( "rove".en.infinitive.rule ).to eq( 'irregular' )
 	end
 
 	it "uses irregular rule when calculating the infinitive of 'dove'" do
-		"dove".en.infinitive.should == 'dive'
-		"dove".en.infinitive.rule.should == 'irregular'
+		expect( "dove".en.infinitive ).to eq( 'dive' )
+		expect( "dove".en.infinitive.rule ).to eq( 'irregular' )
 	end
 
 	it "uses irregular rule when calculating the infinitive of 'snuck'" do
-		"snuck".en.infinitive.should == 'sneak'
-		"snuck".en.infinitive.rule.should == 'irregular'
+		expect( "snuck".en.infinitive ).to eq( 'sneak' )
+		expect( "snuck".en.infinitive.rule ).to eq( 'irregular' )
 	end
 
 	it "uses irregular rule when calculating the infinitive of 'wot'" do
-		"wot".en.infinitive.should == 'wit'
-		"wot".en.infinitive.rule.should == 'irregular'
+		expect( "wot".en.infinitive ).to eq( 'wit' )
+		expect( "wot".en.infinitive.rule ).to eq( 'irregular' )
 	end
 
 end

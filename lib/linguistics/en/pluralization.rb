@@ -3,7 +3,7 @@
 require 'linguistics/en' unless defined?( Linguistics )
 
 # Plural inflection methods for the English-language Linguistics module.
-# 
+#
 # It provides conversion of plural forms of all nouns, most verbs,
 # and some adjectives. It also provides "classical" variants (for
 # example: "brother" -> "brethren", "dogma" -> "dogmata", etc.) where
@@ -92,13 +92,13 @@ module Linguistics::EN::Pluralization
 
 	# Classical "..um" -> "..a"
 	PL_sb_C_um_a = matchgroup %w[
-		maximum	minimum	momentum	optimum
-		quantum	cranium	curriculum	dictum
-		phylum	aquarium	compendium	emporium
-		enconium	gymnasium	honorarium	interregnum
-		lustrum 	memorandum	millenium 	rostrum 
-		spectrum	speculum	stadium	trapezium
-		ultimatum	medium	vacuum	velum 
+		maximum minimum momentum optimum
+		quantum cranium curriculum dictum
+		phylum aquarium compendium emporium
+		enconium gymnasium honorarium interregnum
+		lustrum memorandum millenium  rostrum
+		spectrum speculum stadium trapezium
+		ultimatum medium vacuum velum
 		consortium
 	].collect {|word| word[0...-2]}
 
@@ -150,7 +150,7 @@ module Linguistics::EN::Pluralization
 		ghetto	guano	inferno
 		jumbo	lumbago	magneto
 		manifesto	medico	octavo
-		photo	pro		quarto	
+		photo	pro		quarto
 		canto	lingo	generalissimo
 		stylo	rhino
 	] | PL_sb_C_o_i_a )
@@ -259,7 +259,7 @@ module Linguistics::EN::Pluralization
 			epidermis ethos eyas gas glottis hepatitis
 			hubris ibis lens mantis marquis metropolis
 			neuritis pathos pelvis polis rhinoceros
-			sassafras tonsillitis trellis 
+			sassafras tonsillitis trellis
 		]
 
 	PL_v_special_s = matchgroup [
@@ -327,7 +327,7 @@ module Linguistics::EN::Pluralization
 
 	PL_v_irregular_pres_h = {
 		#	1St pers. sing.		2nd pers. sing.		3rd pers. singular
-		#				3rd pers. (indet.)	
+		#				3rd pers. (indet.)
 		"am"	=> "are",	"are"	=> "are",	"is"	 => "are",
 		"was"	=> "were",	"were"	=> "were",	"was"	 => "were",
 		"have"  => "have",	"have"  => "have",	"has"	 => "have",
@@ -336,7 +336,7 @@ module Linguistics::EN::Pluralization
 
 	PL_v_ambiguous_pres_h = {
 		#	1st pers. sing.		2nd pers. sing.		3rd pers. singular
-		#				3rd pers. (indet.)	
+		#				3rd pers. (indet.)
 		"act"	=> "act",	"act"	=> "act",	"acts"	  => "act",
 		"blame"	=> "blame",	"blame"	=> "blame",	"blames"  => "blame",
 		"can"	=> "can",	"can"	=> "can",	"can"	  => "can",
@@ -358,7 +358,7 @@ module Linguistics::EN::Pluralization
 	PL_v_ambiguous_pres = matchgroup PL_v_ambiguous_pres_h.keys
 
 	PL_v_irregular_non_pres = matchgroup %w[
-		did had ate made put 
+		did had ate made put
 		spent fought sank gave sought
 		shall could ought should
 	]
@@ -486,7 +486,7 @@ module Linguistics::EN::Pluralization
 	### examining the +original+ input.
 	def postprocess( original, inflected )
 
-		# If there's a classical variant, use it instead of the modern one if 
+		# If there's a classical variant, use it instead of the modern one if
 		# classical mode is on.
 		inflected.sub!( /([^|]+)\|(.+)/ ) do
 			Linguistics::EN.classical? ? $2 : $1
@@ -587,7 +587,7 @@ module Linguistics::EN::Pluralization
 			self.log.debug "  accusative pronoun; using PL_pron_acc table"
 			return PL_pron_acc_h[ word.downcase ]
 
-		# Handle isolated irregular plurals 
+		# Handle isolated irregular plurals
 		when /(.*)\b(#{PL_sb_irregular})$/i
 			prefix, word = $1, $2
 			self.log.debug "  isolated irregular; using PL_sb_irregular_h table"
@@ -701,7 +701,7 @@ module Linguistics::EN::Pluralization
 			self.log.debug "  yep, it's an irregular present tense verb (%p)" % [ key ]
 			return PL_v_irregular_pres_h[ $1.downcase ] + $2
 
-		# Handle irregular future, preterite and perfect tenses 
+		# Handle irregular future, preterite and perfect tenses
 		when /^(#{PL_v_irregular_non_pres})((\s.*)?)$/i
 			self.log.debug "  yep, it's an irregular non-present tense verb (%p)" % [ key ]
 			return word

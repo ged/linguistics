@@ -100,7 +100,7 @@ module Linguistics::EN::Numbers
 
 		# Triple-digits
 		proc {|zero,x,y,z|
-			NUMBER_TO_WORDS_FUNCTIONS[1].call(zero,x) + 
+			NUMBER_TO_WORDS_FUNCTIONS[1].call(zero,x) +
 			NUMBER_TO_WORDS_FUNCTIONS[2].call(zero,y,z)
 		}
 	]
@@ -108,24 +108,24 @@ module Linguistics::EN::Numbers
 
 	### Return the specified number as english words. One or more configuration
 	### values may be passed to control the returned String:
-	### 
+	###
 	### [<b>:group</b>]
 	###   Controls how many numbers at a time are grouped together. Valid values
-	###   are <code>0</code> (normal grouping), <code>1</code> (single-digit 
-	###   grouping, e.g., "one, two, three, four"), <code>2</code> 
+	###   are <code>0</code> (normal grouping), <code>1</code> (single-digit
+	###   grouping, e.g., "one, two, three, four"), <code>2</code>
 	###   (double-digit grouping, e.g., "twelve, thirty-four", or <code>3</code>
 	###   (triple-digit grouping, e.g., "one twenty-three, four").
 	### [<b>:comma</b>]
-	###   Set the character/s used to separate word groups. Defaults to 
+	###   Set the character/s used to separate word groups. Defaults to
 	###   <code>", "</code>.
 	### [<b>:and</b>]
-	###   Set the word and/or characters used where <code>' and ' </code>(the 
-	###   default) is normally used. Setting <code>:and</code> to 
-	###   <code>' '</code>, for example, will cause <code>2556</code> to be 
-	###   returned as "two-thousand, five hundred fifty-six" instead of 
+	###   Set the word and/or characters used where <code>' and ' </code>(the
+	###   default) is normally used. Setting <code>:and</code> to
+	###   <code>' '</code>, for example, will cause <code>2556</code> to be
+	###   returned as "two-thousand, five hundred fifty-six" instead of
 	###   "two-thousand, five hundred and fifty-six".
 	### [<b>:zero</b>]
-	###   Set the word used to represent the numeral <code>0</code> in the 
+	###   Set the word used to represent the numeral <code>0</code> in the
 	###   result. <code>'zero'</code> is the default.
 	### [<b>:decimal</b>]
 	###   Set the translation of any decimal points in the number; the default
@@ -288,7 +288,7 @@ module Linguistics::EN::Numbers
 
 
 	### Return a phrase describing the specified +number+ of objects in the
-	### inflected object in general terms. The following options can be used to 
+	### inflected object in general terms. The following options can be used to
 	### control the makeup of the returned quantity String:
 	###
     ### [<b>:joinword</b>]

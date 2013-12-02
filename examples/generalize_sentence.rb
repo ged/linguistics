@@ -2,7 +2,7 @@
 
 BEGIN {
 	require 'pathname'
-	
+
 	basedir = Pathname.new( __FILE__ ).dirname.parent.expand_path
 	libdir = basedir + "lib"
 	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
@@ -35,7 +35,7 @@ while input = Readline.readline( "Sentence to generalize: " )
 	subj = sent.subject
 	obj = sent.object
 	verb = sent.verb
-	
+
 	input.sub!( /\b#{subj}\b/, generalized_word(subj) ) if subj
 	input.sub!( /\b#{obj}\b/, generalized_word(obj) ) if obj
 	input.sub!( /\b#{verb}\b/, generalized_word(verb) ) if verb

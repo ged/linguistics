@@ -1,24 +1,24 @@
 #!/usr/bin/ruby
-# 
+#
 # This is a little pseudo-program to work out how to best generalize the
 # interface to the grammar tools.
-# 
+#
 # == Authors
-# 
+#
 # * Michael Granger <ged@FaerieMUD.org>
-# 
+#
 # == Copyright
 #
 # Copyright (c) 2003, 2005 The FaerieMUD Consortium. All rights reserved.
-# 
+#
 # This module is free software. You may use, modify, and/or redistribute this
 # software under the terms of the Perl Artistic License. (See
 # http://language.perl.com/misc/Artistic.html)
-# 
+#
 # == Version
 #
 #  $Id$
-# 
+#
 
 require 'linguistics'
 Linguistics::use( :en, 'de' )

@@ -1,17 +1,8 @@
 #!/usr/bin/env spec -cfs
 
-BEGIN {
-	require 'pathname'
-	basedir = Pathname.new( __FILE__ ).dirname.parent.parent.parent
-
-	libdir = basedir + "lib"
-
-	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
-	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
-}
+require_relative '../../helpers'
 
 require 'rspec'
-require 'spec/lib/helpers'
 
 require 'linguistics'
 require 'linguistics/en'
@@ -21,12 +12,7 @@ require 'linguistics/en/wordnet'
 describe Linguistics::EN::WordNet do
 
 	before( :all ) do
-		setup_logging()
 		Linguistics.use( :en )
-	end
-
-	after( :all ) do
-		reset_logging()
 	end
 
 
@@ -43,37 +29,31 @@ describe Linguistics::EN::WordNet do
 		end
 
 		it "can create a WordNet::Synset from a word" do
-			"jackal".en.synset.should be_a( WordNet::Synset )
+			expect( "jackal".en.synset ).to be_a( WordNet::Synset )
 		end
 
 		it "can load all synsets for a word" do
 			result = "appear".en.synsets
-			result.should have( 7 ).members
-			result.should include( WordNet::Synset[200422090] )
+			expect( result ).to have( 7 ).members
+			expect( result ).to include( WordNet::Synset[200422090] )
 		end
 
 	end
 
 
 	describe "on a system that doesn't have the 'wordnet' library" do
-		before( :all ) do
-			# If the system *does* have wordnet support, pretend it doesn't.
-			if Linguistics::EN.has_wordnet?
-				@had_wordnet = true
-				error = LoadError.new( "no such file to load -- wordnet" )
-				Linguistics::EN::WordNet.instance_variable_set( :@has_wordnet, false )
-				Linguistics::EN::WordNet.instance_variable_set( :@wn_error, error )
-			end
-		end
-
-		after( :all ) do
-			if @had_wordnet
-				Linguistics::EN::WordNet.instance_variable_set( :@has_wordnet, true )
-				Linguistics::EN::WordNet.instance_variable_set( :@wn_error, nil )
-			end
-		end
 
 		it "raises the appropriate LoadError when you try to use wordnet functionality" do
+			# If the system *does* have wordnet support, pretend it doesn't.
+			if Linguistics::EN.has_wordnet?
+				error = LoadError.new( "no such file to load -- wordnet" )
+
+				allow( Linguistics::EN::WordNet ).to receive( :has_wordnet? ).
+					and_return( false )
+				allow( Linguistics::EN::WordNet ).to receive( :wordnet_error ).
+					and_return( error )
+			end
+
 			expect {
 				"persimmon".en.synset
 			}.to raise_error( LoadError, %r{wordnet}i )

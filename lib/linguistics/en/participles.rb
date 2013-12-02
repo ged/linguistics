@@ -10,7 +10,7 @@ module Linguistics::EN::Participles
 	Linguistics::EN.register_extension( self )
 
 
-	### Attempt to return the inflected string in its present participle 
+	### Attempt to return the inflected string in its present participle
 	### form (e.g., talked -> talking).
 	def present_participle
         plural = self.to_s.en.plural_verb

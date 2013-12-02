@@ -61,7 +61,7 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 #   "navigational instrument", "optical instrument", "plotter", "scientific
 #   instrument", "sonograph", "surveying instrument", "surveyor's instrument",
 #   "tracer", "weapon", "arm", "weapon system", "whip"]
-# 
+#
 module Linguistics::EN::WordNet
 
 	@has_wordnet  = false

@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 #
 # (>>>description<<<)
-# 
+#
 # Time-stamp: <24-Aug-2003 16:11:13 deveiant>
 #
 

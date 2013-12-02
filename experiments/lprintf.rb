@@ -5,7 +5,7 @@
 # Conclusion: re-opening the module doesn't work well, but I've added it to
 # en.rb, and it seems to work quite well for most cases. Still having trouble
 # with 'CONJUNCT'.
-# 
+#
 # Time-stamp: <31-Oct-2005 06:11:43 ged>
 #
 

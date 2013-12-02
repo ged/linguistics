@@ -1,40 +1,21 @@
 #!/usr/bin/env spec -cfs
 
-BEGIN {
-	require 'pathname'
-	basedir = Pathname.new( __FILE__ ).dirname.parent
-
-	libdir = basedir + "lib"
-
-	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
-	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
-}
+require_relative 'helpers'
 
 require 'rspec'
-require 'spec/lib/helpers'
-
 require 'linguistics'
 
-
 describe Linguistics do
-
-	before( :all ) do
-		setup_logging()
-	end
-
-	after( :each ) do
-		reset_logging()
-	end
 
 
 	describe "version methods" do
 
 		it "returns a version string if asked" do
-			Linguistics.version_string.should =~ /\w+ [\d.]+/
+			expect( Linguistics.version_string ).to match( /\w+ [\d.]+/ )
 		end
 
 		it "returns a version string with a build number if asked" do
-			Linguistics.version_string(true).should =~ /\w+ [\d.]+ \(build [[:xdigit:]]+\)/
+			expect( Linguistics.version_string(true) ).to match(/\w+ [\d.]+ \(build [[:xdigit:]]+\)/)
 		end
 	end
 
@@ -43,21 +24,21 @@ describe Linguistics do
 
 		it "load a language's linguistic functions via variants of its ISO639 code" do
 			testclass = Class.new
-			Linguistics.use( :eng, :classes => testclass ).should == [ testclass ]
-			testclass.new.should respond_to( :eng )
-			testclass.new.should respond_to( :en )
+			expect( Linguistics.use( :eng, :classes => testclass ) ).to eq( [ testclass ] )
+			expect( testclass.new ).to respond_to( :eng )
+			expect( testclass.new ).to respond_to( :en )
 		end
 
 		it "load a language's linguistic functions via the 2-letter variant of its ISO639 code" do
 			testclass = Class.new
-			Linguistics.use( :en, :classes => testclass ).should == [ testclass ]
-			testclass.new.should respond_to( :eng )
-			testclass.new.should respond_to( :en )
+			expect( Linguistics.use( :en, :classes => testclass ) ).to eq( [ testclass ] )
+			expect( testclass.new ).to respond_to( :eng )
+			expect( testclass.new ).to respond_to( :en )
 		end
 
 		it "default to extending a default set of classes" do
-			Linguistics.use( :eng ).should == Linguistics::DEFAULT_EXT_CLASSES
-			[].should respond_to( :eng )
+			expect( Linguistics.use( :eng ) ).to eq( Linguistics::DEFAULT_EXT_CLASSES )
+			expect( [] ).to respond_to( :eng )
 		end
 
 		it "raise an error when a language that doesn't exist is requested" do

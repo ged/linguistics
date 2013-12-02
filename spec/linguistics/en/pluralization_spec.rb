@@ -1,17 +1,8 @@
 #!/usr/bin/env rspec -cfd
 
-BEGIN {
-	require 'pathname'
-	basedir = Pathname.new( __FILE__ ).dirname.parent.parent.parent
-
-	libdir = basedir + "lib"
-
-	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
-	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
-}
+require_relative '../../helpers'
 
 require 'rspec'
-require 'spec/lib/helpers'
 
 require 'linguistics'
 require 'linguistics/en'
@@ -21,4613 +12,4608 @@ require 'linguistics/en/pluralization'
 describe Linguistics::EN::Pluralization do
 
 	before( :all ) do
-		setup_logging( :fatal )
 		Linguistics.use( :en )
-	end
-
-	after( :all ) do
-		reset_logging()
 	end
 
 
 	it "pluralizes 'a' as 'some'" do
-		'a'.en.plural.should == 'some'
+		expect( 'a'.en.plural ).to eq( 'some' )
 	end
 
 	# NOUN FORM
 	it "pluralizes 'a' (as a noun) as 'as'" do
-		'a'.en.plural_noun.should == 'as'
+		expect( 'a'.en.plural_noun ).to eq( 'as' )
 	end
 
 	it "pluralizes 'A.C.R.O.N.Y.M.' as 'A.C.R.O.N.Y.M.s'" do
-		'A.C.R.O.N.Y.M.'.en.plural.should == 'A.C.R.O.N.Y.M.s' # 
+		expect( 'A.C.R.O.N.Y.M.'.en.plural ).to eq( 'A.C.R.O.N.Y.M.s' )
 	end
 
 	it "pluralizes 'abscissa' as 'abscissas'" do
-		'abscissa'.en.plural.should == 'abscissas'
+		expect( 'abscissa'.en.plural ).to eq( 'abscissas' )
 	end
 
 	it "pluralizes 'abscissa' as 'abscissae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'abscissa'.en.plural.should == 'abscissae'
+			expect( 'abscissa'.en.plural ).to eq( 'abscissae' )
 		end
 	end
 
 	it "pluralizes 'Achinese' as 'Achinese'" do
-		'Achinese'.en.plural.should == 'Achinese' # 
+		expect( 'Achinese'.en.plural ).to eq( 'Achinese' )
 	end
 
 	it "pluralizes 'acropolis' as 'acropolises'" do
-		'acropolis'.en.plural.should == 'acropolises' # 
+		expect( 'acropolis'.en.plural ).to eq( 'acropolises' )
 	end
 
 	it "pluralizes 'adieu' as 'adieus'" do
-		'adieu'.en.plural.should == 'adieus'
+		expect( 'adieu'.en.plural ).to eq( 'adieus' )
 	end
 
 	it "pluralizes 'adieu' as 'adieux' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'adieu'.en.plural.should == 'adieux'
+			expect( 'adieu'.en.plural ).to eq( 'adieux' )
 		end
 	end
 
 	it "pluralizes 'adjutant general' as 'adjutant generals'" do
-		'adjutant general'.en.plural.should == 'adjutant generals' # 
+		expect( 'adjutant general'.en.plural ).to eq( 'adjutant generals' )
 	end
 
 	it "pluralizes 'aegis' as 'aegises'" do
-		'aegis'.en.plural.should == 'aegises' # 
+		expect( 'aegis'.en.plural ).to eq( 'aegises' )
 	end
 
 	it "pluralizes 'afflatus' as 'afflatuses'" do
-		'afflatus'.en.plural.should == 'afflatuses' # 
+		expect( 'afflatus'.en.plural ).to eq( 'afflatuses' )
 	end
 
 	it "pluralizes 'afreet' as 'afreets'" do
-		'afreet'.en.plural.should == 'afreets'
+		expect( 'afreet'.en.plural ).to eq( 'afreets' )
 	end
 
 	it "pluralizes 'afreet' as 'afreeti' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'afreet'.en.plural.should == 'afreeti'
+			expect( 'afreet'.en.plural ).to eq( 'afreeti' )
 		end
 	end
 
 	it "pluralizes 'afrit' as 'afrits'" do
-		'afrit'.en.plural.should == 'afrits'
+		expect( 'afrit'.en.plural ).to eq( 'afrits' )
 	end
 
 	it "pluralizes 'afrit' as 'afriti' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'afrit'.en.plural.should == 'afriti'
+			expect( 'afrit'.en.plural ).to eq( 'afriti' )
 		end
 	end
 
 	it "pluralizes 'agendum' as 'agenda'" do
-		'agendum'.en.plural.should == 'agenda' # 
+		expect( 'agendum'.en.plural ).to eq( 'agenda' )
 	end
 
 	it "pluralizes 'aide-de-camp' as 'aides-de-camp'" do
-		'aide-de-camp'.en.plural.should == 'aides-de-camp' # 
+		expect( 'aide-de-camp'.en.plural ).to eq( 'aides-de-camp' )
 	end
 
 	it "pluralizes 'Alabaman' as 'Alabamans'" do
-		'Alabaman'.en.plural.should == 'Alabamans' # 
+		expect( 'Alabaman'.en.plural ).to eq( 'Alabamans' )
 	end
 
 	it "pluralizes 'albino' as 'albinos'" do
-		'albino'.en.plural.should == 'albinos' # 
+		expect( 'albino'.en.plural ).to eq( 'albinos' )
 	end
 
 	it "pluralizes 'album' as 'albums'" do
-		'album'.en.plural.should == 'albums' # 
+		expect( 'album'.en.plural ).to eq( 'albums' )
 	end
 
 	it "pluralizes 'Alfurese' as 'Alfurese'" do
-		'Alfurese'.en.plural.should == 'Alfurese' # 
+		expect( 'Alfurese'.en.plural ).to eq( 'Alfurese' )
 	end
 
 	it "pluralizes 'alga' as 'algae'" do
-		'alga'.en.plural.should == 'algae' # 
+		expect( 'alga'.en.plural ).to eq( 'algae' )
 	end
 
 	it "pluralizes 'alias' as 'aliases'" do
-		'alias'.en.plural.should == 'aliases' # 
+		expect( 'alias'.en.plural ).to eq( 'aliases' )
 	end
 
 	it "pluralizes 'alto' as 'altos'" do
-		'alto'.en.plural.should == 'altos'
+		expect( 'alto'.en.plural ).to eq( 'altos' )
 	end
 
 	it "pluralizes 'alto' as 'alti' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'alto'.en.plural.should == 'alti'
+			expect( 'alto'.en.plural ).to eq( 'alti' )
 		end
 	end
 
 	it "pluralizes 'alumna' as 'alumnae'" do
-		'alumna'.en.plural.should == 'alumnae' # 
+		expect( 'alumna'.en.plural ).to eq( 'alumnae' )
 	end
 
 	it "pluralizes 'alumnus' as 'alumni'" do
-		'alumnus'.en.plural.should == 'alumni' # 
+		expect( 'alumnus'.en.plural ).to eq( 'alumni' )
 	end
 
 	it "pluralizes 'alveolus' as 'alveoli'" do
-		'alveolus'.en.plural.should == 'alveoli' # 
+		expect( 'alveolus'.en.plural ).to eq( 'alveoli' )
 	end
 
 	it "pluralizes 'am' as 'are'" do
-		'am'.en.plural.should == 'are' # 
+		expect( 'am'.en.plural ).to eq( 'are' )
 	end
 
 	it "pluralizes 'am going' as 'are going'" do
-		'am going'.en.plural.should == 'are going' # 
+		expect( 'am going'.en.plural ).to eq( 'are going' )
 	end
 
 	it "pluralizes 'ambassador-at-large' as 'ambassadors-at-large'" do
-		'ambassador-at-large'.en.plural.should == 'ambassadors-at-large' # 
+		expect( 'ambassador-at-large'.en.plural ).to eq( 'ambassadors-at-large' )
 	end
 
 	it "pluralizes 'Amboinese' as 'Amboinese'" do
-		'Amboinese'.en.plural.should == 'Amboinese' # 
+		expect( 'Amboinese'.en.plural ).to eq( 'Amboinese' )
 	end
 
 	it "pluralizes 'Americanese' as 'Americanese'" do
-		'Americanese'.en.plural.should == 'Americanese' # 
+		expect( 'Americanese'.en.plural ).to eq( 'Americanese' )
 	end
 
 	it "pluralizes 'amoeba' as 'amoebas'" do
-		'amoeba'.en.plural.should == 'amoebas'
+		expect( 'amoeba'.en.plural ).to eq( 'amoebas' )
 	end
 
 	it "pluralizes 'amoeba' as 'amoebae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'amoeba'.en.plural.should == 'amoebae'
+			expect( 'amoeba'.en.plural ).to eq( 'amoebae' )
 		end
 	end
 
 	it "pluralizes 'Amoyese' as 'Amoyese'" do
-		'Amoyese'.en.plural.should == 'Amoyese' # 
+		expect( 'Amoyese'.en.plural ).to eq( 'Amoyese' )
 	end
 
 	# INDEFINITE ARTICLE
 	it "pluralizes 'an' as 'some'" do
-		'an'.en.plural.should == 'some' # 
+		expect( 'an'.en.plural ).to eq( 'some' )
 	end
 
 	it "pluralizes 'analysis' as 'analyses'" do
-		'analysis'.en.plural.should == 'analyses' # 
+		expect( 'analysis'.en.plural ).to eq( 'analyses' )
 	end
 
 	it "pluralizes 'anathema' as 'anathemas'" do
-		'anathema'.en.plural.should == 'anathemas'
+		expect( 'anathema'.en.plural ).to eq( 'anathemas' )
 	end
 
 	it "pluralizes 'anathema' as 'anathemata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'anathema'.en.plural.should == 'anathemata'
+			expect( 'anathema'.en.plural ).to eq( 'anathemata' )
 		end
 	end
 
 	it "pluralizes 'Andamanese' as 'Andamanese'" do
-		'Andamanese'.en.plural.should == 'Andamanese' # 
+		expect( 'Andamanese'.en.plural ).to eq( 'Andamanese' )
 	end
 
 	it "pluralizes 'Angolese' as 'Angolese'" do
-		'Angolese'.en.plural.should == 'Angolese' # 
+		expect( 'Angolese'.en.plural ).to eq( 'Angolese' )
 	end
 
 	it "pluralizes 'Annamese' as 'Annamese'" do
-		'Annamese'.en.plural.should == 'Annamese' # 
+		expect( 'Annamese'.en.plural ).to eq( 'Annamese' )
 	end
 
 	it "pluralizes 'antenna' as 'antennas'" do
-		'antenna'.en.plural.should == 'antennas'
+		expect( 'antenna'.en.plural ).to eq( 'antennas' )
 	end
 
 	it "pluralizes 'antenna' as 'antennae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'antenna'.en.plural.should == 'antennae'
+			expect( 'antenna'.en.plural ).to eq( 'antennae' )
 		end
 	end
 
 	it "pluralizes 'anus' as 'anuses'" do
-		'anus'.en.plural.should == 'anuses' # 
+		expect( 'anus'.en.plural ).to eq( 'anuses' )
 	end
 
 	it "pluralizes 'apex' as 'apexes'" do
-		'apex'.en.plural.should == 'apexes'
+		expect( 'apex'.en.plural ).to eq( 'apexes' )
 	end
 
 	it "pluralizes 'apex' as 'apices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'apex'.en.plural.should == 'apices'
+			expect( 'apex'.en.plural ).to eq( 'apices' )
 		end
 	end
 
 	# POSSESSIVE FORM
 	it "pluralizes 'apex's' as 'apexes''" do
-		"apex's".en.plural.should == "apexes'" # apices'
+		expect( "apex's".en.plural ).to eq( "apexes'" ) # apices'
 	end
 
 	it "pluralizes 'aphelion' as 'aphelia'" do
-		'aphelion'.en.plural.should == 'aphelia' # 
+		expect( 'aphelion'.en.plural ).to eq( 'aphelia' )
 	end
 
 	it "pluralizes 'apparatus' as 'apparatuses'" do
-		'apparatus'.en.plural.should == 'apparatuses'
+		expect( 'apparatus'.en.plural ).to eq( 'apparatuses' )
 	end
 
 	it "pluralizes 'apparatus' as 'apparatus' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'apparatus'.en.plural.should == 'apparatus'
+			expect( 'apparatus'.en.plural ).to eq( 'apparatus' )
 		end
 	end
 
 	it "pluralizes 'appendix' as 'appendixes'" do
-		'appendix'.en.plural.should == 'appendixes'
+		expect( 'appendix'.en.plural ).to eq( 'appendixes' )
 	end
 
 	it "pluralizes 'appendix' as 'appendices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'appendix'.en.plural.should == 'appendices'
+			expect( 'appendix'.en.plural ).to eq( 'appendices' )
 		end
 	end
 
 	it "pluralizes 'apple' as 'apples'" do
-		'apple'.en.plural.should == 'apples' # 
+		expect( 'apple'.en.plural ).to eq( 'apples' )
 	end
 
 	it "pluralizes 'aquarium' as 'aquariums'" do
-		'aquarium'.en.plural.should == 'aquariums'
+		expect( 'aquarium'.en.plural ).to eq( 'aquariums' )
 	end
 
 	it "pluralizes 'aquarium' as 'aquaria' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'aquarium'.en.plural.should == 'aquaria'
+			expect( 'aquarium'.en.plural ).to eq( 'aquaria' )
 		end
 	end
 
 	it "pluralizes 'Aragonese' as 'Aragonese'" do
-		'Aragonese'.en.plural.should == 'Aragonese' # 
+		expect( 'Aragonese'.en.plural ).to eq( 'Aragonese' )
 	end
 
 	it "pluralizes 'Arakanese' as 'Arakanese'" do
-		'Arakanese'.en.plural.should == 'Arakanese' # 
+		expect( 'Arakanese'.en.plural ).to eq( 'Arakanese' )
 	end
 
 	it "pluralizes 'archipelago' as 'archipelagos'" do
-		'archipelago'.en.plural.should == 'archipelagos' # 
+		expect( 'archipelago'.en.plural ).to eq( 'archipelagos' )
 	end
 
 	it "pluralizes 'are' as 'are'" do
-		'are'.en.plural.should == 'are' # 
+		expect( 'are'.en.plural ).to eq( 'are' )
 	end
 
 	it "pluralizes 'are made' as 'are made'" do
-		'are made'.en.plural.should == 'are made' # 
+		expect( 'are made'.en.plural ).to eq( 'are made' )
 	end
 
 	it "pluralizes 'armadillo' as 'armadillos'" do
-		'armadillo'.en.plural.should == 'armadillos' # 
+		expect( 'armadillo'.en.plural ).to eq( 'armadillos' )
 	end
 
 	it "pluralizes 'arpeggio' as 'arpeggios'" do
-		'arpeggio'.en.plural.should == 'arpeggios' # 
+		expect( 'arpeggio'.en.plural ).to eq( 'arpeggios' )
 	end
 
 	it "pluralizes 'arthritis' as 'arthritises'" do
-		'arthritis'.en.plural.should == 'arthritises' # 
+		expect( 'arthritis'.en.plural ).to eq( 'arthritises' )
 	end
 
 	it "pluralizes 'asbestos' as 'asbestoses'" do
-		'asbestos'.en.plural.should == 'asbestoses' # 
+		expect( 'asbestos'.en.plural ).to eq( 'asbestoses' )
 	end
 
 	it "pluralizes 'asparagus' as 'asparaguses'" do
-		'asparagus'.en.plural.should == 'asparaguses' # 
+		expect( 'asparagus'.en.plural ).to eq( 'asparaguses' )
 	end
 
 	it "pluralizes 'ass' as 'asses'" do
-		'ass'.en.plural.should == 'asses' # 
+		expect( 'ass'.en.plural ).to eq( 'asses' )
 	end
 
 	it "pluralizes 'Assamese' as 'Assamese'" do
-		'Assamese'.en.plural.should == 'Assamese' # 
+		expect( 'Assamese'.en.plural ).to eq( 'Assamese' )
 	end
 
 	it "pluralizes 'asylum' as 'asylums'" do
-		'asylum'.en.plural.should == 'asylums' # 
+		expect( 'asylum'.en.plural ).to eq( 'asylums' )
 	end
 
 	it "pluralizes 'asyndeton' as 'asyndeta'" do
-		'asyndeton'.en.plural.should == 'asyndeta' # 
+		expect( 'asyndeton'.en.plural ).to eq( 'asyndeta' )
 	end
 
 	# ACCUSATIVE
 	it "pluralizes 'at it' as 'at them'" do
-		'at it'.en.plural.should == 'at them' # 
+		expect( 'at it'.en.plural ).to eq( 'at them' )
 	end
 
 	it "pluralizes 'ate' as 'ate'" do
-		'ate'.en.plural.should == 'ate' # 
+		expect( 'ate'.en.plural ).to eq( 'ate' )
 	end
 
 	it "pluralizes 'atlas' as 'atlases'" do
-		'atlas'.en.plural.should == 'atlases' # 
+		expect( 'atlas'.en.plural ).to eq( 'atlases' )
 	end
 
 	it "pluralizes 'attorney general' as 'attorneys general'" do
-		'attorney general'.en.plural.should == 'attorneys general' # 
+		expect( 'attorney general'.en.plural ).to eq( 'attorneys general' )
 	end
 	it "pluralizes 'attorney of record' as 'attorneys of record'" do
-		'attorney of record'.en.plural.should == 'attorneys of record' # 
+		expect( 'attorney of record'.en.plural ).to eq( 'attorneys of record' )
 	end
 
 
 	it "pluralizes 'aurora' as 'auroras'" do
-		'aurora'.en.plural.should == 'auroras'
+		expect( 'aurora'.en.plural ).to eq( 'auroras' )
 	end
 
 	it "pluralizes 'aurora' as 'aurorae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'aurora'.en.plural.should == 'aurorae'
+			expect( 'aurora'.en.plural ).to eq( 'aurorae' )
 		end
 	end
 
 
 	it "pluralizes 'aviatrix' as 'aviatrixes'" do
-		'aviatrix'.en.plural.should == 'aviatrixes'
+		expect( 'aviatrix'.en.plural ).to eq( 'aviatrixes' )
 	end
 
 	it "pluralizes 'aviatrix' as 'aviatrices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'aviatrix'.en.plural.should == 'aviatrices'
+			expect( 'aviatrix'.en.plural ).to eq( 'aviatrices' )
 		end
 	end
 
 
 	it "pluralizes 'aviatrix's' as 'aviatrixes''" do
-		"aviatrix's".en.plural.should == "aviatrixes'" # aviatrices'
+		expect( "aviatrix's".en.plural ).to eq( "aviatrixes'" ) # aviatrices'
 	end
 
 
 	it "pluralizes 'Avignonese' as 'Avignonese'" do
-		'Avignonese'.en.plural.should == 'Avignonese' # 
+		expect( 'Avignonese'.en.plural ).to eq( 'Avignonese' )
 	end
 
 
 	it "pluralizes 'axe' as 'axes'" do
-		'axe'.en.plural.should == 'axes' # 
+		expect( 'axe'.en.plural ).to eq( 'axes' )
 	end
 
 
 	it "pluralizes 'axis' as 'axes'" do
-		'axis'.en.plural.should == 'axes' # 
+		expect( 'axis'.en.plural ).to eq( 'axes' )
 	end
 
 
 	it "pluralizes 'Azerbaijanese' as 'Azerbaijanese'" do
-		'Azerbaijanese'.en.plural.should == 'Azerbaijanese' # 
+		expect( 'Azerbaijanese'.en.plural ).to eq( 'Azerbaijanese' )
 	end
 
 
 	it "pluralizes 'bacillus' as 'bacilli'" do
-		'bacillus'.en.plural.should == 'bacilli' # 
+		expect( 'bacillus'.en.plural ).to eq( 'bacilli' )
 	end
 
 
 	it "pluralizes 'bacterium' as 'bacteria'" do
-		'bacterium'.en.plural.should == 'bacteria' # 
+		expect( 'bacterium'.en.plural ).to eq( 'bacteria' )
 	end
 
 
 	it "pluralizes 'Bahaman' as 'Bahamans'" do
-		'Bahaman'.en.plural.should == 'Bahamans' # 
+		expect( 'Bahaman'.en.plural ).to eq( 'Bahamans' )
 	end
 
 
 	it "pluralizes 'Balinese' as 'Balinese'" do
-		'Balinese'.en.plural.should == 'Balinese' # 
+		expect( 'Balinese'.en.plural ).to eq( 'Balinese' )
 	end
 
 
 	it "pluralizes 'bamboo' as 'bamboos'" do
-		'bamboo'.en.plural.should == 'bamboos' # 
+		expect( 'bamboo'.en.plural ).to eq( 'bamboos' )
 	end
 
 
 	it "pluralizes 'banjo' as 'banjoes'" do
-		'banjo'.en.plural.should == 'banjoes' # 
+		expect( 'banjo'.en.plural ).to eq( 'banjoes' )
 	end
 
 
 	# INSTRUMENT, NOT FISH
 	it "pluralizes 'bass' as 'basses'" do
-		'bass'.en.plural.should == 'basses' # 
+		expect( 'bass'.en.plural ).to eq( 'basses' )
 	end
 
 
 	it "pluralizes 'basso' as 'bassos'" do
-		'basso'.en.plural.should == 'bassos'
+		expect( 'basso'.en.plural ).to eq( 'bassos' )
 	end
 
 	it "pluralizes 'basso' as 'bassi' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'basso'.en.plural.should == 'bassi'
+			expect( 'basso'.en.plural ).to eq( 'bassi' )
 		end
 	end
 
 
 	it "pluralizes 'bathos' as 'bathoses'" do
-		'bathos'.en.plural.should == 'bathoses' # 
+		expect( 'bathos'.en.plural ).to eq( 'bathoses' )
 	end
 
 
 	it "pluralizes 'beau' as 'beaus'" do
-		'beau'.en.plural.should == 'beaus'
+		expect( 'beau'.en.plural ).to eq( 'beaus' )
 	end
 
 	it "pluralizes 'beau' as 'beaux' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'beau'.en.plural.should == 'beaux'
+			expect( 'beau'.en.plural ).to eq( 'beaux' )
 		end
 	end
 
 
 	it "pluralizes 'beef' as 'beefs'" do
-		'beef'.en.plural.should == 'beefs'
+		expect( 'beef'.en.plural ).to eq( 'beefs' )
 	end
 
 	it "pluralizes 'beef' as 'beeves' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'beef'.en.plural.should == 'beeves'
+			expect( 'beef'.en.plural ).to eq( 'beeves' )
 		end
 	end
 
 
 	# ACCUSATIVE
 	it "pluralizes 'beneath it' as 'beneath them'" do
-		'beneath it'.en.plural.should == 'beneath them' # 
+		expect( 'beneath it'.en.plural ).to eq( 'beneath them' )
 	end
 
 
 	it "pluralizes 'Bengalese' as 'Bengalese'" do
-		'Bengalese'.en.plural.should == 'Bengalese' # 
+		expect( 'Bengalese'.en.plural ).to eq( 'Bengalese' )
 	end
 
 
 	# VERB FORM
 	it "pluralizes 'bent' (as a verb) as 'bent'" do
-		'bent'.en.plural_verb.should == 'bent' # 
+		expect( 'bent'.en.plural_verb ).to eq( 'bent' )
 	end
 
 
 	# NOUN FORM
 	it "pluralizes 'bent' as 'bents'" do
-		'bent'.en.plural.should == 'bents' # 
+		expect( 'bent'.en.plural ).to eq( 'bents' )
 	end
 
 
 	it "pluralizes 'Bernese' as 'Bernese'" do
-		'Bernese'.en.plural.should == 'Bernese' # 
+		expect( 'Bernese'.en.plural ).to eq( 'Bernese' )
 	end
 
 
 	it "pluralizes 'Bhutanese' as 'Bhutanese'" do
-		'Bhutanese'.en.plural.should == 'Bhutanese' # 
+		expect( 'Bhutanese'.en.plural ).to eq( 'Bhutanese' )
 	end
 
 
 	it "pluralizes 'bias' as 'biases'" do
-		'bias'.en.plural.should == 'biases' # 
+		expect( 'bias'.en.plural ).to eq( 'biases' )
 	end
 
 
 	it "pluralizes 'biceps' as 'biceps'" do
-		'biceps'.en.plural.should == 'biceps' # 
+		expect( 'biceps'.en.plural ).to eq( 'biceps' )
 	end
 
 
 	it "pluralizes 'bison' as 'bisons'" do
-		'bison'.en.plural.should == 'bisons'
+		expect( 'bison'.en.plural ).to eq( 'bisons' )
 	end
 
 	it "pluralizes 'bison' as 'bison' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'bison'.en.plural.should == 'bison'
+			expect( 'bison'.en.plural ).to eq( 'bison' )
 		end
 	end
 
 
 	it "pluralizes 'Bolognese' as 'Bolognese'" do
-		'Bolognese'.en.plural.should == 'Bolognese' # 
+		expect( 'Bolognese'.en.plural ).to eq( 'Bolognese' )
 	end
 
 
 	it "pluralizes 'bonus' as 'bonuses'" do
-		'bonus'.en.plural.should == 'bonuses' # 
+		expect( 'bonus'.en.plural ).to eq( 'bonuses' )
 	end
 
 
 	it "pluralizes 'Borghese' as 'Borghese'" do
-		'Borghese'.en.plural.should == 'Borghese' # 
+		expect( 'Borghese'.en.plural ).to eq( 'Borghese' )
 	end
 
 
 	it "pluralizes 'boss' as 'bosses'" do
-		'boss'.en.plural.should == 'bosses' # 
+		expect( 'boss'.en.plural ).to eq( 'bosses' )
 	end
 
 
 	it "pluralizes 'Bostonese' as 'Bostonese'" do
-		'Bostonese'.en.plural.should == 'Bostonese' # 
+		expect( 'Bostonese'.en.plural ).to eq( 'Bostonese' )
 	end
 
 
 	it "pluralizes 'box' as 'boxes'" do
-		'box'.en.plural.should == 'boxes' # 
+		expect( 'box'.en.plural ).to eq( 'boxes' )
 	end
 
 
 	it "pluralizes 'boy' as 'boys'" do
-		'boy'.en.plural.should == 'boys' # 
+		expect( 'boy'.en.plural ).to eq( 'boys' )
 	end
 
 
 	it "pluralizes 'bravo' as 'bravoes'" do
-		'bravo'.en.plural.should == 'bravoes' # 
+		expect( 'bravo'.en.plural ).to eq( 'bravoes' )
 	end
 
 
 	it "pluralizes 'bream' as 'bream'" do
-		'bream'.en.plural.should == 'bream' # 
+		expect( 'bream'.en.plural ).to eq( 'bream' )
 	end
 
 
 	it "pluralizes 'breeches' as 'breeches'" do
-		'breeches'.en.plural.should == 'breeches' # 
+		expect( 'breeches'.en.plural ).to eq( 'breeches' )
 	end
 
 
 	it "pluralizes 'bride-to-be' as 'brides-to-be'" do
-		'bride-to-be'.en.plural.should == 'brides-to-be' # 
+		expect( 'bride-to-be'.en.plural ).to eq( 'brides-to-be' )
 	end
 
 
 	it "pluralizes 'britches' as 'britches'" do
-		'britches'.en.plural.should == 'britches' # 
+		expect( 'britches'.en.plural ).to eq( 'britches' )
 	end
 
 
 	it "pluralizes 'bronchitis' as 'bronchitises'" do
-		'bronchitis'.en.plural.should == 'bronchitises' # 
+		expect( 'bronchitis'.en.plural ).to eq( 'bronchitises' )
 	end
 
 
 	it "pluralizes 'bronchus' as 'bronchi'" do
-		'bronchus'.en.plural.should == 'bronchi' # 
+		expect( 'bronchus'.en.plural ).to eq( 'bronchi' )
 	end
 
 
 	it "pluralizes 'brother' as 'brothers'" do
-		'brother'.en.plural.should == 'brothers'
+		expect( 'brother'.en.plural ).to eq( 'brothers' )
 	end
 
 	it "pluralizes 'brother' as 'brethren' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'brother'.en.plural.should == 'brethren'
+			expect( 'brother'.en.plural ).to eq( 'brethren' )
 		end
 	end
 
 
 	it "pluralizes 'brother's' as 'brothers''" do
-		"brother's".en.plural.should == "brothers'" # brethren's
+		expect( "brother's".en.plural ).to eq( "brothers'" ) # brethren's
 	end
 
 
 	it "pluralizes 'buffalo' as 'buffaloes'" do
-		'buffalo'.en.plural.should == 'buffaloes'
+		expect( 'buffalo'.en.plural ).to eq( 'buffaloes' )
 	end
 
 	it "pluralizes 'buffalo' as 'buffalo' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'buffalo'.en.plural.should == 'buffalo'
+			expect( 'buffalo'.en.plural ).to eq( 'buffalo' )
 		end
 	end
 
 
 	it "pluralizes 'Buginese' as 'Buginese'" do
-		'Buginese'.en.plural.should == 'Buginese' # 
+		expect( 'Buginese'.en.plural ).to eq( 'Buginese' )
 	end
 
 
 	it "pluralizes 'buoy' as 'buoys'" do
-		'buoy'.en.plural.should == 'buoys' # 
+		expect( 'buoy'.en.plural ).to eq( 'buoys' )
 	end
 
 
 	it "pluralizes 'bureau' as 'bureaus'" do
-		'bureau'.en.plural.should == 'bureaus'
+		expect( 'bureau'.en.plural ).to eq( 'bureaus' )
 	end
 
 	it "pluralizes 'bureau' as 'bureaux' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'bureau'.en.plural.should == 'bureaux'
+			expect( 'bureau'.en.plural ).to eq( 'bureaux' )
 		end
 	end
 
 
 	it "pluralizes 'Burman' as 'Burmans'" do
-		'Burman'.en.plural.should == 'Burmans' # 
+		expect( 'Burman'.en.plural ).to eq( 'Burmans' )
 	end
 
 
 	it "pluralizes 'Burmese' as 'Burmese'" do
-		'Burmese'.en.plural.should == 'Burmese' # 
+		expect( 'Burmese'.en.plural ).to eq( 'Burmese' )
 	end
 
 
 	it "pluralizes 'bursitis' as 'bursitises'" do
-		'bursitis'.en.plural.should == 'bursitises' # 
+		expect( 'bursitis'.en.plural ).to eq( 'bursitises' )
 	end
 
 
 	it "pluralizes 'bus' as 'buses'" do
-		'bus'.en.plural.should == 'buses' # 
+		expect( 'bus'.en.plural ).to eq( 'buses' )
 	end
 
 
 	it "pluralizes 'buzz' as 'buzzes'" do
-		'buzz'.en.plural.should == 'buzzes' # 
+		expect( 'buzz'.en.plural ).to eq( 'buzzes' )
 	end
 
 
 	# VERB FORM
 	it "pluralizes 'buzzes' as 'buzz'" do
-		'buzzes'.en.plural.should == 'buzz' # 
+		expect( 'buzzes'.en.plural ).to eq( 'buzz' )
 	end
 
 
 	# ACCUSATIVE
 	it "pluralizes 'by it' as 'by them'" do
-		'by it'.en.plural.should == 'by them' # 
+		expect( 'by it'.en.plural ).to eq( 'by them' )
 	end
 
 
 	it "pluralizes 'caddis' as 'caddises'" do
-		'caddis'.en.plural.should == 'caddises' # 
+		expect( 'caddis'.en.plural ).to eq( 'caddises' )
 	end
 
 
 	it "pluralizes 'cake' as 'cakes'" do
-		'cake'.en.plural.should == 'cakes' # 
+		expect( 'cake'.en.plural ).to eq( 'cakes' )
 	end
 
 
 	it "pluralizes 'Calabrese' as 'Calabrese'" do
-		'Calabrese'.en.plural.should == 'Calabrese' # 
+		expect( 'Calabrese'.en.plural ).to eq( 'Calabrese' )
 	end
 
 
 	it "pluralizes 'calf' as 'calves'" do
-		'calf'.en.plural.should == 'calves' # 
+		expect( 'calf'.en.plural ).to eq( 'calves' )
 	end
 
 
 	it "pluralizes 'callus' as 'calluses'" do
-		'callus'.en.plural.should == 'calluses' # 
+		expect( 'callus'.en.plural ).to eq( 'calluses' )
 	end
 
 
 	it "pluralizes 'Camaldolese' as 'Camaldolese'" do
-		'Camaldolese'.en.plural.should == 'Camaldolese' # 
+		expect( 'Camaldolese'.en.plural ).to eq( 'Camaldolese' )
 	end
 
 
 	it "pluralizes 'cameo' as 'cameos'" do
-		'cameo'.en.plural.should == 'cameos' # 
+		expect( 'cameo'.en.plural ).to eq( 'cameos' )
 	end
 
 
 	it "pluralizes 'campus' as 'campuses'" do
-		'campus'.en.plural.should == 'campuses' # 
+		expect( 'campus'.en.plural ).to eq( 'campuses' )
 	end
 
 
 	# NOUN FORM
 	it "pluralizes 'can' as 'cans'" do
-		'can'.en.plural.should == 'cans' # 
+		expect( 'can'.en.plural ).to eq( 'cans' )
 	end
 
 
 	# VERB FORM (all pers.)
 	it "pluralizes 'can' (as a verb) as 'can'" do
-		'can'.en.plural_verb.should == 'can' # 
+		expect( 'can'.en.plural_verb ).to eq( 'can' )
 	end
 
 
 	it "pluralizes 'candelabrum' as 'candelabra'" do
-		'candelabrum'.en.plural.should == 'candelabra' # 
+		expect( 'candelabrum'.en.plural ).to eq( 'candelabra' )
 	end
 
 
 	it "pluralizes 'cannabis' as 'cannabises'" do
-		'cannabis'.en.plural.should == 'cannabises' # 
+		expect( 'cannabis'.en.plural ).to eq( 'cannabises' )
 	end
 
 
 	it "pluralizes 'canto' as 'cantos'" do
-		'canto'.en.plural.should == 'cantos' # 
+		expect( 'canto'.en.plural ).to eq( 'cantos' )
 	end
 
 
 	it "pluralizes 'Cantonese' as 'Cantonese'" do
-		'Cantonese'.en.plural.should == 'Cantonese' # 
+		expect( 'Cantonese'.en.plural ).to eq( 'Cantonese' )
 	end
 
 
 	it "pluralizes 'cantus' as 'cantus'" do
-		'cantus'.en.plural.should == 'cantus' # 
+		expect( 'cantus'.en.plural ).to eq( 'cantus' )
 	end
 
 
 	it "pluralizes 'canvas' as 'canvases'" do
-		'canvas'.en.plural.should == 'canvases' # 
+		expect( 'canvas'.en.plural ).to eq( 'canvases' )
 	end
 
 
 	it "pluralizes 'CAPITAL' as 'CAPITALS'" do
-		'CAPITAL'.en.plural.should == 'CAPITALS' # 
+		expect( 'CAPITAL'.en.plural ).to eq( 'CAPITALS' )
 	end
 
 
 	it "pluralizes 'carcinoma' as 'carcinomas'" do
-		'carcinoma'.en.plural.should == 'carcinomas'
+		expect( 'carcinoma'.en.plural ).to eq( 'carcinomas' )
 	end
 
 	it "pluralizes 'carcinoma' as 'carcinomata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'carcinoma'.en.plural.should == 'carcinomata'
+			expect( 'carcinoma'.en.plural ).to eq( 'carcinomata' )
 		end
 	end
 
 
 	it "pluralizes 'care' as 'cares'" do
-		'care'.en.plural.should == 'cares' # 
+		expect( 'care'.en.plural ).to eq( 'cares' )
 	end
 
 
 	it "pluralizes 'cargo' as 'cargoes'" do
-		'cargo'.en.plural.should == 'cargoes' # 
+		expect( 'cargo'.en.plural ).to eq( 'cargoes' )
 	end
 
 
 	it "pluralizes 'Carlylese' as 'Carlylese'" do
-		'Carlylese'.en.plural.should == 'Carlylese' # 
+		expect( 'Carlylese'.en.plural ).to eq( 'Carlylese' )
 	end
 
 
 	it "pluralizes 'carp' as 'carp'" do
-		'carp'.en.plural.should == 'carp' # 
+		expect( 'carp'.en.plural ).to eq( 'carp' )
 	end
 
 
 	it "pluralizes 'Cassinese' as 'Cassinese'" do
-		'Cassinese'.en.plural.should == 'Cassinese' # 
+		expect( 'Cassinese'.en.plural ).to eq( 'Cassinese' )
 	end
 
 
 	it "pluralizes 'cat' as 'cats'" do
-		'cat'.en.plural.should == 'cats' # 
+		expect( 'cat'.en.plural ).to eq( 'cats' )
 	end
 
 
 	it "pluralizes 'catfish' as 'catfish'" do
-		'catfish'.en.plural.should == 'catfish' # 
+		expect( 'catfish'.en.plural ).to eq( 'catfish' )
 	end
 
 
 	it "pluralizes 'Celanese' as 'Celanese'" do
-		'Celanese'.en.plural.should == 'Celanese' # 
+		expect( 'Celanese'.en.plural ).to eq( 'Celanese' )
 	end
 
 
 	it "pluralizes 'Ceylonese' as 'Ceylonese'" do
-		'Ceylonese'.en.plural.should == 'Ceylonese' # 
+		expect( 'Ceylonese'.en.plural ).to eq( 'Ceylonese' )
 	end
 
 
 	it "pluralizes 'chairman' as 'chairmen'" do
-		'chairman'.en.plural.should == 'chairmen' # 
+		expect( 'chairman'.en.plural ).to eq( 'chairmen' )
 	end
 
 
 	it "pluralizes 'chamois' as 'chamois'" do
-		'chamois'.en.plural.should == 'chamois' # 
+		expect( 'chamois'.en.plural ).to eq( 'chamois' )
 	end
 
 
 	it "pluralizes 'chaos' as 'chaoses'" do
-		'chaos'.en.plural.should == 'chaoses' # 
+		expect( 'chaos'.en.plural ).to eq( 'chaoses' )
 	end
 
 
 	it "pluralizes 'chapeau' as 'chapeaus'" do
-		'chapeau'.en.plural.should == 'chapeaus'
+		expect( 'chapeau'.en.plural ).to eq( 'chapeaus' )
 	end
 
 	it "pluralizes 'chapeau' as 'chapeaux' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'chapeau'.en.plural.should == 'chapeaux'
+			expect( 'chapeau'.en.plural ).to eq( 'chapeaux' )
 		end
 	end
 
 
 	it "pluralizes 'charisma' as 'charismas'" do
-		'charisma'.en.plural.should == 'charismas'
+		expect( 'charisma'.en.plural ).to eq( 'charismas' )
 	end
 
 	it "pluralizes 'charisma' as 'charismata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'charisma'.en.plural.should == 'charismata'
+			expect( 'charisma'.en.plural ).to eq( 'charismata' )
 		end
 	end
 
 
 	it "pluralizes 'chases' as 'chase'" do
-		'chases'.en.plural.should == 'chase' # 
+		expect( 'chases'.en.plural ).to eq( 'chase' )
 	end
 
 
 	it "pluralizes 'chassis' as 'chassis'" do
-		'chassis'.en.plural.should == 'chassis' # 
+		expect( 'chassis'.en.plural ).to eq( 'chassis' )
 	end
 
 
 	it "pluralizes 'chateau' as 'chateaus'" do
-		'chateau'.en.plural.should == 'chateaus'
+		expect( 'chateau'.en.plural ).to eq( 'chateaus' )
 	end
 
 	it "pluralizes 'chateau' as 'chateaux' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'chateau'.en.plural.should == 'chateaux'
+			expect( 'chateau'.en.plural ).to eq( 'chateaux' )
 		end
 	end
 
 
 	it "pluralizes 'cherub' as 'cherubs'" do
-		'cherub'.en.plural.should == 'cherubs'
+		expect( 'cherub'.en.plural ).to eq( 'cherubs' )
 	end
 
 	it "pluralizes 'cherub' as 'cherubim' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'cherub'.en.plural.should == 'cherubim'
+			expect( 'cherub'.en.plural ).to eq( 'cherubim' )
 		end
 	end
 
 
 	it "pluralizes 'chickenpox' as 'chickenpox'" do
-		'chickenpox'.en.plural.should == 'chickenpox' # 
+		expect( 'chickenpox'.en.plural ).to eq( 'chickenpox' )
 	end
 
 
 	it "pluralizes 'chief' as 'chiefs'" do
-		'chief'.en.plural.should == 'chiefs' # 
+		expect( 'chief'.en.plural ).to eq( 'chiefs' )
 	end
 
 
 	it "pluralizes 'child' as 'children'" do
-		'child'.en.plural.should == 'children' # 
+		expect( 'child'.en.plural ).to eq( 'children' )
 	end
 
 
 	it "pluralizes 'Chinese' as 'Chinese'" do
-		'Chinese'.en.plural.should == 'Chinese' # 
+		expect( 'Chinese'.en.plural ).to eq( 'Chinese' )
 	end
 
 
 	it "pluralizes 'chorus' as 'choruses'" do
-		'chorus'.en.plural.should == 'choruses' # 
+		expect( 'chorus'.en.plural ).to eq( 'choruses' )
 	end
 
 
 	it "pluralizes 'church' as 'churches'" do
-		'church'.en.plural.should == 'churches' # 
+		expect( 'church'.en.plural ).to eq( 'churches' )
 	end
 
 
 	it "pluralizes 'cicatrix' as 'cicatrixes'" do
-		'cicatrix'.en.plural.should == 'cicatrixes'
+		expect( 'cicatrix'.en.plural ).to eq( 'cicatrixes' )
 	end
 
 	it "pluralizes 'cicatrix' as 'cicatrices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'cicatrix'.en.plural.should == 'cicatrices'
+			expect( 'cicatrix'.en.plural ).to eq( 'cicatrices' )
 		end
 	end
 
 
 	it "pluralizes 'circus' as 'circuses'" do
-		'circus'.en.plural.should == 'circuses' # 
+		expect( 'circus'.en.plural ).to eq( 'circuses' )
 	end
 
 
 	it "pluralizes 'class' as 'classes'" do
-		'class'.en.plural.should == 'classes' # 
+		expect( 'class'.en.plural ).to eq( 'classes' )
 	end
 
 
 	# VERB FORM
 	it "pluralizes 'classes' as 'class'" do
-		'classes'.en.plural.should == 'class' # 
+		expect( 'classes'.en.plural ).to eq( 'class' )
 	end
 
 
 	it "pluralizes 'clippers' as 'clippers'" do
-		'clippers'.en.plural.should == 'clippers' # 
+		expect( 'clippers'.en.plural ).to eq( 'clippers' )
 	end
 
 
 	it "pluralizes 'clitoris' as 'clitorises'" do
-		'clitoris'.en.plural.should == 'clitorises'
+		expect( 'clitoris'.en.plural ).to eq( 'clitorises' )
 	end
 
 	it "pluralizes 'clitoris' as 'clitorides' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'clitoris'.en.plural.should == 'clitorides'
+			expect( 'clitoris'.en.plural ).to eq( 'clitorides' )
 		end
 	end
 
 
 	it "pluralizes 'cod' as 'cod'" do
-		'cod'.en.plural.should == 'cod' # 
+		expect( 'cod'.en.plural ).to eq( 'cod' )
 	end
 
 
 	it "pluralizes 'codex' as 'codices'" do
-		'codex'.en.plural.should == 'codices' # 
+		expect( 'codex'.en.plural ).to eq( 'codices' )
 	end
 
 
 	it "pluralizes 'coitus' as 'coitus'" do
-		'coitus'.en.plural.should == 'coitus' # 
+		expect( 'coitus'.en.plural ).to eq( 'coitus' )
 	end
 
 
 	it "pluralizes 'commando' as 'commandos'" do
-		'commando'.en.plural.should == 'commandos' # 
+		expect( 'commando'.en.plural ).to eq( 'commandos' )
 	end
 
 
 	it "pluralizes 'compendium' as 'compendiums'" do
-		'compendium'.en.plural.should == 'compendiums'
+		expect( 'compendium'.en.plural ).to eq( 'compendiums' )
 	end
 
 	it "pluralizes 'compendium' as 'compendia' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'compendium'.en.plural.should == 'compendia'
+			expect( 'compendium'.en.plural ).to eq( 'compendia' )
 		end
 	end
 
 
 	it "pluralizes 'Congoese' as 'Congoese'" do
-		'Congoese'.en.plural.should == 'Congoese' # 
+		expect( 'Congoese'.en.plural ).to eq( 'Congoese' )
 	end
 
 
 	it "pluralizes 'Congolese' as 'Congolese'" do
-		'Congolese'.en.plural.should == 'Congolese' # 
+		expect( 'Congolese'.en.plural ).to eq( 'Congolese' )
 	end
 
 
 	it "pluralizes 'conspectus' as 'conspectuses'" do
-		'conspectus'.en.plural.should == 'conspectuses' # 
+		expect( 'conspectus'.en.plural ).to eq( 'conspectuses' )
 	end
 
 
 	it "pluralizes 'contralto' as 'contraltos'" do
-		'contralto'.en.plural.should == 'contraltos'
+		expect( 'contralto'.en.plural ).to eq( 'contraltos' )
 	end
 
 	it "pluralizes 'contralto' as 'contralti' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'contralto'.en.plural.should == 'contralti'
+			expect( 'contralto'.en.plural ).to eq( 'contralti' )
 		end
 	end
 
 
 	it "pluralizes 'contretemps' as 'contretemps'" do
-		'contretemps'.en.plural.should == 'contretemps' # 
+		expect( 'contretemps'.en.plural ).to eq( 'contretemps' )
 	end
 
 
 	it "pluralizes 'conundrum' as 'conundrums'" do
-		'conundrum'.en.plural.should == 'conundrums' # 
+		expect( 'conundrum'.en.plural ).to eq( 'conundrums' )
 	end
 
 
 	it "pluralizes 'corps' as 'corps'" do
-		'corps'.en.plural.should == 'corps' # 
+		expect( 'corps'.en.plural ).to eq( 'corps' )
 	end
 
 
 	it "pluralizes 'corpus' as 'corpuses'" do
-		'corpus'.en.plural.should == 'corpuses'
+		expect( 'corpus'.en.plural ).to eq( 'corpuses' )
 	end
 
 	it "pluralizes 'corpus' as 'corpora' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'corpus'.en.plural.should == 'corpora'
+			expect( 'corpus'.en.plural ).to eq( 'corpora' )
 		end
 	end
 
 
 	it "pluralizes 'cortex' as 'cortexes'" do
-		'cortex'.en.plural.should == 'cortexes'
+		expect( 'cortex'.en.plural ).to eq( 'cortexes' )
 	end
 
 	it "pluralizes 'cortex' as 'cortices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'cortex'.en.plural.should == 'cortices'
+			expect( 'cortex'.en.plural ).to eq( 'cortices' )
 		end
 	end
 
 
 	it "pluralizes 'cosmos' as 'cosmoses'" do
-		'cosmos'.en.plural.should == 'cosmoses' # 
+		expect( 'cosmos'.en.plural ).to eq( 'cosmoses' )
 	end
 
 
 	it "pluralizes 'court martial' as 'courts martial'" do
-		'court martial'.en.plural.should == 'courts martial' # 
+		expect( 'court martial'.en.plural ).to eq( 'courts martial' )
 	end
 
 
 	it "pluralizes 'cow' as 'cows'" do
-		'cow'.en.plural.should == 'cows'
+		expect( 'cow'.en.plural ).to eq( 'cows' )
 	end
 
 	it "pluralizes 'cow' as 'kine' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'cow'.en.plural.should == 'kine'
+			expect( 'cow'.en.plural ).to eq( 'kine' )
 		end
 	end
 
 
 	it "pluralizes 'cranium' as 'craniums'" do
-		'cranium'.en.plural.should == 'craniums'
+		expect( 'cranium'.en.plural ).to eq( 'craniums' )
 	end
 
 	it "pluralizes 'cranium' as 'crania' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'cranium'.en.plural.should == 'crania'
+			expect( 'cranium'.en.plural ).to eq( 'crania' )
 		end
 	end
 
 
 	it "pluralizes 'crescendo' as 'crescendos'" do
-		'crescendo'.en.plural.should == 'crescendos' # 
+		expect( 'crescendo'.en.plural ).to eq( 'crescendos' )
 	end
 
 
 	it "pluralizes 'criterion' as 'criteria'" do
-		'criterion'.en.plural.should == 'criteria' # 
+		expect( 'criterion'.en.plural ).to eq( 'criteria' )
 	end
 
 
 	it "pluralizes 'curriculum' as 'curriculums'" do
-		'curriculum'.en.plural.should == 'curriculums'
+		expect( 'curriculum'.en.plural ).to eq( 'curriculums' )
 	end
 
 	it "pluralizes 'curriculum' as 'curricula' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'curriculum'.en.plural.should == 'curricula'
+			expect( 'curriculum'.en.plural ).to eq( 'curricula' )
 		end
 	end
 
 
 	it "pluralizes 'dais' as 'daises'" do
-		'dais'.en.plural.should == 'daises' # 
+		expect( 'dais'.en.plural ).to eq( 'daises' )
 	end
 
 
 	it "pluralizes 'data point' as 'data points'" do
-		'data point'.en.plural.should == 'data points' # 
+		expect( 'data point'.en.plural ).to eq( 'data points' )
 	end
 
 
 	it "pluralizes 'datum' as 'data'" do
-		'datum'.en.plural.should == 'data' # 
+		expect( 'datum'.en.plural ).to eq( 'data' )
 	end
 
 
 	it "pluralizes 'debris' as 'debris'" do
-		'debris'.en.plural.should == 'debris' # 
+		expect( 'debris'.en.plural ).to eq( 'debris' )
 	end
 
 
 	it "pluralizes 'decorum' as 'decorums'" do
-		'decorum'.en.plural.should == 'decorums' # 
+		expect( 'decorum'.en.plural ).to eq( 'decorums' )
 	end
 
 
 	it "pluralizes 'deer' as 'deer'" do
-		'deer'.en.plural.should == 'deer' # 
+		expect( 'deer'.en.plural ).to eq( 'deer' )
 	end
 
 
 	it "pluralizes 'delphinium' as 'delphiniums'" do
-		'delphinium'.en.plural.should == 'delphiniums' # 
+		expect( 'delphinium'.en.plural ).to eq( 'delphiniums' )
 	end
 
 
 	it "pluralizes 'desideratum' as 'desiderata'" do
-		'desideratum'.en.plural.should == 'desiderata' # 
+		expect( 'desideratum'.en.plural ).to eq( 'desiderata' )
 	end
 
 
 	it "pluralizes 'diabetes' as 'diabetes'" do
-		'diabetes'.en.plural.should == 'diabetes' # 
+		expect( 'diabetes'.en.plural ).to eq( 'diabetes' )
 	end
 
 
 	it "pluralizes 'dictum' as 'dictums'" do
-		'dictum'.en.plural.should == 'dictums'
+		expect( 'dictum'.en.plural ).to eq( 'dictums' )
 	end
 
 	it "pluralizes 'dictum' as 'dicta' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'dictum'.en.plural.should == 'dicta'
+			expect( 'dictum'.en.plural ).to eq( 'dicta' )
 		end
 	end
 
 
 	it "pluralizes 'did' as 'did'" do
-		'did'.en.plural.should == 'did' # 
+		expect( 'did'.en.plural ).to eq( 'did' )
 	end
 
 
 	it "pluralizes 'did need' as 'did need'" do
-		'did need'.en.plural.should == 'did need' # 
+		expect( 'did need'.en.plural ).to eq( 'did need' )
 	end
 
 
 	it "pluralizes 'digitalis' as 'digitalises'" do
-		'digitalis'.en.plural.should == 'digitalises' # 
+		expect( 'digitalis'.en.plural ).to eq( 'digitalises' )
 	end
 
 
 	it "pluralizes 'dingo' as 'dingoes'" do
-		'dingo'.en.plural.should == 'dingoes' # 
+		expect( 'dingo'.en.plural ).to eq( 'dingoes' )
 	end
 
 
 	it "pluralizes 'diploma' as 'diplomas'" do
-		'diploma'.en.plural.should == 'diplomas'
+		expect( 'diploma'.en.plural ).to eq( 'diplomas' )
 	end
 
 	it "pluralizes 'diploma' as 'diplomata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'diploma'.en.plural.should == 'diplomata'
+			expect( 'diploma'.en.plural ).to eq( 'diplomata' )
 		end
 	end
 
 
 	it "pluralizes 'discus' as 'discuses'" do
-		'discus'.en.plural.should == 'discuses' # 
+		expect( 'discus'.en.plural ).to eq( 'discuses' )
 	end
 
 
 	it "pluralizes 'dish' as 'dishes'" do
-		'dish'.en.plural.should == 'dishes' # 
+		expect( 'dish'.en.plural ).to eq( 'dishes' )
 	end
 
 
 	it "pluralizes 'ditto' as 'dittos'" do
-		'ditto'.en.plural.should == 'dittos' # 
+		expect( 'ditto'.en.plural ).to eq( 'dittos' )
 	end
 
 
 	it "pluralizes 'djinn' as 'djinn'" do
-		'djinn'.en.plural.should == 'djinn' # 
+		expect( 'djinn'.en.plural ).to eq( 'djinn' )
 	end
 
 
 	it "pluralizes 'does' as 'do'" do
-		'does'.en.plural.should == 'do' # 
+		expect( 'does'.en.plural ).to eq( 'do' )
 	end
 
 
 	it "pluralizes 'dog' as 'dogs'" do
-		'dog'.en.plural.should == 'dogs' # 
+		expect( 'dog'.en.plural ).to eq( 'dogs' )
 	end
 
 
 	it "pluralizes 'dogma' as 'dogmas'" do
-		'dogma'.en.plural.should == 'dogmas'
+		expect( 'dogma'.en.plural ).to eq( 'dogmas' )
 	end
 
 	it "pluralizes 'dogma' as 'dogmata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'dogma'.en.plural.should == 'dogmata'
+			expect( 'dogma'.en.plural ).to eq( 'dogmata' )
 		end
 	end
 
 
 	it "pluralizes 'dominatrix' as 'dominatrixes'" do
-		'dominatrix'.en.plural.should == 'dominatrixes'
+		expect( 'dominatrix'.en.plural ).to eq( 'dominatrixes' )
 	end
 
 	it "pluralizes 'dominatrix' as 'dominatrices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'dominatrix'.en.plural.should == 'dominatrices'
+			expect( 'dominatrix'.en.plural ).to eq( 'dominatrices' )
 		end
 	end
 
 
 	it "pluralizes 'domino' as 'dominoes'" do
-		'domino'.en.plural.should == 'dominoes' # 
+		expect( 'domino'.en.plural ).to eq( 'dominoes' )
 	end
 
 
 	it "pluralizes 'Dongolese' as 'Dongolese'" do
-		'Dongolese'.en.plural.should == 'Dongolese' # 
+		expect( 'Dongolese'.en.plural ).to eq( 'Dongolese' )
 	end
 
 
 	it "pluralizes 'drama' as 'dramas'" do
-		'drama'.en.plural.should == 'dramas'
+		expect( 'drama'.en.plural ).to eq( 'dramas' )
 	end
 
 	it "pluralizes 'drama' as 'dramata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'drama'.en.plural.should == 'dramata'
+			expect( 'drama'.en.plural ).to eq( 'dramata' )
 		end
 	end
 
 
 	it "pluralizes 'drum' as 'drums'" do
-		'drum'.en.plural.should == 'drums' # 
+		expect( 'drum'.en.plural ).to eq( 'drums' )
 	end
 
 
 	it "pluralizes 'dwarf' as 'dwarves'" do
-		'dwarf'.en.plural.should == 'dwarves' # 
+		expect( 'dwarf'.en.plural ).to eq( 'dwarves' )
 	end
 
 
 	it "pluralizes 'dynamo' as 'dynamos'" do
-		'dynamo'.en.plural.should == 'dynamos' # 
+		expect( 'dynamo'.en.plural ).to eq( 'dynamos' )
 	end
 
 
 	it "pluralizes 'edema' as 'edemas'" do
-		'edema'.en.plural.should == 'edemas'
+		expect( 'edema'.en.plural ).to eq( 'edemas' )
 	end
 
 	it "pluralizes 'edema' as 'edemata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'edema'.en.plural.should == 'edemata'
+			expect( 'edema'.en.plural ).to eq( 'edemata' )
 		end
 	end
 
 
 	it "pluralizes 'eland' as 'elands'" do
-		'eland'.en.plural.should == 'elands'
+		expect( 'eland'.en.plural ).to eq( 'elands' )
 	end
 
 	it "pluralizes 'eland' as 'eland' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'eland'.en.plural.should == 'eland'
+			expect( 'eland'.en.plural ).to eq( 'eland' )
 		end
 	end
 
 
 	it "pluralizes 'elf' as 'elves'" do
-		'elf'.en.plural.should == 'elves' # 
+		expect( 'elf'.en.plural ).to eq( 'elves' )
 	end
 
 
 	it "pluralizes 'elk' as 'elks'" do
-		'elk'.en.plural.should == 'elks'
+		expect( 'elk'.en.plural ).to eq( 'elks' )
 	end
 
 	it "pluralizes 'elk' as 'elk' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'elk'.en.plural.should == 'elk'
+			expect( 'elk'.en.plural ).to eq( 'elk' )
 		end
 	end
 
 
 	it "pluralizes 'embryo' as 'embryos'" do
-		'embryo'.en.plural.should == 'embryos' # 
+		expect( 'embryo'.en.plural ).to eq( 'embryos' )
 	end
 
 
 	it "pluralizes 'emporium' as 'emporiums'" do
-		'emporium'.en.plural.should == 'emporiums'
+		expect( 'emporium'.en.plural ).to eq( 'emporiums' )
 	end
 
 	it "pluralizes 'emporium' as 'emporia' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'emporium'.en.plural.should == 'emporia'
+			expect( 'emporium'.en.plural ).to eq( 'emporia' )
 		end
 	end
 
 
 	it "pluralizes 'encephalitis' as 'encephalitises'" do
-		'encephalitis'.en.plural.should == 'encephalitises' # 
+		expect( 'encephalitis'.en.plural ).to eq( 'encephalitises' )
 	end
 
 
 	it "pluralizes 'enconium' as 'enconiums'" do
-		'enconium'.en.plural.should == 'enconiums'
+		expect( 'enconium'.en.plural ).to eq( 'enconiums' )
 	end
 
 	it "pluralizes 'enconium' as 'enconia' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'enconium'.en.plural.should == 'enconia'
+			expect( 'enconium'.en.plural ).to eq( 'enconia' )
 		end
 	end
 
 
 	it "pluralizes 'enema' as 'enemas'" do
-		'enema'.en.plural.should == 'enemas'
+		expect( 'enema'.en.plural ).to eq( 'enemas' )
 	end
 
 	it "pluralizes 'enema' as 'enemata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'enema'.en.plural.should == 'enemata'
+			expect( 'enema'.en.plural ).to eq( 'enemata' )
 		end
 	end
 
 
 	it "pluralizes 'enigma' as 'enigmas'" do
-		'enigma'.en.plural.should == 'enigmas'
+		expect( 'enigma'.en.plural ).to eq( 'enigmas' )
 	end
 
 	it "pluralizes 'enigma' as 'enigmata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'enigma'.en.plural.should == 'enigmata'
+			expect( 'enigma'.en.plural ).to eq( 'enigmata' )
 		end
 	end
 
 
 	it "pluralizes 'ephemeris' as 'ephemerides'" do
-		'ephemeris'.en.plural.should == 'ephemerides' # 
+		expect( 'ephemeris'.en.plural ).to eq( 'ephemerides' )
 	end
 
 
 	it "pluralizes 'epidermis' as 'epidermises'" do
-		'epidermis'.en.plural.should == 'epidermises' # 
+		expect( 'epidermis'.en.plural ).to eq( 'epidermises' )
 	end
 
 
 	it "pluralizes 'erratum' as 'errata'" do
-		'erratum'.en.plural.should == 'errata' # 
+		expect( 'erratum'.en.plural ).to eq( 'errata' )
 	end
 
 
 	it "pluralizes 'ethos' as 'ethoses'" do
-		'ethos'.en.plural.should == 'ethoses' # 
+		expect( 'ethos'.en.plural ).to eq( 'ethoses' )
 	end
 
 
 	it "pluralizes 'eucalyptus' as 'eucalyptuses'" do
-		'eucalyptus'.en.plural.should == 'eucalyptuses' # 
+		expect( 'eucalyptus'.en.plural ).to eq( 'eucalyptuses' )
 	end
 
 
 	it "pluralizes 'extremum' as 'extrema'" do
-		'extremum'.en.plural.should == 'extrema' # 
+		expect( 'extremum'.en.plural ).to eq( 'extrema' )
 	end
 
 
 	it "pluralizes 'eyas' as 'eyases'" do
-		'eyas'.en.plural.should == 'eyases' # 
+		expect( 'eyas'.en.plural ).to eq( 'eyases' )
 	end
 
 
 	it "pluralizes 'factotum' as 'factotums'" do
-		'factotum'.en.plural.should == 'factotums' # 
+		expect( 'factotum'.en.plural ).to eq( 'factotums' )
 	end
 
 
 	it "pluralizes 'Faroese' as 'Faroese'" do
-		'Faroese'.en.plural.should == 'Faroese' # 
+		expect( 'Faroese'.en.plural ).to eq( 'Faroese' )
 	end
 
 
 	it "pluralizes 'fauna' as 'faunas'" do
-		'fauna'.en.plural.should == 'faunas'
+		expect( 'fauna'.en.plural ).to eq( 'faunas' )
 	end
 
 	it "pluralizes 'fauna' as 'faunae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'fauna'.en.plural.should == 'faunae'
+			expect( 'fauna'.en.plural ).to eq( 'faunae' )
 		end
 	end
 
 
 	it "pluralizes 'fax' as 'faxes'" do
-		'fax'.en.plural.should == 'faxes' # 
+		expect( 'fax'.en.plural ).to eq( 'faxes' )
 	end
 
 
 	it "pluralizes 'Ferrarese' as 'Ferrarese'" do
-		'Ferrarese'.en.plural.should == 'Ferrarese' # 
+		expect( 'Ferrarese'.en.plural ).to eq( 'Ferrarese' )
 	end
 
 
 	it "pluralizes 'ferry as 'ferries'" do
-		'ferry'.en.plural.should == 'ferries' # 
+		expect( 'ferry'.en.plural ).to eq( 'ferries' )
 	end
 
 
 	it "pluralizes 'fetus' as 'fetuses'" do
-		'fetus'.en.plural.should == 'fetuses' # 
+		expect( 'fetus'.en.plural ).to eq( 'fetuses' )
 	end
 
 
 	it "pluralizes 'fiance' as 'fiances'" do
-		'fiance'.en.plural.should == 'fiances' # 
+		expect( 'fiance'.en.plural ).to eq( 'fiances' )
 	end
 
 
 	it "pluralizes 'fiancee' as 'fiancees'" do
-		'fiancee'.en.plural.should == 'fiancees' # 
+		expect( 'fiancee'.en.plural ).to eq( 'fiancees' )
 	end
 
 
 	it "pluralizes 'fiasco' as 'fiascos'" do
-		'fiasco'.en.plural.should == 'fiascos' # 
+		expect( 'fiasco'.en.plural ).to eq( 'fiascos' )
 	end
 
 
 	it "pluralizes 'fish' as 'fish'" do
-		'fish'.en.plural.should == 'fish' # 
+		expect( 'fish'.en.plural ).to eq( 'fish' )
 	end
 
 
 	it "pluralizes 'fizz' as 'fizzes'" do
-		'fizz'.en.plural.should == 'fizzes' # 
+		expect( 'fizz'.en.plural ).to eq( 'fizzes' )
 	end
 
 
 	it "pluralizes 'flamingo' as 'flamingoes'" do
-		'flamingo'.en.plural.should == 'flamingoes' # 
+		expect( 'flamingo'.en.plural ).to eq( 'flamingoes' )
 	end
 
 
 	it "pluralizes 'flora' as 'floras'" do
-		'flora'.en.plural.should == 'floras'
+		expect( 'flora'.en.plural ).to eq( 'floras' )
 	end
 
 	it "pluralizes 'flora' as 'florae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'flora'.en.plural.should == 'florae'
+			expect( 'flora'.en.plural ).to eq( 'florae' )
 		end
 	end
 
 
 	it "pluralizes 'flounder' as 'flounder'" do
-		'flounder'.en.plural.should == 'flounder' # 
+		expect( 'flounder'.en.plural ).to eq( 'flounder' )
 	end
 
 
 	it "pluralizes 'focus' as 'focuses'" do
-		'focus'.en.plural.should == 'focuses'
+		expect( 'focus'.en.plural ).to eq( 'focuses' )
 	end
 
 	it "pluralizes 'focus' as 'foci' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'focus'.en.plural.should == 'foci'
+			expect( 'focus'.en.plural ).to eq( 'foci' )
 		end
 	end
 
 
 	it "pluralizes 'foetus' as 'foetuses'" do
-		'foetus'.en.plural.should == 'foetuses' # 
+		expect( 'foetus'.en.plural ).to eq( 'foetuses' )
 	end
 
 
 	it "pluralizes 'folio' as 'folios'" do
-		'folio'.en.plural.should == 'folios' # 
+		expect( 'folio'.en.plural ).to eq( 'folios' )
 	end
 
 
 	it "pluralizes 'Foochowese' as 'Foochowese'" do
-		'Foochowese'.en.plural.should == 'Foochowese' # 
+		expect( 'Foochowese'.en.plural ).to eq( 'Foochowese' )
 	end
 
 
 	it "pluralizes 'foot' as 'feet'" do
-		'foot'.en.plural.should == 'feet' # 
+		expect( 'foot'.en.plural ).to eq( 'feet' )
 	end
 
 
 	# POSSESSIVE FORM
 	it "pluralizes 'foot's' as 'feet's'" do
-		"foot's".en.plural.should == "feet's" # 
+		expect( "foot's".en.plural ).to eq( "feet's" )
 	end
 
 
 	it "pluralizes 'foramen' as 'foramens'" do
-		'foramen'.en.plural.should == 'foramens'
+		expect( 'foramen'.en.plural ).to eq( 'foramens' )
 	end
 
 	it "pluralizes 'foramen' as 'foramina' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'foramen'.en.plural.should == 'foramina'
+			expect( 'foramen'.en.plural ).to eq( 'foramina' )
 		end
 	end
 
 
 	it "pluralizes 'formula' as 'formulas'" do
-		'formula'.en.plural.should == 'formulas'
+		expect( 'formula'.en.plural ).to eq( 'formulas' )
 	end
 
 	it "pluralizes 'formula' as 'formulae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'formula'.en.plural.should == 'formulae'
+			expect( 'formula'.en.plural ).to eq( 'formulae' )
 		end
 	end
 
 
 	it "pluralizes 'forum' as 'forums'" do
-		'forum'.en.plural.should == 'forums' # 
+		expect( 'forum'.en.plural ).to eq( 'forums' )
 	end
 
 
 	it "pluralizes 'fought' as 'fought'" do
-		'fought'.en.plural.should == 'fought' # 
+		expect( 'fought'.en.plural ).to eq( 'fought' )
 	end
 
 
 	it "pluralizes 'fox' as 'foxes'" do
-		'fox'.en.plural.should == 'foxes' # 
+		expect( 'fox'.en.plural ).to eq( 'foxes' )
 	end
 
 
 	it "pluralizes 'from him' as 'from them'" do
-		'from him'.en.plural.should == 'from them' # 
+		expect( 'from him'.en.plural ).to eq( 'from them' )
 	end
 
 
 	# ACCUSATIVE
 	it "pluralizes 'from it' as 'from them'" do
-		'from it'.en.plural.should == 'from them' # 
+		expect( 'from it'.en.plural ).to eq( 'from them' )
 	end
 
 
 	it "pluralizes 'fungus' as 'funguses'" do
-		'fungus'.en.plural.should == 'funguses'
+		expect( 'fungus'.en.plural ).to eq( 'funguses' )
 	end
 
 	it "pluralizes 'fungus' as 'fungi' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'fungus'.en.plural.should == 'fungi'
+			expect( 'fungus'.en.plural ).to eq( 'fungi' )
 		end
 	end
 
 
 	it "pluralizes 'Gabunese' as 'Gabunese'" do
-		'Gabunese'.en.plural.should == 'Gabunese' # 
+		expect( 'Gabunese'.en.plural ).to eq( 'Gabunese' )
 	end
 
 
 	it "pluralizes 'gallows' as 'gallows'" do
-		'gallows'.en.plural.should == 'gallows' # 
+		expect( 'gallows'.en.plural ).to eq( 'gallows' )
 	end
 
 
 	it "pluralizes 'ganglion' as 'ganglions'" do
-		'ganglion'.en.plural.should == 'ganglions'
+		expect( 'ganglion'.en.plural ).to eq( 'ganglions' )
 	end
 
 	it "pluralizes 'ganglion' as 'ganglia' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'ganglion'.en.plural.should == 'ganglia'
+			expect( 'ganglion'.en.plural ).to eq( 'ganglia' )
 		end
 	end
 
 
 	it "pluralizes 'gas' as 'gases'" do
-		'gas'.en.plural.should == 'gases' # 
+		expect( 'gas'.en.plural ).to eq( 'gases' )
 	end
 
 
 	it "pluralizes 'gateau' as 'gateaus'" do
-		'gateau'.en.plural.should == 'gateaus'
+		expect( 'gateau'.en.plural ).to eq( 'gateaus' )
 	end
 
 	it "pluralizes 'gateau' as 'gateaux' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'gateau'.en.plural.should == 'gateaux'
+			expect( 'gateau'.en.plural ).to eq( 'gateaux' )
 		end
 	end
 
 
 	it "pluralizes 'gave' as 'gave'" do
-		'gave'.en.plural.should == 'gave' # 
+		expect( 'gave'.en.plural ).to eq( 'gave' )
 	end
 
 
 	it "pluralizes 'generalissimo' as 'generalissimos'" do
-		'generalissimo'.en.plural.should == 'generalissimos' # 
+		expect( 'generalissimo'.en.plural ).to eq( 'generalissimos' )
 	end
 
 
 	it "pluralizes 'Genevese' as 'Genevese'" do
-		'Genevese'.en.plural.should == 'Genevese' # 
+		expect( 'Genevese'.en.plural ).to eq( 'Genevese' )
 	end
 
 
 	it "pluralizes 'genie' as 'genies'" do
-		'genie'.en.plural.should == 'genies'
+		expect( 'genie'.en.plural ).to eq( 'genies' )
 	end
 
 	it "pluralizes 'genie' as 'genii' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'genie'.en.plural.should == 'genii'
+			expect( 'genie'.en.plural ).to eq( 'genii' )
 		end
 	end
 
 
 	it "pluralizes 'genius' as 'geniuses'" do
-		'genius'.en.plural.should == 'geniuses'
+		expect( 'genius'.en.plural ).to eq( 'geniuses' )
 	end
 
 	it "pluralizes 'genius' as 'genii' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'genius'.en.plural.should == 'genii'
+			expect( 'genius'.en.plural ).to eq( 'genii' )
 		end
 	end
 
 
 	it "pluralizes 'Genoese' as 'Genoese'" do
-		'Genoese'.en.plural.should == 'Genoese' # 
+		expect( 'Genoese'.en.plural ).to eq( 'Genoese' )
 	end
 
 
 	it "pluralizes 'genus' as 'genera'" do
-		'genus'.en.plural.should == 'genera' # 
+		expect( 'genus'.en.plural ).to eq( 'genera' )
 	end
 
 
 	it "pluralizes 'German' as 'Germans'" do
-		'German'.en.plural.should == 'Germans' # 
+		expect( 'German'.en.plural ).to eq( 'Germans' )
 	end
 
 
 	it "pluralizes 'ghetto' as 'ghettos'" do
-		'ghetto'.en.plural.should == 'ghettos' # 
+		expect( 'ghetto'.en.plural ).to eq( 'ghettos' )
 	end
 
 
 	it "pluralizes 'Gilbertese' as 'Gilbertese'" do
-		'Gilbertese'.en.plural.should == 'Gilbertese' # 
+		expect( 'Gilbertese'.en.plural ).to eq( 'Gilbertese' )
 	end
 
 
 	it "pluralizes 'glottis' as 'glottises'" do
-		'glottis'.en.plural.should == 'glottises' # 
+		expect( 'glottis'.en.plural ).to eq( 'glottises' )
 	end
 
 
 	it "pluralizes 'Goanese' as 'Goanese'" do
-		'Goanese'.en.plural.should == 'Goanese' # 
+		expect( 'Goanese'.en.plural ).to eq( 'Goanese' )
 	end
 
 
 	it "pluralizes 'goose' as 'geese'" do
-		'goose'.en.plural.should == 'geese' # 
+		expect( 'goose'.en.plural ).to eq( 'geese' )
 	end
 
 
 	it "pluralizes 'Governor General' as 'Governors General'" do
-		'Governor General'.en.plural.should == 'Governors General' # 
+		expect( 'Governor General'.en.plural ).to eq( 'Governors General' )
 	end
 
 
 	it "pluralizes 'goy' as 'goys'" do
-		'goy'.en.plural.should == 'goys'
+		expect( 'goy'.en.plural ).to eq( 'goys' )
 	end
 
 	it "pluralizes 'goy' as 'goyim' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'goy'.en.plural.should == 'goyim'
+			expect( 'goy'.en.plural ).to eq( 'goyim' )
 		end
 	end
 
 
 	it "pluralizes 'graffiti' as 'graffiti'" do
-		'graffiti'.en.plural.should == 'graffiti' # 
+		expect( 'graffiti'.en.plural ).to eq( 'graffiti' )
 	end
 
 
 	it "pluralizes 'graffito' as 'graffiti'" do
-		'graffito'.en.plural.should == 'graffiti' # 
+		expect( 'graffito'.en.plural ).to eq( 'graffiti' )
 	end
 
 
 	it "pluralizes 'guano' as 'guanos'" do
-		'guano'.en.plural.should == 'guanos' # 
+		expect( 'guano'.en.plural ).to eq( 'guanos' )
 	end
 
 
 	it "pluralizes 'guardsman' as 'guardsmen'" do
-		'guardsman'.en.plural.should == 'guardsmen' # 
+		expect( 'guardsman'.en.plural ).to eq( 'guardsmen' )
 	end
 
 
 	it "pluralizes 'Guianese' as 'Guianese'" do
-		'Guianese'.en.plural.should == 'Guianese' # 
+		expect( 'Guianese'.en.plural ).to eq( 'Guianese' )
 	end
 
 
 	it "pluralizes 'gumma' as 'gummas'" do
-		'gumma'.en.plural.should == 'gummas'
+		expect( 'gumma'.en.plural ).to eq( 'gummas' )
 	end
 
 	it "pluralizes 'gumma' as 'gummata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'gumma'.en.plural.should == 'gummata'
+			expect( 'gumma'.en.plural ).to eq( 'gummata' )
 		end
 	end
 
 
 	it "pluralizes 'gymnasium' as 'gymnasiums'" do
-		'gymnasium'.en.plural.should == 'gymnasiums'
+		expect( 'gymnasium'.en.plural ).to eq( 'gymnasiums' )
 	end
 
 	it "pluralizes 'gymnasium' as 'gymnasia' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'gymnasium'.en.plural.should == 'gymnasia'
+			expect( 'gymnasium'.en.plural ).to eq( 'gymnasia' )
 		end
 	end
 
 
 	it "pluralizes 'had' as 'had'" do
-		'had'.en.plural.should == 'had' # 
+		expect( 'had'.en.plural ).to eq( 'had' )
 	end
 
 
 	it "pluralizes 'had thought' as 'had thought'" do
-		'had thought'.en.plural.should == 'had thought' # 
+		expect( 'had thought'.en.plural ).to eq( 'had thought' )
 	end
 
 
 	it "pluralizes 'Hainanese' as 'Hainanese'" do
-		'Hainanese'.en.plural.should == 'Hainanese' # 
+		expect( 'Hainanese'.en.plural ).to eq( 'Hainanese' )
 	end
 
 
 	it "pluralizes 'handkerchief' as 'handkerchiefs'" do
-		'handkerchief'.en.plural.should == 'handkerchiefs' # 
+		expect( 'handkerchief'.en.plural ).to eq( 'handkerchiefs' )
 	end
 
 
 	it "pluralizes 'Hararese' as 'Hararese'" do
-		'Hararese'.en.plural.should == 'Hararese' # 
+		expect( 'Hararese'.en.plural ).to eq( 'Hararese' )
 	end
 
 
 	it "pluralizes 'Harlemese' as 'Harlemese'" do
-		'Harlemese'.en.plural.should == 'Harlemese' # 
+		expect( 'Harlemese'.en.plural ).to eq( 'Harlemese' )
 	end
 
 
 	it "pluralizes 'harmonium' as 'harmoniums'" do
-		'harmonium'.en.plural.should == 'harmoniums' # 
+		expect( 'harmonium'.en.plural ).to eq( 'harmoniums' )
 	end
 
 
 	it "pluralizes 'has' as 'have'" do
-		'has'.en.plural.should == 'have' # 
+		expect( 'has'.en.plural ).to eq( 'have' )
 	end
 
 
 	it "pluralizes 'has become' as 'have become'" do
-		'has become'.en.plural.should == 'have become' # 
+		expect( 'has become'.en.plural ).to eq( 'have become' )
 	end
 
 
 	it "pluralizes 'has been' as 'have been'" do
-		'has been'.en.plural.should == 'have been' # 
+		expect( 'has been'.en.plural ).to eq( 'have been' )
 	end
 
 
 	it "pluralizes 'has-been' as 'has-beens'" do
-		'has-been'.en.plural.should == 'has-beens' # 
+		expect( 'has-been'.en.plural ).to eq( 'has-beens' )
 	end
 
 
 	it "pluralizes 'Havanese' as 'Havanese'" do
-		'Havanese'.en.plural.should == 'Havanese' # 
+		expect( 'Havanese'.en.plural ).to eq( 'Havanese' )
 	end
 
 
 	it "pluralizes 'have' as 'have'" do
-		'have'.en.plural.should == 'have' # 
+		expect( 'have'.en.plural ).to eq( 'have' )
 	end
 
 
 	it "pluralizes 'have conceded' as 'have conceded'" do
-		'have conceded'.en.plural.should == 'have conceded' # 
+		expect( 'have conceded'.en.plural ).to eq( 'have conceded' )
 	end
 
 
 	it "pluralizes 'he' as 'they'" do
-		'he'.en.plural.should == 'they' # 
+		expect( 'he'.en.plural ).to eq( 'they' )
 	end
 
 
 	it "pluralizes 'headquarters' as 'headquarters'" do
-		'headquarters'.en.plural.should == 'headquarters' # 
+		expect( 'headquarters'.en.plural ).to eq( 'headquarters' )
 	end
 
 
 	it "pluralizes 'Heavenese' as 'Heavenese'" do
-		'Heavenese'.en.plural.should == 'Heavenese' # 
+		expect( 'Heavenese'.en.plural ).to eq( 'Heavenese' )
 	end
 
 
 	it "pluralizes 'helix' as 'helices'" do
-		'helix'.en.plural.should == 'helices' # 
+		expect( 'helix'.en.plural ).to eq( 'helices' )
 	end
 
 
 	it "pluralizes 'hepatitis' as 'hepatitises'" do
-		'hepatitis'.en.plural.should == 'hepatitises' # 
+		expect( 'hepatitis'.en.plural ).to eq( 'hepatitises' )
 	end
 
 
 	# PRONOUN
 	it "pluralizes 'her' (as a pronoun) as 'them'" do
-		'her'.en.plural_noun.should == 'them' # 
+		expect( 'her'.en.plural_noun ).to eq( 'them' )
 	end
 
 
 	# POSSESSIVE ADJ
 	it "pluralizes 'her' as 'their'" do
-		'her'.en.plural.should == 'their' # 
+		expect( 'her'.en.plural ).to eq( 'their' )
 	end
 
 
 	it "pluralizes 'hero' as 'heroes'" do
-		'hero'.en.plural.should == 'heroes' # 
+		expect( 'hero'.en.plural ).to eq( 'heroes' )
 	end
 
 
 	it "pluralizes 'herpes' as 'herpes'" do
-		'herpes'.en.plural.should == 'herpes' # 
+		expect( 'herpes'.en.plural ).to eq( 'herpes' )
 	end
 
 
 	# POSSESSIVE NOUN
 	it "pluralizes 'hers' (as a noun) as 'theirs'" do
-		'hers'.en.plural_noun.should == 'theirs' # 
+		expect( 'hers'.en.plural_noun ).to eq( 'theirs' )
 	end
 
 
 	it "pluralizes 'herself' as 'themselves'" do
-		'herself'.en.plural.should == 'themselves' # 
+		expect( 'herself'.en.plural ).to eq( 'themselves' )
 	end
 
 
 	it "pluralizes 'hiatus' as 'hiatuses'" do
-		'hiatus'.en.plural.should == 'hiatuses'
+		expect( 'hiatus'.en.plural ).to eq( 'hiatuses' )
 	end
 
 	it "pluralizes 'hiatus' as 'hiatus' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'hiatus'.en.plural.should == 'hiatus'
+			expect( 'hiatus'.en.plural ).to eq( 'hiatus' )
 		end
 	end
 
 
 	it "pluralizes 'highlight' as 'highlights'" do
-		'highlight'.en.plural.should == 'highlights' # 
+		expect( 'highlight'.en.plural ).to eq( 'highlights' )
 	end
 
 
 	it "pluralizes 'hijinks' as 'hijinks'" do
-		'hijinks'.en.plural.should == 'hijinks' # 
+		expect( 'hijinks'.en.plural ).to eq( 'hijinks' )
 	end
 
 
 	it "pluralizes 'him' as 'them'" do
-		'him'.en.plural.should == 'them' # 
+		expect( 'him'.en.plural ).to eq( 'them' )
 	end
 
 
 	it "pluralizes 'himself' as 'themselves'" do
-		'himself'.en.plural.should == 'themselves' # 
+		expect( 'himself'.en.plural ).to eq( 'themselves' )
 	end
 
 
 	it "pluralizes 'hippopotamus' as 'hippopotamuses'" do
-		'hippopotamus'.en.plural.should == 'hippopotamuses'
+		expect( 'hippopotamus'.en.plural ).to eq( 'hippopotamuses' )
 	end
 
 	it "pluralizes 'hippopotamus' as 'hippopotami' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'hippopotamus'.en.plural.should == 'hippopotami'
+			expect( 'hippopotamus'.en.plural ).to eq( 'hippopotami' )
 		end
 	end
 
 
 	it "pluralizes 'Hiroshiman' as 'Hiroshimans'" do
-		'Hiroshiman'.en.plural.should == 'Hiroshimans' # 
+		expect( 'Hiroshiman'.en.plural ).to eq( 'Hiroshimans' )
 	end
 
 
 	# POSSESSIVE ADJ
 	it "pluralizes 'his' as 'their'" do
-		'his'.en.plural.should == 'their' # 
+		expect( 'his'.en.plural ).to eq( 'their' )
 	end
 
 
 	# POSSESSIVE NOUN
 	it "pluralizes 'his' (as a noun) as 'theirs'" do
-		'his'.en.plural_noun.should == 'theirs' # 
+		expect( 'his'.en.plural_noun ).to eq( 'theirs' )
 	end
 
 
 	it "pluralizes 'honorarium' as 'honorariums'" do
-		'honorarium'.en.plural.should == 'honorariums'
+		expect( 'honorarium'.en.plural ).to eq( 'honorariums' )
 	end
 
 	it "pluralizes 'honorarium' as 'honoraria' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'honorarium'.en.plural.should == 'honoraria'
+			expect( 'honorarium'.en.plural ).to eq( 'honoraria' )
 		end
 	end
 
 
 	it "pluralizes 'hoof' as 'hoofs'" do
-		'hoof'.en.plural.should == 'hoofs'
+		expect( 'hoof'.en.plural ).to eq( 'hoofs' )
 	end
 
 	it "pluralizes 'hoof' as 'hooves' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'hoof'.en.plural.should == 'hooves'
+			expect( 'hoof'.en.plural ).to eq( 'hooves' )
 		end
 	end
 
 
 	it "pluralizes 'Hoosierese' as 'Hoosierese'" do
-		'Hoosierese'.en.plural.should == 'Hoosierese' # 
+		expect( 'Hoosierese'.en.plural ).to eq( 'Hoosierese' )
 	end
 
 
 	it "pluralizes 'Hottentotese' as 'Hottentotese'" do
-		'Hottentotese'.en.plural.should == 'Hottentotese' # 
+		expect( 'Hottentotese'.en.plural ).to eq( 'Hottentotese' )
 	end
 
 
 	it "pluralizes 'house' as 'houses'" do
-		'house'.en.plural.should == 'houses' # 
+		expect( 'house'.en.plural ).to eq( 'houses' )
 	end
 
 
 	it "pluralizes 'housewife' as 'housewives'" do
-		'housewife'.en.plural.should == 'housewives' # 
+		expect( 'housewife'.en.plural ).to eq( 'housewives' )
 	end
 
 
 	it "pluralizes 'hubris' as 'hubrises'" do
-		'hubris'.en.plural.should == 'hubrises' # 
+		expect( 'hubris'.en.plural ).to eq( 'hubrises' )
 	end
 
 
 	it "pluralizes 'human' as 'humans'" do
-		'human'.en.plural.should == 'humans' # 
+		expect( 'human'.en.plural ).to eq( 'humans' )
 	end
 
 
 	it "pluralizes 'Hunanese' as 'Hunanese'" do
-		'Hunanese'.en.plural.should == 'Hunanese' # 
+		expect( 'Hunanese'.en.plural ).to eq( 'Hunanese' )
 	end
 
 
 	it "pluralizes 'hydra' as 'hydras'" do
-		'hydra'.en.plural.should == 'hydras'
+		expect( 'hydra'.en.plural ).to eq( 'hydras' )
 	end
 
 	it "pluralizes 'hydra' as 'hydrae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'hydra'.en.plural.should == 'hydrae'
+			expect( 'hydra'.en.plural ).to eq( 'hydrae' )
 		end
 	end
 
 
 	it "pluralizes 'hyperbaton' as 'hyperbata'" do
-		'hyperbaton'.en.plural.should == 'hyperbata' # 
+		expect( 'hyperbaton'.en.plural ).to eq( 'hyperbata' )
 	end
 
 
 	it "pluralizes 'hyperbola' as 'hyperbolas'" do
-		'hyperbola'.en.plural.should == 'hyperbolas'
+		expect( 'hyperbola'.en.plural ).to eq( 'hyperbolas' )
 	end
 
 	it "pluralizes 'hyperbola' as 'hyperbolae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'hyperbola'.en.plural.should == 'hyperbolae'
+			expect( 'hyperbola'.en.plural ).to eq( 'hyperbolae' )
 		end
 	end
 
 
 	it "pluralizes 'I' as 'we'" do
-		'I'.en.plural.should == 'we' # 
+		expect( 'I'.en.plural ).to eq( 'we' )
 	end
 
 
 	it "pluralizes 'ibis' as 'ibises'" do
-		'ibis'.en.plural.should == 'ibises' # 
+		expect( 'ibis'.en.plural ).to eq( 'ibises' )
 	end
 
 
 	it "pluralizes 'ignoramus' as 'ignoramuses'" do
-		'ignoramus'.en.plural.should == 'ignoramuses' # 
+		expect( 'ignoramus'.en.plural ).to eq( 'ignoramuses' )
 	end
 
 
 	it "pluralizes 'impetus' as 'impetuses'" do
-		'impetus'.en.plural.should == 'impetuses'
+		expect( 'impetus'.en.plural ).to eq( 'impetuses' )
 	end
 
 	it "pluralizes 'impetus' as 'impetus' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'impetus'.en.plural.should == 'impetus'
+			expect( 'impetus'.en.plural ).to eq( 'impetus' )
 		end
 	end
 
 
 	it "pluralizes 'incubus' as 'incubuses'" do
-		'incubus'.en.plural.should == 'incubuses'
+		expect( 'incubus'.en.plural ).to eq( 'incubuses' )
 	end
 
 	it "pluralizes 'incubus' as 'incubi' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'incubus'.en.plural.should == 'incubi'
+			expect( 'incubus'.en.plural ).to eq( 'incubi' )
 		end
 	end
 
 
 	it "pluralizes 'index' as 'indexes'" do
-		'index'.en.plural.should == 'indexes'
+		expect( 'index'.en.plural ).to eq( 'indexes' )
 	end
 
 	it "pluralizes 'index' as 'indices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'index'.en.plural.should == 'indices'
+			expect( 'index'.en.plural ).to eq( 'indices' )
 		end
 	end
 
 
 	it "pluralizes 'Indochinese' as 'Indochinese'" do
-		'Indochinese'.en.plural.should == 'Indochinese' # 
+		expect( 'Indochinese'.en.plural ).to eq( 'Indochinese' )
 	end
 
 
 	it "pluralizes 'inferno' as 'infernos'" do
-		'inferno'.en.plural.should == 'infernos' # 
+		expect( 'inferno'.en.plural ).to eq( 'infernos' )
 	end
 
 
 	it "pluralizes 'innings' as 'innings'" do
-		'innings'.en.plural.should == 'innings' # 
+		expect( 'innings'.en.plural ).to eq( 'innings' )
 	end
 
 
 	it "pluralizes 'Inspector General' as 'Inspectors General'" do
-		'Inspector General'.en.plural.should == 'Inspectors General' # 
+		expect( 'Inspector General'.en.plural ).to eq( 'Inspectors General' )
 	end
 
 
 	it "pluralizes 'interregnum' as 'interregnums'" do
-		'interregnum'.en.plural.should == 'interregnums'
+		expect( 'interregnum'.en.plural ).to eq( 'interregnums' )
 	end
 
 	it "pluralizes 'interregnum' as 'interregna' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'interregnum'.en.plural.should == 'interregna'
+			expect( 'interregnum'.en.plural ).to eq( 'interregna' )
 		end
 	end
 
 
 	it "pluralizes 'iris' as 'irises'" do
-		'iris'.en.plural.should == 'irises'
+		expect( 'iris'.en.plural ).to eq( 'irises' )
 	end
 
 	it "pluralizes 'iris' as 'irides' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'iris'.en.plural.should == 'irides'
+			expect( 'iris'.en.plural ).to eq( 'irides' )
 		end
 	end
 
 
 	it "pluralizes 'is' as 'are'" do
-		'is'.en.plural.should == 'are' # 
+		expect( 'is'.en.plural ).to eq( 'are' )
 	end
 
 
 	it "pluralizes 'is eaten' as 'are eaten'" do
-		'is eaten'.en.plural.should == 'are eaten' # 
+		expect( 'is eaten'.en.plural ).to eq( 'are eaten' )
 	end
 
 
 	# NOMINATIVE
 	it "pluralizes 'it' as 'they'" do
-		'it'.en.plural.should == 'they' # 
+		expect( 'it'.en.plural ).to eq( 'they' )
 	end
 
 
 	# POSSESSIVE FORM
 	it "pluralizes 'its' as 'their'" do
-		'its'.en.plural.should == 'their' # 
+		expect( 'its'.en.plural ).to eq( 'their' )
 	end
 
 
 	it "pluralizes 'itself' as 'themselves'" do
-		'itself'.en.plural.should == 'themselves' # 
+		expect( 'itself'.en.plural ).to eq( 'themselves' )
 	end
 
 
 	it "pluralizes 'jackanapes' as 'jackanapes'" do
-		'jackanapes'.en.plural.should == 'jackanapes' # 
+		expect( 'jackanapes'.en.plural ).to eq( 'jackanapes' )
 	end
 
 
 	it "pluralizes 'Japanese' as 'Japanese'" do
-		'Japanese'.en.plural.should == 'Japanese' # 
+		expect( 'Japanese'.en.plural ).to eq( 'Japanese' )
 	end
 
 
 	it "pluralizes 'Javanese' as 'Javanese'" do
-		'Javanese'.en.plural.should == 'Javanese' # 
+		expect( 'Javanese'.en.plural ).to eq( 'Javanese' )
 	end
 
 
 	it "pluralizes 'Jerry' as 'Jerrys'" do
-		'Jerry'.en.plural.should == 'Jerrys' # 
+		expect( 'Jerry'.en.plural ).to eq( 'Jerrys' )
 	end
 
 
 	it "pluralizes 'jerry' as 'jerries'" do
-		'jerry'.en.plural.should == 'jerries' # 
+		expect( 'jerry'.en.plural ).to eq( 'jerries' )
 	end
 
 
 	it "pluralizes 'jinx' as 'jinxes'" do
-		'jinx'.en.plural.should == 'jinxes' # 
+		expect( 'jinx'.en.plural ).to eq( 'jinxes' )
 	end
 
 
 	# VERB FORM
 	it "pluralizes 'jinxes' as 'jinx'" do
-		'jinxes'.en.plural.should == 'jinx' # 
+		expect( 'jinxes'.en.plural ).to eq( 'jinx' )
 	end
 
 
 	it "pluralizes 'Johnsonese' as 'Johnsonese'" do
-		'Johnsonese'.en.plural.should == 'Johnsonese' # 
+		expect( 'Johnsonese'.en.plural ).to eq( 'Johnsonese' )
 	end
 
 
 	it "pluralizes 'Jones' as 'Joneses'" do
-		'Jones'.en.plural.should == 'Joneses' # 
+		expect( 'Jones'.en.plural ).to eq( 'Joneses' )
 	end
 
 
 	it "pluralizes 'jumbo' as 'jumbos'" do
-		'jumbo'.en.plural.should == 'jumbos' # 
+		expect( 'jumbo'.en.plural ).to eq( 'jumbos' )
 	end
 
 
 	it "pluralizes 'Kanarese' as 'Kanarese'" do
-		'Kanarese'.en.plural.should == 'Kanarese' # 
+		expect( 'Kanarese'.en.plural ).to eq( 'Kanarese' )
 	end
 
 
 	it "pluralizes 'Kiplingese' as 'Kiplingese'" do
-		'Kiplingese'.en.plural.should == 'Kiplingese' # 
+		expect( 'Kiplingese'.en.plural ).to eq( 'Kiplingese' )
 	end
 
 
 	# NOUN FORM
 	it "pluralizes 'knife' as 'knives'" do
-		'knife'.en.plural.should == 'knives' # 
+		expect( 'knife'.en.plural ).to eq( 'knives' )
 	end
 
 
 	# VERB FORM (1st/2nd pers.)
 	it "pluralizes 'knife' (as a verb) as 'knife'" do
-		'knife'.en.plural_verb.should == 'knife' # 
+		expect( 'knife'.en.plural_verb ).to eq( 'knife' )
 	end
 
 
 	# VERB FORM (3rd pers.)
 	it "pluralizes 'knifes' as 'knife'" do
-		'knifes'.en.plural.should == 'knife' # 
+		expect( 'knifes'.en.plural ).to eq( 'knife' )
 	end
 
 
 	it "pluralizes 'Kongoese' as 'Kongoese'" do
-		'Kongoese'.en.plural.should == 'Kongoese' # 
+		expect( 'Kongoese'.en.plural ).to eq( 'Kongoese' )
 	end
 
 
 	it "pluralizes 'Kongolese' as 'Kongolese'" do
-		'Kongolese'.en.plural.should == 'Kongolese' # 
+		expect( 'Kongolese'.en.plural ).to eq( 'Kongolese' )
 	end
 
 
 	it "pluralizes 'lacuna' as 'lacunas'" do
-		'lacuna'.en.plural.should == 'lacunas'
+		expect( 'lacuna'.en.plural ).to eq( 'lacunas' )
 	end
 
 	it "pluralizes 'lacuna' as 'lacunae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'lacuna'.en.plural.should == 'lacunae'
+			expect( 'lacuna'.en.plural ).to eq( 'lacunae' )
 		end
 	end
 
 
 	it "pluralizes 'lady in waiting' as 'ladies in waiting'" do
-		'lady in waiting'.en.plural.should == 'ladies in waiting' # 
+		expect( 'lady in waiting'.en.plural ).to eq( 'ladies in waiting' )
 	end
 
 
 	it "pluralizes 'Lapponese' as 'Lapponese'" do
-		'Lapponese'.en.plural.should == 'Lapponese' # 
+		expect( 'Lapponese'.en.plural ).to eq( 'Lapponese' )
 	end
 
 
 	it "pluralizes 'larynx' as 'larynxes'" do
-		'larynx'.en.plural.should == 'larynxes'
+		expect( 'larynx'.en.plural ).to eq( 'larynxes' )
 	end
 
 	it "pluralizes 'larynx' as 'larynges' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'larynx'.en.plural.should == 'larynges'
+			expect( 'larynx'.en.plural ).to eq( 'larynges' )
 		end
 	end
 
 
 	it "pluralizes 'latex' as 'latexes'" do
-		'latex'.en.plural.should == 'latexes'
+		expect( 'latex'.en.plural ).to eq( 'latexes' )
 	end
 
 	it "pluralizes 'latex' as 'latices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'latex'.en.plural.should == 'latices'
+			expect( 'latex'.en.plural ).to eq( 'latices' )
 		end
 	end
 
 
 	# VERB FORM (1st/2nd pers.)
 	it "pluralizes 'leaf' (as a verb) as 'leaf'" do
-		'leaf'.en.plural_verb.should == 'leaf' # 
+		expect( 'leaf'.en.plural_verb ).to eq( 'leaf' )
 	end
 
 
 	# NOUN FORM
 	it "pluralizes 'leaf' as 'leaves'" do
-		'leaf'.en.plural.should == 'leaves' # 
+		expect( 'leaf'.en.plural ).to eq( 'leaves' )
 	end
 
 
 	# VERB FORM (3rd pers.)
 	it "pluralizes 'leafs' as 'leaf'" do
-		'leafs'.en.plural.should == 'leaf' # 
+		expect( 'leafs'.en.plural ).to eq( 'leaf' )
 	end
 
 
 	it "pluralizes 'Lebanese' as 'Lebanese'" do
-		'Lebanese'.en.plural.should == 'Lebanese' # 
+		expect( 'Lebanese'.en.plural ).to eq( 'Lebanese' )
 	end
 
 
 	it "pluralizes 'lemma' as 'lemmas'" do
-		'lemma'.en.plural.should == 'lemmas'
+		expect( 'lemma'.en.plural ).to eq( 'lemmas' )
 	end
 
 	it "pluralizes 'lemma' as 'lemmata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'lemma'.en.plural.should == 'lemmata'
+			expect( 'lemma'.en.plural ).to eq( 'lemmata' )
 		end
 	end
 
 
 	it "pluralizes 'lens' as 'lenses'" do
-		'lens'.en.plural.should == 'lenses' # 
+		expect( 'lens'.en.plural ).to eq( 'lenses' )
 	end
 
 
 	it "pluralizes 'Leonese' as 'Leonese'" do
-		'Leonese'.en.plural.should == 'Leonese' # 
+		expect( 'Leonese'.en.plural ).to eq( 'Leonese' )
 	end
 
 
 	it "pluralizes 'lick of the cat' as 'licks of the cat'" do
-		'lick of the cat'.en.plural.should == 'licks of the cat' # 
+		expect( 'lick of the cat'.en.plural ).to eq( 'licks of the cat' )
 	end
 
 
 	it "pluralizes 'Lieutenant General' as 'Lieutenant Generals'" do
-		'Lieutenant General'.en.plural.should == 'Lieutenant Generals' # 
+		expect( 'Lieutenant General'.en.plural ).to eq( 'Lieutenant Generals' )
 	end
 
 
 	it "pluralizes 'life' as 'lives'" do
-		'life'.en.plural.should == 'lives' # 
+		expect( 'life'.en.plural ).to eq( 'lives' )
 	end
 
 
 	it "pluralizes 'Liman' as 'Limans'" do
-		'Liman'.en.plural.should == 'Limans' # 
+		expect( 'Liman'.en.plural ).to eq( 'Limans' )
 	end
 
 
 	it "pluralizes 'lingo' as 'lingos'" do
-		'lingo'.en.plural.should == 'lingos' # 
+		expect( 'lingo'.en.plural ).to eq( 'lingos' )
 	end
 
 
 	it "pluralizes 'loaf' as 'loaves'" do
-		'loaf'.en.plural.should == 'loaves' # 
+		expect( 'loaf'.en.plural ).to eq( 'loaves' )
 	end
 
 
 	it "pluralizes 'locus' as 'loci'" do
-		'locus'.en.plural.should == 'loci' # 
+		expect( 'locus'.en.plural ).to eq( 'loci' )
 	end
 
 
 	it "pluralizes 'Londonese' as 'Londonese'" do
-		'Londonese'.en.plural.should == 'Londonese' # 
+		expect( 'Londonese'.en.plural ).to eq( 'Londonese' )
 	end
 
 
 	it "pluralizes 'Lorrainese' as 'Lorrainese'" do
-		'Lorrainese'.en.plural.should == 'Lorrainese' # 
+		expect( 'Lorrainese'.en.plural ).to eq( 'Lorrainese' )
 	end
 
 
 	it "pluralizes 'lothario' as 'lotharios'" do
-		'lothario'.en.plural.should == 'lotharios' # 
+		expect( 'lothario'.en.plural ).to eq( 'lotharios' )
 	end
 
 
 	it "pluralizes 'louse' as 'lice'" do
-		'louse'.en.plural.should == 'lice' # 
+		expect( 'louse'.en.plural ).to eq( 'lice' )
 	end
 
 
 	it "pluralizes 'Lucchese' as 'Lucchese'" do
-		'Lucchese'.en.plural.should == 'Lucchese' # 
+		expect( 'Lucchese'.en.plural ).to eq( 'Lucchese' )
 	end
 
 
 	it "pluralizes 'lumbago' as 'lumbagos'" do
-		'lumbago'.en.plural.should == 'lumbagos' # 
+		expect( 'lumbago'.en.plural ).to eq( 'lumbagos' )
 	end
 
 
 	it "pluralizes 'lumen' as 'lumens'" do
-		'lumen'.en.plural.should == 'lumens'
+		expect( 'lumen'.en.plural ).to eq( 'lumens' )
 	end
 
 	it "pluralizes 'lumen' as 'lumina' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'lumen'.en.plural.should == 'lumina'
+			expect( 'lumen'.en.plural ).to eq( 'lumina' )
 		end
 	end
 
 
 	it "pluralizes 'lustrum' as 'lustrums'" do
-		'lustrum'.en.plural.should == 'lustrums'
+		expect( 'lustrum'.en.plural ).to eq( 'lustrums' )
 	end
 
 	it "pluralizes 'lustrum' as 'lustra' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'lustrum'.en.plural.should == 'lustra'
+			expect( 'lustrum'.en.plural ).to eq( 'lustra' )
 		end
 	end
 
 
 	it "pluralizes 'lyceum' as 'lyceums'" do
-		'lyceum'.en.plural.should == 'lyceums' # 
+		expect( 'lyceum'.en.plural ).to eq( 'lyceums' )
 	end
 
 
 	it "pluralizes 'lymphoma' as 'lymphomas'" do
-		'lymphoma'.en.plural.should == 'lymphomas'
+		expect( 'lymphoma'.en.plural ).to eq( 'lymphomas' )
 	end
 
 	it "pluralizes 'lymphoma' as 'lymphomata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'lymphoma'.en.plural.should == 'lymphomata'
+			expect( 'lymphoma'.en.plural ).to eq( 'lymphomata' )
 		end
 	end
 
 
 	it "pluralizes 'lynx' as 'lynxes'" do
-		'lynx'.en.plural.should == 'lynxes' # 
+		expect( 'lynx'.en.plural ).to eq( 'lynxes' )
 	end
 
 
 	it "pluralizes 'Lyonese' as 'Lyonese'" do
-		'Lyonese'.en.plural.should == 'Lyonese' # 
+		expect( 'Lyonese'.en.plural ).to eq( 'Lyonese' )
 	end
 
 
 	it "pluralizes 'M.I.A.' as 'M.I.A.s'" do
-		'M.I.A.'.en.plural.should == 'M.I.A.s' # 
+		expect( 'M.I.A.'.en.plural ).to eq( 'M.I.A.s' )
 	end
 
 
 	it "pluralizes 'Macanese' as 'Macanese'" do
-		'Macanese'.en.plural.should == 'Macanese' # 
+		expect( 'Macanese'.en.plural ).to eq( 'Macanese' )
 	end
 
 
 	it "pluralizes 'Macassarese' as 'Macassarese'" do
-		'Macassarese'.en.plural.should == 'Macassarese' # 
+		expect( 'Macassarese'.en.plural ).to eq( 'Macassarese' )
 	end
 
 
 	it "pluralizes 'mackerel' as 'mackerel'" do
-		'mackerel'.en.plural.should == 'mackerel' # 
+		expect( 'mackerel'.en.plural ).to eq( 'mackerel' )
 	end
 
 
 	it "pluralizes 'made' as 'made'" do
-		'made'.en.plural.should == 'made' # 
+		expect( 'made'.en.plural ).to eq( 'made' )
 	end
 
 
 	it "pluralizes 'Madurese' as 'Madurese'" do
-		'Madurese'.en.plural.should == 'Madurese' # 
+		expect( 'Madurese'.en.plural ).to eq( 'Madurese' )
 	end
 
 
 	it "pluralizes 'magma' as 'magmas'" do
-		'magma'.en.plural.should == 'magmas'
+		expect( 'magma'.en.plural ).to eq( 'magmas' )
 	end
 
 	it "pluralizes 'magma' as 'magmata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'magma'.en.plural.should == 'magmata'
+			expect( 'magma'.en.plural ).to eq( 'magmata' )
 		end
 	end
 
 
 	it "pluralizes 'magneto' as 'magnetos'" do
-		'magneto'.en.plural.should == 'magnetos' # 
+		expect( 'magneto'.en.plural ).to eq( 'magnetos' )
 	end
 
 
 	it "pluralizes 'Major General' as 'Major Generals'" do
-		'Major General'.en.plural.should == 'Major Generals' # 
+		expect( 'Major General'.en.plural ).to eq( 'Major Generals' )
 	end
 
 
 	it "pluralizes 'Malabarese' as 'Malabarese'" do
-		'Malabarese'.en.plural.should == 'Malabarese' # 
+		expect( 'Malabarese'.en.plural ).to eq( 'Malabarese' )
 	end
 
 
 	it "pluralizes 'Maltese' as 'Maltese'" do
-		'Maltese'.en.plural.should == 'Maltese' # 
+		expect( 'Maltese'.en.plural ).to eq( 'Maltese' )
 	end
 
 
 	it "pluralizes 'man' as 'men'" do
-		'man'.en.plural.should == 'men' # 
+		expect( 'man'.en.plural ).to eq( 'men' )
 	end
 
 
 	it "pluralizes 'mandamus' as 'mandamuses'" do
-		'mandamus'.en.plural.should == 'mandamuses' # 
+		expect( 'mandamus'.en.plural ).to eq( 'mandamuses' )
 	end
 
 
 	it "pluralizes 'manifesto' as 'manifestos'" do
-		'manifesto'.en.plural.should == 'manifestos' # 
+		expect( 'manifesto'.en.plural ).to eq( 'manifestos' )
 	end
 
 
 	it "pluralizes 'mantis' as 'mantises'" do
-		'mantis'.en.plural.should == 'mantises' # 
+		expect( 'mantis'.en.plural ).to eq( 'mantises' )
 	end
 
 
 	it "pluralizes 'marquis' as 'marquises'" do
-		'marquis'.en.plural.should == 'marquises' # 
+		expect( 'marquis'.en.plural ).to eq( 'marquises' )
 	end
 
 
 	it "pluralizes 'Mary' as 'Marys'" do
-		'Mary'.en.plural.should == 'Marys' # 
+		expect( 'Mary'.en.plural ).to eq( 'Marys' )
 	end
 
 
 	it "pluralizes 'maximum' as 'maximums'" do
-		'maximum'.en.plural.should == 'maximums'
+		expect( 'maximum'.en.plural ).to eq( 'maximums' )
 	end
 
 	it "pluralizes 'maximum' as 'maxima' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'maximum'.en.plural.should == 'maxima'
+			expect( 'maximum'.en.plural ).to eq( 'maxima' )
 		end
 	end
 
 
 	it "pluralizes 'measles' as 'measles'" do
-		'measles'.en.plural.should == 'measles' # 
+		expect( 'measles'.en.plural ).to eq( 'measles' )
 	end
 
 
 	it "pluralizes 'medico' as 'medicos'" do
-		'medico'.en.plural.should == 'medicos' # 
+		expect( 'medico'.en.plural ).to eq( 'medicos' )
 	end
 
 
 	it "pluralizes 'medium' as 'mediums'" do
-		'medium'.en.plural.should == 'mediums'
+		expect( 'medium'.en.plural ).to eq( 'mediums' )
 	end
 
 	it "pluralizes 'medium' as 'media' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'medium'.en.plural.should == 'media'
+			expect( 'medium'.en.plural ).to eq( 'media' )
 		end
 	end
 
 
 	it "pluralizes 'medium's' as 'mediums''" do
-		"medium's".en.plural.should == "mediums'" # media's
+		expect( "medium's".en.plural ).to eq( "mediums'" ) # media's
 	end
 
 
 	it "pluralizes 'medusa' as 'medusas'" do
-		'medusa'.en.plural.should == 'medusas'
+		expect( 'medusa'.en.plural ).to eq( 'medusas' )
 	end
 
 	it "pluralizes 'medusa' as 'medusae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'medusa'.en.plural.should == 'medusae'
+			expect( 'medusa'.en.plural ).to eq( 'medusae' )
 		end
 	end
 
 
 	it "pluralizes 'memorandum' as 'memorandums'" do
-		'memorandum'.en.plural.should == 'memorandums'
+		expect( 'memorandum'.en.plural ).to eq( 'memorandums' )
 	end
 
 	it "pluralizes 'memorandum' as 'memoranda' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'memorandum'.en.plural.should == 'memoranda'
+			expect( 'memorandum'.en.plural ).to eq( 'memoranda' )
 		end
 	end
 
 
 	it "pluralizes 'meniscus' as 'menisci'" do
-		'meniscus'.en.plural.should == 'menisci' # 
+		expect( 'meniscus'.en.plural ).to eq( 'menisci' )
 	end
 
 
 	it "pluralizes 'Messinese' as 'Messinese'" do
-		'Messinese'.en.plural.should == 'Messinese' # 
+		expect( 'Messinese'.en.plural ).to eq( 'Messinese' )
 	end
 
 
 	it "pluralizes 'metamorphosis' as 'metamorphoses'" do
-		'metamorphosis'.en.plural.should == 'metamorphoses' # 
+		expect( 'metamorphosis'.en.plural ).to eq( 'metamorphoses' )
 	end
 
 
 	it "pluralizes 'metropolis' as 'metropolises'" do
-		'metropolis'.en.plural.should == 'metropolises' # 
+		expect( 'metropolis'.en.plural ).to eq( 'metropolises' )
 	end
 
 
 	it "pluralizes 'mews' as 'mews'" do
-		'mews'.en.plural.should == 'mews' # 
+		expect( 'mews'.en.plural ).to eq( 'mews' )
 	end
 
 
 	it "pluralizes 'miasma' as 'miasmas'" do
-		'miasma'.en.plural.should == 'miasmas'
+		expect( 'miasma'.en.plural ).to eq( 'miasmas' )
 	end
 
 	it "pluralizes 'miasma' as 'miasmata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'miasma'.en.plural.should == 'miasmata'
+			expect( 'miasma'.en.plural ).to eq( 'miasmata' )
 		end
 	end
 
 
 	it "pluralizes 'Milanese' as 'Milanese'" do
-		'Milanese'.en.plural.should == 'Milanese' # 
+		expect( 'Milanese'.en.plural ).to eq( 'Milanese' )
 	end
 
 
 	it "pluralizes 'milieu' as 'milieus'" do
-		'milieu'.en.plural.should == 'milieus'
+		expect( 'milieu'.en.plural ).to eq( 'milieus' )
 	end
 
 	it "pluralizes 'milieu' as 'milieux' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'milieu'.en.plural.should == 'milieux'
+			expect( 'milieu'.en.plural ).to eq( 'milieux' )
 		end
 	end
 
 
 	it "pluralizes 'millenium' as 'milleniums'" do
-		'millenium'.en.plural.should == 'milleniums'
+		expect( 'millenium'.en.plural ).to eq( 'milleniums' )
 	end
 
 	it "pluralizes 'millenium' as 'millenia' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'millenium'.en.plural.should == 'millenia'
+			expect( 'millenium'.en.plural ).to eq( 'millenia' )
 		end
 	end
 
 
 	it "pluralizes 'minimum' as 'minimums'" do
-		'minimum'.en.plural.should == 'minimums'
+		expect( 'minimum'.en.plural ).to eq( 'minimums' )
 	end
 
 	it "pluralizes 'minimum' as 'minima' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'minimum'.en.plural.should == 'minima'
+			expect( 'minimum'.en.plural ).to eq( 'minima' )
 		end
 	end
 
 
 	it "pluralizes 'minx' as 'minxes'" do
-		'minx'.en.plural.should == 'minxes' # 
+		expect( 'minx'.en.plural ).to eq( 'minxes' )
 	end
 
 
 	# VERB FORM (1st/2nd pers.)
 	it "pluralizes 'miss' (as a verb) as 'miss'" do
-		'miss'.en.plural_verb.should == 'miss' # 
+		expect( 'miss'.en.plural_verb ).to eq( 'miss' )
 	end
 
 
 	# NOUN FORM
 	it "pluralizes 'miss' as 'misses'" do
-		'miss'.en.plural.should == 'misses' # 
+		expect( 'miss'.en.plural ).to eq( 'misses' )
 	end
 
 
 	# VERB FORM (3rd pers.)
 	it "pluralizes 'misses' as 'miss'" do
-		'misses'.en.plural.should == 'miss' # 
+		expect( 'misses'.en.plural ).to eq( 'miss' )
 	end
 
 
 	it "pluralizes 'mittamus' as 'mittamuses'" do
-		'mittamus'.en.plural.should == 'mittamuses' # 
+		expect( 'mittamus'.en.plural ).to eq( 'mittamuses' )
 	end
 
 
 	it "pluralizes 'Modenese' as 'Modenese'" do
-		'Modenese'.en.plural.should == 'Modenese' # 
+		expect( 'Modenese'.en.plural ).to eq( 'Modenese' )
 	end
 
 
 	it "pluralizes 'momentum' as 'momentums'" do
-		'momentum'.en.plural.should == 'momentums'
+		expect( 'momentum'.en.plural ).to eq( 'momentums' )
 	end
 
 	it "pluralizes 'momentum' as 'momenta' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'momentum'.en.plural.should == 'momenta'
+			expect( 'momentum'.en.plural ).to eq( 'momenta' )
 		end
 	end
 
 
 	it "pluralizes 'money' as 'monies'" do
-		'money'.en.plural.should == 'monies' # 
+		expect( 'money'.en.plural ).to eq( 'monies' )
 	end
 
 
 	it "pluralizes 'mongoose' as 'mongooses'" do
-		'mongoose'.en.plural.should == 'mongooses' # 
+		expect( 'mongoose'.en.plural ).to eq( 'mongooses' )
 	end
 
 
 	it "pluralizes 'moose' as 'mooses'" do
-		'moose'.en.plural.should == 'mooses'
+		expect( 'moose'.en.plural ).to eq( 'mooses' )
 	end
 
 	it "pluralizes 'moose' as 'moose' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'moose'.en.plural.should == 'moose'
+			expect( 'moose'.en.plural ).to eq( 'moose' )
 		end
 	end
 
 
 	it "pluralizes 'mother-in-law' as 'mothers-in-law'" do
-		'mother-in-law'.en.plural.should == 'mothers-in-law' # 
+		expect( 'mother-in-law'.en.plural ).to eq( 'mothers-in-law' )
 	end
 
 
 	it "pluralizes 'mouse' as 'mice'" do
-		'mouse'.en.plural.should == 'mice' # 
+		expect( 'mouse'.en.plural ).to eq( 'mice' )
 	end
 
 
 	it "pluralizes 'mumps' as 'mumps'" do
-		'mumps'.en.plural.should == 'mumps' # 
+		expect( 'mumps'.en.plural ).to eq( 'mumps' )
 	end
 
 
 	it "pluralizes 'Muranese' as 'Muranese'" do
-		'Muranese'.en.plural.should == 'Muranese' # 
+		expect( 'Muranese'.en.plural ).to eq( 'Muranese' )
 	end
 
 
 	it "pluralizes 'murex' as 'murices'" do
-		'murex'.en.plural.should == 'murices' # 
+		expect( 'murex'.en.plural ).to eq( 'murices' )
 	end
 
 
 	it "pluralizes 'museum' as 'museums'" do
-		'museum'.en.plural.should == 'museums' # 
+		expect( 'museum'.en.plural ).to eq( 'museums' )
 	end
 
 
 	it "pluralizes 'mustachio' as 'mustachios'" do
-		'mustachio'.en.plural.should == 'mustachios' # 
+		expect( 'mustachio'.en.plural ).to eq( 'mustachios' )
 	end
 
 
 	# POSSESSIVE FORM
 	it "pluralizes 'my' as 'our'" do
-		'my'.en.plural.should == 'our' # 
+		expect( 'my'.en.plural ).to eq( 'our' )
 	end
 
 
 	it "pluralizes 'myself' as 'ourselves'" do
-		'myself'.en.plural.should == 'ourselves' # 
+		expect( 'myself'.en.plural ).to eq( 'ourselves' )
 	end
 
 
 	it "pluralizes 'mythos' as 'mythoi'" do
-		'mythos'.en.plural.should == 'mythoi' # 
+		expect( 'mythos'.en.plural ).to eq( 'mythoi' )
 	end
 
 
 	it "pluralizes 'Nakayaman' as 'Nakayamans'" do
-		'Nakayaman'.en.plural.should == 'Nakayamans' # 
+		expect( 'Nakayaman'.en.plural ).to eq( 'Nakayamans' )
 	end
 
 
 	it "pluralizes 'Nankingese' as 'Nankingese'" do
-		'Nankingese'.en.plural.should == 'Nankingese' # 
+		expect( 'Nankingese'.en.plural ).to eq( 'Nankingese' )
 	end
 
 
 	it "pluralizes 'nasturtium' as 'nasturtiums'" do
-		'nasturtium'.en.plural.should == 'nasturtiums' # 
+		expect( 'nasturtium'.en.plural ).to eq( 'nasturtiums' )
 	end
 
 
 	it "pluralizes 'Navarrese' as 'Navarrese'" do
-		'Navarrese'.en.plural.should == 'Navarrese' # 
+		expect( 'Navarrese'.en.plural ).to eq( 'Navarrese' )
 	end
 
 
 	it "pluralizes 'nebula' as 'nebulas'" do
-		'nebula'.en.plural.should == 'nebulas'
+		expect( 'nebula'.en.plural ).to eq( 'nebulas' )
 	end
 
 	it "pluralizes 'nebula' as 'nebulae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'nebula'.en.plural.should == 'nebulae'
+			expect( 'nebula'.en.plural ).to eq( 'nebulae' )
 		end
 	end
 
 
 	it "pluralizes 'Nepalese' as 'Nepalese'" do
-		'Nepalese'.en.plural.should == 'Nepalese' # 
+		expect( 'Nepalese'.en.plural ).to eq( 'Nepalese' )
 	end
 
 
 	it "pluralizes 'neuritis' as 'neuritises'" do
-		'neuritis'.en.plural.should == 'neuritises' # 
+		expect( 'neuritis'.en.plural ).to eq( 'neuritises' )
 	end
 
 
 	it "pluralizes 'neurosis' as 'neuroses'" do
-		'neurosis'.en.plural.should == 'neuroses' # 
+		expect( 'neurosis'.en.plural ).to eq( 'neuroses' )
 	end
 
 
 	it "pluralizes 'news' as 'news'" do
-		'news'.en.plural.should == 'news' # 
+		expect( 'news'.en.plural ).to eq( 'news' )
 	end
 
 
 	it "pluralizes 'nexus' as 'nexus'" do
-		'nexus'.en.plural.should == 'nexus' # 
+		expect( 'nexus'.en.plural ).to eq( 'nexus' )
 	end
 
 
 	it "pluralizes 'Niasese' as 'Niasese'" do
-		'Niasese'.en.plural.should == 'Niasese' # 
+		expect( 'Niasese'.en.plural ).to eq( 'Niasese' )
 	end
 
 
 	it "pluralizes 'Nicobarese' as 'Nicobarese'" do
-		'Nicobarese'.en.plural.should == 'Nicobarese' # 
+		expect( 'Nicobarese'.en.plural ).to eq( 'Nicobarese' )
 	end
 
 
 	it "pluralizes 'nimbus' as 'nimbuses'" do
-		'nimbus'.en.plural.should == 'nimbuses'
+		expect( 'nimbus'.en.plural ).to eq( 'nimbuses' )
 	end
 
 	it "pluralizes 'nimbus' as 'nimbi' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'nimbus'.en.plural.should == 'nimbi'
+			expect( 'nimbus'.en.plural ).to eq( 'nimbi' )
 		end
 	end
 
 
 	it "pluralizes 'Nipponese' as 'Nipponese'" do
-		'Nipponese'.en.plural.should == 'Nipponese' # 
+		expect( 'Nipponese'.en.plural ).to eq( 'Nipponese' )
 	end
 
 
 	it "pluralizes 'no' as 'noes'" do
-		'no'.en.plural.should == 'noes' # 
+		expect( 'no'.en.plural ).to eq( 'noes' )
 	end
 
 
 	it "pluralizes 'nostrum' as 'nostrums'" do
-		'nostrum'.en.plural.should == 'nostrums' # 
+		expect( 'nostrum'.en.plural ).to eq( 'nostrums' )
 	end
 
 
 	it "pluralizes 'noumenon' as 'noumena'" do
-		'noumenon'.en.plural.should == 'noumena' # 
+		expect( 'noumenon'.en.plural ).to eq( 'noumena' )
 	end
 
 
 	it "pluralizes 'nova' as 'novas'" do
-		'nova'.en.plural.should == 'novas'
+		expect( 'nova'.en.plural ).to eq( 'novas' )
 	end
 
 	it "pluralizes 'nova' as 'novae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'nova'.en.plural.should == 'novae'
+			expect( 'nova'.en.plural ).to eq( 'novae' )
 		end
 	end
 
 
 	it "pluralizes 'nucleolus' as 'nucleoluses'" do
-		'nucleolus'.en.plural.should == 'nucleoluses'
+		expect( 'nucleolus'.en.plural ).to eq( 'nucleoluses' )
 	end
 
 	it "pluralizes 'nucleolus' as 'nucleoli' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'nucleolus'.en.plural.should == 'nucleoli'
+			expect( 'nucleolus'.en.plural ).to eq( 'nucleoli' )
 		end
 	end
 
 
 	it "pluralizes 'nucleus' as 'nuclei'" do
-		'nucleus'.en.plural.should == 'nuclei' # 
+		expect( 'nucleus'.en.plural ).to eq( 'nuclei' )
 	end
 
 
 	it "pluralizes 'oaf' as 'oafs'" do
-		'oaf'.en.plural.should == 'oafs' # 
+		expect( 'oaf'.en.plural ).to eq( 'oafs' )
 	end
 
 
 	it "pluralizes 'octavo' as 'octavos'" do
-		'octavo'.en.plural.should == 'octavos' # 
+		expect( 'octavo'.en.plural ).to eq( 'octavos' )
 	end
 
 
 	it "pluralizes 'octopus' as 'octopuses'" do
-		'octopus'.en.plural.should == 'octopuses'
+		expect( 'octopus'.en.plural ).to eq( 'octopuses' )
 	end
 
 	it "pluralizes 'octopus' as 'octopodes' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'octopus'.en.plural.should == 'octopodes'
+			expect( 'octopus'.en.plural ).to eq( 'octopodes' )
 		end
 	end
 
 
 	it "pluralizes 'oedema' as 'oedemas'" do
-		'oedema'.en.plural.should == 'oedemas'
+		expect( 'oedema'.en.plural ).to eq( 'oedemas' )
 	end
 
 	it "pluralizes 'oedema' as 'oedemata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'oedema'.en.plural.should == 'oedemata'
+			expect( 'oedema'.en.plural ).to eq( 'oedemata' )
 		end
 	end
 
 
 	it "pluralizes 'Oklahoman' as 'Oklahomans'" do
-		'Oklahoman'.en.plural.should == 'Oklahomans' # 
+		expect( 'Oklahoman'.en.plural ).to eq( 'Oklahomans' )
 	end
 
 
 	it "pluralizes 'omnibus' as 'omnibuses'" do
-		'omnibus'.en.plural.should == 'omnibuses' # 
+		expect( 'omnibus'.en.plural ).to eq( 'omnibuses' )
 	end
 
 
 	# ACCUSATIVE
 	it "pluralizes 'on it' as 'on them'" do
-		'on it'.en.plural.should == 'on them' # 
+		expect( 'on it'.en.plural ).to eq( 'on them' )
 	end
 
 
 	it "pluralizes 'onus' as 'onuses'" do
-		'onus'.en.plural.should == 'onuses' # 
+		expect( 'onus'.en.plural ).to eq( 'onuses' )
 	end
 
 
 	it "pluralizes 'opera' as 'operas'" do
-		'opera'.en.plural.should == 'operas' # 
+		expect( 'opera'.en.plural ).to eq( 'operas' )
 	end
 
 
 	it "pluralizes 'optimum' as 'optimums'" do
-		'optimum'.en.plural.should == 'optimums'
+		expect( 'optimum'.en.plural ).to eq( 'optimums' )
 	end
 
 	it "pluralizes 'optimum' as 'optima' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'optimum'.en.plural.should == 'optima'
+			expect( 'optimum'.en.plural ).to eq( 'optima' )
 		end
 	end
 
 
 	it "pluralizes 'opus' as 'opuses'" do
-		'opus'.en.plural.should == 'opuses'
+		expect( 'opus'.en.plural ).to eq( 'opuses' )
 	end
 
 	it "pluralizes 'opus' as 'opera' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'opus'.en.plural.should == 'opera'
+			expect( 'opus'.en.plural ).to eq( 'opera' )
 		end
 	end
 
 
 	it "pluralizes 'organon' as 'organa'" do
-		'organon'.en.plural.should == 'organa' # 
+		expect( 'organon'.en.plural ).to eq( 'organa' )
 	end
 
 
 	# VERB (UNLIKE bride to be)
 	it "pluralizes 'ought to be' as 'ought to be'" do
-		'ought to be'.en.plural.should == 'ought to be' # 
+		expect( 'ought to be'.en.plural ).to eq( 'ought to be' )
 	end
 
 
 	it "pluralizes 'ovum' as 'ova'" do
-		'ovum'.en.plural.should == 'ova' # 
+		expect( 'ovum'.en.plural ).to eq( 'ova' )
 	end
 
 
 	it "pluralizes 'ox' as 'oxen'" do
-		'ox'.en.plural.should == 'oxen' # 
+		expect( 'ox'.en.plural ).to eq( 'oxen' )
 	end
 
 
 	# POSSESSIVE FORM
 	it "pluralizes 'ox's' as 'oxen's'" do
-		"ox's".en.plural.should == "oxen's" # 
+		expect( "ox's".en.plural ).to eq( "oxen's" )
 	end
 
 
 	it "pluralizes 'oxymoron' as 'oxymorons'" do
-		'oxymoron'.en.plural.should == 'oxymorons'
+		expect( 'oxymoron'.en.plural ).to eq( 'oxymorons' )
 	end
 
 	it "pluralizes 'oxymoron' as 'oxymora' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'oxymoron'.en.plural.should == 'oxymora'
+			expect( 'oxymoron'.en.plural ).to eq( 'oxymora' )
 		end
 	end
 
 
 	it "pluralizes 'Panaman' as 'Panamans'" do
-		'Panaman'.en.plural.should == 'Panamans' # 
+		expect( 'Panaman'.en.plural ).to eq( 'Panamans' )
 	end
 
 
 	it "pluralizes 'parabola' as 'parabolas'" do
-		'parabola'.en.plural.should == 'parabolas'
+		expect( 'parabola'.en.plural ).to eq( 'parabolas' )
 	end
 
 	it "pluralizes 'parabola' as 'parabolae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'parabola'.en.plural.should == 'parabolae'
+			expect( 'parabola'.en.plural ).to eq( 'parabolae' )
 		end
 	end
 
 
 	it "pluralizes 'Parmese' as 'Parmese'" do
-		'Parmese'.en.plural.should == 'Parmese' # 
+		expect( 'Parmese'.en.plural ).to eq( 'Parmese' )
 	end
 
 
 	it "pluralizes 'pathos' as 'pathoses'" do
-		'pathos'.en.plural.should == 'pathoses' # 
+		expect( 'pathos'.en.plural ).to eq( 'pathoses' )
 	end
 
 
 	it "pluralizes 'pegasus' as 'pegasuses'" do
-		'pegasus'.en.plural.should == 'pegasuses' # 
+		expect( 'pegasus'.en.plural ).to eq( 'pegasuses' )
 	end
 
 
 	it "pluralizes 'Pekingese' as 'Pekingese'" do
-		'Pekingese'.en.plural.should == 'Pekingese' # 
+		expect( 'Pekingese'.en.plural ).to eq( 'Pekingese' )
 	end
 
 
 	it "pluralizes 'pelvis' as 'pelvises'" do
-		'pelvis'.en.plural.should == 'pelvises' # 
+		expect( 'pelvis'.en.plural ).to eq( 'pelvises' )
 	end
 
 
 	it "pluralizes 'pendulum' as 'pendulums'" do
-		'pendulum'.en.plural.should == 'pendulums' # 
+		expect( 'pendulum'.en.plural ).to eq( 'pendulums' )
 	end
 
 
 	it "pluralizes 'penis' as 'penises'" do
-		'penis'.en.plural.should == 'penises'
+		expect( 'penis'.en.plural ).to eq( 'penises' )
 	end
 
 	it "pluralizes 'penis' as 'penes' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'penis'.en.plural.should == 'penes'
+			expect( 'penis'.en.plural ).to eq( 'penes' )
 		end
 	end
 
 
 	it "pluralizes 'penumbra' as 'penumbras'" do
-		'penumbra'.en.plural.should == 'penumbras'
+		expect( 'penumbra'.en.plural ).to eq( 'penumbras' )
 	end
 
 	it "pluralizes 'penumbra' as 'penumbrae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'penumbra'.en.plural.should == 'penumbrae'
+			expect( 'penumbra'.en.plural ).to eq( 'penumbrae' )
 		end
 	end
 
 
 	it "pluralizes 'perihelion' as 'perihelia'" do
-		'perihelion'.en.plural.should == 'perihelia' # 
+		expect( 'perihelion'.en.plural ).to eq( 'perihelia' )
 	end
 
 
 	it "pluralizes 'persona' as 'personae'" do
-		'persona'.en.plural.should == 'personae' # 
+		expect( 'persona'.en.plural ).to eq( 'personae' )
 	end
 
 
 	it "pluralizes 'petroleum' as 'petroleums'" do
-		'petroleum'.en.plural.should == 'petroleums' # 
+		expect( 'petroleum'.en.plural ).to eq( 'petroleums' )
 	end
 
 
 	it "pluralizes 'phalanx' as 'phalanxes'" do
-		'phalanx'.en.plural.should == 'phalanxes'
+		expect( 'phalanx'.en.plural ).to eq( 'phalanxes' )
 	end
 
 	it "pluralizes 'phalanx' as 'phalanges' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'phalanx'.en.plural.should == 'phalanges'
+			expect( 'phalanx'.en.plural ).to eq( 'phalanges' )
 		end
 	end
 
 
 	it "pluralizes 'PhD' as 'PhDs'" do
-		'PhD'.en.plural.should == 'PhDs' # 
+		expect( 'PhD'.en.plural ).to eq( 'PhDs' )
 	end
 
 
 	it "pluralizes 'phenomenon' as 'phenomena'" do
-		'phenomenon'.en.plural.should == 'phenomena' # 
+		expect( 'phenomenon'.en.plural ).to eq( 'phenomena' )
 	end
 
 
 	it "pluralizes 'philtrum' as 'philtrums'" do
-		'philtrum'.en.plural.should == 'philtrums' # 
+		expect( 'philtrum'.en.plural ).to eq( 'philtrums' )
 	end
 
 
 	it "pluralizes 'photo' as 'photos'" do
-		'photo'.en.plural.should == 'photos' # 
+		expect( 'photo'.en.plural ).to eq( 'photos' )
 	end
 
 
 	it "pluralizes 'phylum' as 'phylums'" do
-		'phylum'.en.plural.should == 'phylums'
+		expect( 'phylum'.en.plural ).to eq( 'phylums' )
 	end
 
 	it "pluralizes 'phylum' as 'phyla' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'phylum'.en.plural.should == 'phyla'
+			expect( 'phylum'.en.plural ).to eq( 'phyla' )
 		end
 	end
 
 
 	it "pluralizes 'piano' as 'pianos'" do
-		'piano'.en.plural.should == 'pianos'
+		expect( 'piano'.en.plural ).to eq( 'pianos' )
 	end
 
 	it "pluralizes 'piano' as 'piani' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'piano'.en.plural.should == 'piani'
+			expect( 'piano'.en.plural ).to eq( 'piani' )
 		end
 	end
 
 
 	it "pluralizes 'Piedmontese' as 'Piedmontese'" do
-		'Piedmontese'.en.plural.should == 'Piedmontese' # 
+		expect( 'Piedmontese'.en.plural ).to eq( 'Piedmontese' )
 	end
 
 
 	it "pluralizes 'pincer' as 'pincers'" do
-		'pincer'.en.plural.should == 'pincers' # 
+		expect( 'pincer'.en.plural ).to eq( 'pincers' )
 	end
 
 
 	it "pluralizes 'pincers' as 'pincers'" do
-		'pincers'.en.plural.should == 'pincers' # 
+		expect( 'pincers'.en.plural ).to eq( 'pincers' )
 	end
 
 
 	it "pluralizes 'Pistoiese' as 'Pistoiese'" do
-		'Pistoiese'.en.plural.should == 'Pistoiese' # 
+		expect( 'Pistoiese'.en.plural ).to eq( 'Pistoiese' )
 	end
 
 
 	it "pluralizes 'plateau' as 'plateaus'" do
-		'plateau'.en.plural.should == 'plateaus'
+		expect( 'plateau'.en.plural ).to eq( 'plateaus' )
 	end
 
 	it "pluralizes 'plateau' as 'plateaux' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'plateau'.en.plural.should == 'plateaux'
+			expect( 'plateau'.en.plural ).to eq( 'plateaux' )
 		end
 	end
 
 
 	it "pluralizes 'play' as 'plays'" do
-		'play'.en.plural.should == 'plays' # 
+		expect( 'play'.en.plural ).to eq( 'plays' )
 	end
 
 
 	it "pluralizes 'plexus' as 'plexuses'" do
-		'plexus'.en.plural.should == 'plexuses'
+		expect( 'plexus'.en.plural ).to eq( 'plexuses' )
 	end
 
 	it "pluralizes 'plexus' as 'plexus' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'plexus'.en.plural.should == 'plexus'
+			expect( 'plexus'.en.plural ).to eq( 'plexus' )
 		end
 	end
 
 
 	it "pluralizes 'pliers' as 'pliers'" do
-		'pliers'.en.plural.should == 'pliers' # 
+		expect( 'pliers'.en.plural ).to eq( 'pliers' )
 	end
 
 
 	# VERB FORM
 	it "pluralizes 'plies' as 'ply'" do
-		'plies'.en.plural.should == 'ply' # 
+		expect( 'plies'.en.plural ).to eq( 'ply' )
 	end
 
 
 	it "pluralizes 'polis' as 'polises'" do
-		'polis'.en.plural.should == 'polises' # 
+		expect( 'polis'.en.plural ).to eq( 'polises' )
 	end
 
 
 	it "pluralizes 'Polonese' as 'Polonese'" do
-		'Polonese'.en.plural.should == 'Polonese' # 
+		expect( 'Polonese'.en.plural ).to eq( 'Polonese' )
 	end
 
 
 	it "pluralizes 'pontifex' as 'pontifexes'" do
-		'pontifex'.en.plural.should == 'pontifexes'
+		expect( 'pontifex'.en.plural ).to eq( 'pontifexes' )
 	end
 
 	it "pluralizes 'pontifex' as 'pontifices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'pontifex'.en.plural.should == 'pontifices'
+			expect( 'pontifex'.en.plural ).to eq( 'pontifices' )
 		end
 	end
 
 
 	it "pluralizes 'portmanteau' as 'portmanteaus'" do
-		'portmanteau'.en.plural.should == 'portmanteaus'
+		expect( 'portmanteau'.en.plural ).to eq( 'portmanteaus' )
 	end
 
 	it "pluralizes 'portmanteau' as 'portmanteaux' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'portmanteau'.en.plural.should == 'portmanteaux'
+			expect( 'portmanteau'.en.plural ).to eq( 'portmanteaux' )
 		end
 	end
 
 
 	it "pluralizes 'Portuguese' as 'Portuguese'" do
-		'Portuguese'.en.plural.should == 'Portuguese' # 
+		expect( 'Portuguese'.en.plural ).to eq( 'Portuguese' )
 	end
 
 
 	it "pluralizes 'potato' as 'potatoes'" do
-		'potato'.en.plural.should == 'potatoes' # 
+		expect( 'potato'.en.plural ).to eq( 'potatoes' )
 	end
 
 
 	it "pluralizes 'pox' as 'pox'" do
-		'pox'.en.plural.should == 'pox' # 
+		expect( 'pox'.en.plural ).to eq( 'pox' )
 	end
 
 
 	it "pluralizes 'pragma' as 'pragmas'" do
-		'pragma'.en.plural.should == 'pragmas'
+		expect( 'pragma'.en.plural ).to eq( 'pragmas' )
 	end
 
 	it "pluralizes 'pragma' as 'pragmata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'pragma'.en.plural.should == 'pragmata'
+			expect( 'pragma'.en.plural ).to eq( 'pragmata' )
 		end
 	end
 
 
 	it "pluralizes 'premium' as 'premiums'" do
-		'premium'.en.plural.should == 'premiums' # 
+		expect( 'premium'.en.plural ).to eq( 'premiums' )
 	end
 
 
 	it "pluralizes 'prima donna' as 'prima donnas'" do
-		'prima donna'.en.plural.should == 'prima donnas'
+		expect( 'prima donna'.en.plural ).to eq( 'prima donnas' )
 	end
 
 	it "pluralizes 'prima donna' as 'prime donne' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'prima donna'.en.plural.should == 'prime donne'
+			expect( 'prima donna'.en.plural ).to eq( 'prime donne' )
 		end
 	end
 
 
 	it "pluralizes 'pro' as 'pros'" do
-		'pro'.en.plural.should == 'pros' # 
+		expect( 'pro'.en.plural ).to eq( 'pros' )
 	end
 
 
 	it "pluralizes 'proceedings' as 'proceedings'" do
-		'proceedings'.en.plural.should == 'proceedings' # 
+		expect( 'proceedings'.en.plural ).to eq( 'proceedings' )
 	end
 
 
 	it "pluralizes 'prolegomenon' as 'prolegomena'" do
-		'prolegomenon'.en.plural.should == 'prolegomena' # 
+		expect( 'prolegomenon'.en.plural ).to eq( 'prolegomena' )
 	end
 
 
 	it "pluralizes 'proof' as 'proofs'" do
-		'proof'.en.plural.should == 'proofs' # 
+		expect( 'proof'.en.plural ).to eq( 'proofs' )
 	end
 
 
 	it "pluralizes 'proof of concept' as 'proofs of concept'" do
-		'proof of concept'.en.plural.should == 'proofs of concept' # 
+		expect( 'proof of concept'.en.plural ).to eq( 'proofs of concept' )
 	end
 
 
 	it "pluralizes 'prosecutrix' as 'prosecutrixes'" do
-		'prosecutrix'.en.plural.should == 'prosecutrixes'
+		expect( 'prosecutrix'.en.plural ).to eq( 'prosecutrixes' )
 	end
 
 	it "pluralizes 'prosecutrix' as 'prosecutrices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'prosecutrix'.en.plural.should == 'prosecutrices'
+			expect( 'prosecutrix'.en.plural ).to eq( 'prosecutrices' )
 		end
 	end
 
 
 	it "pluralizes 'prospectus' as 'prospectuses'" do
-		'prospectus'.en.plural.should == 'prospectuses'
+		expect( 'prospectus'.en.plural ).to eq( 'prospectuses' )
 	end
 
 	it "pluralizes 'prospectus' as 'prospectus' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'prospectus'.en.plural.should == 'prospectus'
+			expect( 'prospectus'.en.plural ).to eq( 'prospectus' )
 		end
 	end
 
 
 	it "pluralizes 'protozoan' as 'protozoans'" do
-		'protozoan'.en.plural.should == 'protozoans' # 
+		expect( 'protozoan'.en.plural ).to eq( 'protozoans' )
 	end
 
 
 	it "pluralizes 'protozoon' as 'protozoa'" do
-		'protozoon'.en.plural.should == 'protozoa' # 
+		expect( 'protozoon'.en.plural ).to eq( 'protozoa' )
 	end
 
 
 	it "pluralizes 'put' as 'put'" do
-		'put'.en.plural.should == 'put' # 
+		expect( 'put'.en.plural ).to eq( 'put' )
 	end
 
 
 	it "pluralizes 'quantum' as 'quantums'" do
-		'quantum'.en.plural.should == 'quantums'
+		expect( 'quantum'.en.plural ).to eq( 'quantums' )
 	end
 
 	it "pluralizes 'quantum' as 'quanta' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'quantum'.en.plural.should == 'quanta'
+			expect( 'quantum'.en.plural ).to eq( 'quanta' )
 		end
 	end
 
 
 	it "pluralizes 'quartermaster general' as 'quartermasters general'" do
-		'quartermaster general'.en.plural.should == 'quartermasters general' # 
+		expect( 'quartermaster general'.en.plural ).to eq( 'quartermasters general' )
 	end
 
 
 	it "pluralizes 'quarto' as 'quartos'" do
-		'quarto'.en.plural.should == 'quartos' # 
+		expect( 'quarto'.en.plural ).to eq( 'quartos' )
 	end
 
 
 	it "pluralizes 'quorum' as 'quorums'" do
-		'quorum'.en.plural.should == 'quorums' # 
+		expect( 'quorum'.en.plural ).to eq( 'quorums' )
 	end
 
 
 	it "pluralizes 'rabies' as 'rabies'" do
-		'rabies'.en.plural.should == 'rabies' # 
+		expect( 'rabies'.en.plural ).to eq( 'rabies' )
 	end
 
 
 	it "pluralizes 'radius' as 'radiuses'" do
-		'radius'.en.plural.should == 'radiuses'
+		expect( 'radius'.en.plural ).to eq( 'radiuses' )
 	end
 
 	it "pluralizes 'radius' as 'radii' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'radius'.en.plural.should == 'radii'
+			expect( 'radius'.en.plural ).to eq( 'radii' )
 		end
 	end
 
 
 	it "pluralizes 'radix' as 'radices'" do
-		'radix'.en.plural.should == 'radices' # 
+		expect( 'radix'.en.plural ).to eq( 'radices' )
 	end
 
 
 	it "pluralizes 'rebus' as 'rebuses'" do
-		'rebus'.en.plural.should == 'rebuses' # 
+		expect( 'rebus'.en.plural ).to eq( 'rebuses' )
 	end
 
 
 	it "pluralizes 'reindeer' as 'reindeer'" do
-		'reindeer'.en.plural.should == 'reindeer' # 
+		expect( 'reindeer'.en.plural ).to eq( 'reindeer' )
 	end
 
 
 	it "pluralizes 'rhino' as 'rhinos'" do
-		'rhino'.en.plural.should == 'rhinos' # 
+		expect( 'rhino'.en.plural ).to eq( 'rhinos' )
 	end
 
 
 	it "pluralizes 'rhinoceros' as 'rhinoceroses'" do
-		'rhinoceros'.en.plural.should == 'rhinoceroses'
+		expect( 'rhinoceros'.en.plural ).to eq( 'rhinoceroses' )
 	end
 
 	it "pluralizes 'rhinoceros' as 'rhinoceros' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'rhinoceros'.en.plural.should == 'rhinoceros'
+			expect( 'rhinoceros'.en.plural ).to eq( 'rhinoceros' )
 		end
 	end
 
 
 	it "pluralizes 'Romagnese' as 'Romagnese'" do
-		'Romagnese'.en.plural.should == 'Romagnese' # 
+		expect( 'Romagnese'.en.plural ).to eq( 'Romagnese' )
 	end
 
 
 	it "pluralizes 'Romanese' as 'Romanese'" do
-		'Romanese'.en.plural.should == 'Romanese' # 
+		expect( 'Romanese'.en.plural ).to eq( 'Romanese' )
 	end
 
 
 	it "pluralizes 'romeo' as 'romeos'" do
-		'romeo'.en.plural.should == 'romeos' # 
+		expect( 'romeo'.en.plural ).to eq( 'romeos' )
 	end
 
 
 	it "pluralizes 'roof' as 'roofs'" do
-		'roof'.en.plural.should == 'roofs' # 
+		expect( 'roof'.en.plural ).to eq( 'roofs' )
 	end
 
 
 	it "pluralizes 'rostrum' as 'rostrums'" do
-		'rostrum'.en.plural.should == 'rostrums'
+		expect( 'rostrum'.en.plural ).to eq( 'rostrums' )
 	end
 
 	it "pluralizes 'rostrum' as 'rostra' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'rostrum'.en.plural.should == 'rostra'
+			expect( 'rostrum'.en.plural ).to eq( 'rostra' )
 		end
 	end
 
 
 	it "pluralizes 'ruckus' as 'ruckuses'" do
-		'ruckus'.en.plural.should == 'ruckuses' # 
+		expect( 'ruckus'.en.plural ).to eq( 'ruckuses' )
 	end
 
 
 	it "pluralizes 'salmon' as 'salmon'" do
-		'salmon'.en.plural.should == 'salmon' # 
+		expect( 'salmon'.en.plural ).to eq( 'salmon' )
 	end
 
 
 	it "pluralizes 'Sangirese' as 'Sangirese'" do
-		'Sangirese'.en.plural.should == 'Sangirese' # 
+		expect( 'Sangirese'.en.plural ).to eq( 'Sangirese' )
 	end
 
 
 	it "pluralizes 'sank' as 'sank'" do
-		'sank'.en.plural.should == 'sank' # 
+		expect( 'sank'.en.plural ).to eq( 'sank' )
 	end
 
 
 	it "pluralizes 'Sarawakese' as 'Sarawakese'" do
-		'Sarawakese'.en.plural.should == 'Sarawakese' # 
+		expect( 'Sarawakese'.en.plural ).to eq( 'Sarawakese' )
 	end
 
 
 	it "pluralizes 'sarcoma' as 'sarcomas'" do
-		'sarcoma'.en.plural.should == 'sarcomas'
+		expect( 'sarcoma'.en.plural ).to eq( 'sarcomas' )
 	end
 
 	it "pluralizes 'sarcoma' as 'sarcomata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'sarcoma'.en.plural.should == 'sarcomata'
+			expect( 'sarcoma'.en.plural ).to eq( 'sarcomata' )
 		end
 	end
 
 
 	it "pluralizes 'sassafras' as 'sassafrases'" do
-		'sassafras'.en.plural.should == 'sassafrases' # 
+		expect( 'sassafras'.en.plural ).to eq( 'sassafrases' )
 	end
 
 
 	# NOUN FORM
 	it "pluralizes 'saw' as 'saws'" do
-		'saw'.en.plural.should == 'saws' # 
+		expect( 'saw'.en.plural ).to eq( 'saws' )
 	end
 
 
 	# VERB FORM (1st/2nd pers.)
 	it "pluralizes 'saw' (as a verb) as 'saw'" do
-		'saw'.en.plural_verb.should == 'saw' # 
+		expect( 'saw'.en.plural_verb ).to eq( 'saw' )
 	end
 
 
 	# VERB FORM (3rd pers.)
 	it "pluralizes 'saws' as 'saw'" do
-		'saws'.en.plural.should == 'saw' # 
+		expect( 'saws'.en.plural ).to eq( 'saw' )
 	end
 
 
 	it "pluralizes 'scarf' as 'scarves'" do
-		'scarf'.en.plural.should == 'scarves' # 
+		expect( 'scarf'.en.plural ).to eq( 'scarves' )
 	end
 
 
 	it "pluralizes 'schema' as 'schemas'" do
-		'schema'.en.plural.should == 'schemas'
+		expect( 'schema'.en.plural ).to eq( 'schemas' )
 	end
 
 	it "pluralizes 'schema' as 'schemata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'schema'.en.plural.should == 'schemata'
+			expect( 'schema'.en.plural ).to eq( 'schemata' )
 		end
 	end
 
 
 	it "pluralizes 'scissors' as 'scissors'" do
-		'scissors'.en.plural.should == 'scissors' # 
+		expect( 'scissors'.en.plural ).to eq( 'scissors' )
 	end
 
 
 	it "pluralizes 'Scotsman' as 'Scotsmen'" do
-		'Scotsman'.en.plural.should == 'Scotsmen' # 
+		expect( 'Scotsman'.en.plural ).to eq( 'Scotsmen' )
 	end
 
 
 	it "pluralizes 'sea-bass' as 'sea-bass'" do
-		'sea-bass'.en.plural.should == 'sea-bass' # 
+		expect( 'sea-bass'.en.plural ).to eq( 'sea-bass' )
 	end
 
 
 	it "pluralizes 'self' as 'selves'" do
-		'self'.en.plural.should == 'selves' # 
+		expect( 'self'.en.plural ).to eq( 'selves' )
 	end
 
 
 	it "pluralizes 'Selman' as 'Selmans'" do
-		'Selman'.en.plural.should == 'Selmans' # 
+		expect( 'Selman'.en.plural ).to eq( 'Selmans' )
 	end
 
 
 	it "pluralizes 'Senegalese' as 'Senegalese'" do
-		'Senegalese'.en.plural.should == 'Senegalese' # 
+		expect( 'Senegalese'.en.plural ).to eq( 'Senegalese' )
 	end
 
 
 	it "pluralizes 'seraph' as 'seraphs'" do
-		'seraph'.en.plural.should == 'seraphs'
+		expect( 'seraph'.en.plural ).to eq( 'seraphs' )
 	end
 
 	it "pluralizes 'seraph' as 'seraphim' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'seraph'.en.plural.should == 'seraphim'
+			expect( 'seraph'.en.plural ).to eq( 'seraphim' )
 		end
 	end
 
 
 	it "pluralizes 'series' as 'series'" do
-		'series'.en.plural.should == 'series' # 
+		expect( 'series'.en.plural ).to eq( 'series' )
 	end
 
 
 	it "pluralizes 'shall eat' as 'shall eat'" do
-		'shall eat'.en.plural.should == 'shall eat' # 
+		expect( 'shall eat'.en.plural ).to eq( 'shall eat' )
 	end
 
 
 	it "pluralizes 'Shavese' as 'Shavese'" do
-		'Shavese'.en.plural.should == 'Shavese' # 
+		expect( 'Shavese'.en.plural ).to eq( 'Shavese' )
 	end
 
 
 	it "pluralizes 'Shawanese' as 'Shawanese'" do
-		'Shawanese'.en.plural.should == 'Shawanese' # 
+		expect( 'Shawanese'.en.plural ).to eq( 'Shawanese' )
 	end
 
 
 	it "pluralizes 'she' as 'they'" do
-		'she'.en.plural.should == 'they' # 
+		expect( 'she'.en.plural ).to eq( 'they' )
 	end
 
 
 	it "pluralizes 'sheaf' as 'sheaves'" do
-		'sheaf'.en.plural.should == 'sheaves' # 
+		expect( 'sheaf'.en.plural ).to eq( 'sheaves' )
 	end
 
 
 	it "pluralizes 'shears' as 'shears'" do
-		'shears'.en.plural.should == 'shears' # 
+		expect( 'shears'.en.plural ).to eq( 'shears' )
 	end
 
 
 	it "pluralizes 'sheep' as 'sheep'" do
-		'sheep'.en.plural.should == 'sheep' # 
+		expect( 'sheep'.en.plural ).to eq( 'sheep' )
 	end
 
 
 	it "pluralizes 'shelf' as 'shelves'" do
-		'shelf'.en.plural.should == 'shelves' # 
+		expect( 'shelf'.en.plural ).to eq( 'shelves' )
 	end
 
 
 	it "pluralizes 'should have' as 'should have'" do
-		'should have'.en.plural.should == 'should have' # 
+		expect( 'should have'.en.plural ).to eq( 'should have' )
 	end
 
 
 	it "pluralizes 'Siamese' as 'Siamese'" do
-		'Siamese'.en.plural.should == 'Siamese' # 
+		expect( 'Siamese'.en.plural ).to eq( 'Siamese' )
 	end
 
 
 	it "pluralizes 'Sienese' as 'Sienese'" do
-		'Sienese'.en.plural.should == 'Sienese' # 
+		expect( 'Sienese'.en.plural ).to eq( 'Sienese' )
 	end
 
 
 	it "pluralizes 'Sikkimese' as 'Sikkimese'" do
-		'Sikkimese'.en.plural.should == 'Sikkimese' # 
+		expect( 'Sikkimese'.en.plural ).to eq( 'Sikkimese' )
 	end
 
 
 	it "pluralizes 'silex' as 'silices'" do
-		'silex'.en.plural.should == 'silices' # 
+		expect( 'silex'.en.plural ).to eq( 'silices' )
 	end
 
 
 	it "pluralizes 'simplex' as 'simplexes'" do
-		'simplex'.en.plural.should == 'simplexes'
+		expect( 'simplex'.en.plural ).to eq( 'simplexes' )
 	end
 
 	it "pluralizes 'simplex' as 'simplices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'simplex'.en.plural.should == 'simplices'
+			expect( 'simplex'.en.plural ).to eq( 'simplices' )
 		end
 	end
 
 
 	it "pluralizes 'Singhalese' as 'Singhalese'" do
-		'Singhalese'.en.plural.should == 'Singhalese' # 
+		expect( 'Singhalese'.en.plural ).to eq( 'Singhalese' )
 	end
 
 
 	it "pluralizes 'Sinhalese' as 'Sinhalese'" do
-		'Sinhalese'.en.plural.should == 'Sinhalese' # 
+		expect( 'Sinhalese'.en.plural ).to eq( 'Sinhalese' )
 	end
 
 
 	it "pluralizes 'sinus' as 'sinuses'" do
-		'sinus'.en.plural.should == 'sinuses'
+		expect( 'sinus'.en.plural ).to eq( 'sinuses' )
 	end
 
 	it "pluralizes 'sinus' as 'sinus' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'sinus'.en.plural.should == 'sinus'
+			expect( 'sinus'.en.plural ).to eq( 'sinus' )
 		end
 	end
 
 
 	it "pluralizes 'size' as 'sizes'" do
-		'size'.en.plural.should == 'sizes' # 
+		expect( 'size'.en.plural ).to eq( 'sizes' )
 	end
 
 
 	# VERB FORM
 	it "pluralizes 'sizes' as 'size'" do
-		'sizes'.en.plural.should == 'size' # 
+		expect( 'sizes'.en.plural ).to eq( 'size' )
 	end
 
 
 	it "pluralizes 'smallpox' as 'smallpox'" do
-		'smallpox'.en.plural.should == 'smallpox' # 
+		expect( 'smallpox'.en.plural ).to eq( 'smallpox' )
 	end
 
 
 	it "pluralizes 'Smith' as 'Smiths'" do
-		'Smith'.en.plural.should == 'Smiths' # 
+		expect( 'Smith'.en.plural ).to eq( 'Smiths' )
 	end
 
 
 	it "pluralizes 'Sogdianese' as 'Sogdianese'" do
-		'Sogdianese'.en.plural.should == 'Sogdianese' # 
+		expect( 'Sogdianese'.en.plural ).to eq( 'Sogdianese' )
 	end
 
 
 	it "pluralizes 'soliloquy' as 'soliloquies'" do
-		'soliloquy'.en.plural.should == 'soliloquies' # 
+		expect( 'soliloquy'.en.plural ).to eq( 'soliloquies' )
 	end
 
 
 	it "pluralizes 'solo' as 'solos'" do
-		'solo'.en.plural.should == 'solos'
+		expect( 'solo'.en.plural ).to eq( 'solos' )
 	end
 
 	it "pluralizes 'solo' as 'soli' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'solo'.en.plural.should == 'soli'
+			expect( 'solo'.en.plural ).to eq( 'soli' )
 		end
 	end
 
 
 	it "pluralizes 'soma' as 'somas'" do
-		'soma'.en.plural.should == 'somas'
+		expect( 'soma'.en.plural ).to eq( 'somas' )
 	end
 
 	it "pluralizes 'soma' as 'somata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'soma'.en.plural.should == 'somata'
+			expect( 'soma'.en.plural ).to eq( 'somata' )
 		end
 	end
 
 
 	it "pluralizes 'son of a bitch' as 'sons of bitches'" do
-		'son of a bitch'.en.plural.should == 'sons of bitches' # 
+		expect( 'son of a bitch'.en.plural ).to eq( 'sons of bitches' )
 	end
 
 
 	it "pluralizes 'Sonaman' as 'Sonamans'" do
-		'Sonaman'.en.plural.should == 'Sonamans' # 
+		expect( 'Sonaman'.en.plural ).to eq( 'Sonamans' )
 	end
 
 
 	it "pluralizes 'soprano' as 'sopranos'" do
-		'soprano'.en.plural.should == 'sopranos'
+		expect( 'soprano'.en.plural ).to eq( 'sopranos' )
 	end
 
 	it "pluralizes 'soprano' as 'soprani' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'soprano'.en.plural.should == 'soprani'
+			expect( 'soprano'.en.plural ).to eq( 'soprani' )
 		end
 	end
 
 
 	it "pluralizes 'sought' as 'sought'" do
-		'sought'.en.plural.should == 'sought' # 
+		expect( 'sought'.en.plural ).to eq( 'sought' )
 	end
 
 
 	it "pluralizes 'species' as 'species'" do
-		'species'.en.plural.should == 'species' # 
+		expect( 'species'.en.plural ).to eq( 'species' )
 	end
 
 
 	it "pluralizes 'spectrum' as 'spectrums'" do
-		'spectrum'.en.plural.should == 'spectrums'
+		expect( 'spectrum'.en.plural ).to eq( 'spectrums' )
 	end
 
 	it "pluralizes 'spectrum' as 'spectra' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'spectrum'.en.plural.should == 'spectra'
+			expect( 'spectrum'.en.plural ).to eq( 'spectra' )
 		end
 	end
 
 
 	it "pluralizes 'speculum' as 'speculums'" do
-		'speculum'.en.plural.should == 'speculums'
+		expect( 'speculum'.en.plural ).to eq( 'speculums' )
 	end
 
 	it "pluralizes 'speculum' as 'specula' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'speculum'.en.plural.should == 'specula'
+			expect( 'speculum'.en.plural ).to eq( 'specula' )
 		end
 	end
 
 
 	it "pluralizes 'spent' as 'spent'" do
-		'spent'.en.plural.should == 'spent' # 
+		expect( 'spent'.en.plural ).to eq( 'spent' )
 	end
 
 
 	it "pluralizes 'spermatozoon' as 'spermatozoa'" do
-		'spermatozoon'.en.plural.should == 'spermatozoa' # 
+		expect( 'spermatozoon'.en.plural ).to eq( 'spermatozoa' )
 	end
 
 
 	it "pluralizes 'sphinx' as 'sphinxes'" do
-		'sphinx'.en.plural.should == 'sphinxes'
+		expect( 'sphinx'.en.plural ).to eq( 'sphinxes' )
 	end
 
 	it "pluralizes 'sphinx' as 'sphinges' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'sphinx'.en.plural.should == 'sphinges'
+			expect( 'sphinx'.en.plural ).to eq( 'sphinges' )
 		end
 	end
 
 
 	it "pluralizes 'stadium' as 'stadiums'" do
-		'stadium'.en.plural.should == 'stadiums'
+		expect( 'stadium'.en.plural ).to eq( 'stadiums' )
 	end
 
 	it "pluralizes 'stadium' as 'stadia' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'stadium'.en.plural.should == 'stadia'
+			expect( 'stadium'.en.plural ).to eq( 'stadia' )
 		end
 	end
 
 
 	it "pluralizes 'stamen' as 'stamens'" do
-		'stamen'.en.plural.should == 'stamens'
+		expect( 'stamen'.en.plural ).to eq( 'stamens' )
 	end
 
 	it "pluralizes 'stamen' as 'stamina' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'stamen'.en.plural.should == 'stamina'
+			expect( 'stamen'.en.plural ).to eq( 'stamina' )
 		end
 	end
 
 
 	it "pluralizes 'status' as 'statuses'" do
-		'status'.en.plural.should == 'statuses'
+		expect( 'status'.en.plural ).to eq( 'statuses' )
 	end
 
 	it "pluralizes 'status' as 'status' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'status'.en.plural.should == 'status'
+			expect( 'status'.en.plural ).to eq( 'status' )
 		end
 	end
 
 
 	it "pluralizes 'stereo' as 'stereos'" do
-		'stereo'.en.plural.should == 'stereos' # 
+		expect( 'stereo'.en.plural ).to eq( 'stereos' )
 	end
 
 
 	it "pluralizes 'stigma' as 'stigmas'" do
-		'stigma'.en.plural.should == 'stigmas'
+		expect( 'stigma'.en.plural ).to eq( 'stigmas' )
 	end
 
 	it "pluralizes 'stigma' as 'stigmata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'stigma'.en.plural.should == 'stigmata'
+			expect( 'stigma'.en.plural ).to eq( 'stigmata' )
 		end
 	end
 
 
 	it "pluralizes 'stimulus' as 'stimuli'" do
-		'stimulus'.en.plural.should == 'stimuli' # 
+		expect( 'stimulus'.en.plural ).to eq( 'stimuli' )
 	end
 
 
 	it "pluralizes 'stoma' as 'stomas'" do
-		'stoma'.en.plural.should == 'stomas'
+		expect( 'stoma'.en.plural ).to eq( 'stomas' )
 	end
 
 	it "pluralizes 'stoma' as 'stomata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'stoma'.en.plural.should == 'stomata'
+			expect( 'stoma'.en.plural ).to eq( 'stomata' )
 		end
 	end
 
 
 	it "pluralizes 'storey' as 'storeys'" do
-		'storey'.en.plural.should == 'storeys' # 
+		expect( 'storey'.en.plural ).to eq( 'storeys' )
 	end
 
 
 	it "pluralizes 'story' as 'stories'" do
-		'story'.en.plural.should == 'stories' # 
+		expect( 'story'.en.plural ).to eq( 'stories' )
 	end
 
 
 	it "pluralizes 'stratum' as 'strata'" do
-		'stratum'.en.plural.should == 'strata' # 
+		expect( 'stratum'.en.plural ).to eq( 'strata' )
 	end
 
 
 	it "pluralizes 'strife' as 'strifes'" do
-		'strife'.en.plural.should == 'strifes' # 
+		expect( 'strife'.en.plural ).to eq( 'strifes' )
 	end
 
 
 	it "pluralizes 'stylo' as 'stylos'" do
-		'stylo'.en.plural.should == 'stylos' # 
+		expect( 'stylo'.en.plural ).to eq( 'stylos' )
 	end
 
 
 	it "pluralizes 'stylus' as 'styluses'" do
-		'stylus'.en.plural.should == 'styluses'
+		expect( 'stylus'.en.plural ).to eq( 'styluses' )
 	end
 
 	it "pluralizes 'stylus' as 'styli' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'stylus'.en.plural.should == 'styli'
+			expect( 'stylus'.en.plural ).to eq( 'styli' )
 		end
 	end
 
 
 	it "pluralizes 'succubus' as 'succubuses'" do
-		'succubus'.en.plural.should == 'succubuses'
+		expect( 'succubus'.en.plural ).to eq( 'succubuses' )
 	end
 
 	it "pluralizes 'succubus' as 'succubi' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'succubus'.en.plural.should == 'succubi'
+			expect( 'succubus'.en.plural ).to eq( 'succubi' )
 		end
 	end
 
 
 	it "pluralizes 'Sudanese' as 'Sudanese'" do
-		'Sudanese'.en.plural.should == 'Sudanese' # 
+		expect( 'Sudanese'.en.plural ).to eq( 'Sudanese' )
 	end
 
 
 	it "pluralizes 'suffix' as 'suffixes'" do
-		'suffix'.en.plural.should == 'suffixes' # 
+		expect( 'suffix'.en.plural ).to eq( 'suffixes' )
 	end
 
 
 	it "pluralizes 'Sundanese' as 'Sundanese'" do
-		'Sundanese'.en.plural.should == 'Sundanese' # 
+		expect( 'Sundanese'.en.plural ).to eq( 'Sundanese' )
 	end
 
 
 	it "pluralizes 'superior' as 'superiors'" do
-		'superior'.en.plural.should == 'superiors' # 
+		expect( 'superior'.en.plural ).to eq( 'superiors' )
 	end
 
 
 	it "pluralizes 'Surgeon-General' as 'Surgeons-General'" do
-		'Surgeon-General'.en.plural.should == 'Surgeons-General' # 
+		expect( 'Surgeon-General'.en.plural ).to eq( 'Surgeons-General' )
 	end
 
 
 	it "pluralizes 'surplus' as 'surpluses'" do
-		'surplus'.en.plural.should == 'surpluses' # 
+		expect( 'surplus'.en.plural ).to eq( 'surpluses' )
 	end
 
 
 	it "pluralizes 'Swahilese' as 'Swahilese'" do
-		'Swahilese'.en.plural.should == 'Swahilese' # 
+		expect( 'Swahilese'.en.plural ).to eq( 'Swahilese' )
 	end
 
 
 	it "pluralizes 'swine' as 'swines'" do
-		'swine'.en.plural.should == 'swines'
+		expect( 'swine'.en.plural ).to eq( 'swines' )
 	end
 
 	it "pluralizes 'swine' as 'swine' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'swine'.en.plural.should == 'swine'
+			expect( 'swine'.en.plural ).to eq( 'swine' )
 		end
 	end
 
 
 	it "pluralizes 'syringe' as 'syringes'" do
-		'syringe'.en.plural.should == 'syringes' # 
+		expect( 'syringe'.en.plural ).to eq( 'syringes' )
 	end
 
 
 	it "pluralizes 'syrinx' as 'syrinxes'" do
-		'syrinx'.en.plural.should == 'syrinxes'
+		expect( 'syrinx'.en.plural ).to eq( 'syrinxes' )
 	end
 
 	it "pluralizes 'syrinx' as 'syringes' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'syrinx'.en.plural.should == 'syringes'
+			expect( 'syrinx'.en.plural ).to eq( 'syringes' )
 		end
 	end
 
 
 	it "pluralizes 'tableau' as 'tableaus'" do
-		'tableau'.en.plural.should == 'tableaus'
+		expect( 'tableau'.en.plural ).to eq( 'tableaus' )
 	end
 
 	it "pluralizes 'tableau' as 'tableaux' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'tableau'.en.plural.should == 'tableaux'
+			expect( 'tableau'.en.plural ).to eq( 'tableaux' )
 		end
 	end
 
 
 	it "pluralizes 'Tacoman' as 'Tacomans'" do
-		'Tacoman'.en.plural.should == 'Tacomans' # 
+		expect( 'Tacoman'.en.plural ).to eq( 'Tacomans' )
 	end
 
 
 	it "pluralizes 'tattoo' as 'tattoos'" do
-		'tattoo'.en.plural.should == 'tattoos' # 
+		expect( 'tattoo'.en.plural ).to eq( 'tattoos' )
 	end
 
 
 	it "pluralizes 'tempo' as 'tempos'" do
-		'tempo'.en.plural.should == 'tempos'
+		expect( 'tempo'.en.plural ).to eq( 'tempos' )
 	end
 
 	it "pluralizes 'tempo' as 'tempi' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'tempo'.en.plural.should == 'tempi'
+			expect( 'tempo'.en.plural ).to eq( 'tempi' )
 		end
 	end
 
 
 	it "pluralizes 'Tenggerese' as 'Tenggerese'" do
-		'Tenggerese'.en.plural.should == 'Tenggerese' # 
+		expect( 'Tenggerese'.en.plural ).to eq( 'Tenggerese' )
 	end
 
 
 	it "pluralizes 'testatrix' as 'testatrixes'" do
-		'testatrix'.en.plural.should == 'testatrixes'
+		expect( 'testatrix'.en.plural ).to eq( 'testatrixes' )
 	end
 
 	it "pluralizes 'testatrix' as 'testatrices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'testatrix'.en.plural.should == 'testatrices'
+			expect( 'testatrix'.en.plural ).to eq( 'testatrices' )
 		end
 	end
 
 
 	it "pluralizes 'testes' as 'testes'" do
-		'testes'.en.plural.should == 'testes' # 
+		expect( 'testes'.en.plural ).to eq( 'testes' )
 	end
 
 
 	it "pluralizes 'testis' as 'testes'" do
-		'testis'.en.plural.should == 'testes' # 
+		expect( 'testis'.en.plural ).to eq( 'testes' )
 	end
 
 
 	it "pluralizes 'that' as 'those'" do
-		'that'.en.plural.should == 'those' # 
+		expect( 'that'.en.plural ).to eq( 'those' )
 	end
 
 
 	# POSSESSIVE FORM (GENDER-INCLUSIVE)
 	it "pluralizes 'their' as 'their'" do
-		'their'.en.plural.should == 'their' # 
+		expect( 'their'.en.plural ).to eq( 'their' )
 	end
 
 
 	# ugly but gaining currency
 	it "pluralizes 'themself' as 'themselves'" do
-		'themself'.en.plural.should == 'themselves' # 
+		expect( 'themself'.en.plural ).to eq( 'themselves' )
 	end
 
 
 	# for indeterminate gender
 	it "pluralizes 'they' as 'they'" do
-		'they'.en.plural.should == 'they' # 
+		expect( 'they'.en.plural ).to eq( 'they' )
 	end
 
 
 	it "pluralizes 'this' as 'these'" do
-		'this'.en.plural.should == 'these' # 
+		expect( 'this'.en.plural ).to eq( 'these' )
 	end
 
 
 	# VERB FORM
 	it "pluralizes 'thought' (as a verb) as 'thought'" do
-		'thought'.en.plural_verb.should == 'thought' # 
+		expect( 'thought'.en.plural_verb ).to eq( 'thought' )
 	end
 
 
 	# NOUN FORM
 	it "pluralizes 'thought' as 'thoughts'" do
-		'thought'.en.plural.should == 'thoughts' # 
+		expect( 'thought'.en.plural ).to eq( 'thoughts' )
 	end
 
 
 	it "pluralizes 'Times' as 'Timeses'" do
-		'Times'.en.plural.should == 'Timeses' # 
+		expect( 'Times'.en.plural ).to eq( 'Timeses' )
 	end
 
 
 	it "pluralizes 'Timorese' as 'Timorese'" do
-		'Timorese'.en.plural.should == 'Timorese' # 
+		expect( 'Timorese'.en.plural ).to eq( 'Timorese' )
 	end
 
 
 	it "pluralizes 'Tirolese' as 'Tirolese'" do
-		'Tirolese'.en.plural.should == 'Tirolese' # 
+		expect( 'Tirolese'.en.plural ).to eq( 'Tirolese' )
 	end
 
 
 	it "pluralizes 'to her' as 'to them'" do
-		'to her'.en.plural.should == 'to them' # 
+		expect( 'to her'.en.plural ).to eq( 'to them' )
 	end
 
 
 	it "pluralizes 'to herself' as 'to themselves'" do
-		'to herself'.en.plural.should == 'to themselves' # 
+		expect( 'to herself'.en.plural ).to eq( 'to themselves' )
 	end
 
 
 	it "pluralizes 'to him' as 'to them'" do
-		'to him'.en.plural.should == 'to them' # 
+		expect( 'to him'.en.plural ).to eq( 'to them' )
 	end
 
 
 	it "pluralizes 'to himself' as 'to themselves'" do
-		'to himself'.en.plural.should == 'to themselves' # 
+		expect( 'to himself'.en.plural ).to eq( 'to themselves' )
 	end
 
 
 	it "pluralizes 'to it' as 'to them'" do
-		'to it'.en.plural.should == 'to them' # 
+		expect( 'to it'.en.plural ).to eq( 'to them' )
 	end
 
 
 	# ACCUSATIVE
 	it "pluralizes 'to it' as 'to them'" do
-		'to it'.en.plural.should == 'to them' # 
+		expect( 'to it'.en.plural ).to eq( 'to them' )
 	end
 
 
 	it "pluralizes 'to itself' as 'to themselves'" do
-		'to itself'.en.plural.should == 'to themselves' # 
+		expect( 'to itself'.en.plural ).to eq( 'to themselves' )
 	end
 
 
 	it "pluralizes 'to me' as 'to us'" do
-		'to me'.en.plural.should == 'to us' # 
+		expect( 'to me'.en.plural ).to eq( 'to us' )
 	end
 
 
 	it "pluralizes 'to myself' as 'to ourselves'" do
-		'to myself'.en.plural.should == 'to ourselves' # 
+		expect( 'to myself'.en.plural ).to eq( 'to ourselves' )
 	end
 
 
 	# for indeterminate gender
 	it "pluralizes 'to them' as 'to them'" do
-		'to them'.en.plural.should == 'to them' # 
+		expect( 'to them'.en.plural ).to eq( 'to them' )
 	end
 
 
 	# ugly but gaining currency
 	it "pluralizes 'to themself' as 'to themselves'" do
-		'to themself'.en.plural.should == 'to themselves' # 
+		expect( 'to themself'.en.plural ).to eq( 'to themselves' )
 	end
 
 
 	it "pluralizes 'to you' as 'to you'" do
-		'to you'.en.plural.should == 'to you' # 
+		expect( 'to you'.en.plural ).to eq( 'to you' )
 	end
 
 
 	it "pluralizes 'to yourself' as 'to yourselves'" do
-		'to yourself'.en.plural.should == 'to yourselves' # 
+		expect( 'to yourself'.en.plural ).to eq( 'to yourselves' )
 	end
 
 
 	it "pluralizes 'Tocharese' as 'Tocharese'" do
-		'Tocharese'.en.plural.should == 'Tocharese' # 
+		expect( 'Tocharese'.en.plural ).to eq( 'Tocharese' )
 	end
 
 
 	it "pluralizes 'tomato' as 'tomatoes'" do
-		'tomato'.en.plural.should == 'tomatoes' # 
+		expect( 'tomato'.en.plural ).to eq( 'tomatoes' )
 	end
 
 
 	it "pluralizes 'Tonkinese' as 'Tonkinese'" do
-		'Tonkinese'.en.plural.should == 'Tonkinese' # 
+		expect( 'Tonkinese'.en.plural ).to eq( 'Tonkinese' )
 	end
 
 
 	it "pluralizes 'tonsillitis' as 'tonsillitises'" do
-		'tonsillitis'.en.plural.should == 'tonsillitises' # 
+		expect( 'tonsillitis'.en.plural ).to eq( 'tonsillitises' )
 	end
 
 
 	it "pluralizes 'tooth' as 'teeth'" do
-		'tooth'.en.plural.should == 'teeth' # 
+		expect( 'tooth'.en.plural ).to eq( 'teeth' )
 	end
 
 
 	it "pluralizes 'Torinese' as 'Torinese'" do
-		'Torinese'.en.plural.should == 'Torinese' # 
+		expect( 'Torinese'.en.plural ).to eq( 'Torinese' )
 	end
 
 
 	it "pluralizes 'torus' as 'toruses'" do
-		'torus'.en.plural.should == 'toruses'
+		expect( 'torus'.en.plural ).to eq( 'toruses' )
 	end
 
 	it "pluralizes 'torus' as 'tori' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'torus'.en.plural.should == 'tori'
+			expect( 'torus'.en.plural ).to eq( 'tori' )
 		end
 	end
 
 
 	it "pluralizes 'trapezium' as 'trapeziums'" do
-		'trapezium'.en.plural.should == 'trapeziums'
+		expect( 'trapezium'.en.plural ).to eq( 'trapeziums' )
 	end
 
 	it "pluralizes 'trapezium' as 'trapezia' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'trapezium'.en.plural.should == 'trapezia'
+			expect( 'trapezium'.en.plural ).to eq( 'trapezia' )
 		end
 	end
 
 
 	it "pluralizes 'trauma' as 'traumas'" do
-		'trauma'.en.plural.should == 'traumas'
+		expect( 'trauma'.en.plural ).to eq( 'traumas' )
 	end
 
 	it "pluralizes 'trauma' as 'traumata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'trauma'.en.plural.should == 'traumata'
+			expect( 'trauma'.en.plural ).to eq( 'traumata' )
 		end
 	end
 
 
 	it "pluralizes 'travois' as 'travois'" do
-		'travois'.en.plural.should == 'travois' # 
+		expect( 'travois'.en.plural ).to eq( 'travois' )
 	end
 
 
 	it "pluralizes 'trellis' as 'trellises'" do
-		'trellis'.en.plural.should == 'trellises' # 
+		expect( 'trellis'.en.plural ).to eq( 'trellises' )
 	end
 
 
 	it "pluralizes 'tries' as 'try'" do
-		'tries'.en.plural.should == 'try' # 
+		expect( 'tries'.en.plural ).to eq( 'try' )
 	end
 
 
 	it "pluralizes 'trilby' as 'trilbys'" do
-		'trilby'.en.plural.should == 'trilbys' # 
+		expect( 'trilby'.en.plural ).to eq( 'trilbys' )
 	end
 
 
 	it "pluralizes 'trousers' as 'trousers'" do
-		'trousers'.en.plural.should == 'trousers' # 
+		expect( 'trousers'.en.plural ).to eq( 'trousers' )
 	end
 
 
 	it "pluralizes 'trousseau' as 'trousseaus'" do
-		'trousseau'.en.plural.should == 'trousseaus'
+		expect( 'trousseau'.en.plural ).to eq( 'trousseaus' )
 	end
 
 	it "pluralizes 'trousseau' as 'trousseaux' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'trousseau'.en.plural.should == 'trousseaux'
+			expect( 'trousseau'.en.plural ).to eq( 'trousseaux' )
 		end
 	end
 
 
 	it "pluralizes 'trout' as 'trout'" do
-		'trout'.en.plural.should == 'trout' # 
+		expect( 'trout'.en.plural ).to eq( 'trout' )
 	end
 
 
 	it "pluralizes 'try' as 'tries'" do
-		'try'.en.plural.should == 'tries' # 
+		expect( 'try'.en.plural ).to eq( 'tries' )
 	end
 
 
 	it "pluralizes 'tuna' as 'tuna'" do
-		'tuna'.en.plural.should == 'tuna' # 
+		expect( 'tuna'.en.plural ).to eq( 'tuna' )
 	end
 
 
 	it "pluralizes 'turf' as 'turfs'" do
-		'turf'.en.plural.should == 'turfs'
+		expect( 'turf'.en.plural ).to eq( 'turfs' )
 	end
 
 	it "pluralizes 'turf' as 'turves' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'turf'.en.plural.should == 'turves'
+			expect( 'turf'.en.plural ).to eq( 'turves' )
 		end
 	end
 
 
 	it "pluralizes 'Tyrolese' as 'Tyrolese'" do
-		'Tyrolese'.en.plural.should == 'Tyrolese' # 
+		expect( 'Tyrolese'.en.plural ).to eq( 'Tyrolese' )
 	end
 
 
 	it "pluralizes 'ultimatum' as 'ultimatums'" do
-		'ultimatum'.en.plural.should == 'ultimatums'
+		expect( 'ultimatum'.en.plural ).to eq( 'ultimatums' )
 	end
 
 	it "pluralizes 'ultimatum' as 'ultimata' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'ultimatum'.en.plural.should == 'ultimata'
+			expect( 'ultimatum'.en.plural ).to eq( 'ultimata' )
 		end
 	end
 
 
 	it "pluralizes 'umbilicus' as 'umbilicuses'" do
-		'umbilicus'.en.plural.should == 'umbilicuses'
+		expect( 'umbilicus'.en.plural ).to eq( 'umbilicuses' )
 	end
 
 	it "pluralizes 'umbilicus' as 'umbilici' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'umbilicus'.en.plural.should == 'umbilici'
+			expect( 'umbilicus'.en.plural ).to eq( 'umbilici' )
 		end
 	end
 
 
 	it "pluralizes 'umbra' as 'umbras'" do
-		'umbra'.en.plural.should == 'umbras'
+		expect( 'umbra'.en.plural ).to eq( 'umbras' )
 	end
 
 	it "pluralizes 'umbra' as 'umbrae' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'umbra'.en.plural.should == 'umbrae'
+			expect( 'umbra'.en.plural ).to eq( 'umbrae' )
 		end
 	end
 
 
 	it "pluralizes 'uterus' as 'uteruses'" do
-		'uterus'.en.plural.should == 'uteruses'
+		expect( 'uterus'.en.plural ).to eq( 'uteruses' )
 	end
 
 	it "pluralizes 'uterus' as 'uteri' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'uterus'.en.plural.should == 'uteri'
+			expect( 'uterus'.en.plural ).to eq( 'uteri' )
 		end
 	end
 
 
 	it "pluralizes 'vacuum' as 'vacuums'" do
-		'vacuum'.en.plural.should == 'vacuums'
+		expect( 'vacuum'.en.plural ).to eq( 'vacuums' )
 	end
 
 	it "pluralizes 'vacuum' as 'vacua' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'vacuum'.en.plural.should == 'vacua'
+			expect( 'vacuum'.en.plural ).to eq( 'vacua' )
 		end
 	end
 
 
 	it "pluralizes 'vellum' as 'vellums'" do
-		'vellum'.en.plural.should == 'vellums' # 
+		expect( 'vellum'.en.plural ).to eq( 'vellums' )
 	end
 
 
 	it "pluralizes 'velum' as 'velums'" do
-		'velum'.en.plural.should == 'velums'
+		expect( 'velum'.en.plural ).to eq( 'velums' )
 	end
 
 	it "pluralizes 'velum' as 'vela' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'velum'.en.plural.should == 'vela'
+			expect( 'velum'.en.plural ).to eq( 'vela' )
 		end
 	end
 
 
 	it "pluralizes 'Vermontese' as 'Vermontese'" do
-		'Vermontese'.en.plural.should == 'Vermontese' # 
+		expect( 'Vermontese'.en.plural ).to eq( 'Vermontese' )
 	end
 
 
 	it "pluralizes 'Veronese' as 'Veronese'" do
-		'Veronese'.en.plural.should == 'Veronese' # 
+		expect( 'Veronese'.en.plural ).to eq( 'Veronese' )
 	end
 
 
 	it "pluralizes 'vertebra' as 'vertebrae'" do
-		'vertebra'.en.plural.should == 'vertebrae' # 
+		expect( 'vertebra'.en.plural ).to eq( 'vertebrae' )
 	end
 
 
 	it "pluralizes 'vertex' as 'vertexes'" do
-		'vertex'.en.plural.should == 'vertexes'
+		expect( 'vertex'.en.plural ).to eq( 'vertexes' )
 	end
 
 	it "pluralizes 'vertex' as 'vertices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'vertex'.en.plural.should == 'vertices'
+			expect( 'vertex'.en.plural ).to eq( 'vertices' )
 		end
 	end
 
 
 	it "pluralizes 'Viennese' as 'Viennese'" do
-		'Viennese'.en.plural.should == 'Viennese' # 
+		expect( 'Viennese'.en.plural ).to eq( 'Viennese' )
 	end
 
 
 	it "pluralizes 'Vietnamese' as 'Vietnamese'" do
-		'Vietnamese'.en.plural.should == 'Vietnamese' # 
+		expect( 'Vietnamese'.en.plural ).to eq( 'Vietnamese' )
 	end
 
 
 	it "pluralizes 'virus' as 'viruses'" do
-		'virus'.en.plural.should == 'viruses' # 
+		expect( 'virus'.en.plural ).to eq( 'viruses' )
 	end
 
 
 	it "pluralizes 'vixen' as 'vixens'" do
-		'vixen'.en.plural.should == 'vixens' # 
+		expect( 'vixen'.en.plural ).to eq( 'vixens' )
 	end
 
 
 	it "pluralizes 'vortex' as 'vortexes'" do
-		'vortex'.en.plural.should == 'vortexes'
+		expect( 'vortex'.en.plural ).to eq( 'vortexes' )
 	end
 
 	it "pluralizes 'vortex' as 'vortices' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'vortex'.en.plural.should == 'vortices'
+			expect( 'vortex'.en.plural ).to eq( 'vortices' )
 		end
 	end
 
 
 	it "pluralizes 'walrus' as 'walruses'" do
-		'walrus'.en.plural.should == 'walruses' # 
+		expect( 'walrus'.en.plural ).to eq( 'walruses' )
 	end
 
 
 	it "pluralizes 'was' as 'were'" do
-		'was'.en.plural.should == 'were' # 
+		expect( 'was'.en.plural ).to eq( 'were' )
 	end
 
 
 	it "pluralizes 'was faced with' as 'were faced with'" do
-		'was faced with'.en.plural.should == 'were faced with' # 
+		expect( 'was faced with'.en.plural ).to eq( 'were faced with' )
 	end
 
 
 	it "pluralizes 'was hoping' as 'were hoping'" do
-		'was hoping'.en.plural.should == 'were hoping' # 
+		expect( 'was hoping'.en.plural ).to eq( 'were hoping' )
 	end
 
 
 	it "pluralizes 'Wenchowese' as 'Wenchowese'" do
-		'Wenchowese'.en.plural.should == 'Wenchowese' # 
+		expect( 'Wenchowese'.en.plural ).to eq( 'Wenchowese' )
 	end
 
 
 	it "pluralizes 'were' as 'were'" do
-		'were'.en.plural.should == 'were' # 
+		expect( 'were'.en.plural ).to eq( 'were' )
 	end
 
 
 	it "pluralizes 'were found' as 'were found'" do
-		'were found'.en.plural.should == 'were found' # 
+		expect( 'were found'.en.plural ).to eq( 'were found' )
 	end
 
 
 	it "pluralizes 'wharf' as 'wharves'" do
-		'wharf'.en.plural.should == 'wharves' # 
+		expect( 'wharf'.en.plural ).to eq( 'wharves' )
 	end
 
 
 	it "pluralizes 'whiting' as 'whiting'" do
-		'whiting'.en.plural.should == 'whiting' # 
+		expect( 'whiting'.en.plural ).to eq( 'whiting' )
 	end
 
 
 	it "pluralizes 'Whitmanese' as 'Whitmanese'" do
-		'Whitmanese'.en.plural.should == 'Whitmanese' # 
+		expect( 'Whitmanese'.en.plural ).to eq( 'Whitmanese' )
 	end
 
 
 	it "pluralizes 'wife' as 'wives'" do
-		'wife'.en.plural.should == 'wives' # 
+		expect( 'wife'.en.plural ).to eq( 'wives' )
 	end
 
 
 	it "pluralizes 'wildebeest' as 'wildebeests'" do
-		'wildebeest'.en.plural.should == 'wildebeests'
+		expect( 'wildebeest'.en.plural ).to eq( 'wildebeests' )
 	end
 
 	it "pluralizes 'wildebeest' as 'wildebeest' in classical mode" do
 		Linguistics::EN.in_classical_mode do
-			'wildebeest'.en.plural.should == 'wildebeest'
+			expect( 'wildebeest'.en.plural ).to eq( 'wildebeest' )
 		end
 	end
 
 
 	# VERB FORM
 	it "pluralizes 'will' (as a verb) as 'will'" do
-		'will'.en.plural_verb.should == 'will' # 
+		expect( 'will'.en.plural_verb ).to eq( 'will' )
 	end
 
 
 	# NOUN FORM
 	it "pluralizes 'will' as 'wills'" do
-		'will'.en.plural.should == 'wills' # 
+		expect( 'will'.en.plural ).to eq( 'wills' )
 	end
 
 
 	# VERB FORM
 	it "pluralizes 'will eat' (as a verb) as 'will eat'" do
-		'will eat'.en.plural_verb.should == 'will eat' # 
+		expect( 'will eat'.en.plural_verb ).to eq( 'will eat' )
 	end
 
 
 	# VERB FORM
 	it "pluralizes 'wills' as 'will'" do
-		'wills'.en.plural.should == 'will' # 
+		expect( 'wills'.en.plural ).to eq( 'will' )
 	end
 
 
 	it "pluralizes 'wish' as 'wishes'" do
-		'wish'.en.plural.should == 'wishes' # 
+		expect( 'wish'.en.plural ).to eq( 'wishes' )
 	end
 
 
 	it "pluralizes 'with him' as 'with them'" do
-		'with him'.en.plural.should == 'with them' # 
+		expect( 'with him'.en.plural ).to eq( 'with them' )
 	end
 
 
 	# ACCUSATIVE
 	it "pluralizes 'with it' as 'with them'" do
-		'with it'.en.plural.should == 'with them' # 
+		expect( 'with it'.en.plural ).to eq( 'with them' )
 	end
 
 
 	it "pluralizes 'wolf' as 'wolves'" do
-		'wolf'.en.plural.should == 'wolves' # 
+		expect( 'wolf'.en.plural ).to eq( 'wolves' )
 	end
 
 
 	it "pluralizes 'woman' as 'women'" do
-		'woman'.en.plural.should == 'women' # 
+		expect( 'woman'.en.plural ).to eq( 'women' )
 	end
 
 
 	it "pluralizes 'woman of substance' as 'women of substance'" do
-		'woman of substance'.en.plural.should == 'women of substance' # 
+		expect( 'woman of substance'.en.plural ).to eq( 'women of substance' )
 	end
 
 
 	# POSSESSIVE FORM
 	it "pluralizes 'woman's' as 'women's'" do
-		"woman's".en.plural.should == "women's" # 
+		expect( "woman's".en.plural ).to eq( "women's" )
 	end
 
 
 	it "pluralizes 'woodlouse' as 'woodlice'" do
-		'woodlouse'.en.plural.should == 'woodlice' # 
+		expect( 'woodlouse'.en.plural ).to eq( 'woodlice' )
 	end
 
 
 	it "pluralizes 'Yakiman' as 'Yakimans'" do
-		'Yakiman'.en.plural.should == 'Yakimans' # 
+		expect( 'Yakiman'.en.plural ).to eq( 'Yakimans' )
 	end
 
 
 	it "pluralizes 'Yengeese' as 'Yengeese'" do
-		'Yengeese'.en.plural.should == 'Yengeese' # 
+		expect( 'Yengeese'.en.plural ).to eq( 'Yengeese' )
 	end
 
 
 	it "pluralizes 'Yokohaman' as 'Yokohamans'" do
-		'Yokohaman'.en.plural.should == 'Yokohamans' # 
+		expect( 'Yokohaman'.en.plural ).to eq( 'Yokohamans' )
 	end
 
 
 	it "pluralizes 'you' as 'you'" do
-		'you'.en.plural.should == 'you' # 
+		expect( 'you'.en.plural ).to eq( 'you' )
 	end
 
 
 	# POSSESSIVE FORM
 	it "pluralizes 'your' as 'your'" do
-		'your'.en.plural.should == 'your' # 
+		expect( 'your'.en.plural ).to eq( 'your' )
 	end
 
 
 	it "pluralizes 'yourself' as 'yourselves'" do
-		'yourself'.en.plural.should == 'yourselves' # 
+		expect( 'yourself'.en.plural ).to eq( 'yourselves' )
 	end
 
 
 	it "pluralizes 'Yuman' as 'Yumans'" do
-		'Yuman'.en.plural.should == 'Yumans' # 
+		expect( 'Yuman'.en.plural ).to eq( 'Yumans' )
 	end
 
 
 	it "pluralizes 'Yunnanese' as 'Yunnanese'" do
-		'Yunnanese'.en.plural.should == 'Yunnanese' # 
+		expect( 'Yunnanese'.en.plural ).to eq( 'Yunnanese' )
 	end
 
 
 	it "pluralizes 'zoon' as 'zoa'" do
-		'zoon'.en.plural.should == 'zoa' # 
+		expect( 'zoon'.en.plural ).to eq( 'zoa' )
 	end
 
 
 	context "lprintf formatters" do
 
 		it "registers the :PL lprintf formatter" do
-			Linguistics::EN.lprintf_formatters.should include( :PL )
+			expect( Linguistics::EN.lprintf_formatters ).to include( :PL )
 		end
 
 		it "pluralizes the argument to %PL" do
-			"What's with all the %PL?".en.lprintf( 'mouse' ).
-				should == "What's with all the mice?"
+			expect( "What's with all the %PL?".en.lprintf('mouse') ).
+				to eq( "What's with all the mice?" )
 		end
 
 	end
@@ -4635,7 +4621,7 @@ describe Linguistics::EN::Pluralization do
 	context "workarounds" do
 
 		it "correctly pluralizes 'Secretary' when capitalized, despite the proper-noun exception" do
-			'Secretary'.en.plural.should == 'Secretaries'
+			expect( 'Secretary'.en.plural ).to eq( 'Secretaries' )
 		end
 
 	end

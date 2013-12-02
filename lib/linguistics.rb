@@ -55,7 +55,7 @@ module Linguistics
 	end
 
 
-	### Register a module as providing linguistic functions for the specified +language+ (a two- 
+	### Register a module as providing linguistic functions for the specified +language+ (a two-
 	### or three-letter ISO639-2 language codes as a Symbol)
 	def self::register_language( language, mod )
 		language_entry = LANGUAGE_CODES[ language.to_sym ] or
@@ -143,7 +143,7 @@ module Linguistics
 		config = languages.pop if languages.last.is_a?( Hash )
 		config ||= {}
 
-		classes = Array(config[:classes]) if config[:classes] 
+		classes = Array(config[:classes]) if config[:classes]
 		classes ||= DEFAULT_EXT_CLASSES
 
 		self.log.debug "Extending %d classes with %d language modules." %

@@ -34,7 +34,7 @@ module Linguistics::EN::Conjunctions
 	### particular element to be omitted from the resulting conjunction. The
 	### following options can be used to control the makeup of the returned
 	### conjunction String:
-	### 
+	###
 	### [<b>:separator</b>]
 	###   Specify one or more characters to separate items in the resulting
 	###   list. Defaults to <tt>', '</tt>.

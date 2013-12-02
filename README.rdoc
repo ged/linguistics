@@ -75,7 +75,7 @@ the top-level namespace for all your linguistic functions, and then
 register it as being available, like so:
 
     module Linguistics::TLH
-    
+
         # Add Klingon to the list of default languages
         Linguistics.register_language( :tlh, self )
 
@@ -101,13 +101,13 @@ behavior to your spec:
 
     require 'rspec'
     require 'linguistics/languagebehavior'
-    
+
     describe Linguistics::TLH do
-    
+
       it_should_behave_like "a Linguistics language module"
-    
+
       # ... any other specs for your module
-    
+
     end
 
 If you wish to use the logging subsystem set up by Linguistics, you can

@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 #
 # Experimenting with Lafcadio's pluralization algorithm
-# 
+#
 # Time-stamp: <13-Jul-2005 08:37:00 ged>
 #
 

@@ -1,3 +1,4 @@
+.simplecov
 ChangeLog
 History.rdoc
 LICENSE
@@ -24,8 +25,8 @@ lib/linguistics/inflector.rb
 lib/linguistics/iso639.rb
 lib/linguistics/languagebehavior.rb
 lib/linguistics/monkeypatches.rb
-spec/lib/constants.rb
-spec/lib/helpers.rb
+spec/constants.rb
+spec/helpers.rb
 spec/linguistics/en/articles_spec.rb
 spec/linguistics/en/conjugation_spec.rb
 spec/linguistics/en/conjunctions_spec.rb

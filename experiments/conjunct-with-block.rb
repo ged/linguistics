@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 #
 # Written to find a minimal testcase for the #conjunction-with-block bug.
-# 
+#
 # Time-stamp: <04-Nov-2005 07:43:36 ged>
 #
 

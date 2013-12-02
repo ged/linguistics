@@ -1,18 +1,9 @@
 #!/usr/bin/env rspec -cfd
 #coding: utf-8
 
-BEGIN {
-	require 'pathname'
-	basedir = Pathname.new( __FILE__ ).dirname.parent.parent.parent
-
-	libdir = basedir + "lib"
-
-	$LOAD_PATH.unshift( basedir.to_s ) unless $LOAD_PATH.include?( basedir.to_s )
-	$LOAD_PATH.unshift( libdir.to_s ) unless $LOAD_PATH.include?( libdir.to_s )
-}
+require_relative '../../helpers'
 
 require 'rspec'
-require 'spec/lib/helpers'
 
 require 'linguistics'
 require 'linguistics/en'
@@ -22,12 +13,11 @@ require 'linguistics/en/titlecase'
 describe Linguistics::EN::TitleCase do
 
 	before( :all ) do
-		setup_logging( :fatal )
 		Linguistics.use( :en )
 	end
 
-	after( :all ) do
-		reset_logging()
+	it "adds EN::TitleCase to the list of English language modules" do
+		Linguistics::EN::MODULES.include?( Linguistics::EN::TitleCase )
 	end
 
 	it "CamelCases 'motion is madness' correctly" do

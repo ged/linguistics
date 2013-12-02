@@ -102,7 +102,7 @@ module Linguistics::EN::Articles
 
 
 	### Return the inflected phrase with the appropriate indefinite article ("a" or
-	### "an") prepended. 
+	### "an") prepended.
 	def a( count=nil )
 		count ||= 1
 		phrase = self.to_s

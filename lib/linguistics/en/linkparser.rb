@@ -8,35 +8,35 @@ require 'linguistics/en' unless defined?( Linguistics::EN )
 #   # Test to see whether or not the link parser is loaded.
 #   Linguistics::EN.has_link_parser?
 #   # => true
-# 
+#
 #   # Diagram the first linkage for a test sentence
 #   puts "he is a big dog".en.sentence.linkages.first.to_s
-# 	  +---O*---+ 
-# 	  | +--Ds--+ 
-#    +Ss+ |  +-A-+ 
-#    |  | |  |   | 
+#     +---O*---+
+#     | +--Ds--+
+#    +Ss+ |  +-A-+
+#    |  | |  |   |
 #   he is a big dog
-# 
+#
 #   # Find the verb in the sentence
-#   "he is a big dog".en.sentence.verb.to_s      
+#   "he is a big dog".en.sentence.verb.to_s
 #   # => "is"
-# 
+#
 #   # Combined infinitive + LinkParser: Find the infinitive form of the verb of the
 #   given sentence.
 #   "he is a big dog".en.sentence.verb.infinitive
 #   # => "be"
-# 
+#
 #   # Find the direct object of the sentence
 #   "he is a big dog".en.sentence.object.to_s
 #   # => "dog"
-# 
+#
 #   # Combine WordNet + LinkParser to find the definition of the direct object of
 #   # the sentence
 #   "he is a big dog".en.sentence.object.gloss
 #   # => "a member of the genus Canis (probably descended from the common wolf) that
 #   has been domesticated by man since prehistoric times; occurs in many breeds;
 #   \"the dog barked all night\""
-# 
+#
 module Linguistics::EN::LinkParser
 
 	@has_linkparser = false
