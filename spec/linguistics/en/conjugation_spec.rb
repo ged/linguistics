@@ -2075,8 +2075,12 @@ describe Linguistics::EN::Conjugation do
 		"write".en.past_tense.should == 'wrote'
 	end
 
-	it "conjugates 'wrought' as 'wrought'" do
-		"wrought".en.past_tense.should == 'wrought'
+	it "conjugates 'take' as 'taking'" do
+		"take".en.present_participle.should == 'taking'
+	end
+
+	it "conjugates 'die' as 'dying'" do
+		"die".en.present_participle.should == 'dying'
 	end
 
 end
