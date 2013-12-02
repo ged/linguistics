@@ -1633,6 +1633,10 @@ describe Linguistics::EN::Conjugation do
 		"spoonfeed".en.past_tense.should == 'spoonfed'
 	end
 
+	it "conjugates 'spot' as 'spotted'" do
+		"spot".en.past_tense.should == 'spotted'
+	end
+
 	it "conjugates 'spread' as 'spread'" do
 		"spread".en.past_tense.should == 'spread'
 	end
