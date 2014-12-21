@@ -523,6 +523,8 @@ module Linguistics::EN::Infinitives
 		'selected'		=> 'select',
 		'offered'			=> 'offer',
 		'invented'		=> 'invent',
+		'biggest'			=> 'big',
+		'bigger'			=> 'big',
 	}
 
 	# Mapping of word suffixes to infinitive rules.
