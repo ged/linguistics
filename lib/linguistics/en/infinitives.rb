@@ -522,6 +522,7 @@ module Linguistics::EN::Infinitives
 		'wrung'				=> 'wring',
 		'selected'		=> 'select',
 		'offered'			=> 'offer',
+		'invented'		=> 'invent',
 	}
 
 	# Mapping of word suffixes to infinitive rules.
