@@ -329,31 +329,30 @@ module Linguistics::EN::Pluralization
 		#	1St pers. sing.		2nd pers. sing.		3rd pers. singular
 		#				3rd pers. (indet.)	
 		"am"	=> "are",	"are"	=> "are",	"is"	 => "are",
-		"was"	=> "were",	"were"	=> "were",	"was"	 => "were",
-		"have"  => "have",	"have"  => "have",	"has"	 => "have",
+		"was"	=> "were",	"were"	=> "were",
+		"have"  => "have",	                  	"has"	 => "have",
 	}
 	PL_v_irregular_pres = matchgroup PL_v_irregular_pres_h.keys
 
 	PL_v_ambiguous_pres_h = {
-		#	1st pers. sing.		2nd pers. sing.		3rd pers. singular
-		#				3rd pers. (indet.)	
-		"act"	=> "act",	"act"	=> "act",	"acts"	  => "act",
-		"blame"	=> "blame",	"blame"	=> "blame",	"blames"  => "blame",
-		"can"	=> "can",	"can"	=> "can",	"can"	  => "can",
-		"must"	=> "must",	"must"	=> "must",	"must"	  => "must",
-		"fly"	=> "fly",	"fly"	=> "fly",	"flies"	  => "fly",
-		"copy"	=> "copy",	"copy"	=> "copy",	"copies"  => "copy",
-		"drink"	=> "drink",	"drink"	=> "drink",	"drinks"  => "drink",
-		"fight"	=> "fight",	"fight"	=> "fight",	"fights"  => "fight",
-		"fire"	=> "fire",	"fire"	=> "fire",	"fires"   => "fire",
-		"like"	=> "like",	"like"	=> "like",	"likes"   => "like",
-		"look"	=> "look",	"look"	=> "look",	"looks"   => "look",
-		"make"	=> "make",	"make"	=> "make",	"makes"   => "make",
-		"reach"	=> "reach",	"reach"	=> "reach",	"reaches" => "reach",
-		"run"	=> "run",	"run"	=> "run",	"runs"    => "run",
-		"sink"	=> "sink",	"sink"	=> "sink",	"sinks"   => "sink",
-		"sleep"	=> "sleep",	"sleep"	=> "sleep",	"sleeps"  => "sleep",
-		"view"	=> "view",	"view"	=> "view",	"views"   => "view",
+		#	1st pers. sing.		3rd pers. singular
+		"act"	=> "act",	"acts"	  => "act",
+		"blame"	=> "blame",	"blames"  => "blame",
+		"can"	=> "can",
+		"must"	=> "must",
+		"fly"	=> "fly",	"flies"	  => "fly",
+		"copy"	=> "copy",	"copies"  => "copy",
+		"drink"	=> "drink",	"drinks"  => "drink",
+		"fight"	=> "fight",	"fights"  => "fight",
+		"fire"	=> "fire",	"fires"   => "fire",
+		"like"	=> "like",	"likes"   => "like",
+		"look"	=> "look",	"looks"   => "look",
+		"make"	=> "make",	"makes"   => "make",
+		"reach"	=> "reach",	"reaches" => "reach",
+		"run"	=> "run",	"runs"    => "run",
+		"sink"	=> "sink",	"sinks"   => "sink",
+		"sleep"	=> "sleep",	"sleeps"  => "sleep",
+		"view"	=> "view",	"views"   => "view",
 	}
 	PL_v_ambiguous_pres = matchgroup PL_v_ambiguous_pres_h.keys
 
