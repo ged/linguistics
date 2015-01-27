@@ -78,7 +78,7 @@ module Linguistics::EN::LinkParser
 		if !self.has_linkparser?
 			raise NotImplementedError,
 				"LinkParser functions are not loaded: %s" %
-				self.lp_error.message
+				self.linkparser_error.message
 		end
 
 		return @lp_dict ||= LinkParser::Dictionary.new( :verbosity => 0 )

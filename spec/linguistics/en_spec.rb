@@ -69,7 +69,7 @@ describe Linguistics::EN do
 
 		it "provides a way to register new lprintf formatters with a Symbol" do
 			Linguistics::EN.register_lprintf_formatter :TEST, :plural
-			expect( Linguistics::EN.lprintf_formatters ).to have( 1 ).member
+			expect( Linguistics::EN.lprintf_formatters.size ).to eq( 1 )
 			expect( Linguistics::EN.lprintf_formatters ).to include( :TEST )
 			expect( Linguistics::EN.lprintf_formatters[:TEST] ).to be_a( Proc )
 		end

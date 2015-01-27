@@ -14,10 +14,10 @@ describe Linguistics::ISO639 do
 	# eng||en|English|anglais
 	it "loads simple language codes from its __DATA__ section" do
 		expect( Linguistics::LANGUAGE_CODES ).to have_key( :en )
-		expect( Linguistics::LANGUAGE_CODES[:en] ).to have(3).members
+		expect( Linguistics::LANGUAGE_CODES[:en].size ).to eq( 3 )
 
 		expect( Linguistics::LANGUAGE_CODES[:en] ).to have_key( :codes )
-		expect( Linguistics::LANGUAGE_CODES[:en][:codes] ).to have(2).members
+		expect( Linguistics::LANGUAGE_CODES[:en][:codes].size ).to eq( 2 )
 		expect( Linguistics::LANGUAGE_CODES[:en][:codes] ).to include("en", "eng")
 
 		expect( Linguistics::LANGUAGE_CODES[:en] ).to have_key( :eng_name )
@@ -30,10 +30,10 @@ describe Linguistics::ISO639 do
 
 		# cze|ces|cs|Czech|tchèque
 		expect( Linguistics::LANGUAGE_CODES ).to have_key( :cs )
-		expect( Linguistics::LANGUAGE_CODES[:cs] ).to have(3).members
+		expect( Linguistics::LANGUAGE_CODES[:cs].size ).to eq( 3 )
 
 		expect( Linguistics::LANGUAGE_CODES[:cs] ).to have_key( :codes )
-		expect( Linguistics::LANGUAGE_CODES[:cs][:codes] ).to have(3).members
+		expect( Linguistics::LANGUAGE_CODES[:cs][:codes].size ).to eq( 3 )
 		expect( Linguistics::LANGUAGE_CODES[:cs][:codes] ).to include("cs", "ces", "cze")
 
 		expect( Linguistics::LANGUAGE_CODES[:cs] ).to have_key( :eng_name )
@@ -43,10 +43,10 @@ describe Linguistics::ISO639 do
 
 		# mac|mkd|mk|Macedonian|macédonien
 		expect( Linguistics::LANGUAGE_CODES ).to have_key( :mk )
-		expect( Linguistics::LANGUAGE_CODES[:mk] ).to have( 3 ).members
+		expect( Linguistics::LANGUAGE_CODES[:mk].size ).to eq( 3 )
 
 		expect( Linguistics::LANGUAGE_CODES[:mk] ).to have_key( :codes )
-		expect( Linguistics::LANGUAGE_CODES[:mk][:codes] ).to have(3).members
+		expect( Linguistics::LANGUAGE_CODES[:mk][:codes].size ).to eq( 3 )
 		expect( Linguistics::LANGUAGE_CODES[:mk][:codes] ).to include("mk", "mac", "mkd")
 
 		expect( Linguistics::LANGUAGE_CODES[:mk] ).to have_key( :eng_name )

@@ -34,7 +34,7 @@ describe Linguistics::EN::WordNet do
 
 		it "can load all synsets for a word" do
 			result = "appear".en.synsets
-			expect( result ).to have( 7 ).members
+			expect( result.size ).to eq( 7 )
 			expect( result ).to include( WordNet::Synset[200422090] )
 		end
 

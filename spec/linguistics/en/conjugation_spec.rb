@@ -76,9 +76,8 @@ describe Linguistics::EN::Conjugation do
 	end
 
 	it "conjugates 'be' in first person singular as 'was'" do
-		pending "figuring out how this is supposed to work" do
-			expect( "be".en.past_tense( :first_person ) ).to eq( 'was' )
-		end
+		pending "figuring out how this is supposed to work"
+		expect( "be".en.past_tense( :first_person ) ).to eq( 'was' )
 	end
 
 	it "conjugates 'be' in third person singular as 'were'" do
@@ -130,21 +129,18 @@ describe Linguistics::EN::Conjugation do
 	end
 
 	it "conjugates 'bid' as 'bade'" do
-		pending "figuring out how this is supposed to work" do
-			expect( "bid".en.past_tense ).to eq( 'bade' )
-		end
+		pending "figuring out how this is supposed to work"
+		expect( "bid".en.past_tense ).to eq( 'bade' )
 	end
 
 	it "conjugates 'bid' in first person as 'bade'" do
-		pending "figuring out how pipe-delimited conjugations are supposed to work" do
-			expect( "bid".en.past_tense( :first_person ) ).to eq( 'bade' )
-		end
+		pending "figuring out how pipe-delimited conjugations are supposed to work"
+		expect( "bid".en.past_tense( :first_person ) ).to eq( 'bade' )
 	end
 
 	it "conjugates 'bid' in third person as 'bade'" do
-		pending "figuring out how this is supposed to work" do
-			expect( "bid".en.past_tense( :third_person ) ).to eq( 'bade' )
-		end
+		pending "figuring out how this is supposed to work"
+		expect( "bid".en.past_tense( :third_person ) ).to eq( 'bade' )
 	end
 
 	it "conjugates 'bind' as 'bound'" do
@@ -476,21 +472,18 @@ describe Linguistics::EN::Conjugation do
 	end
 
 	it "conjugates 'hang' as 'hung'" do
-		pending "figuring out how this is supposed to work" do
-			expect( "hang".en.past_tense ).to eq( 'hung' )
-		end
+		pending "figuring out how this is supposed to work"
+		expect( "hang".en.past_tense ).to eq( 'hung' )
 	end
 
 	it "conjugates 'hang' in first person as 'hung'" do
-		pending "figuring out how this is supposed to work" do
-			expect( "hang".en.past_tense( :first_person ) ).to eq( 'hung' )
-		end
+		pending "figuring out how this is supposed to work"
+		expect( "hang".en.past_tense( :first_person ) ).to eq( 'hung' )
 	end
 
 	it "conjugates 'hang' in third person as 'hung'" do
-		pending "figuring out how this is supposed to work" do
-			expect( "hang".en.past_tense( :third_person ) ).to eq( 'hung' )
-		end
+		pending "figuring out how this is supposed to work"
+		expect( "hang".en.past_tense( :third_person ) ).to eq( 'hung' )
 	end
 
 	it "conjugates 'have' as 'had'" do
@@ -630,21 +623,18 @@ describe Linguistics::EN::Conjugation do
 	end
 
 	it "conjugates 'lie' as 'lay'" do
-		pending "figuring out how this is supposed to work" do
-			expect( "lie".en.past_tense ).to eq( 'lay' )
-		end
+		pending "figuring out how this is supposed to work"
+		expect( "lie".en.past_tense ).to eq( 'lay' )
 	end
 
 	it "conjugates 'lie' in first person as 'lay'" do
-		pending "figuring out how this is supposed to work" do
-			expect( "lie".en.past_tense( :first_person ) ).to eq( 'lay' )
-		end
+		pending "figuring out how this is supposed to work"
+		expect( "lie".en.past_tense( :first_person ) ).to eq( 'lay' )
 	end
 
 	it "conjugates 'lie' in third person as 'lay'" do
-		pending "figuring out how this is supposed to work" do
-			expect( "lie".en.past_tense( :third_person ) ).to eq( 'lay' )
-		end
+		pending "figuring out how this is supposed to work"
+		expect( "lie".en.past_tense( :third_person ) ).to eq( 'lay' )
 	end
 
 	it "conjugates 'light' as 'lit'" do
@@ -1992,21 +1982,18 @@ describe Linguistics::EN::Conjugation do
 	end
 
 	it "conjugates 'use up' as 'used up'" do
-		pending "figuring out how this is supposed to work" do
-			expect( "use up".en.past_tense ).to eq( 'used up' )
-		end
+		pending "figuring out how this is supposed to work"
+		expect( "use up".en.past_tense ).to eq( 'used up' )
 	end
 
 	it "conjugates 'use up' in first person as 'used up'" do
-		pending "figuring out how this is supposed to work" do
-			expect( "use up".en.past_tense( :first_person ) ).to eq( 'used up' )
-		end
+		pending "figuring out how this is supposed to work"
+		expect( "use up".en.past_tense( :first_person ) ).to eq( 'used up' )
 	end
 
 	it "conjugates 'use up' in third person as 'used up'" do
-		pending "figuring out how this is supposed to work" do
-			expect( "use up".en.past_tense( :third_person ) ).to eq( 'used up' )
-		end
+		pending "figuring out how this is supposed to work"
+		expect( "use up".en.past_tense( :third_person ) ).to eq( 'used up' )
 	end
 
 	it "conjugates 'wake' as 'woke'" do
