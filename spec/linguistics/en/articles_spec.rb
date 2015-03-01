@@ -814,13 +814,15 @@ describe Linguistics::EN::Articles do
 		end
 
 		it "adds an indefinite article to the argument to %A" do
-			"You pick up %A.".en.lprintf( "umbrella" ).
-				should == "You pick up an umbrella."
+			expect(
+				"You pick up %A.".en.lprintf( "umbrella" )
+			).to eq( "You pick up an umbrella." )
 		end
 
 		it "adds an indefinite article to the argument to %AN" do
-			"You pick up %AN.".en.lprintf( "chocolate bar" ).
-				should == "You pick up a chocolate bar."
+			expect(
+				"You pick up %AN.".en.lprintf( "chocolate bar" )
+			).to eq( "You pick up a chocolate bar." )
 		end
 
 	end
