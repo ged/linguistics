@@ -1,3 +1,8 @@
+== v2.0.4 [2015-03-12] Michael Granger <ged@FaerieMUD.org>
+
+Updates and bugfixes for Ruby 2.2.
+
+
 == v2.0.3 [2013-12-02] Michael Granger <ged@FaerieMUD.org>
 
 A bunch of fixes from Ippei UKAI <ippei_ukai@mac.com>

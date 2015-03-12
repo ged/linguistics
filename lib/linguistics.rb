@@ -12,7 +12,7 @@ module Linguistics
 
 
 	# Release version
-	VERSION = '2.0.3'
+	VERSION = '2.0.4'
 
 	# VCS version
 	REVISION = %q$Revision$
