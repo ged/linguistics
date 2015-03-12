@@ -28,7 +28,7 @@ shared_examples_for "a Linguistics language module" do
 
 
 	it "registers itself with the Linguistics module when required" do
-		Linguistics.languages.values.should include( language_module )
+		expect( Linguistics.languages.values ).to include( language_module )
 	end
 
 end

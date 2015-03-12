@@ -187,12 +187,14 @@ module Linguistics::EN::Conjugation
 			[ verb, person, tense ]
 
 		irregular = IRREGULAR_VERBS[ verb ] or return nil
-		self.log.debug "    %p is irregular: %p, selecting %p person" %
+		self.log.debug "    %p is irregular: %p, selecting %p variant" %
 			[ verb, irregular, person ]
 		irrperson = irregular[ person ] || irregular[ :* ] or return nil
 		self.log.debug "    selected %p. Using %p tense: %p" %
 			[ irrperson, tense, irrperson[tense] ]
-		return irrperson[ tense ]
+		word = irrperson[ tense ] or return nil
+
+		return word.sub( /\|.*/, '' )
 	end
 
 

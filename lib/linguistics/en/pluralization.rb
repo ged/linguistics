@@ -24,35 +24,35 @@ module Linguistics::EN::Pluralization
 	#
 
 	PL_sb_irregular_s = {
-		"ephemeris"	=> "ephemerides",
-		"iris"		=> "irises|irides",
-		"clitoris"	=> "clitorises|clitorides",
-		"corpus"	=> "corpuses|corpora",
-		"opus"		=> "opuses|opera",
-		"genus"		=> "genera",
-		"mythos"	=> "mythoi",
-		"penis"		=> "penises|penes",
-		"testis"	=> "testes",
+		"ephemeris" => "ephemerides",
+		"iris"      => "irises|irides",
+		"clitoris"  => "clitorises|clitorides",
+		"corpus"    => "corpuses|corpora",
+		"opus"      => "opuses|opera",
+		"genus"     => "genera",
+		"mythos"    => "mythoi",
+		"penis"     => "penises|penes",
+		"testis"    => "testes",
 	}
 
 	PL_sb_irregular_h = {
-		"child"		=> "children",
-		"brother"	=> "brothers|brethren",
-		"loaf"		=> "loaves",
-		"hoof"		=> "hoofs|hooves",
-		"beef"		=> "beefs|beeves",
-		"money"		=> "monies",
-		"mongoose"	=> "mongooses",
-		"ox"		=> "oxen",
-		"cow"		=> "cows|kine",
-		"soliloquy"	=> "soliloquies",
-		"graffito"	=> "graffiti",
-		"prima donna"	=> "prima donnas|prime donne",
-		"octopus"	=> "octopuses|octopodes",
-		"genie"		=> "genies|genii",
-		"ganglion"	=> "ganglions|ganglia",
-		"trilby"	=> "trilbys",
-		"turf"		=> "turfs|turves",
+		"child"       => "children",
+		"brother"     => "brothers|brethren",
+		"loaf"        => "loaves",
+		"hoof"        => "hoofs|hooves",
+		"beef"        => "beefs|beeves",
+		"money"       => "monies",
+		"mongoose"    => "mongooses",
+		"ox"          => "oxen",
+		"cow"         => "cows|kine",
+		"soliloquy"   => "soliloquies",
+		"graffito"    => "graffiti",
+		"prima donna" => "prima donnas|prime donne",
+		"octopus"     => "octopuses|octopodes",
+		"genie"       => "genies|genii",
+		"ganglion"    => "ganglions|ganglia",
+		"trilby"      => "trilbys",
+		"turf"        => "turfs|turves",
 	}.update( PL_sb_irregular_s )
 	PL_sb_irregular = matchgroup PL_sb_irregular_h.keys
 
@@ -81,7 +81,7 @@ module Linguistics::EN::Pluralization
 
 	# Classical "..en" -> "..ina"
 	PL_sb_C_en_ina = matchgroup %w[
-		stamen	foramen	lumen
+		stamen foramen lumen
 	].collect {|word| word[0...-2] }
 
 	# Unconditional "..um" -> "..a"
@@ -104,16 +104,16 @@ module Linguistics::EN::Pluralization
 
 	# Unconditional "..us" -> "i"
 	PL_sb_U_us_i = matchgroup %w[
-		alumnus	alveolus	bacillus	bronchus
-		locus	nucleus	stimulus	meniscus
+		alumnus alveolus bacillus bronchus
+		locus nucleus stimulus meniscus
 	].collect {|word| word[0...-2]}
 
 	# Classical "..us" -> "..i"
 	PL_sb_C_us_i = matchgroup %w[
-		focus	radius	genius
-		incubus	succubus	nimbus
-		fungus	nucleolus	stylus
-		torus	umbilicus	uterus
+		focus   radius      genius
+		incubus succubus    nimbus
+		fungus  nucleolus   stylus
+		torus   umbilicus   uterus
 		hippopotamus
 	].collect {|word| word[0...-2]}
 
@@ -125,9 +125,9 @@ module Linguistics::EN::Pluralization
 
 	# Unconditional "..on" -> "a"
 	PL_sb_U_on_a = matchgroup %w[
-		criterion	perihelion	aphelion
-		phenomenon	prolegomenon	noumenon
-		organon	asyndeton	hyperbaton
+		criterion perihelion aphelion
+		phenomenon prolegomenon noumenon
+		organon asyndeton hyperbaton
 	].collect {|word| word[0...-2]}
 
 	# Classical "..on" -> "..a"
@@ -137,37 +137,37 @@ module Linguistics::EN::Pluralization
 
 	# Classical "..o" -> "..i"  (but normally -> "..os")
 	PL_sb_C_o_i_a = %w[
-		solo		soprano	basso	alto
-		contralto	tempo	piano
+		solo soprano basso alto
+		contralto tempo piano
 	]
 	PL_sb_C_o_i = matchgroup PL_sb_C_o_i_a.collect{|word| word[0...-1]}
 
 	# Always "..o" -> "..os"
 	PL_sb_U_o_os = matchgroup( %w[
-		albino	archipelago	armadillo
-		commando	crescendo	fiasco
-		ditto	dynamo	embryo
-		ghetto	guano	inferno
-		jumbo	lumbago	magneto
-		manifesto	medico	octavo
-		photo	pro		quarto
-		canto	lingo	generalissimo
-		stylo	rhino
+		albino archipelago armadillo
+		commando crescendo fiasco
+		ditto dynamo embryo
+		ghetto guano inferno
+		jumbo lumbago magneto
+		manifesto medico octavo
+		photo pro quarto
+		canto lingo generalissimo
+		stylo rhino
 	] | PL_sb_C_o_i_a )
 
 
 	# Unconditional "..[ei]x" -> "..ices"
 	PL_sb_U_ex_ices = matchgroup %w[
-		codex	murex	silex
+		codex murex silex
 	].collect {|word| word[0...-2]}
 	PL_sb_U_ix_ices = matchgroup %w[
-		radix	helix
+		radix helix
 	].collect {|word| word[0...-2]}
 
 	# Classical "..[ei]x" -> "..ices"
 	PL_sb_C_ex_ices = matchgroup %w[
-		vortex	vertex	cortex	latex
-		pontifex	apex		index	simplex
+		vortex vertex cortex latex
+		pontifex apex index simplex
 	].collect {|word| word[0...-2]}
 	PL_sb_C_ix_ices = matchgroup %w[
 		appendix
@@ -176,13 +176,13 @@ module Linguistics::EN::Pluralization
 
 	# Arabic: ".." -> "..i"
 	PL_sb_C_i = matchgroup %w[
-		afrit	afreet	efreet
+		afrit afreet efreet
 	]
 
 
 	# Hebrew: ".." -> "..im"
 	PL_sb_C_im = matchgroup %w[
-		goy		seraph	cherub
+		goy seraph cherub
 	]
 
 	# Unconditional "..man" -> "..mans"
@@ -272,10 +272,8 @@ module Linguistics::EN::Pluralization
 	]
 
 	PL_sb_postfix_adj = '(' + {
-
 		'general' => '(?!major|lieutenant|brigadier|adjutant)\S+',
 		'martial' => "court",
-
 	}.collect {|key,val|
 		"(?:#{val})(?=(?:-|\\s+)#{key})"
 	}.join("|") + ")(.*)"
@@ -296,64 +294,64 @@ module Linguistics::EN::Pluralization
 
 
 	PL_pron_nom_h = {
-		#	Nominative		Reflexive
-		"i"		=> "we",	"myself"   =>	"ourselves",
-		"you"	=> "you",	"yourself" =>	"yourselves",
-		"she"	=> "they",	"herself"  =>	"themselves",
-		"he"	=> "they",	"himself"  =>	"themselves",
-		"it"	=> "they",	"itself"   =>	"themselves",
-		"they"	=> "they",	"themself" =>	"themselves",
+		#   Nominative      Reflexive
+		"i"     => "we",    "myself"   => "ourselves",
+		"you"   => "you",   "yourself" => "yourselves",
+		"she"   => "they",  "herself"  => "themselves",
+		"he"    => "they",  "himself"  => "themselves",
+		"it"    => "they",  "itself"   => "themselves",
+		"they"  => "they",  "themself" => "themselves",
 
-		#	Possessive
-		"mine"	 => "ours",
-		"yours"	 => "yours",
-		"hers"	 => "theirs",
-		"his"	 => "theirs",
-		"its"	 => "theirs",
+		#   Possessive
+		"mine"   => "ours",
+		"yours"  => "yours",
+		"hers"   => "theirs",
+		"his"    => "theirs",
+		"its"    => "theirs",
 		"theirs" => "theirs",
 	}
 	PL_pron_nom = Regexp.new( PL_pron_nom_h.keys.join('|'), Regexp::IGNORECASE )
 
 	PL_pron_acc_h = {
-		#	Accusative		Reflexive
-		"me"	=> "us",	"myself"   =>	"ourselves",
-		"you"	=> "you",	"yourself" =>	"yourselves",
-		"her"	=> "them",	"herself"  =>	"themselves",
-		"him"	=> "them",	"himself"  =>	"themselves",
-		"it"	=> "them",	"itself"   =>	"themselves",
-		"them"	=> "them",	"themself" =>	"themselves",
+		#	Accusative Reflexive
+		"me"    => "us",    "myself"   =>   "ourselves",
+		"you"   => "you",   "yourself" =>   "yourselves",
+		"her"   => "them",  "herself"  =>   "themselves",
+		"him"   => "them",  "himself"  =>   "themselves",
+		"it"    => "them",  "itself"   =>   "themselves",
+		"them"  => "them",  "themself" =>   "themselves",
 	}
 	PL_pron_acc = matchgroup PL_pron_acc_h.keys
 
 	PL_v_irregular_pres_h = {
-		#	1St pers. sing.		2nd pers. sing.		3rd pers. singular
-		#				3rd pers. (indet.)
-		"am"	=> "are",	"are"	=> "are",	"is"	 => "are",
-		"was"	=> "were",	"were"	=> "were",	"was"	 => "were",
-		"have"  => "have",	"have"  => "have",	"has"	 => "have",
+		# 1St pers. sing.     2nd pers. sing.     3rd pers. singular
+		#                     3rd pers. (indet.)
+		"am"    => "are",     "are"   => "are",   "is"  => "are",
+		"was"   => "were",    "were"  => "were",
+		"have"  => "have",                        "has" => "have",
 	}
 	PL_v_irregular_pres = matchgroup PL_v_irregular_pres_h.keys
 
 	PL_v_ambiguous_pres_h = {
-		#	1st pers. sing.		2nd pers. sing.		3rd pers. singular
-		#				3rd pers. (indet.)
-		"act"	=> "act",	"act"	=> "act",	"acts"	  => "act",
-		"blame"	=> "blame",	"blame"	=> "blame",	"blames"  => "blame",
-		"can"	=> "can",	"can"	=> "can",	"can"	  => "can",
-		"must"	=> "must",	"must"	=> "must",	"must"	  => "must",
-		"fly"	=> "fly",	"fly"	=> "fly",	"flies"	  => "fly",
-		"copy"	=> "copy",	"copy"	=> "copy",	"copies"  => "copy",
-		"drink"	=> "drink",	"drink"	=> "drink",	"drinks"  => "drink",
-		"fight"	=> "fight",	"fight"	=> "fight",	"fights"  => "fight",
-		"fire"	=> "fire",	"fire"	=> "fire",	"fires"   => "fire",
-		"like"	=> "like",	"like"	=> "like",	"likes"   => "like",
-		"look"	=> "look",	"look"	=> "look",	"looks"   => "look",
-		"make"	=> "make",	"make"	=> "make",	"makes"   => "make",
-		"reach"	=> "reach",	"reach"	=> "reach",	"reaches" => "reach",
-		"run"	=> "run",	"run"	=> "run",	"runs"    => "run",
-		"sink"	=> "sink",	"sink"	=> "sink",	"sinks"   => "sink",
-		"sleep"	=> "sleep",	"sleep"	=> "sleep",	"sleeps"  => "sleep",
-		"view"	=> "view",	"view"	=> "view",	"views"   => "view",
+		#   1st pers. sing.     2nd pers. sing.     3rd pers. singular
+		#                       3rd pers. (indet.)
+		"act"   => "act",                           "acts"    => "act",
+		"blame" => "blame",                         "blames"  => "blame",
+		"can"   => "can",
+		"must"  => "must",
+		"fly"   => "fly",                           "flies"   => "fly",
+		"copy"  => "copy",                          "copies"  => "copy",
+		"drink" => "drink",                         "drinks"  => "drink",
+		"fight" => "fight",                         "fights"  => "fight",
+		"fire"  => "fire",                          "fires"   => "fire",
+		"like"  => "like",                          "likes"   => "like",
+		"look"  => "look",                          "looks"   => "look",
+		"make"  => "make",                          "makes"   => "make",
+		"reach" => "reach",                         "reaches" => "reach",
+		"run"   => "run",                           "runs"    => "run",
+		"sink"  => "sink",                          "sinks"   => "sink",
+		"sleep" => "sleep",                         "sleeps"  => "sleep",
+		"view"  => "view",                          "views"   => "view",
 	}
 	PL_v_ambiguous_pres = matchgroup PL_v_ambiguous_pres_h.keys
 
@@ -376,18 +374,18 @@ module Linguistics::EN::Pluralization
 	]
 
 	PL_adj_special_h = {
-		"a"    => "some",	"an"   =>  "some",
-		"this" => "these",	"that" => "those",
+		"a"    => "some",   "an"   =>  "some",
+		"this" => "these",  "that" => "those",
 	}
 	PL_adj_special = matchgroup PL_adj_special_h.keys
 
 	PL_adj_poss_h = {
 		"my"    => "our",
-		"your"	=> "your",
-		"its"	=> "their",
-		"her"	=> "their",
-		"his"	=> "their",
-		"their"	=> "their",
+		"your"  => "your",
+		"its"   => "their",
+		"her"   => "their",
+		"his"   => "their",
+		"their" => "their",
 	}
 	PL_adj_poss = matchgroup PL_adj_poss_h.keys
 

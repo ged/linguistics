@@ -76,12 +76,11 @@ describe Linguistics::EN::Conjugation do
 	end
 
 	it "conjugates 'be' in first person singular as 'was'" do
-		pending "figuring out how this is supposed to work"
-		expect( "be".en.past_tense( :first_person ) ).to eq( 'was' )
+		expect( "be".en.past_tense(:first_person_singular) ).to eq( 'was' )
 	end
 
-	it "conjugates 'be' in third person singular as 'were'" do
-		expect( "be".en.past_tense( :third_person ) ).to eq( 'were' )
+	it "conjugates 'be' in third person singular as 'was'" do
+		expect( "be".en.past_tense(:third_person_singular) ).to eq( 'was' )
 	end
 
 	it "conjugates 'bear' as 'bore'" do
@@ -128,19 +127,16 @@ describe Linguistics::EN::Conjugation do
 		expect( "bethink".en.past_tense ).to eq( 'bethought' )
 	end
 
-	it "conjugates 'bid' as 'bade'" do
-		pending "figuring out how this is supposed to work"
-		expect( "bid".en.past_tense ).to eq( 'bade' )
+	it "conjugates 'bid' as 'bid'" do
+		expect( "bid".en.past_tense ).to eq( 'bid' )
 	end
 
-	it "conjugates 'bid' in first person as 'bade'" do
-		pending "figuring out how pipe-delimited conjugations are supposed to work"
-		expect( "bid".en.past_tense( :first_person ) ).to eq( 'bade' )
+	it "conjugates 'bid' in first person as 'bid'" do
+		expect( "bid".en.past_tense( :first_person ) ).to eq( 'bid' )
 	end
 
-	it "conjugates 'bid' in third person as 'bade'" do
-		pending "figuring out how this is supposed to work"
-		expect( "bid".en.past_tense( :third_person ) ).to eq( 'bade' )
+	it "conjugates 'bid' in third person as 'bid'" do
+		expect( "bid".en.past_tense( :third_person ) ).to eq( 'bid' )
 	end
 
 	it "conjugates 'bind' as 'bound'" do
@@ -472,17 +468,17 @@ describe Linguistics::EN::Conjugation do
 	end
 
 	it "conjugates 'hang' as 'hung'" do
-		pending "figuring out how this is supposed to work"
+		pending "handling for homographs"
 		expect( "hang".en.past_tense ).to eq( 'hung' )
 	end
 
 	it "conjugates 'hang' in first person as 'hung'" do
-		pending "figuring out how this is supposed to work"
+		pending "handling for homographs"
 		expect( "hang".en.past_tense( :first_person ) ).to eq( 'hung' )
 	end
 
 	it "conjugates 'hang' in third person as 'hung'" do
-		pending "figuring out how this is supposed to work"
+		pending "handling for homographs"
 		expect( "hang".en.past_tense( :third_person ) ).to eq( 'hung' )
 	end
 
@@ -623,17 +619,17 @@ describe Linguistics::EN::Conjugation do
 	end
 
 	it "conjugates 'lie' as 'lay'" do
-		pending "figuring out how this is supposed to work"
+		pending "handling for homographs"
 		expect( "lie".en.past_tense ).to eq( 'lay' )
 	end
 
 	it "conjugates 'lie' in first person as 'lay'" do
-		pending "figuring out how this is supposed to work"
+		pending "handling for homographs"
 		expect( "lie".en.past_tense( :first_person ) ).to eq( 'lay' )
 	end
 
 	it "conjugates 'lie' in third person as 'lay'" do
-		pending "figuring out how this is supposed to work"
+		pending "handling for homographs"
 		expect( "lie".en.past_tense( :third_person ) ).to eq( 'lay' )
 	end
 
@@ -1981,19 +1977,16 @@ describe Linguistics::EN::Conjugation do
 		expect( "upset".en.past_tense ).to eq( 'upset' )
 	end
 
-	it "conjugates 'use up' as 'used up'" do
-		pending "figuring out how this is supposed to work"
-		expect( "use up".en.past_tense ).to eq( 'used up' )
+	it "conjugates 'use-up' as 'used-up'" do
+		expect( "use-up".en.past_tense ).to eq( 'used-up' )
 	end
 
-	it "conjugates 'use up' in first person as 'used up'" do
-		pending "figuring out how this is supposed to work"
-		expect( "use up".en.past_tense( :first_person ) ).to eq( 'used up' )
+	it "conjugates 'use-up' in first person as 'used-up'" do
+		expect( "use-up".en.past_tense( :first_person ) ).to eq( 'used-up' )
 	end
 
-	it "conjugates 'use up' in third person as 'used up'" do
-		pending "figuring out how this is supposed to work"
-		expect( "use up".en.past_tense( :third_person ) ).to eq( 'used up' )
+	it "conjugates 'use-up' in third person as 'used-up'" do
+		expect( "use-up".en.past_tense( :third_person ) ).to eq( 'used-up' )
 	end
 
 	it "conjugates 'wake' as 'woke'" do
