@@ -520,6 +520,11 @@ module Linguistics::EN::Infinitives
 		'wrote'				=> 'write',
 		'wrought'			=> 'work',
 		'wrung'				=> 'wring',
+		'selected'		=> 'select',
+		'offered'			=> 'offer',
+		'invented'		=> 'invent',
+		'biggest'			=> 'big',
+		'bigger'			=> 'big',
 	}
 
 	# Mapping of word suffixes to infinitive rules.
