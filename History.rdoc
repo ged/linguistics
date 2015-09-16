@@ -1,3 +1,8 @@
+== v2.1.0 [2015-09-16] Michael Granger <ged@FaerieMUD.org>
+
+- Add an `article` config item to English conjunctions.
+
+
 == v2.0.4 [2015-03-12] Michael Granger <ged@FaerieMUD.org>
 
 Updates and bugfixes for Ruby 2.2.
