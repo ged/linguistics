@@ -59,6 +59,10 @@ describe Linguistics::EN::Conjunctions do
 			expect( array.en.conjunction ).to eq( "a cat" )
 		end
 
+		it "omits the indefinite article if :article is `false`" do
+			expect( array.en.conjunction(article: false) ).to eq( "cat" )
+		end
+
 	end
 
 
@@ -76,6 +80,10 @@ describe Linguistics::EN::Conjunctions do
 
 		it "results in a phrase joined with a space if an empty string is set as the conjunctive" do
 			expect( array.en.conjunction(:conjunctive => '') ).to eq( "a cat a dog" )
+		end
+
+		it "doesn't add indefinite articles if :article is set to `false`" do
+			expect( array.en.conjunction( article: false ) ).to eq( "cat and dog" )
 		end
 
 	end
@@ -118,6 +126,12 @@ describe Linguistics::EN::Conjunctions do
 			expect( array.en.conjunction(:combine => false) ).to eq(
 				'a cat, a dog, a fox, a dog, a chicken, a chicken, a Fox, a '\
 				'chicken, a goose, a Dog, and a goose' )
+		end
+
+		it "omits the indefinite article if :article is `false`" do
+			expect( array.en.conjunction(combine: false, article: false) ).to eq(
+				'cat, dog, fox, dog, chicken, chicken, Fox, '\
+				'chicken, goose, Dog, and goose' )
 		end
 
 		it "doesn't combine the differently-cased ones if :casefold is turned off" do

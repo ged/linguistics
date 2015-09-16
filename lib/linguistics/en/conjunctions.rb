@@ -21,6 +21,7 @@ module Linguistics::EN::Conjunctions
 		:casefold		=> true,
 		:generalize		=> false,
 		:quantsort		=> true,
+		:article        => true,
 	}
 
 
@@ -83,6 +84,10 @@ module Linguistics::EN::Conjunctions
 	###   list. This sort is also the fallback for indentical quantities (ie.,
 	###   items of the same quantity will be listed in the order they appeared
 	###   in the source list).
+	### [<b>:article</b>]
+	###   If set to <tt>true</tt> (the default), singular items in the list will be
+	###   prefixed with the appropriate indefinite article ("box" -> "a box"). Setting
+	###   it to +false+ will omit this.
 	###
 	def conjunction( args={} )
 		config = CONJUNCTION_DEFAULTS.merge( args )
@@ -101,7 +106,10 @@ module Linguistics::EN::Conjunctions
 		self.log.debug "  phrases is: %p" % [ phrases ]
 
 		# No need for a conjunction if there's only one thing
-		return phrases[0].en.a if phrases.length < 2
+		if phrases.length < 2
+			return phrases[0] unless config[:article]
+			return phrases[0].en.a
+		end
 
 		# Set up a Proc to derive a collector key from a phrase depending on the
 		# configuration
@@ -165,8 +173,11 @@ module Linguistics::EN::Conjunctions
 							count < 10 ? count.en.numwords : count.to_s,
 							phrase.en.plural( count )
 						]
-					else
+					elsif config[:article]
 						phrase.en.a
+					else
+						self.log.debug "No article!"
+						phrase
 					end
 				end
 			end
